@@ -1,0 +1,32 @@
+.why-choose-section {
+  padding: 7rem 0;
+
+  .img-wrap {
+    position: relative;
+    &:before {
+      position: absolute;
+      content: "";
+      width: 255px;
+      height: 217px;
+      // background-image: url('../images/dots-yellow.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      transform: translate(-40%, -40%);
+      z-index: -1;
+    }
+  }
+
+  .icon {
+    position: relative;
+    &::before {
+      content: "";
+      width: 33px;
+      height: 33px;
+      position: absolute;
+      background: rgba(59, 93, 80, 0.2);
+      border-radius: 50%;
+      left: 22px;
+      bottom: 0;
+    }
+  }
+}

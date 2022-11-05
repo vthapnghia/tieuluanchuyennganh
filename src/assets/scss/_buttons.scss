@@ -1,0 +1,46 @@
+@import "./variables";
+
+.btn {
+  font-weight: 600;
+  padding: 12px 30px!important;
+  border-radius: 30px;
+  color: $white;
+  background: $dark;
+  border-color: $dark;
+  &:hover {
+    color: $white;
+    background: darken($dark, 5%);
+    border-color: darken($dark, 5%);
+  }
+  &:active,
+  &:focus {
+    outline: none !important;
+    box-shadow: none;
+  }
+  &.btn-primary {
+    background: $primary;
+    border-color: $primary;
+    &:hover {
+      background: darken($primary, 5%);
+      border-color: darken($primary, 5%);
+    }
+  }
+  &.btn-secondary {
+    color: $dark;
+    background: $secondary;
+    border-color: $secondary;
+    &:hover {
+      background: darken($secondary, 5%);
+      border-color: darken($secondary, 5%);
+    }
+  }
+  &.btn-white-outline {
+    background: transparent;
+    border-width: 2px;
+    border-color: rgba($white, 0.3);
+    &:hover {
+      border-color: rgba($white, 1);
+      color: $white;
+    }
+  }
+}
