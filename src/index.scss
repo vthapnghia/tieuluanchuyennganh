@@ -22,3 +22,42 @@ a {
     font-weight: 600;
   }
 }
+
+
+.untree_co-section {
+	padding: 7rem 0;
+}
+
+.section-title {
+	color: $dark;
+}
+
+.feature {
+	margin-bottom: 30px;
+	.icon {
+		display: inline-block;
+		position: relative;
+		margin-bottom: 20px;
+
+		&:before {
+			content: "";
+			width: 33px;
+			height: 33px;
+			position: absolute;
+			background: rgba($primary, .2);
+			border-radius: 50%;
+			right: -8px;
+			bottom: 0;
+		}
+
+	}
+	h3 {
+		font-size: 14px;
+		color: $dark;
+	}
+	p {
+		font-size: 14px;
+		line-height: 22px;
+		color: $body_color;
+	}
+}

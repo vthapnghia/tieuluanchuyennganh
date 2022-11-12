@@ -1,12 +1,12 @@
 @import "./variables";
 
 .btn {
-  font-weight: 600;
+  font-weight: 600!important;
   padding: 12px 30px!important;
-  border-radius: 30px;
-  color: $white;
-  background: $dark;
-  border-color: $dark;
+  border-radius: 30px!important;
+  color: $white!important;
+  background: $dark!important;
+  border-color: $dark!important;
   &:hover {
     color: $white;
     background: darken($dark, 5%);

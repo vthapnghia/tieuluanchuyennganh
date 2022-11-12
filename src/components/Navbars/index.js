@@ -31,7 +31,7 @@ function Navbars() {
                 </Link>
               </li>
               <li>
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/Shop">
                   Shop
                 </Link>
               </li>
@@ -46,12 +46,12 @@ function Navbars() {
                 </Link>
               </li>
               <li>
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/Blog">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/Contact">
                   Contact us
                 </Link>
               </li>
@@ -64,7 +64,7 @@ function Navbars() {
                 </Link>
               </li>
               <li>
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/Cart">
                   <Icons.Cart />
                 </Link>
               </li>

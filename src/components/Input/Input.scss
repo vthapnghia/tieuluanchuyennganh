@@ -1,0 +1,15 @@
+@import "/src/assets/scss/variables";
+.input-formik {
+  position: relative;
+  background-color: $lighter;
+  label {
+   
+  }
+
+  input {
+    height: 58px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+  }
+}

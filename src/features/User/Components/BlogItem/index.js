@@ -1,23 +1,31 @@
+import { Link, useLocation } from "react-router-dom";
 import { post } from "../../../../assets/img";
 import "./BlogItem.scss";
 
 function BlogItem() {
+  const { pathname } = useLocation();
   return (
-    <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+    <div
+      class={
+        pathname === "/Home"
+          ? "col-12 col-sm-6 col-md-4 mb-4 mb-md-0"
+          : "col-12 col-sm-6 col-md-4 mb-5"
+      }
+    >
       <div class="post-entry">
-        <a href="#" class="post-thumbnail">
-          <img src={post} alt="Image" class="img-fluid" />
-        </a>
+        <Link href="#" class="post-thumbnail">
+          <img src={post} alt="post" class="img-fluid" />
+        </Link>
         <div class="post-content-entry">
           <h3>
-            <a href="#">How To Keep Your Furniture Clean</a>
+            <Link href="#">How To Keep Your Furniture Clean</Link>
           </h3>
           <div class="meta">
             <span>
-              by <a href="#">Robert Fox</a>
+              by <Link href="#">Robert Fox</Link>
             </span>{" "}
             <span>
-              on <a href="#">Dec 15, 2021</a>
+              on <Link href="#">Dec 15, 2021</Link>
             </span>
           </div>
         </div>

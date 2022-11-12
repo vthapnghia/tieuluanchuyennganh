@@ -71,7 +71,7 @@ function ChooseUs() {
 
           <div class="col-lg-5">
             <div class="img-wrap">
-              <img src={whyChooseUs} alt="Image" class="img-fluid" />
+              <img src={whyChooseUs} alt="wrap" class="img-fluid" />
             </div>
           </div>
         </div>
