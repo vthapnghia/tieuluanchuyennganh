@@ -1,13 +1,17 @@
-import { useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useRef } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { product } from "../../../../assets/img";
 import "./Cart.scss";
+import CartItem from "./CartItem";
 import Input from "../../../../components/Input";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../../../contanst/path";
 
 function Cart() {
   const formikRef = useRef();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handelOnSubmit = (values) => {
     console.log(values);
@@ -33,64 +37,18 @@ function Cart() {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th className="product-thumbnail">Image</th>
-                            <th className="product-name">Product</th>
-                            <th className="product-price">Price</th>
-                            <th className="product-quantity">Quantity</th>
-                            <th className="product-total">Total</th>
-                            <th className="product-remove">Remove</th>
+                            <th className="product-thumbnail">{t("image")}</th>
+                            <th className="product-name">{t("product")}</th>
+                            <th className="product-price">{t("price")}</th>
+                            <th className="product-quantity">
+                              {t("quanlity")}
+                            </th>
+                            <th className="product-total">{t("total")}</th>
+                            <th className="product-remove">{t("remove")}</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td className="product-thumbnail">
-                              <img
-                                src={product}
-                                alt="product"
-                                className="img-fluid"
-                              />
-                            </td>
-                            <td className="product-name">
-                              <h2 className="h5 text-black">Product 1</h2>
-                            </td>
-                            <td>$49.00</td>
-                            <td>
-                              <div
-                                className="input-group mb-3 d-flex align-items-center quantity-container"
-                                style={{ maxWidth: "120px" }}
-                              >
-                                <div className="input-group-prepend">
-                                  <button
-                                    className="btn btn-outline-black decrease"
-                                    type="button"
-                                  >
-                                    &minus;
-                                  </button>
-                                </div>
-                                <Input
-                                  name="product"
-                                  type="text"
-                                  className="form-control text-center quantity-amount"
-                                  placeholder=" "
-                                  style={{ width: "1%", height: "50px" }}
-                                />
-                                <div className="input-group-append">
-                                  <button
-                                    className="btn btn-outline-black increase"
-                                    type="button"
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$49.00</td>
-                            <td>
-                              <Link to="/" className="btn btn-black btn-sm">
-                                X
-                              </Link>
-                            </td>
-                          </tr>
+                          <CartItem />
                         </tbody>
                       </table>
                     </div>
@@ -102,33 +60,32 @@ function Cart() {
                     <div className="row mb-5">
                       <div className="col-md-6 mb-3 mb-md-0">
                         <button className="btn btn-black btn-sm btn-block">
-                          Update Cart
+                          {t("update_cart")}
                         </button>
                       </div>
                       <div className="col-md-6">
-                        <button className="btn btn-outline-black btn-sm btn-block">
-                          Continue Shopping
+                        <button
+                          className="btn btn-outline-black btn-sm btn-block"
+                          onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+                        >
+                          {t("continue_shopping")}
                         </button>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-md-12">
                         <label className="text-black h4" for="coupon">
-                          Coupon
+                          {t("code_coupon")}
                         </label>
-                        <p>Enter your coupon code if you have one.</p>
+                        <p>{t("have_code_coupon")}</p>
                       </div>
                       <div className="col-md-8 mb-3 mb-md-0">
-                        <Input
-                          name="coupon"
-                          type="text"
-                          className="form-control py-3"
-                          id="coupon" 
-                          placeholder="Coupon Code"
-                        />
+                        <Input name="coupon" />
                       </div>
                       <div className="col-md-4">
-                        <button className="btn btn-black">Apply Coupon</button>
+                        <button className="btn btn-black" onClick={() => {}}>
+                          {t("apply")}
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -138,7 +95,7 @@ function Cart() {
                         <div className="row">
                           <div className="col-md-12 text-right border-bottom mb-5">
                             <h3 className="text-black h4 text-uppercase">
-                              Cart Totals
+                              {t("cart_totals")}
                             </h3>
                           </div>
                         </div>
@@ -152,7 +109,7 @@ function Cart() {
                         </div>
                         <div className="row mb-5">
                           <div className="col-md-6">
-                            <span className="text-black">Total</span>
+                            <span className="text-black">{t("total")}</span>
                           </div>
                           <div className="col-md-6 text-right">
                             <strong className="text-black">$230.00</strong>
@@ -165,7 +122,7 @@ function Cart() {
                               className="btn btn-black btn-lg py-3 btn-block"
                               onClick="window.location='checkout.html'"
                             >
-                              Proceed To Checkout
+                              {t("pay")}
                             </button>
                           </div>
                         </div>

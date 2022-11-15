@@ -1,12 +1,12 @@
-@import '../../assets/scss/variables';
+@import "../../assets/scss/variables";
 
 .custom-navbar {
   background: $primary !important;
-  padding: 20px!important;
+  padding: 20px !important;
+  height: 80px;
   .navbar-brand {
     font-size: 32px;
     font-weight: 600;
-    height: 44px;
     > span {
       opacity: 0.4;
     }
@@ -40,7 +40,7 @@
             left: 8px;
             right: 8px;
             background: $secondary;
-            height: 5px;
+            height: 2px;
             opacity: 1;
             visibility: visible;
             width: 0;
@@ -53,15 +53,22 @@
             width: calc(100% - 16px);
           }
         }
-      }
-      &.active {
-        a {
+        &:focus {
           opacity: 1;
           &:before {
             width: calc(100% - 16px);
           }
         }
       }
+
+      // &.active {
+      //   a {
+      //     opacity: 1;
+      //     &:before {
+      //       width: calc(100% - 16px);
+      //     }
+      //   }
+      // }
     }
   }
   .custom-navbar-cta {
@@ -79,4 +86,3 @@
     }
   }
 }
-

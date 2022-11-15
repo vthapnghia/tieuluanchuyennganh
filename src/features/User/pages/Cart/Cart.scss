@@ -1,7 +1,6 @@
 @import "/src/assets/scss/variables";
 
 .Cart {
-  background-color: $lighter;
   .site-blocks-table {
     overflow: auto;
     .product-thumbnail {
@@ -31,6 +30,9 @@
         &:first-child {
           td {
             border-top: 1px solid $primary !important;
+            .cursor {
+              cursor: pointer;
+            }
           }
         }
       }

@@ -8,19 +8,19 @@ const arr = [1, 2, 3];
 function Home() {
   return (
     <div className="home-page">
-      <div class="product-section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-              <h2 class="mb-4 section-title">
+      <div className="product-section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12 col-lg-3 mb-5 mb-lg-0">
+              <h2 className="mb-4 section-title">
                 Crafted with excellent material.
               </h2>
-              <p class="mb-4">
+              <p className="mb-4">
                 Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet
                 velit. Aliquam vulputate velit imperdiet dolor tempor tristique.{" "}
               </p>
               <p>
-                <Link to="/" class="btn">
+                <Link to="/" className="btn">
                   Explore
                 </Link>
               </p>
@@ -33,20 +33,20 @@ function Home() {
         </div>
       </div>
       <ChooseUs />
-      <div class="blog-section">
-        <div class="container">
-          <div class="row mb-5">
-            <div class="col-md-6">
-              <h2 class="section-title">Recent Blog</h2>
+      <div className="blog-section">
+        <div className="container">
+          <div className="row mb-5">
+            <div className="col-md-6">
+              <h2 className="section-title">Recent Blog</h2>
             </div>
-            <div class="col-md-6 text-start text-md-end">
-              <Link to="#" class="more">
+            <div className="col-md-6 text-start text-md-end">
+              <Link to="#" className="more">
                 View All Posts
               </Link>
             </div>
           </div>
 
-          <div class="row">
+          <div className="row">
             {arr.map((item, index) => {
               return <BlogItem key={index} />;
             })}

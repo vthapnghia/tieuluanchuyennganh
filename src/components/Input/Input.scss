@@ -1,15 +1,19 @@
 @import "/src/assets/scss/variables";
 .input-formik {
-  position: relative;
-  background-color: $lighter;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
   label {
-   
+   font-size: 18px;
   }
 
   input {
-    height: 58px;
-    border: none;
+    width: 100%;
+    height: 100%;
     outline: none;
     border-radius: 6px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
   }
 }
