@@ -17,6 +17,7 @@ import NotFound from "./components/NotFound";
 import Profile from "./features/User/pages/Profile";
 import SideBar from "./features/Admin/component/Sidebar";
 import NavbarAdmin from "./features/Admin/component/NavbarAdmin/index";
+import Products from "./features/Admin/pages/Products";
 
 function App() {
   const { pathname } = useLocation();
@@ -32,7 +33,9 @@ function App() {
             <div>
               <NavbarAdmin />
             </div>
-            <div className="page"></div>
+            <div className="page">
+              <Products/>
+            </div>
           </div>
         </div>
       ) : (

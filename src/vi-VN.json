@@ -31,5 +31,7 @@
   "404": "404",
   "page_not_found": "Trang không tìm thấy!",
   "back_to_home": "Trang chủ",
-  "text_back_home": "Bạn muốn trở lại trang chủ?"
+  "text_back_home": "Bạn muốn trở lại trang chủ?",
+  "manage_customers": "Quản lý khách hàng",
+  "manage_products": "Quản lý sản phẩm"
 }

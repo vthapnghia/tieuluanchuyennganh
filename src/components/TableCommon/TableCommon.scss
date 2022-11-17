@@ -1,0 +1,31 @@
+@import "/src/assets/scss/variables.scss";
+.table-common {
+  .table {
+    .table-header {
+      height: 40px;
+      background-color: $primary;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      th {
+        line-height: 40px;
+      }
+      th:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+      th:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+    }
+  }
+
+  .table-body {
+    border-radius: 8px;
+    td {
+        border: none;
+        word-break: break-word;
+        color: $black-color-default;
+    }
+  }
+}

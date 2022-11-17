@@ -26,9 +26,8 @@ function SideBar(params) {
       </div>
       <hr />
       <div className="sidebar-action">
-        <div className="action-item">Quản lý nhân viên</div>
-        <div className="action-item">Quản lý nhân viên</div>
-        <div className="action-item">Quản lý nhân viên</div>
+        <div className="action-item"><Link to ="/customer">Quản lý khách hàng</Link></div>
+        <div className="action-item"><Link to ="/product">Quản lý sản phẩm</Link></div>
       </div>
     </div>
   );
