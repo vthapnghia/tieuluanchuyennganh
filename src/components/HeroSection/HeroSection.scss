@@ -56,19 +56,19 @@
         right: -100px;
       }
     }
-    &:after {
-      content: "";
-      position: absolute;
-      width: 255px;
-      height: 217px;
+    // &:after {
+    //   content: "";
+    //   position: absolute;
+    //   width: 255px;
+    //   height: 217px;
     //   background-image: url("../images/dots-light.svg");
-      background-size: contain;
-      background-repeat: no-repeat;
-      right: -100px;
-      top: -0px;
-      @media (min-width: $xl) {
-        top: -40px;
-      }
-    }
+    //   background-size: contain;
+    //   background-repeat: no-repeat;
+    //   right: -100px;
+    //   top: -0px;
+    //   @media (min-width: $xl) {
+    //     top: -40px;
+    //   }
+    // }
   }
 }

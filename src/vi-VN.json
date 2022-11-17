@@ -27,5 +27,9 @@
   "update_cart": "Cập nhật giỏ hàng",
   "code_coupon": "Mã giảm giá",
   "apply": "Áp dụng",
-  "product_detail": "Chi tiết"
+  "product_detail": "Chi tiết",
+  "404": "404",
+  "page_not_found": "Trang không tìm thấy!",
+  "back_to_home": "Trang chủ",
+  "text_back_home": "Bạn muốn trở lại trang chủ?"
 }

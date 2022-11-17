@@ -6,6 +6,11 @@ const PATH = {
     HOME: "/home",
     LOGIN: "/login",
     CART: "/cart",
+    ADMIN:{
+        BASE: '/admin'
+    },
+    PROFILE: '/profile',
+    NOT_FOUND: '/not-found',
 }
 
 export default PATH;

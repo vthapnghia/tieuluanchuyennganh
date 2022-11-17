@@ -1,0 +1,46 @@
+@import "/src/assets/scss/variables.scss";
+.App {
+  overflow: hidden;
+  height: 100%;
+  .sidebar-left {
+    transition: all 1s;
+    height: 100%;
+    width: 280px;
+    position: absolute;
+    left: 0;
+    @media screen and (max-width: 900px) {
+      left: -280px;
+    }
+  }
+
+  .display-sidebar {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    background-color: $white;
+  }
+
+  &.hidden-sidebar {
+    transition: all 1s;
+    position: absolute;
+    left: 0;
+  }
+
+  .content-right {
+    width: calc(100% - 280px);
+    height: 100%;
+    transition: all 1s;
+    position: absolute;
+    right: 0;
+
+    @media screen and (max-width: 900px) {
+      width: 100%;
+    }
+    .page {
+      width: 100%;
+      padding: 20px;
+      height: calc(100% - 80px);
+      background-color: #ccc;
+    }
+  }
+}

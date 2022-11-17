@@ -1,0 +1,18 @@
+@import '/src/assets/scss/variables.scss';
+
+.error-box {
+  height: 100%;
+  position: fixed;
+  width: 100%;
+
+  .error-body {
+    padding-top: 5%;
+    h1 {
+      font-size: 210px;
+      font-weight: 900;
+      text-shadow: 4px 4px 0 $white, 6px 6px 0 $primary;
+      line-height: 210px;
+      color: $primary;
+    }
+  }
+}

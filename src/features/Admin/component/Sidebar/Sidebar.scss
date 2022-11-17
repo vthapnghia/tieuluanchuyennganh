@@ -1,0 +1,40 @@
+@import "/src/assets/scss/variables.scss";
+
+.sidebar {
+  padding: 20px;
+  .sidebar-header {
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    > span {
+      opacity: 0.4;
+    }
+  }
+
+  .sidebar-action {
+    height: calc(100% - 150px);
+    .action-item {
+      height: 40px;
+      list-style: none;
+      margin-bottom: 10px;
+      background-color: $primary;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 40px;
+      font-family: $font-family;
+      color: $white;
+    }
+  }
+
+  .arrow-left{
+    position: absolute;
+    right: 20px;
+    width: max-content;
+    @media screen and (min-width: 900px){
+      display: none;
+    }
+  }
+
+}
