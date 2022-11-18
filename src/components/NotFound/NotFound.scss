@@ -10,9 +10,9 @@
     h1 {
       font-size: 210px;
       font-weight: 900;
-      text-shadow: 4px 4px 0 $white, 6px 6px 0 $primary;
+      text-shadow: 4px 4px 0 $white, 6px 6px 0 $main_color;
       line-height: 210px;
-      color: $primary;
+      color: $main_color;
     }
   }
 }

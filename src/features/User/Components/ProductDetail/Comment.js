@@ -26,7 +26,7 @@ function Comment() {
       </div>
       <div className="your-comment">
         <div>Your Comment</div>
-        <Input name="your-comment" type="textarea"/>
+        <Input name="your-comment" type="textarea" />
       </div>
     </>
   );

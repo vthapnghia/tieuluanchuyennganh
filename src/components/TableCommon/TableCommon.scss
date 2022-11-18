@@ -3,7 +3,7 @@
   .table {
     .table-header {
       height: 40px;
-      background-color: $primary;
+      background-color: $main_color;
       border-radius: 8px;
       margin-bottom: 10px;
       th {
@@ -46,7 +46,7 @@
       font-size: 14px;
       &:focus{
         box-shadow: none;
-        background-color: $primary;
+        background-color: $main_color;
         color: $white;
       }
     }

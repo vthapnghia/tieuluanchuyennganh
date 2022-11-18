@@ -1,7 +1,7 @@
 @import '../../assets/scss/variables';
 
 .hero {
-  background: $primary;
+  background: $main_color;
   padding: calc(4rem - 30px) 0 0rem 0;
   @media (min-width: $md) {
     padding: calc(4rem - 30px) 0 4rem 0;

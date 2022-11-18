@@ -1,7 +1,7 @@
 @import "../../assets/scss/variables";
 
 .custom-navbar {
-  background: $primary !important;
+  background: $main_color !important;
   padding: 20px !important;
   height: 80px;
   .navbar-brand {
@@ -89,7 +89,7 @@
 .custom-navbar-admin {
   height: 80px;
   width: calc(100% - 280px);
-  background-color: $primary;
+  background-color: $main_color;
   display: flex;
   align-items: center;
   position: relative;

@@ -1,23 +1,23 @@
 const User = (props) => {
-  const { width = 18, height = 20, color = "none" } = props;
+  const { width = 18, height = 20, color = "white" , bg_color="none" } = props;
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 18 20"
-      fill={color}
+      fill={bg_color}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M17 19V17C17 15.9391 16.5786 14.9217 15.8284 14.1716C15.0783 13.4214 14.0609 13 13 13H5C3.93913 13 2.92172 13.4214 2.17157 14.1716C1.42143 14.9217 1 15.9391 1 17V19"
-        stroke="white"
+        stroke={color}
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M9 9C11.2091 9 13 7.20914 13 5C13 2.79086 11.2091 1 9 1C6.79086 1 5 2.79086 5 5C5 7.20914 6.79086 9 9 9Z"
-        stroke="white"
+        stroke={color}
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -452,6 +452,21 @@ const ArrowRight = (props) => {
   );
 };
 
+const Exclamation = (props) => {
+  const { width = 16, height = 16, color = "red" } = props;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill={color}
+      viewBox="0 0 512 512"
+    >
+      <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"/>
+    </svg>
+  );
+};
+
 const Icons = {
   User,
   Cart,
@@ -471,7 +486,8 @@ const Icons = {
   Star,
   Menu,
   ArrowLeft,
-  ArrowRight
+  ArrowRight,
+  Exclamation
 };
 
 export default Icons;

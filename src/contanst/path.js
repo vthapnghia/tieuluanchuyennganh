@@ -1,7 +1,7 @@
 const PATH = {
     PRODUCT:{
         LIST_PRODUCT: "product",
-        DETAIL_PRODUCT: "product/:id",
+        DETAIL_PRODUCT: ":id",
     },
     HOME: "home",
     LOGIN: "/login",

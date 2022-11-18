@@ -16,7 +16,8 @@ const COLOR = {
   GRAY: '#F0F0F0',
   GRAY_LABEL: '#616161',
   BLACK_DEFAULT: '#000000',
-  GRAY_BG: '#E5E5E5'
+  GRAY_BG: '#E5E5E5',
+  GRAY_2: "#757575"
 };
 
 export {

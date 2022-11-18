@@ -1,7 +1,5 @@
 import { t } from "i18next";
 import { Link, useLocation } from "react-router-dom";
-import { product } from "../../../../assets/img";
-import Icons from "../../../../components/Icons";
 import PATH from "../../../../contanst/path";
 import "./ProductItem.scss";
 

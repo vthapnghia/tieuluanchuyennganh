@@ -27,15 +27,24 @@ function Login() {
                 </Link>
                 <div className="form-wrapper common">
                   <div className="form sign-up">
-                    <Input name="user_name" placeholder={t("user_name")} />
+                    <Input
+                      name="user_name"
+                      placeholder={t("user_name")}
+                      type="text"
+                    />
 
-                    <Input name="email" placeholder={t("email")} />
+                    <Input name="email" placeholder={t("email")} type="text"/>
 
-                    <Input name="password" placeholder={t("password")} />
+                    <Input
+                      name="password"
+                      placeholder={t("password")}
+                      type="text"
+                    />
 
                     <Input
                       name="confirm_password"
                       placeholder={t("confirm_password")}
+                      type="text"
                     />
 
                     <button className="btn btn-primary btn-register">
@@ -63,9 +72,17 @@ function Login() {
                 </Link>
                 <div className="form-wrapper common">
                   <div className="form sign-in">
-                    <Input name="user_name" placeholder={t("user_name")} />
+                    <Input
+                      name="user_name"
+                      placeholder={t("user_name")}
+                      type="text"
+                    />
 
-                    <Input name="password" placeholder={t("password")} />
+                    <Input
+                      name="password"
+                      placeholder={t("password")}
+                      type="text"
+                    />
                     <button>{t("login")}</button>
                     <p>
                       <b>{t("forgot_password")}</b>

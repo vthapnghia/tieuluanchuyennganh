@@ -19,7 +19,7 @@ function CartItem() {
               <Icons.Minus />
             </div>
             <div className="w-10">
-              <Input name="test" customStyle={{width: '50px', height: '40px'}}/>
+              <Input name="test" customStyle={{width: '50px', height: '40px'}} type="text"/>
             </div>
             <div className="cursor">
               <Icons.Plus />

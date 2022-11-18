@@ -57,11 +57,13 @@ function ProductDetail() {
                   name="size"
                   label="size"
                   style={{ width: "50%", height: "40px" }}
+                  type="text"
                 />
                 <Input
                   name="color"
                   label="color"
                   style={{ width: "50%", height: "40px" }}
+                  type="text"
                 />
               </div>
               <div className="quality d-flex flex-row align-items-center">

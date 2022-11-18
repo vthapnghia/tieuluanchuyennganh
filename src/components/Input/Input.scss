@@ -4,31 +4,74 @@
   position: relative;
   width: 100%;
   margin: 1rem 0;
-  label {
-    font-size: 18px;
-    align-self: flex-start;
-  }
 
-  input {
+  .input-common,
+  .textarea-common,
+  .select-common,
+  .number-common {
     width: 100%;
     padding: 1rem 3rem;
     font-size: 1rem;
+    font-family: $font-family;
     background-color: $gray;
-    border-radius: 0.5rem!important;
+    border-radius: 0.5rem !important;
     border: 0.125rem solid $white;
     outline: none;
   }
 
-  input:focus {
+  .select-common:focus {
+    box-shadow: none;
     border: 0.125rem solid $primary-color;
   }
 
-  i {
+  .number-common{
+    text-align: center;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  label {
+    font-size: 1rem;
+    font-family: $font-family;
+  }
+
+  .input-common:focus {
+    border: 0.125rem solid $primary-color;
+  }
+
+  .left-icon {
     position: absolute;
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
-    font-size: 1.4rem;
-    color: $gray-2;
+  }
+
+  .right-icon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
+  .warning-icon-input {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
+  .has-error {
+    border: 0.125rem solid $error-input-color;
+  }
+
+  .action-quanlily {
+    margin: 10px;
+    border: 0.125rem solid $gray-2;
+    height: 100%;
+    cursor: pointer;
   }
 }

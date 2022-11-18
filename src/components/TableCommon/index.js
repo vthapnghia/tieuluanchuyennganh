@@ -10,7 +10,7 @@ function TableCommon({ cols, rows }) {
         <>
           <div class="table-common table-responsive">
             <div className="input-search">
-              <Input name="search"></Input>
+              <Input name="search" type="text"></Input>
             </div>
             
             <table class="table">

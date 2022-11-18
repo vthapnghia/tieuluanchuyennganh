@@ -80,7 +80,7 @@ function Cart() {
                         <p>{t("have_code_coupon")}</p>
                       </div>
                       <div className="col-md-8 mb-3 mb-md-0">
-                        <Input name="coupon" />
+                        <Input name="coupon" type="text"/>
                       </div>
                       <div className="col-md-4">
                         <button className="btn btn-black" onClick={() => {}}>
