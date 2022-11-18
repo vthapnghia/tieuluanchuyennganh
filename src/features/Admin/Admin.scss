@@ -4,9 +4,9 @@
     position: absolute;
     top: 100px;
     right: 20px;
-    transition: all 1s;
     @media screen and(max-width:900px) {
       width: calc(100% - 40px);
     }
   }
+
 }

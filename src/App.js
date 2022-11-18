@@ -9,7 +9,6 @@ function App() {
 
   return (
     <div classNaame="app">
-     
           <Routes>
             <Route path={PATH.LOGIN} element={<Login />} />
             <Route path={PATH.ADMIN.BASE} element={<Admin />} />

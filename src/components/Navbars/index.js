@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 function Navbars() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const is_superuser = true;
+  const is_superuser = false;
 
   const handleMenu = () => {
     const displayMenu = document.getElementById("sidebar");
@@ -32,7 +32,7 @@ function Navbars() {
   }, [pathname]);
 
   return (
-    <div className="navbar-common">
+    <>
       {is_superuser ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
@@ -127,7 +127,7 @@ function Navbars() {
           </div>
         </nav>
       )}
-    </div>
+    </>
   );
 }
 

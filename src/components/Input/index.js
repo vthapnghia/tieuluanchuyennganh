@@ -18,42 +18,22 @@ const Input = forwardRef(
     };
 
     return (
-      <Form className="input-formik">
-        <label>{label}</label>
-        {type === "number" ? (
-          <div className="d-flex align-items-center" style={{marginLeft: "20px"}}>
-            {icon && <Icons.Minus />}
-            <input
-              type={type}
-              style={style}
-              {...props}
-              {...field}
-              onKeyDown={handleKeyDown}
-            />
-            {icon && <Icons.Plus />}
-          </div>
-        ) : type === "textarea" ? (
-          <textarea
-            style={style}
-            {...props}
-            {...field}
-          />
-        ) : (
+      <Form className="input-group">
+       
           <input
             style={style}
             {...props}
             {...field}
           />
-        )}
 
-        {type !== "number" && (
+        {/* {type !== "number" && (
           <p
             className="text-danger m-0 p-0 error-label"
             style={{ minHeight: "20px" }}
           >
             {meta.error && meta.touched ? meta.error : ""}
           </p>
-        )}
+        )} */}
       </Form>
     );
   }

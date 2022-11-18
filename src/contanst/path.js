@@ -7,7 +7,7 @@ const PATH = {
     LOGIN: "/login",
     CART: "cart",
     ADMIN:{
-        BASE: '/admin',
+        BASE: '/admin/*',
         CUSTOMER: 'manage-customer',
         PRODUCTS: 'manage-products'
     },
