@@ -2,6 +2,17 @@
 
 .sidebar {
   padding: 20px;
+  width: 280px;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  transition: all 1s;
+  background-color: $white;
+  z-index: 1;
+  @media screen and (max-width: 900px) {
+    left: -280px;
+  }
+  
   .sidebar-header {
     height: 100px;
     line-height: 100px;
@@ -39,5 +50,16 @@
       display: none;
     }
   }
+
+  &.display-sidebar {
+    left: 0;
+    z-index: 1;
+  }
+
+  // &.hidden-sidebar {
+  //   left: -280px;
+  //   z-index: 1;
+
+  // }
 
 }

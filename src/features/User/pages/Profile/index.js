@@ -10,6 +10,7 @@ function Profile(params) {
               <div className="mt-4 text-center">
                 <img
                   src="https://luv.vn/wp-content/uploads/2021/08/hinh-anh-gai-xinh-71.jpg"
+                  alt='img'
                   className="img-circle"
                 />
                 <h4 className="card-title mt-2">Võ Đặng Khả Vy</h4>

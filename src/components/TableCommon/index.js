@@ -1,85 +1,85 @@
 import "./TableCommon.scss";
-import { useMemo, useCallback } from 'react';
+import { Pagination } from "react-bootstrap";
+import Input from "../Input";
+import { Formik } from "formik";
 
 function TableCommon({ cols, rows }) {
-  const borderRadiusTD = useCallback((i, j, rows, row) => {
-    let borderRadius = '';
-    if (i === 0 && j === 0) {
-        if (rows.length === 1) {
-            borderRadius = '4px 0 0 4px';
-        } else {
-            borderRadius = '4px 0 0 0px';
-        }
-    } else {
-        if (i === 0 && j === row.length - 1) {
-            borderRadius = '0 4px 0px 0';
-        } else {
-            if (i === rows.length - 1 && j === 0) {
-                borderRadius = '0 0 0 4px';
-            } else {
-                if (i === rows.length - 1 && j === row.columns.length - 1 ) {
-                    borderRadius = '0 0px 4px 0';
-                } else {
-                    borderRadius = '0px';
-                }
-            }
-        }
-    }
-    return borderRadius;
-}, []);
   return (
-    <div class="table-common table-responsive">
-      <table class="table">
-        <thead class="table-header">
-          {cols.map((col, i) => {
-            return (
-              <th
-                key={i}
-                style={{
-                  width: col?.width,
-                  minWidth: col?.minWidth,
-                  textAlign: col?.align,
-                  border: "none",
-                }}
-                className={col?.className}
-              >
-                {col.label}
-              </th>
-            );
-          })}
-        </thead>
+    <>
+      <Formik initialValues={{search: ""}}>
+        <>
+          <div class="table-common table-responsive">
+            <div className="input-search">
+              <Input name="search"></Input>
+            </div>
+            
+            <table class="table">
+              <thead class="table-header">
+                {cols.map((col, i) => {
+                  return (
+                    <th
+                      key={i}
+                      style={{
+                        width: col?.width,
+                        minWidth: col?.minWidth,
+                        textAlign: col?.align,
+                        border: "none",
+                        color: 'white'
+                      }}
+                      className={col?.className}
+                    >
+                      {col.label}
+                    </th>
+                  );
+                })}
+              </thead>
 
-        <div style={{ marginTop: "16px", border: "none" }}></div>
+              <div style={{ marginTop: "16px", border: "none" }}></div>
 
-        <tbody class="table-body">
-          {rows.map((row, i) => (
-            <tr key={i}>
-              {row.columns.map((r, j) => (
-                <td
-                  key={j}
-                  style={{
-                    width: r?.width,
-                    minWidth: r.minWidth,
-                    textAlign: r?.align,
-                    borderBottom: '1px solid #6a6a6a',
-                    borderTop: i === 0 ? '1px solid #6a6a6a' : 'none',
-                    borderRadius: '8px',
-                    borderLeft: j === 0 ? '1px solid #6a6a6a' : 'none',
-                    borderRight:
-                        row.columns.length - 1 === j
-                            ? '1px solid #6a6a6a'
-                            : 'none',
-                  }}
-                  className={r?.className}
-                >
-                  {r.label}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+              <tbody class="table-body">
+                {rows.map((row, i) => (
+                  <tr key={i}>
+                    {row.columns.map((r, j) => (
+                      <td
+                        key={j}
+                        style={{
+                          width: r?.width,
+                          minWidth: r.minWidth,
+                          textAlign: r?.align,
+                          borderBottom: "1px solid #6a6a6a",
+                          borderTop: i === 0 ? "1px solid #6a6a6a" : "none",
+                          borderLeft: j === 0 ? "1px solid #6a6a6a" : "none",
+                          borderRight:
+                            row.columns.length - 1 === j
+                              ? "1px solid #6a6a6a"
+                              : "none",
+                        }}
+                        className={r?.className}
+                      >
+                        {r.label}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="bottom-pagination">
+              <Pagination>
+                <Pagination.First />
+                <Pagination.Prev />
+                <Pagination.Item>{1}</Pagination.Item>
+                <Pagination.Item>{2}</Pagination.Item>
+                <Pagination.Item>{3}</Pagination.Item>
+                <Pagination.Ellipsis />
+                <Pagination.Item>{10}</Pagination.Item>
+                <Pagination.Next />
+                <Pagination.Last />
+              </Pagination>
+            </div>
+          </div>
+        </>
+      </Formik>
+    </>
   );
 }
 
