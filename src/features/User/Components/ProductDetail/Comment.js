@@ -2,6 +2,7 @@ import Input from "../../../../components/Input";
 
 
 const arr = [1, 2, 3];
+
 function Comment() {
   return (
     <>

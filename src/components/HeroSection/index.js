@@ -1,33 +1,34 @@
 import { Link } from "react-router-dom";
+import Button from "../Button";
 import "./HeroSection.scss";
 
 function HeroSection() {
   return (
-    <div class="hero">
-      <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
+    <div className="hero">
+      <div className="container">
+        <div className="row justify-content-between">
+          <div className="col-lg-5">
+            <div className="intro-excerpt">
               <h1>
                 Modern Interior <span clsas="d-block">Design Studio</span>
               </h1>
-              <p class="mb-4">
+              <p className="mb-4">
                 Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet
                 velit. Aliquam vulputate velit imperdiet dolor tempor tristique.
               </p>
               <p>
-                <Link to="" class="btn btn-secondary me-2">
+                <Button className="secondary" style={{borderRadius: '30px'}}>
                   Shop Now
-                </Link>
-                <Link to="#" class="btn btn-white-outline">
+                </Button>
+                <Button className="outline" style={{borderRadius: '30px'}}>
                   Explore
-                </Link>
+                </Button>
               </p>
             </div>
           </div>
-          <div class="col-lg-7">
-            <div class="hero-img-wrap">
-              {/* <img src="images/couch.png" class="img-fluid" /> */}
+          <div className="col-lg-7">
+            <div className="hero-img-wrap">
+              {/* <img src="images/couch.png" className="img-fluid" /> */}
             </div>
           </div>
         </div>

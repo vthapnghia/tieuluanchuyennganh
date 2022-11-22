@@ -2,9 +2,12 @@ import { forwardRef, useCallback, useEffect, useState } from "react";
 import { useField } from "formik";
 import "./Input.scss";
 import Icons from "../Icons";
-import { Form } from "react-bootstrap";
+import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 const Input = forwardRef(
-  ({ leftIcon, style, type, disabled, options, quanlity, ...props }, ref) => {
+  (
+    { leftIcon, style, type, disabled, options, quanlity, label, ...props },
+    ref
+  ) => {
     const [field, meta, helpers] = useField(props);
     const [misnusDisabled, setMinusDisabled] = useState(false);
     const [plusDisabled, setPlusDisabled] = useState(false);
@@ -48,6 +51,7 @@ const Input = forwardRef(
 
     return (
       <div className="input-group">
+        {label && <label>{label}</label>}
         {type === "textarea" ? (
           <textarea
             {...props}
@@ -58,7 +62,7 @@ const Input = forwardRef(
             style={style}
             disabled={disabled}
           />
-        ) : type === "text" ? (
+        ) : type === "text" || type === "password" ? (
           <>
             {leftIcon && <span className="left-icon">{leftIcon}</span>}
             <input
@@ -69,6 +73,7 @@ const Input = forwardRef(
               } ${props.className ? props.className : ""}`}
               style={style}
               disabled={disabled}
+              type={type}
             />
           </>
         ) : type === "number" ? (
@@ -125,9 +130,12 @@ const Input = forwardRef(
           </Form.Select>
         )}
         {meta.error && meta.touched && type !== "select" ? (
-          <span className="warning-icon-input">
-            <Icons.Exclamation />
-          </span>
+          
+            <span className="warning-icon-input">
+              <Icons.Exclamation />
+              <span class="tooltiptext">{meta.error}</span>
+            </span>
+         
         ) : (
           <></>
         )}

@@ -1,10 +1,17 @@
 import { Formik } from "formik";
+import { t } from "i18next";
 import { useState } from "react";
 import { Carousel, Tab, Tabs } from "react-bootstrap";
-import Icons from "./../../../../components/Icons";
+import Button from "../../../../components/Button";
 import Input from "./../../../../components/Input";
 import Comment from "./Comment";
 import "./ProductDetail.scss";
+
+const options = [
+  { value: 1, label: "option 1" },
+  { value: 2, label: "option 2" },
+  { value: 3, label: "option 3" },
+];
 
 function ProductDetail() {
   const [index, setIndex] = useState(0);
@@ -49,38 +56,36 @@ function ProductDetail() {
             </div>
             <div className="content-detail ml-2 w-50">
               <h2>Title</h2>
-              
+
               <p>500.000$</p>
-              <p>Welcome to the tutorial! We'll be building a small, but feature-rich app that lets you keep track of your contacts. We expect it to take between 30-60m if you're following along.</p>
+              <p>
+                Welcome to the tutorial! We'll be building a small, but
+                feature-rich app that lets you keep track of your contacts. We
+                expect it to take between 30-60m if you're following along.
+              </p>
               <div className="options d-flex">
                 <Input
                   name="size"
-                  label="size"
-                  style={{ width: "50%", height: "40px" }}
-                  type="text"
+                  label={t("size")}
+                  type="select"
+                  options={options}
                 />
                 <Input
                   name="color"
-                  label="color"
-                  style={{ width: "50%", height: "40px" }}
-                  type="text"
+                  label={t("color")}
+                  type="select"
+                  options={options}
                 />
               </div>
               <div className="quality d-flex flex-row align-items-center">
                 <div className="d-flex align-items-center">
                   <div style={{ minWidth: "max-content" }}>Số lượng: </div>
-                  <Input
-                    name="quanlity"
-                    type="number"
-                    style={{ width: "40px", height: "40px" }}
-                    binary
-                    icon
-                  />
+                  <Input name="quanlity" type="number" quanlity={true} />
                 </div>
               </div>
               <div className="action">
-                <button className="btn btn-primary add-cart">Thêm vào giỏ hàng</button>
-                <button className="btn btn-primary buy-now">Thêm vào giỏ hàng</button>
+                <Button className="primary add-cart">Thêm vào giỏ hàng</Button>
+                <Button className="primary buy-now">Thêm vào giỏ hàng</Button>
               </div>
             </div>
           </div>
@@ -91,7 +96,9 @@ function ProductDetail() {
               className="mb-3"
             >
               <Tab eventKey="depscription" title="Description"></Tab>
-              <Tab eventKey="reviews" title="Reviews"><Comment/></Tab>
+              <Tab eventKey="reviews" title="Reviews">
+                <Comment />
+              </Tab>
             </Tabs>
           </div>
         </>

@@ -1,6 +1,7 @@
-@import '/src//assets//scss/variables.scss';
+@import "/src//assets//scss/variables.scss";
 
-.home-page {  
+.home-page {
+  background-color: $bg_color;
   .before-footer-section {
     padding: 7rem 0 12rem 0 !important;
   }

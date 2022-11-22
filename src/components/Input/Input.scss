@@ -4,6 +4,8 @@
   position: relative;
   width: 100%;
   margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
 
   .input-common,
   .textarea-common,
@@ -13,18 +15,23 @@
     padding: 1rem 3rem;
     font-size: 1rem;
     font-family: $font-family;
-    background-color: $gray;
-    border-radius: 0.5rem !important;
-    border: 0.125rem solid $white;
+    // background-color: $gray;
+    border-radius: 10px!important;
+    border: 1px solid transparent;
     outline: none;
+  }
+
+  label {
+    margin-bottom: 5px;
+    font-family: $font-family;
   }
 
   .select-common:focus {
     box-shadow: none;
-    border: 0.125rem solid $primary-color;
+    border: 1px solid transparent;
   }
 
-  .number-common{
+  .number-common {
     text-align: center;
   }
 
@@ -40,7 +47,7 @@
   }
 
   .input-common:focus {
-    border: 0.125rem solid $primary-color;
+    border: 1px solid transparent;
   }
 
   .left-icon {
@@ -62,10 +69,44 @@
     top: 50%;
     right: 1rem;
     transform: translateY(-50%);
+
+    .tooltiptext {
+      visibility: hidden;
+      min-width: 120px;
+      width: auto;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      bottom: 150%;
+      left: 50%;
+      margin-left: -60px;
+      padding: 10px;
+    }
+
+    .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: black transparent transparent transparent;
+    }
+  }
+
+  .warning-icon-input:hover {
+    .tooltiptext {
+      visibility: visible;
+    }
   }
 
   .has-error {
-    border: 0.125rem solid $error-input-color;
+    border: 1px solid $error-input-color;
   }
 
   .action-quanlily {

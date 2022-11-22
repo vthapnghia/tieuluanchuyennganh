@@ -7,6 +7,7 @@ import Input from "../../../../components/Input";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
+import Button from "../../../../components/Button";
 
 function Cart() {
   const formikRef = useRef();
@@ -49,6 +50,8 @@ function Cart() {
                         </thead>
                         <tbody>
                           <CartItem />
+                          <CartItem />
+                          <CartItem />
                         </tbody>
                       </table>
                     </div>
@@ -59,17 +62,17 @@ function Cart() {
                   <div className="col-md-6">
                     <div className="row mb-5">
                       <div className="col-md-6 mb-3 mb-md-0">
-                        <button className="btn btn-black btn-sm btn-block">
+                        <Button className="primary" >
                           {t("update_cart")}
-                        </button>
+                        </Button>
                       </div>
                       <div className="col-md-6">
-                        <button
-                          className="btn btn-outline-black btn-sm btn-block"
+                        <Button
+                          className="primary"
                           onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
                         >
                           {t("continue_shopping")}
-                        </button>
+                        </Button>
                       </div>
                     </div>
                     <div className="row">
@@ -79,13 +82,13 @@ function Cart() {
                         </label>
                         <p>{t("have_code_coupon")}</p>
                       </div>
-                      <div className="col-md-8 mb-3 mb-md-0">
+                      <div className="col-md-8 mb-3 mb-md-0 d-flex">
                         <Input name="coupon" type="text"/>
                       </div>
-                      <div className="col-md-4">
-                        <button className="btn btn-black" onClick={() => {}}>
+                      <div className="col-md-4 d-flex align-items-center">
+                        <Button className="btn primary " onClick={() => {}}>
                           {t("apply")}
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -118,12 +121,12 @@ function Cart() {
 
                         <div className="row">
                           <div className="col-md-12">
-                            <button
-                              className="btn btn-black btn-lg py-3 btn-block"
+                            <Button
+                              className="btn primary"
                               onClick="window.location='checkout.html'"
                             >
                               {t("pay")}
-                            </button>
+                            </Button>
                           </div>
                         </div>
                       </div>

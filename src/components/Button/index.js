@@ -1,19 +1,25 @@
-function Button(params) {
+import "./Button.scss";
+
+function Button({
+  className,
+  leftIcon,
+  rightIcon,
+  text,
+  children,
+  disabled,
+  ...props
+}) {
   return (
-    <div className="login-form">
-      {/* login */}
-      <div className="login">
-        <h1>Login</h1>
-        <div className="group">
-          <input className='input-text'></input>
-          <label>Username</label>
-        </div>
-        <div className="group">
-          <input className='input-text'></input>
-          <label>Password</label>
-        </div>
-        <button>login</button>
-      </div>
-    </div>
-  );
+    <button
+      className={`btn btn-common ${className} ${disabled ? "disabled" : ""} `}
+      {...props}
+      disabled={disabled}
+    >
+      {leftIcon && <span className="icon left-icon">{leftIcon}</span>}
+      <span className="children" style={{fontWeight: '600'}}>{children}</span>
+      {rightIcon && <span className="icon right-icon">{rightIcon}</span>}
+    </button>
+  ); 
 }
+
+export default Button;

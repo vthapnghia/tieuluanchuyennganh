@@ -33,5 +33,12 @@
   "back_to_home": "Trang chủ",
   "text_back_home": "Quay lại trang chủ?",
   "manage_customers": "Quản lý khách hàng",
-  "manage_products": "Quản lý sản phẩm"
+  "manage_products": "Quản lý sản phẩm",
+  "size": "Size",
+  "color": "Màu",
+  "MS_01": "Vui lòng nhập {{param}}",
+  "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
+  "MS_03": "Vui lòng nhập nhiểu ít {{param}} ký tự",
+  "MS_04": "Mật khẩu phải chú chữ số và ký tự đặc biệt",
+  "MS_05": "Mật khẩu xác nhận và mật khẩu phải giống nhau"
 }

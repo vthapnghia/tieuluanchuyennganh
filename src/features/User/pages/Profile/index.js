@@ -1,4 +1,5 @@
-import './Profile.scss';
+import Button from "../../../../components/Button";
+import "./Profile.scss";
 
 function Profile(params) {
   return (
@@ -10,7 +11,7 @@ function Profile(params) {
               <div className="mt-4 text-center">
                 <img
                   src="https://luv.vn/wp-content/uploads/2021/08/hinh-anh-gai-xinh-71.jpg"
-                  alt='img'
+                  alt="img"
                   className="img-circle"
                 />
                 <h4 className="card-title mt-2">Võ Đặng Khả Vy</h4>
@@ -89,7 +90,7 @@ function Profile(params) {
                 </div>
                 <div className="form-group">
                   <div className="col-sm-12">
-                    <button className="btn btn-primary">Update Profile</button>
+                    <Button className="primary">Update Profile</Button>
                   </div>
                 </div>
               </form>

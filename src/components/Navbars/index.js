@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 function Navbars() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const is_superuser = false;
+  const is_superuser = true;
 
   const handleMenu = () => {
     const displayMenu = document.getElementById("sidebar");
@@ -64,18 +64,6 @@ function Navbars() {
               {t("logo")}
               <span>.</span>
             </Link>
-
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarsFurni"
-              aria-controls="navbarsFurni"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
 
             <div className="collapse navbar-collapse" id="navbarsFurni">
               <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">

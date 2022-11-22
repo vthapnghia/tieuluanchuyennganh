@@ -1,0 +1,51 @@
+@import "/src/assets/scss/variables.scss";
+
+.btn-common {
+  font-family: $font-family;
+  height: 50px;
+  .icon {
+    margin: 10px;
+  }
+  &.primary {
+    background: $main_color;
+    color: $white;
+  }
+  &.primary:hover {
+    background: $main_color_hover;
+    color: $white;
+  }
+
+  &.secondary {
+    color: $dark;
+    background: $secondary;
+    border-color: $secondary;
+  }
+  &.secondary:hover {
+    background: $secondary_hover;
+    border-color: $secondary_hover;
+    .children {
+      color: black;
+    }
+  }
+
+  &.outline {
+    background: transparent;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.3);
+    .children {
+      color: $white;
+    }
+  }
+  &.outline:hover {
+    border-color: $white;
+    color: $white;
+  }
+
+  &.disabled {
+    background: $gray-600 !important;
+  }
+
+  .children {
+    padding: 10px;
+  }
+}

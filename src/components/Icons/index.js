@@ -1,5 +1,5 @@
 const User = (props) => {
-  const { width = 18, height = 20, color = "white" , bg_color="none" } = props;
+  const { width = 18, height = 20, color = "white", bg_color = "none" } = props;
   return (
     <svg
       width={width}
@@ -462,7 +462,37 @@ const Exclamation = (props) => {
       fill={color}
       viewBox="0 0 512 512"
     >
-      <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"/>
+      <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z" />
+    </svg>
+  );
+};
+
+const Lock = (props) => {
+  const { width = 16, height = 16, color = "none" } = props;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill={color}
+      viewBox="0 0 448 512"
+    >
+      <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z" />
+    </svg>
+  );
+};
+
+const Email = (props) => {
+  const { width = 16, height = 16, color = "none" } = props;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill={color}
+      viewBox="0 0 512 512"
+    >
+      <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z" />
     </svg>
   );
 };
@@ -487,7 +517,9 @@ const Icons = {
   Menu,
   ArrowLeft,
   ArrowRight,
-  Exclamation
+  Exclamation,
+  Lock,
+  Email,
 };
 
 export default Icons;

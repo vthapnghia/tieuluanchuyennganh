@@ -1,6 +1,7 @@
 @import "/src/assets/scss/variables.scss";
 
 .product-detail {
+  background-color: $bg_color;
   .img-slider {
     width: 40%;
     .carousel {
