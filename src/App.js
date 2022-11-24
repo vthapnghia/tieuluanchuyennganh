@@ -5,6 +5,7 @@ import Login from "./features/Authentication/page/Login/index";
 import Layout from "./components/Layout";
 
 function App() {
+
   return (
     <div className="app">
       <Routes>
@@ -12,6 +13,7 @@ function App() {
         <Route path={PATH.ADMIN.BASE} element={<Admin />} />
         <Route path={"/*"} element={<Layout />}></Route>
       </Routes>
+     
     </div>
   );
 }

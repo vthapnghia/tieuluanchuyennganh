@@ -12,13 +12,14 @@
   @media screen and (max-width: 900px) {
     left: -280px;
   }
-  
+
   .sidebar-header {
     height: 100px;
     line-height: 100px;
     text-align: center;
     font-size: 32px;
     font-weight: 600;
+    color: $main_color;
     > span {
       opacity: 0.4;
     }
@@ -34,7 +35,7 @@
       border-radius: 8px;
       text-align: center;
       line-height: 40px;
-      a{
+      a {
         text-decoration: none;
         font-family: $font-family;
         color: $white;
@@ -42,11 +43,11 @@
     }
   }
 
-  .arrow-left{
+  .arrow-left {
     position: absolute;
     right: 20px;
     width: max-content;
-    @media screen and (min-width: 900px){
+    @media screen and (min-width: 900px) {
       display: none;
     }
   }
@@ -61,5 +62,4 @@
   //   z-index: 1;
 
   // }
-
 }

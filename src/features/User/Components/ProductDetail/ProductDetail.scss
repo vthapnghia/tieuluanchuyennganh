@@ -14,14 +14,18 @@
   }
 
   .content-detail {
+    background-color: $white;
     border: 1px solid #dee2e6;
     padding: 20px;
     border-radius: 8px;
     animation: right;
+    box-shadow: 0px 5px 15px rgba($color: #000000, $alpha: 0.3);
 
     .action {
       display: flex;
       margin-top: 20px;
+      width: 100%;
+      justify-content: center;
       .add-cart {
         margin-right: 50px;
       }
@@ -31,6 +35,27 @@
 
 /*******************comment**********/
 .comment-description {
+  background-color: $bg_color;
+  padding-bottom: 20px;
+  // .tab-content{
+  //   box-shadow: 0px 5px 15px rgba($color: #000000, $alpha: 0.3);
+  //   background-color: $white;
+  //   border-radius: 10px;
+  // }
+  .nav-tabs {
+    .nav-item {
+      button {
+        color: $black;
+        font-family: $font-family;
+        font-size: 14px;
+        border: none;
+        &:focus{
+          box-shadow: 0px 5px 15px rgba($color: #000000, $alpha: 0.3);
+        }
+      }
+      
+    }
+  }
   .tab-content {
     #uncontrolled-tab-example-tabpane-reviews {
       .list-comment {
@@ -52,7 +77,7 @@
             display: flex;
             flex-direction: column;
             font-family: $font-family;
-            .time{
+            .time {
               font-size: 12px;
             }
           }

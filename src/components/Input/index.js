@@ -2,7 +2,8 @@ import { forwardRef, useCallback, useEffect, useState } from "react";
 import { useField } from "formik";
 import "./Input.scss";
 import Icons from "../Icons";
-import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import ReactSelect from "react-select";
+import { COLOR } from "../../contanst/global";
 const Input = forwardRef(
   (
     { leftIcon, style, type, disabled, options, quanlity, label, ...props },
@@ -11,15 +12,67 @@ const Input = forwardRef(
     const [field, meta, helpers] = useField(props);
     const [misnusDisabled, setMinusDisabled] = useState(false);
     const [plusDisabled, setPlusDisabled] = useState(false);
+    const [temp, setTemp] = useState(field.value ?? "");
+
+    const colourDefaultStyles = {
+      container: (styles) => ({
+        ...styles,
+        height: "58px",
+      }),
+      control: (styles, { isDisabled, isFocused }) => ({
+        ...styles,
+        backgroundColor: COLOR.GRAY,
+        width: "100%",
+        borderRadius: "10px",
+        paddingRight: "10px",
+        border: `none`,
+        boxShadow: "none",
+        minHeight: 44,
+        fontSize: "16px",
+        transition: "none",
+        height: "100%",
+        padding: "1rem 3rem",
+        textAlign: "center"
+      }),
+      option: (styles, { isFocused }) => {
+        return {
+          ...styles,
+          backgroundColor: isFocused ? COLOR.PRIMARY : COLOR.WHITE,
+          color: isFocused ? COLOR.WHITE : COLOR.BLACK,
+          ":active": {
+            ...styles[":active"],
+            backgroundColor: COLOR.PRIMARY,
+          },
+          ":hover": {
+            ...styles[":hover"],
+            color: COLOR.WHITE,
+          },
+          display: "inline-block",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        };
+      },
+      menuPortal: (base) => ({
+        ...base,
+        zIndex: 9999,
+        border: "10px",
+      }),
+      menu: (styles) => ({
+        ...styles,
+        width: "100%",
+        position: "absolute",
+      }),
+      singleValue: (styles) => ({
+        ...styles,
+        color: COLOR.BLACK,
+      }),
+    };
 
     const handleChangeSelect = useCallback(
-      (e) => {
-        const selected = options.find(
-          (option) => option.value === Number(e.target.value)
-        );
-        helpers.setValue(selected?.value);
+      (items) => {
+        helpers.setValue(items.value);
       },
-      [options]
+      [helpers]
     );
 
     const handleQuanlity = useCallback(
@@ -49,13 +102,23 @@ const Input = forwardRef(
       }
     }, [type, meta]);
 
+    useEffect(() => {
+      if (type === "select") {
+        const selected = options.find((option) => field.value === option.value);
+        setTemp(selected);
+      } else {
+        setTemp(field.value ?? "");
+      }
+    }, [field.value, options]);
+
     return (
       <div className="input-group">
-        {label && <label>{label}</label>}
+        {label && <label><b>{label}</b></label>}
         {type === "textarea" ? (
           <textarea
             {...props}
             {...field}
+            value={temp}
             className={`textarea-common ${
               meta.error && meta.touched ? "has-error" : ""
             } ${props.className ? props.className : ""}`}
@@ -68,6 +131,7 @@ const Input = forwardRef(
             <input
               {...props}
               {...field}
+              value={temp}
               className={`input-common ${
                 meta.error && meta.touched ? "has-error" : ""
               } ${props.className ? props.className : ""}`}
@@ -92,6 +156,7 @@ const Input = forwardRef(
               {...props}
               {...field}
               type={type}
+              value={temp}
               className={`number-common ${
                 meta.error && meta.touched ? "has-error" : ""
               } ${props.className ? props.className : ""}`}
@@ -108,34 +173,29 @@ const Input = forwardRef(
             )}
           </>
         ) : (
-          <Form.Select
-            aria-label="Default select example"
-            disabled={disabled}
+          <ReactSelect
+            className={props.className}
             onChange={handleChangeSelect}
-            {...props}
-            {...field}
-            className={`select-common ${
-              props.className ? props.className : ""
-            }`}
-            style={style}
-          >
-            {options &&
-              options.map((option, index) => {
-                return (
-                  <option key={index} value={option.value}>
-                    {option.label}
-                  </option>
-                );
-              })}
-          </Form.Select>
+            type="select"
+            value={temp}
+            options={options}
+            isSearchable={false}
+            styles={colourDefaultStyles}
+            components={{
+              DropdownIndicator: () => null,
+              IndicatorSeparator: () => null,
+            }}
+            menuPortalTarget={document.body}
+            placeholder={props.placeholder ?? ""}
+            placement="auto"
+            isDisabled={props.disabled}
+          />
         )}
         {meta.error && meta.touched && type !== "select" ? (
-          
-            <span className="warning-icon-input">
-              <Icons.Exclamation />
-              <span class="tooltiptext">{meta.error}</span>
-            </span>
-         
+          <span className="warning-icon-input">
+            <Icons.Exclamation />
+            <span class="tooltiptext">{meta.error}</span>
+          </span>
         ) : (
           <></>
         )}

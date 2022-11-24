@@ -25,7 +25,7 @@ function Login() {
   };
 
   function containsValidate(str) {
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    const specialChars = /[`!@#$%^&*()_+\-={};':"|,.<>?~]/;
     return /[0-9]/.test(str) && !/^[0-9]+$/.test(str) && specialChars.test(str);
   }
 
@@ -84,13 +84,16 @@ function Login() {
           return false;
         }),
     };
-  }, [signIn]);
+  }, [signIn, t]);
 
-  const handleSingInAndSignUp = useCallback((values) => {
-    if (login) {
-      dispatch(login(values));
-    }
-  }, []);
+  const handleSingInAndSignUp = useCallback(
+    (values) => {
+      if (login) {
+        dispatch(login(values));
+      }
+    },
+    [dispatch]
+  );
 
   return (
     <Formik
@@ -115,7 +118,10 @@ function Login() {
                       name="user_name"
                       placeholder={t("user_name")}
                       type="password"
-                      style={{ backgroundColor: "#efefef" }}
+                      style={{
+                        backgroundColor: COLOR.BG_INPUT,
+                        boxShadow: "none",
+                      }}
                       leftIcon={<Icons.User color={COLOR.GRAY_2} />}
                     />
 
@@ -123,7 +129,10 @@ function Login() {
                       name="email"
                       placeholder={t("email")}
                       type="text"
-                      style={{ backgroundColor: "#efefef" }}
+                      style={{
+                        backgroundColor: COLOR.BG_INPUT,
+                        boxShadow: "none",
+                      }}
                       leftIcon={<Icons.Email color={COLOR.GRAY_2} />}
                     />
 
@@ -131,7 +140,10 @@ function Login() {
                       name="password"
                       placeholder={t("password")}
                       type="password"
-                      style={{ backgroundColor: "#efefef" }}
+                      style={{
+                        backgroundColor: COLOR.BG_INPUT,
+                        boxShadow: "none",
+                      }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
 
@@ -139,11 +151,17 @@ function Login() {
                       name="confirm_password"
                       placeholder={t("confirm_password")}
                       type="password"
-                      style={{ backgroundColor: "#efefef" }}
+                      style={{
+                        backgroundColor: COLOR.BG_INPUT,
+                        boxShadow: "none",
+                      }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
 
-                    <Button onClick={() => formikRef.current?.submitForm()}>
+                    <Button
+                      className="primary"
+                      onClick={() => formikRef.current?.submitForm()}
+                    >
                       {t("register")}
                     </Button>
                     <br></br>
@@ -172,7 +190,10 @@ function Login() {
                       name="email"
                       placeholder={t("email")}
                       type="text"
-                      style={{ backgroundColor: "#efefef" }}
+                      style={{
+                        backgroundColor: COLOR.BG_INPUT,
+                        boxShadow: "none",
+                      }}
                       leftIcon={<Icons.User color={COLOR.GRAY_2} />}
                     />
 
@@ -180,10 +201,16 @@ function Login() {
                       name="password"
                       placeholder={t("password")}
                       type="password"
-                      style={{ backgroundColor: "#efefef" }}
+                      style={{
+                        backgroundColor: COLOR.BG_INPUT,
+                        boxShadow: "none",
+                      }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
-                    <Button onClick={() => formikRef.current?.submitForm()}>
+                    <Button
+                      className="primary"
+                      onClick={() => formikRef.current?.submitForm()}
+                    >
                       {t("login")}
                     </Button>
                     <p>

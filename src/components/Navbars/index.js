@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 function Navbars() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const is_superuser = true;
+  const is_superuser = false;
 
   const handleMenu = () => {
     const displayMenu = document.getElementById("sidebar");
@@ -29,7 +29,7 @@ function Navbars() {
       title = t("manage_products");
     }
     return title;
-  }, [pathname]);
+  }, [pathname, t]);
 
   return (
     <>

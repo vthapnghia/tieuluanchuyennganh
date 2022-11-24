@@ -2,20 +2,105 @@ import { useRef } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import "./Cart.scss";
-import CartItem from "./CartItem";
 import Input from "../../../../components/Input";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
 import Button from "../../../../components/Button";
+import Icons from "../../../../components/Icons";
+import { product } from "../../../../assets/img";
+import TableCommon from "../../../../components/TableCommon";
 
 function Cart() {
   const formikRef = useRef();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const cols = [
+    { label: t("image"), align: "center", width: "20%" },
+    { label: t("product"), align: "center", width: "20%" },
+    { label: t("price"), align: "center", width: "15%" },
+    { label: t("quanlity"), align: "center", width: "20%" },
+    { label: t("total"), align: "center", width: "15%" },
+  ];
+
+  const rows = [
+    {
+      id: 1,
+      columns: [
+        {
+          label: (
+            <img
+              src={product}
+              alt="product"
+              width="100"
+              height="100"
+              style={{ objectFit: "cover" }}
+            />
+          ),
+          align: "center",
+          width: "20%",
+        },
+        { label: "Product 1", align: "center", width: "20%" },
+        { label: "$49.00", align: "center", width: "15%" },
+        {
+          label: (
+            <Input
+              name="quanlity"
+              type="number"
+              leftIcon={<Icons.Minus />}
+              rightIcon={<Icons.Plus />}
+              quanlity={true}
+            />
+          ),
+          align: "center",
+          width: "20%",
+        },
+        { label: "$49.00", align: "center", width: "20%" },
+      ],
+    },
+    {
+      id: 2,
+      columns: [
+        {
+          label: (
+            <img
+              src={product}
+              alt="product"
+              width="100"
+              height="100"
+              style={{ objectFit: "cover" }}
+            />
+          ),
+          align: "center",
+          width: "20%",
+        },
+        { label: "Product 1", align: "center", width: "20%" },
+        { label: "$49.00", align: "center", width: "15%" },
+        {
+          label: (
+            <Input
+              name="quanlity"
+              type="number"
+              leftIcon={<Icons.Minus />}
+              rightIcon={<Icons.Plus />}
+              quanlity={true}
+            />
+          ),
+          align: "center",
+          width: "20%",
+        },
+        { label: "$49.00", align: "center", width: "20%" },
+      ],
+    },
+  ];
+
   const handelOnSubmit = (values) => {
     console.log(values);
+  };
+
+  const handleRemove = (id) => () => {
+    console.log("remove: ", id);
   };
   return (
     <>
@@ -33,38 +118,20 @@ function Cart() {
             <div className="untree_co-section before-footer-section">
               <div className="container">
                 <div className="row mb-5">
-                  <form className="col-md-12" method="post">
-                    <div className="site-blocks-table">
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th className="product-thumbnail">{t("image")}</th>
-                            <th className="product-name">{t("product")}</th>
-                            <th className="product-price">{t("price")}</th>
-                            <th className="product-quantity">
-                              {t("quanlity")}
-                            </th>
-                            <th className="product-total">{t("total")}</th>
-                            <th className="product-remove">{t("remove")}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <CartItem />
-                          <CartItem />
-                          <CartItem />
-                        </tbody>
-                      </table>
-                    </div>
-                  </form>
+                  <TableCommon
+                    cols={cols}
+                    rows={rows}
+                    oneButton={true}
+                    labelHeader={t("remove")}
+                    handleRemove={handleRemove}
+                  />
                 </div>
 
                 <div className="row">
                   <div className="col-md-6">
                     <div className="row mb-5">
                       <div className="col-md-6 mb-3 mb-md-0">
-                        <Button className="primary" >
-                          {t("update_cart")}
-                        </Button>
+                        <Button className="primary">{t("update_cart")}</Button>
                       </div>
                       <div className="col-md-6">
                         <Button
@@ -83,7 +150,7 @@ function Cart() {
                         <p>{t("have_code_coupon")}</p>
                       </div>
                       <div className="col-md-8 mb-3 mb-md-0 d-flex">
-                        <Input name="coupon" type="text"/>
+                        <Input name="coupon" type="text" />
                       </div>
                       <div className="col-md-4 d-flex align-items-center">
                         <Button className="btn primary " onClick={() => {}}>

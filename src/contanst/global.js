@@ -5,7 +5,7 @@ const KEY_STORAGE = {
 };
 
 const COLOR = {
-  PRIMARY: "#CB1C22",
+  PRIMARY: "#3b5d50",
   WHITE: "#FFFFFF",
   DISABLED: "#9E9E9E",
   PRIMARY_LIGHT: "#FAE9E9",
@@ -18,6 +18,7 @@ const COLOR = {
   BLACK_DEFAULT: "#000000",
   GRAY_BG: "#E5E5E5",
   GRAY_2: "#757575",
+  BG_INPUT: "#efefef",
 };
 
 export { KEY_STORAGE, COLOR };

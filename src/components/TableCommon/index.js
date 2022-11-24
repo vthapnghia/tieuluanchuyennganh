@@ -1,81 +1,111 @@
 import "./TableCommon.scss";
 import { Pagination } from "react-bootstrap";
-import Input from "../Input";
 import { Formik } from "formik";
+import Icons from "../Icons";
 
-function TableCommon({ cols, rows }) {
+function TableCommon({
+  cols,
+  rows,
+  paginate,
+  trueButton,
+  handleEdit,
+  handleRemove,
+  oneButton,
+  labelHeader,
+  ...props
+}) {
   return (
     <>
-      <Formik initialValues={{search: ""}}>
+      <Formik initialValues={{ search: "" }}>
         <>
-          <div class="table-common table-responsive">
-            <div className="input-search">
-              <Input name="search" type="text"></Input>
-            </div>
-            
-            <table class="table">
-              <thead class="table-header">
-                {cols.map((col, i) => {
-                  return (
-                    <th
-                      key={i}
-                      style={{
-                        width: col?.width,
-                        minWidth: col?.minWidth,
-                        textAlign: col?.align,
-                        border: "none",
-                        color: 'white'
-                      }}
-                      className={col?.className}
+          <div className="table-common table-responsive">
+            <div className="table">
+              <ul className="responsive-table">
+                <li className="table-header align-items-center">
+                  {cols.map((col, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="col"
+                        style={{ flex: col.width, textAlign: col.align }}
+                      >
+                        {col.label}
+                      </div>
+                    );
+                  })}
+                  {(trueButton || oneButton) && (
+                    <div
+                      className="col"
+                      style={{ flex: "10%", textAlign: "center" }}
                     >
-                      {col.label}
-                    </th>
-                  );
-                })}
-              </thead>
+                      {labelHeader}
+                    </div>
+                  )}
+                </li>
 
-              <div style={{ marginTop: "16px", border: "none" }}></div>
-
-              <tbody class="table-body">
-                {rows.map((row, i) => (
-                  <tr key={i}>
-                    {row.columns.map((r, j) => (
-                      <td
-                        key={j}
-                        style={{
-                          width: r?.width,
-                          minWidth: r.minWidth,
-                          textAlign: r?.align,
-                          borderBottom: "1px solid #6a6a6a",
-                          borderTop: i === 0 ? "1px solid #6a6a6a" : "none",
-                          borderLeft: j === 0 ? "1px solid #6a6a6a" : "none",
-                          borderRight:
-                            row.columns.length - 1 === j
-                              ? "1px solid #6a6a6a"
-                              : "none",
-                        }}
-                        className={r?.className}
+                {rows.map((row, index) => (
+                  <li className="table-row align-items-center">
+                    {row.columns.map((r, index) => (
+                      <div
+                        key={index}
+                        className="col"
+                        style={{ flex: r.width, textAlign: r.align }}
                       >
                         {r.label}
-                      </td>
+                      </div>
                     ))}
-                  </tr>
+                    {trueButton && (
+                      <div
+                        className="col d-flex"
+                        style={{
+                          flex: "10%",
+                          textAlign: "center",
+                          alignItems: "center",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <div className="button" onClick={handleEdit(row.id)}>
+                          <Icons.Edit />
+                        </div>
+                        <div className="button" onClick={handleRemove(row.id)}>
+                          <Icons.Trash />
+                        </div>
+                      </div>
+                    )}
+                    {oneButton && (
+                      <div
+                        className="col d-flex"
+                        style={{
+                          flex: "10%",
+                          textAlign: "center",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div className="button" onClick={handleRemove(row.id)}>
+                          <Icons.Remove />
+                        </div>
+                      </div>
+                    )}
+                  </li>
                 ))}
-              </tbody>
-            </table>
-            <div className="bottom-pagination">
-              <Pagination>
-                <Pagination.First />
-                <Pagination.Prev />
-                <Pagination.Item>{1}</Pagination.Item>
-                <Pagination.Item>{2}</Pagination.Item>
-                <Pagination.Item>{3}</Pagination.Item>
-                <Pagination.Ellipsis />
-                <Pagination.Item>{10}</Pagination.Item>
-                <Pagination.Next />
-                <Pagination.Last />
-              </Pagination>
+              </ul>
             </div>
+            {paginate && (
+              <div className="bottom-pagination">
+                <Pagination>
+                  <Pagination.First />
+                  <Pagination.Prev />
+                  <Pagination.Item>{1}</Pagination.Item>
+                  <Pagination.Item>{2}</Pagination.Item>
+                  <Pagination.Item>{3}</Pagination.Item>
+                  <Pagination.Ellipsis />
+                  <Pagination.Item>{10}</Pagination.Item>
+                  <Pagination.Next />
+                  <Pagination.Last />
+                </Pagination>
+              </div>
+            )}
           </div>
         </>
       </Formik>

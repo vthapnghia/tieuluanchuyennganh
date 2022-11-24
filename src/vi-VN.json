@@ -36,6 +36,8 @@
   "manage_products": "Quản lý sản phẩm",
   "size": "Size",
   "color": "Màu",
+  "action": "Thao tác",
+
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
   "MS_03": "Vui lòng nhập nhiểu ít {{param}} ký tự",
