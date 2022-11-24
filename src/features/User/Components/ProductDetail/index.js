@@ -56,12 +56,12 @@ function ProductDetail() {
                 </Carousel.Item>
               </Carousel>
             </div>
-            <div className="content-detail ml-2 w-50">
+            <div className="content-detail ml-2 w-50 d-flex flex-column">
               <h2>Title</h2>
 
-              <p>
-                <b>Giá: </b>500.000$
-              </p>
+              <div class="price">
+                <span>7.93 </span>
+              </div>
               <p>
                 Welcome to the tutorial! We'll be building a small, but
                 feature-rich app that lets you keep track of your contacts. We
@@ -69,34 +69,22 @@ function ProductDetail() {
               </p>
               <div className="d-flex align-items-center w-50">
                 <div style={{ minWidth: "max-content", marginRight: "10px" }}>
-                  <b>Số lượng</b>{" "}
+                  <b>Số lượng:</b>{" "}
                 </div>
-                <Input
-                  name="size"
-                  type="select"
-                  options={options}
-                />
+                <Input name="size" type="select" options={options} />
               </div>
               <div className="d-flex align-items-center w-50">
                 <div style={{ minWidth: "max-content", marginRight: "10px" }}>
-                  <b>Số lượng</b>{" "}
+                  <b>Số lượng: </b>{" "}
                 </div>
-                <Input
-                  name="color"
-                  type="select"
-                  options={options}
-                />
+                <Input name="color" type="select" options={options} />
               </div>
 
               <div className="d-flex align-items-center w-50 mr-5">
                 <div style={{ minWidth: "max-content", marginRight: "10px" }}>
-                  <b>Số lượng</b>{" "}
+                  <b>Số lượng:</b>{" "}
                 </div>
-                <Input
-                  name="quanlity"
-                  type="number"
-                  quanlity={true}
-                />
+                <Input name="quanlity" type="number" quanlity={true} />
               </div>
               <div className="action">
                 <Button className="primary add-cart">Thêm vào giỏ hàng</Button>

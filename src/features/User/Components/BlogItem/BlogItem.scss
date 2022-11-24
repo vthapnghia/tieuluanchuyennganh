@@ -1,3 +1,4 @@
+@import "/src/assets/scss/variables.scss";
 .post-entry {
   a {
     text-decoration: none;
@@ -18,11 +19,15 @@
       margin-bottom: 0;
       font-weight: 600;
       margin-bottom: 7px;
+      a {
+        color: $black;
+      }
     }
     .meta {
       font-size: 14px;
       a {
         font-weight: 600;
+        color: $black;
       }
     }
   }

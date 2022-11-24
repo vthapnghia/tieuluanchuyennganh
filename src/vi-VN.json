@@ -37,6 +37,11 @@
   "size": "Size",
   "color": "Màu",
   "action": "Thao tác",
+  "copyright": "Copyright",
+  "privacy_policy": "Privacy Policy",
+  "terms_conditions": "Terms & Conditions",
+  "log_out": "Đăng suất",
+  "shop_now": "Shop Now",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

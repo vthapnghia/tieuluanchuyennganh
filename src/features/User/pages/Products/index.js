@@ -6,12 +6,12 @@ const arr = [
 ];
 function Products() {
   return (
-    <div class="untree_co-section product-section before-footer-section">
+    <div className="untree_co-section product-section before-footer-section">
       <div className="search-product">
         
       </div>
-      <div class="container">
-        <div class="row">
+      <div className="container">
+        <div className="row">
           {arr.map((item, index) => {
             return <ProductItem key={index} />;
           })}

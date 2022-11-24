@@ -4,9 +4,9 @@ import "./Blog.scss";
 const arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 function Blog() {
   return (
-    <div class="blog-section">
-      <div class="container">
-        <div class="row">
+    <div className="blog-section">
+      <div className="container">
+        <div className="row">
           {arr.map((item, index) => {
             return <BlogItem key={index} />;
           })}

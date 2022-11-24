@@ -9,17 +9,17 @@ function ProductItem() {
   const { pathname } = useLocation();
   return (
     <div
-      class={
+      className={
         pathname === "/home"
           ? "col-md-12 col-lg-3 mb-5 mb-lg-0"
           : "col-12 col-md-4 col-lg-3 mb-5"
       }
     >
-      <div class="product-item" >
-        <img src={url} alt="product" class="img-fluid product-thumbnail" />
-        <h3 class="product-title">Nordic Chair</h3>
-        <strong class="product-price">$50.00</strong>
-        <Link class="icon-cross" to={PATH.PRODUCT.DETAIL_PRODUCT.replace(':id', 1)}>
+      <div className="product-item" >
+        <img src={url} alt="product" className="img-fluid product-thumbnail" />
+        <h3 className="product-title">Nordic Chair</h3>
+        <strong className="product-price">$50.00</strong>
+        <Link className="icon-cross" to={PATH.PRODUCT.DETAIL_PRODUCT.replace(":id", 1)}>
           <p>{t("product_detail")}</p>
         </Link>
       </div>

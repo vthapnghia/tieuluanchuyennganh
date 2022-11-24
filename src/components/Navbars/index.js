@@ -5,11 +5,12 @@ import Icons from "../Icons";
 import "./Navbars.scss";
 import { Dropdown } from "react-bootstrap";
 import { useMemo } from 'react';
+import { useAuth } from "../../until/hooks";
 
 function Navbars() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const is_superuser = false;
+  const {is_superuser} = useAuth();
 
   const handleMenu = () => {
     const displayMenu = document.getElementById("sidebar");
@@ -45,14 +46,15 @@ function Navbars() {
               <Dropdown.Toggle variant="" id="dropdown-basic">
                 <img
                   className="admin-img"
+                  alt="img"
                   src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
                 ></img>
                 Admin
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="w-100 mt-2">
-                <Dropdown.Item href="#/action-1">Đổi mật khẩu</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Đăng suất</Dropdown.Item>
+                <Dropdown.Item href="#/action-1">{t("forgot_password")}</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">{t("log_out")}</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -88,7 +90,7 @@ function Navbars() {
                   </Link>
                 </li>
                 <li>
-                  <Link className="nav-link" to="/Blog">
+                  <Link className="nav-link" to="/blog">
                     Blog
                   </Link>
                 </li>
@@ -103,6 +105,7 @@ function Navbars() {
                 <li>
                   <Link className="nav-link" to={PATH.CART}>
                     <Icons.Cart />
+                    <span className="quanlity-cart">1</span>
                   </Link>
                 </li>
                 <li>

@@ -5,7 +5,7 @@ const KEY_STORAGE = {
 };
 
 const COLOR = {
-  PRIMARY: "#3b5d50",
+  PRIMARY: "#95a5a6",
   WHITE: "#FFFFFF",
   DISABLED: "#9E9E9E",
   PRIMARY_LIGHT: "#FAE9E9",

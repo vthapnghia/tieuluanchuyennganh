@@ -1,9 +1,22 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
+import { useAuth } from "../../until/hooks";
+import Button from "../Button";
 import "./NotFound.scss";
+import PATH from "../../contanst/path";
 
 function NotFound() {
   const { t } = useTranslation();
+  const { is_superuser } = useAuth();
+  const navigate = useNavigate();
+  const handleBack = useCallback(() => {
+    if (is_superuser) {
+      navigate(PATH.ADMIN.BASE);
+    } else {
+      navigate(PATH.HOME);
+    }
+  }, [is_superuser, navigate]);
   return (
     <div id="wrapper" className="error-page">
       <div className="error-box">
@@ -11,12 +24,9 @@ function NotFound() {
           <h1>{t("404")}</h1>
           <h3 className="text-uppercase">{t("page_not_found")}</h3>
           <p className="text-muted mt-4 mb-4">{t("text_back_home")}</p>
-          <Link
-            to="/home"
-            className="btn btn-info btn-rounded waves-effect waves-light mb-5 text-white"
-          >
+          <Button className="primary" onClick={handleBack}>
             {t("back_to_home")}
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

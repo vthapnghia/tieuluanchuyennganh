@@ -21,12 +21,13 @@ const Input = forwardRef(
       }),
       control: (styles, { isDisabled, isFocused }) => ({
         ...styles,
-        backgroundColor: COLOR.GRAY,
+        backgroundColor: COLOR.WHITE,
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         width: "100%",
         borderRadius: "10px",
         paddingRight: "10px",
         border: `none`,
-        boxShadow: "none",
+        // boxShadow: "none",
         minHeight: 44,
         fontSize: "16px",
         transition: "none",
@@ -77,7 +78,6 @@ const Input = forwardRef(
 
     const handleQuanlity = useCallback(
       (option) => () => {
-        console.log(option);
         if (option === "decrease") {
           meta.value - 1 > 0 && helpers.setValue(meta.value - 1);
         } else {
@@ -109,7 +109,7 @@ const Input = forwardRef(
       } else {
         setTemp(field.value ?? "");
       }
-    }, [field.value, options]);
+    }, [field.value, options, type]);
 
     return (
       <div className="input-group">
@@ -148,7 +148,7 @@ const Input = forwardRef(
                 onClick={misnusDisabled ? () => {} : handleQuanlity("decrease")}
               >
                 <Icons.Minus
-                  color={misnusDisabled ? "#fafbfc" : "currentcolor"}
+                  color={misnusDisabled ? COLOR.GRAY : "currentcolor"}
                 />
               </span>
             )}
@@ -168,7 +168,7 @@ const Input = forwardRef(
                 className="plus right-icon"
                 onClick={plusDisabled ? () => {} : handleQuanlity("increase")}
               >
-                <Icons.Plus color={plusDisabled ? "#fafbfc" : "currentcolor"} />
+                <Icons.Plus color={plusDisabled ? COLOR.GRAY : "currentcolor"} />
               </span>
             )}
           </>
@@ -194,7 +194,7 @@ const Input = forwardRef(
         {meta.error && meta.touched && type !== "select" ? (
           <span className="warning-icon-input">
             <Icons.Exclamation />
-            <span class="tooltiptext">{meta.error}</span>
+            <span className="tooltiptext">{meta.error}</span>
           </span>
         ) : (
           <></>

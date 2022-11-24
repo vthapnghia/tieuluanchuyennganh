@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "../../API/userApi";
 import { KEY_STORAGE } from "../../contanst/global";
+import { storeJsonObject } from "../../until/common";
 
 const login = createAsyncThunk("LOGIN", async (param, { rejectWithValue }) => {
   try {
@@ -24,6 +25,7 @@ const authSlice = createSlice({
       state.user = res?.user;
       state.isAuth = true;
       localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res.token);
+      storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
     },
   },
 });
