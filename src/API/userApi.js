@@ -1,11 +1,11 @@
-import axiosClient from "../axiosClient";
 import API_URL from "../contanst/api";
+import { doRequest } from "../until/common";
 
-const userApi = {
-  login: (data) => {
-    const url = API_URL.USER.LOGIN;
-    return axiosClient.post(url, data);
+const userAPI = {
+  login: async (data) => {
+    const url = API_URL.LOGIN;
+    return doRequest("post", url, data);
   },
 };
 
-export default userApi;
+export default userAPI;

@@ -2,6 +2,7 @@ const KEY_STORAGE = {
   ACCESS_TOKEN: "ACCESS_TOKEN",
   SESSION_ID: "SESSION_ID",
   REFRESH_TOKEN: "REFRESH_TOKEN",
+  CP_USER: "CP_USER",
 };
 
 const COLOR = {
@@ -21,4 +22,10 @@ const COLOR = {
   BG_INPUT: "#efefef",
 };
 
-export { KEY_STORAGE, COLOR };
+const GENDER = {
+  MALE: "Nam",
+  FELMALE: "Nữ",
+  OTHER: "Khác",
+};
+
+export { KEY_STORAGE, COLOR, GENDER };

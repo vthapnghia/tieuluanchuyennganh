@@ -1,7 +1,6 @@
 const API_URL = {
-  USER: {
-    LOGIN: "login",
-  },
+  LOGIN: "login",
+  CART: "cart",
 };
 
 export default API_URL;

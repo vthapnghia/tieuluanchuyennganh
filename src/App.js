@@ -10,8 +10,9 @@ import Cart from "./features/User/pages/Cart";
 import NotFound from "./components/NotFound";
 import Profile from "./features/User/pages/Profile";
 import Blog from "./features/User/pages/Blog";
-import PrivateRoute from "./PrivateRoute";
-import ManagerProducts from './features/Admin/pages/ManagerProducts';
+import PrivateRoute from "./components/PrivateRoute";
+import ManagerProducts from "./features/Admin/pages/ManagerProducts";
+import Spinner from "./components/Spinner";
 
 function App() {
   return (
@@ -21,13 +22,13 @@ function App() {
         <Route
           path={PATH.ADMIN.BASE}
           element={
-            // <PrivateRoute>
+            <PrivateRoute>
               <Admin />
-            // </PrivateRoute>
+            </PrivateRoute>
           }
         >
-          <Route path={PATH.ADMIN.PRODUCTS} element={< ManagerProducts/>} />
-          <Route path={PATH.ADMIN.BASE} element={< ManagerProducts/>} />
+          <Route path={PATH.ADMIN.PRODUCTS} element={<ManagerProducts />} />
+          <Route path={PATH.ADMIN.BASE} element={<ManagerProducts />} />
         </Route>
         <Route path={"/"} element={<User />}>
           <Route path={"/"} element={<Home />}></Route>
@@ -45,12 +46,19 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path={PATH.PROFILE} element={<Profile />} />
+          <Route
+            path={PATH.PROFILE}
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           <Route path={PATH.BLOG} element={<Blog />} />
         </Route>
         <Route path={PATH.NOT_FOUND} element={<NotFound />} />
       </Routes>
-
+      <Spinner />
     </div>
   );
 }

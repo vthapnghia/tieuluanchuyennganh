@@ -1,8 +1,11 @@
 import axios from "axios";
+import { KEY_STORAGE } from "./contanst/global";
+
+const token = localStorage.getItem(KEY_STORAGE.ACCESS_TOKEN);
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:8080/",
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
 });
 
 // Add a request interceptor

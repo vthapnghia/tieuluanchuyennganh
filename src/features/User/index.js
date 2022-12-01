@@ -7,7 +7,7 @@ function User(params) {
   return (
     <>
       <Navbars />
-      <HeroSection />
+      {/* <HeroSection /> */}
       <Outlet />
       <Footer />
     </>

@@ -3,6 +3,7 @@
   "login": "Đăng nhập",
   "register": "Đăng ký",
   "user_name": "Tên đăng nhập",
+  "full_name": "Họ và tên",
   "email": "Email",
   "password": "Mật khẩu",
   "confirm_password": "Xác nhận mật khẩu",
@@ -42,10 +43,23 @@
   "terms_conditions": "Terms & Conditions",
   "log_out": "Đăng suất",
   "shop_now": "Shop Now",
+  "logout": "Đăng xuất",
+  "profile": "Thông tin", 
+  "age": "Tuổi",
+  "male": "Nam",
+  "female": "Nữ",
+  "other": "Khác",
+  "address": "Địa chỉ",
+  "phone": "Số điện thoại",
+  "gender": "Giới tính",
+  "update_profile": "Cập nhật thông tin",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
   "MS_03": "Vui lòng nhập nhiểu ít {{param}} ký tự",
   "MS_04": "Mật khẩu phải chú chữ số và ký tự đặc biệt",
-  "MS_05": "Mật khẩu xác nhận và mật khẩu phải giống nhau"
+  "MS_05": "Mật khẩu xác nhận và mật khẩu phải giống nhau",
+  "MS_06": "Vui lòng nhập {{param}} tối thiểu là {{min}}",
+  "MS_07": "Vui lòng nhập {{param}} tối đa là {{max}}",
+  "MS_08": "Vui lòng đúng {{param}}"
 }

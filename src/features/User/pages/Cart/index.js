@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
 import Button from "../../../../components/Button";
-import Icons from "../../../../components/Icons";
 import { product } from "../../../../assets/img";
 import TableCommon from "../../../../components/TableCommon";
 
@@ -48,8 +47,6 @@ function Cart() {
             <Input
               name="quanlity"
               type="number"
-              leftIcon={<Icons.Minus />}
-              rightIcon={<Icons.Plus />}
               quanlity={true}
             />
           ),
@@ -82,8 +79,6 @@ function Cart() {
             <Input
               name="quanlity"
               type="number"
-              leftIcon={<Icons.Minus />}
-              rightIcon={<Icons.Plus />}
               quanlity={true}
             />
           ),
@@ -144,7 +139,7 @@ function Cart() {
                     </div>
                     <div className="row">
                       <div className="col-md-12">
-                        <label className="text-black h4" for="coupon">
+                        <label className="text-black h4" htmlFor="coupon">
                           {t("code_coupon")}
                         </label>
                         <p>{t("have_code_coupon")}</p>
@@ -190,7 +185,7 @@ function Cart() {
                           <div className="col-md-12">
                             <Button
                               className="btn primary"
-                              onClick="window.location='checkout.html'"
+                              onClick={() => {}}
                             >
                               {t("pay")}
                             </Button>

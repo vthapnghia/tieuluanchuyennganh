@@ -8,15 +8,15 @@ import PATH from "../../contanst/path";
 
 function NotFound() {
   const { t } = useTranslation();
-  const { is_superuser } = useAuth();
+  const { is_admin } = useAuth();
   const navigate = useNavigate();
   const handleBack = useCallback(() => {
-    if (is_superuser) {
+    if (is_admin) {
       navigate(PATH.ADMIN.BASE);
     } else {
       navigate(PATH.HOME);
     }
-  }, [is_superuser, navigate]);
+  }, [is_admin, navigate]);
   return (
     <div id="wrapper" className="error-page">
       <div className="error-box">

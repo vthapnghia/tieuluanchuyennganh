@@ -172,7 +172,7 @@ const Input = forwardRef(
               </span>
             )}
           </>
-        ) : (
+        ) : type==="file" ? <input type="file"/> : (
           <ReactSelect
             className={props.className}
             onChange={handleChangeSelect}

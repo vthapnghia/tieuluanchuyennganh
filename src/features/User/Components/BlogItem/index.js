@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import { post } from "../../../../assets/img";
 import "./BlogItem.scss";
 
 function BlogItem() {
@@ -14,18 +13,19 @@ function BlogItem() {
     >
       <div className="post-entry">
         <Link href="#" className="post-thumbnail">
-          <img src={post} alt="post" className="img-fluid" />
+          <img src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
+                      alt="post" className="img-fluid" />
         </Link>
         <div className="post-content-entry">
           <h3>
-            <Link href="#">How To Keep Your Furniture Clean</Link>
+            <Link href="#">How To Buy Shoe?</Link>
           </h3>
           <div className="meta">
             <span>
-              by <Link href="#">Robert Fox</Link>
+              bởi <Link href="#">Nghiavt</Link>
             </span>{" "}
             <span>
-              on <Link href="#">Dec 15, 2021</Link>
+              lúc <Link href="#">15-10-2022</Link>
             </span>
           </div>
         </div>

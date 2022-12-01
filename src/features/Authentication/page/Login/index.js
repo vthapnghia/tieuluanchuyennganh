@@ -3,18 +3,21 @@ import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import Input from "./../../../../components/Input/index";
 import "./Login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Icons from "../../../../components/Icons";
 import { COLOR } from "../../../../contanst/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login } from "../../authSlice";
 import Button from "./../../../../components/Button/index";
+import PATH from "../../../../contanst/path";
+
 function Login() {
   const { t } = useTranslation();
   const formikRef = useRef(null);
   const [signIn, setSignIn] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggle = () => {
     setSignIn(!signIn);
@@ -89,10 +92,25 @@ function Login() {
   const handleSingInAndSignUp = useCallback(
     (values) => {
       if (login) {
-        dispatch(login(values));
+        dispatch(login(values)).then((res) => {
+          if (res.payload.status === 200) {
+            const response = res.payload?.data;
+            if (response.user.is_admin) {
+              navigate(PATH.ADMIN.BASE);
+            } else {
+              if (response.user.user_id) {
+                navigate(PATH.HOME);
+              } else {
+                navigate(PATH.PROFILE);
+              }
+            }
+          }
+        });
+      } else {
+        dispatch();
       }
     },
-    [dispatch]
+    [dispatch, navigate]
   );
 
   return (

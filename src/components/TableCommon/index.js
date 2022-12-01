@@ -44,7 +44,7 @@ function TableCommon({
                 </li>
 
                 {rows.map((row, index) => (
-                  <li className="table-row align-items-center">
+                  <li key={index} className="table-row align-items-center">
                     {row.columns.map((r, index) => (
                       <div
                         key={index}
