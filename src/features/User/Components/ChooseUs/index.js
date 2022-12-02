@@ -8,10 +8,9 @@ function ChooseUs() {
       <div className="container">
         <div className="row justify-content-between">
           <div className="col-lg-6">
-            <h2 className="section-title">Why Choose Us</h2>
+            <h2 className="section-title">Tại sao chọn chúng tôi</h2>
             <p>
-              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet
-              velit. Aliquam vulputate velit imperdiet dolor tempor tristique.
+            Bên cạnh việc phải thông thạo những kiến thức lập trình về ngôn ngữ, framework, thư viện thì lập trình viên Front-end cũng cần có...
             </p>
 
             <div className="row my-5">
@@ -20,10 +19,9 @@ function ChooseUs() {
                   <div className="icon">
                     <Icons.Truck className="imf-fluid" />
                   </div>
-                  <h3>Fast &amp; Free Shipping</h3>
+                  <h3>Nhanh &amp; miễn phí vận chuyển</h3>
                   <p>
-                    Donec vitae odio quis nisl dapibus malesuada. Nullam ac
-                    aliquet velit. Aliquam vulputate.
+                  Bên cạnh việc phải thông thạo những kiến thức lập trình về ngôn ngữ, framework, thư viện thì lập trình viên Front-end cũng cần có...
                   </p>
                 </div>
               </div>
@@ -33,10 +31,9 @@ function ChooseUs() {
                   <div className="icon">
                     <Icons.Bag />
                   </div>
-                  <h3>Easy to Shop</h3>
+                  <h3>Dễ dàng mua sắm</h3>
                   <p>
-                    Donec vitae odio quis nisl dapibus malesuada. Nullam ac
-                    aliquet velit. Aliquam vulputate.
+                  Bên cạnh việc phải thông thạo những kiến thức lập trình về ngôn ngữ, framework, thư viện thì lập trình viên Front-end cũng cần có...
                   </p>
                 </div>
               </div>
@@ -46,10 +43,9 @@ function ChooseUs() {
                   <div className="icon">
                     <Icons.Support />
                   </div>
-                  <h3>24/7 Support</h3>
+                  <h3>Hổ trợ 24/7 </h3>
                   <p>
-                    Donec vitae odio quis nisl dapibus malesuada. Nullam ac
-                    aliquet velit. Aliquam vulputate.
+                  Bên cạnh việc phải thông thạo những kiến thức lập trình về ngôn ngữ, framework, thư viện thì lập trình viên Front-end cũng cần có...
                   </p>
                 </div>
               </div>
@@ -59,10 +55,9 @@ function ChooseUs() {
                   <div className="icon">
                     <Icons.Return />
                   </div>
-                  <h3>Hassle Free Returns</h3>
+                  <h3>Chính sách hoàn tiền</h3>
                   <p>
-                    Donec vitae odio quis nisl dapibus malesuada. Nullam ac
-                    aliquet velit. Aliquam vulputate.
+                  Bên cạnh việc phải thông thạo những kiến thức lập trình về ngôn ngữ, framework, thư viện thì lập trình viên Front-end cũng cần có...
                   </p>
                 </div>
               </div>

@@ -2,11 +2,13 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../until/hooks";
 
 function PrivateRoute({ children, ...rest }) {
-  const auth = useAuth();
+  const {userAuth, is_admin} = useAuth();
   const location = useLocation();
 
-  if (!auth.userAuth) {
+  if (!userAuth) {
     return <Navigate to="/login" state={{ from: location }} />;
+  }else{
+    
   }
   return children;
 }

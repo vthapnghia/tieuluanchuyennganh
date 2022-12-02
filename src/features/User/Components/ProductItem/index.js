@@ -17,7 +17,7 @@ function ProductItem() {
     >
       <div className="product-item" >
         <img src={url} alt="product" className="img-fluid product-thumbnail" />
-        <h3 className="product-title">Nordic Chair</h3>
+        <h3 className="product-title">Nike</h3>
         <strong className="product-price">$50.00</strong>
         <Link className="icon-cross" to={PATH.PRODUCT.DETAIL_PRODUCT.replace(":id", 1)}>
           <p>{t("product_detail")}</p>

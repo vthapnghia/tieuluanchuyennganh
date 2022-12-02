@@ -131,10 +131,11 @@
   align-items: center;
   position: relative;
   padding: 20px;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   transition: all 1s;
+  z-index: 1;
   @media screen and (max-width: 900px) {
     width: 100%;
   }

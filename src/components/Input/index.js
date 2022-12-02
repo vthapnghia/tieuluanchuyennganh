@@ -6,7 +6,7 @@ import ReactSelect from "react-select";
 import { COLOR } from "../../contanst/global";
 const Input = forwardRef(
   (
-    { leftIcon, style, type, disabled, options, quanlity, label, ...props },
+    { leftIcon, style, type, disabled, options, quanlity, label,handleOnClickLeftIcon, ...props },
     ref
   ) => {
     const [field, meta, helpers] = useField(props);
@@ -127,7 +127,7 @@ const Input = forwardRef(
           />
         ) : type === "text" || type === "password" ? (
           <>
-            {leftIcon && <span className="left-icon">{leftIcon}</span>}
+            {leftIcon && <span className="left-icon" onClick={handleOnClickLeftIcon(temp)}>{leftIcon}</span>}
             <input
               {...props}
               {...field}

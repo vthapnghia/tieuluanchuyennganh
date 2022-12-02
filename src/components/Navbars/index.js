@@ -105,7 +105,7 @@ function Navbars() {
                 </li>
                 <li>
                   <Link className="nav-link" to="/">
-                    About us
+                    Về chúng tôi
                   </Link>
                 </li>
                 <li>

@@ -13,11 +13,10 @@ function Home() {
           <div className="row">
             <div className="col-md-12 col-lg-3 mb-5 mb-lg-0">
               <h2 className="mb-4 section-title">
-                Crafted with excellent material.
+                Đây là .......................
               </h2>
               <p className="mb-4">
-                Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet
-                velit. Aliquam vulputate velit imperdiet dolor tempor tristique.{" "}
+              Bên cạnh việc phải thông thạo những kiến thức lập trình về ngôn ngữ, framework, thư viện thì lập trình viên Front-end cũng cần có....{" "}
               </p>
               <p>
                 <Link to="/" className="btn">

@@ -31,6 +31,12 @@ function SideBar(params) {
         <div className="action-item">
           <Link to={"manage-products"}>Quản lý sản phẩm</Link>
         </div>
+        <div className="action-item">
+          <Link to={"manage-products"}>Quản lý bài viết</Link>
+        </div>
+        <div className="action-item">
+          <Link to={"manage-products"}>Thống kê</Link>
+        </div>
       </div>
     </div>
   );
