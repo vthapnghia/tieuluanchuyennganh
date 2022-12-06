@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo, useRef } from "react";
+import { useCallback, useState, useMemo, useRef, useEffect } from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import Input from "./../../../../components/Input/index";
@@ -8,19 +8,25 @@ import Icons from "../../../../components/Icons";
 import { COLOR } from "../../../../contanst/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { login } from "../../authSlice";
+import { login, register } from "../../authSlice";
 import Button from "./../../../../components/Button/index";
 import PATH from "../../../../contanst/path";
+import { useGoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
+import ModalCommon from "../../../../components/ModalCommon";
 
 function Login() {
   const { t } = useTranslation();
   const formikRef = useRef(null);
-  const [signIn, setSignIn] = useState(true);
+  const [isSignIn, setIssignIn] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [modalBody, setModalBody] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
 
   const toggle = () => {
-    setSignIn(!signIn);
+    setIssignIn(!isSignIn);
     let container = document.getElementById("container");
     container.classList.toggle("sign-up");
     container.classList.toggle("sign-in");
@@ -33,32 +39,27 @@ function Login() {
   }
 
   const initialValues = useMemo(() => {
-    if (signIn) {
+    if (isSignIn) {
       return {
         email: "",
         password: "",
       };
     }
     return {
-      user_name: "",
       email: "",
       password: "",
-      confirm_password: "",
+      passwordRepeat: "",
     };
-  }, [signIn]);
+  }, [isSignIn]);
 
   const validationSchema = useMemo(() => {
-    if (signIn) {
+    if (isSignIn) {
       return {
         email: Yup.string().required(t("MS_01", { param: t("email") })),
         password: Yup.string().required(t("MS_01", { param: t("password") })),
       };
     }
     return {
-      user_name: Yup.string()
-        .required(t("MS_01", { param: t("user_name") }))
-        .min(8, t("MS_03", { param: 8 }))
-        .max(50, t("MS_02", { param: 50 })),
       email: Yup.string().required(t("MS_01", { param: t("email") })),
       password: Yup.string()
         .required(t("MS_01", { param: t("password") }))
@@ -70,7 +71,7 @@ function Login() {
           }
           return false;
         }),
-      confirm_password: Yup.string()
+      passwordRepeat: Yup.string()
         .required(t("MS_01", { param: t("confirm_password") }))
         .min(8, t("MS_03", { param: 8 }))
         .max(50, t("MS_02", { param: 50 }))
@@ -87,12 +88,12 @@ function Login() {
           return false;
         }),
     };
-  }, [signIn, t]);
+  }, [isSignIn, t]);
 
   const handleSingInAndSignUp = useCallback(
-    (values) => {
-      if (login) {
-        dispatch(login(values)).then((res) => {
+    async (values) => {
+      if (isSignIn) {
+        await dispatch(login(values)).then((res) => {
           if (res.payload.status === 200) {
             const response = res.payload?.data;
             if (response.user.is_admin) {
@@ -104,14 +105,60 @@ function Login() {
                 navigate(PATH.PROFILE);
               }
             }
+          } else {
+            setModalTitle(t("info_wrong", {param: "đăng nhập"}));
+            setModalBody(t("try_one_login"))
+            setShowModal(!showModal);
           }
         });
       } else {
-        dispatch();
+        await dispatch(register(values)).then((res) => {
+          if(res.payload.data === 200){
+            setModalTitle(t("action_success", {param: t("register")}));
+            setModalBody(t("confirm_mail"))
+            setShowModal(!showModal);
+          }else{
+            setModalTitle(t("action_fail", {param: t("register")}));
+            setModalBody(t("try_again"))
+            setShowModal(!showModal);
+          }
+        });
       }
     },
-    [dispatch, navigate]
+    [dispatch, navigate, isSignIn, showModal, t]
   );
+
+  const onSuccess = (data) => {
+    console.log(data.googleId);
+  };
+
+  const onFailure = (res) => {
+    console.log("error:", res);
+  };
+
+  const { signIn } = useGoogleLogin({
+    onSuccess,
+    onFailure,
+    clientId:
+      "264515854372-s517e9apc7mb0v86a0r4cc9ru33tv5k2.apps.googleusercontent.com",
+    isSignedIn: false,
+  });
+
+  const handleClose = useCallback(() => {
+    formikRef.current.resetForm();
+    setShowModal(!showModal);
+  }, [showModal]);
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId:
+          "264515854372-s517e9apc7mb0v86a0r4cc9ru33tv5k2.apps.googleusercontent.com",
+        scope: "email",
+      });
+    }
+    gapi.load("client:auth2", start);
+  }, []);
 
   return (
     <Formik
@@ -132,17 +179,6 @@ function Login() {
                 </Link>
                 <div className="form-wrapper common">
                   <div className="form sign-up">
-                    <Input
-                      name="user_name"
-                      placeholder={t("user_name")}
-                      type="password"
-                      style={{
-                        backgroundColor: COLOR.BG_INPUT,
-                        boxShadow: "none",
-                      }}
-                      leftIcon={<Icons.User color={COLOR.GRAY_2} />}
-                    />
-
                     <Input
                       name="email"
                       placeholder={t("email")}
@@ -166,7 +202,7 @@ function Login() {
                     />
 
                     <Input
-                      name="confirm_password"
+                      name="passwordRepeat"
                       placeholder={t("confirm_password")}
                       type="password"
                       style={{
@@ -178,7 +214,7 @@ function Login() {
 
                     <Button
                       className="primary"
-                      onClick={() => formikRef.current?.submitForm()}
+                      onClick={() => formikRef.current.submitForm()}
                     >
                       {t("register")}
                     </Button>
@@ -225,12 +261,21 @@ function Login() {
                       }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
-                    <Button
-                      className="primary"
-                      onClick={() => formikRef.current?.submitForm()}
-                    >
-                      {t("login")}
-                    </Button>
+                    <div className="d-flex flex-column ">
+                      <Button
+                        className="primary"
+                        onClick={() => formikRef.current?.submitForm()}
+                      >
+                        {t("login")}
+                      </Button>
+                      <span style={{ display: "block", margin: "10px 0" }}>
+                        {t("or")}
+                      </span>
+                      <Button className="primary" onClick={signIn}>
+                        <Icons.Google color={COLOR.GOOGLE_COLOR} />
+                      </Button>
+                    </div>
+
                     <p>
                       <b>{t("forgot_password")}</b>
                     </p>
@@ -273,6 +318,13 @@ function Login() {
             </div>
           </div>
         </div>
+        <ModalCommon
+          show={showModal}
+          modalTitle={modalTitle}
+          modalBody={modalBody}
+          handleClose={handleClose}
+          isButton
+        />
       </>
     </Formik>
   );

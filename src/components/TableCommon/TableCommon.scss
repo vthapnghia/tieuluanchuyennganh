@@ -18,6 +18,45 @@
         letter-spacing: 0.03em;
         color: $white;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        .col-sort {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-left: 10px;
+          .arrow-beetwen{
+            height: 8px;
+          }
+          .arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid $white;
+            cursor: pointer;
+          }
+
+          .arrow-up-click{
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid $gray_600;
+          }
+
+          .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid $white;
+            cursor: pointer;
+          }
+
+          .arrow-down-click{
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid $gray_600;
+          }
+        }
       }
       .table-row {
         background-color: $white;
@@ -30,6 +69,7 @@
             padding: 5px;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             background-color: $gray;
+            cursor: pointer;
             &:hover {
               svg {
                 color: $red;

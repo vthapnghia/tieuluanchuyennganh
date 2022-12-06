@@ -1,4 +1,5 @@
-import Input from "../../../../components/Input";
+import Input from "../../../../../components/Input";
+
 
 
 const arr = [1, 2, 3];

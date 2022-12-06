@@ -42,6 +42,15 @@
     color: $white;
   }
 
+  &.dangerous {
+    background: $red;
+    color: $white;
+  }
+  &.dangerous:hover {
+    background: $red;
+    color: $white;
+  }
+
   &.disabled {
     background: $gray-600 !important;
   }

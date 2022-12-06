@@ -1,8 +1,11 @@
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Carousel, Tab, Tabs } from "react-bootstrap";
-import Button from "../../../../components/Button";
-import Input from "./../../../../components/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Button from "../../../../../components/Button";
+import Input from "../../../../../components/Input";
+import { getProductById } from "../../Products/ProductSlice";
 import Comment from "./Comment";
 import "./ProductDetail.scss";
 
@@ -14,10 +17,18 @@ const options = [
 
 function ProductDetail() {
   const [index, setIndex] = useState(0);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { products } = useSelector((state) => state.product.productById);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
+
+  useEffect(() => {
+    id && dispatch(getProductById(id));
+  }, [id, dispatch]);
+
   return (
     <>
       <Formik
@@ -33,27 +44,15 @@ function ProductDetail() {
                 interval="2000"
                 slide
               >
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100"
-                    src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
-                    alt="First slide"
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100"
-                    src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
-                    alt="Second slide"
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100"
-                    src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
-                    alt="Third slide"
-                  />
-                </Carousel.Item>
+                {products?.product_image.map((image, i) => (
+                  <Carousel.Item key={i}>
+                    <img
+                      className="d-block w-100"
+                      src={image}
+                      alt="First slide"
+                    />
+                  </Carousel.Item>
+                ))}
               </Carousel>
             </div>
             <div className="content-detail ml-2 w-50 d-flex flex-column">

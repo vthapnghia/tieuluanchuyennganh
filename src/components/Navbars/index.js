@@ -52,7 +52,7 @@ function Navbars() {
 
   return (
     <>
-      {is_admin ? (
+      {true ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
             <Icons.Menu color="white" />
@@ -109,8 +109,8 @@ function Navbars() {
                   </Link>
                 </li>
                 <li>
-                  <Link className="nav-link" to="/blog">
-                    Blog
+                  <Link className="nav-link" to={PATH.NEWS.LIST_NEWS}>
+                    Bản tin
                   </Link>
                 </li>
               </ul>

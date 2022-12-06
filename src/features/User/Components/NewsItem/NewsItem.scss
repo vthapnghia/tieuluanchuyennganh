@@ -23,12 +23,10 @@
         color: $black;
       }
     }
-    .meta {
-      font-size: 14px;
-      a {
-        font-weight: 600;
-        color: $black;
-      }
+    .content{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   &:hover,

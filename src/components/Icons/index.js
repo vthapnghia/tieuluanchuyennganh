@@ -542,6 +542,53 @@ const Search = (props) => {
   );
 };
 
+const SortUp = (props) => {
+  const { width = 16, height = 16, color = "currentcolor" } = props;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill={color}
+      viewBox="0 0 320 512"
+    >
+      <path
+        width={width}
+        height={height}
+        d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
+      />
+    </svg>
+  );
+};
+
+const SortDown = (props) => {
+  const { width = 16, height = 16, color = "currentcolor" } = props;
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill={color} viewBox="0 0 320 512">
+      <path
+        width={width}
+        height={height}
+        d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z"
+      />
+    </svg>
+  );
+};
+
+const Google = (props) => {
+  const { width = 16, height = 16, color = "currentcolor" } = props;
+  return (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      fill={color}
+      viewBox="0 0 488 512"
+    >
+      <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
+    </svg>
+  );
+};
+
 const Icons = {
   User,
   Cart,
@@ -567,7 +614,10 @@ const Icons = {
   Email,
   Edit,
   Trash,
-  Search
+  Search,
+  SortDown,
+  SortUp,
+  Google
 };
 
 export default Icons;

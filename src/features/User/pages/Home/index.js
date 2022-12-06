@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
-import BlogItem from "../../Components/BlogItem";
 import ChooseUs from "../../Components/ChooseUs";
-import ProductItem from "../../Components/ProductItem";
 import "./Home.scss";
 
-const arr = [1, 2, 3];
+
 function Home() {
   return (
     <div className="home-page">
@@ -24,10 +22,6 @@ function Home() {
                 </Link>
               </p>
             </div>
-
-            <ProductItem/>
-            <ProductItem/>
-            <ProductItem/>
           </div>
         </div>
       </div>
@@ -45,11 +39,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="row">
+          {/* <div className="row">
             {arr.map((item, index) => {
               return <BlogItem key={index} />;
             })}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

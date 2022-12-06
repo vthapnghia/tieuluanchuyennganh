@@ -1,17 +1,18 @@
 import { Formik } from "formik";
 import { t } from "i18next";
 import * as Yup from "yup";
-import { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useCallback, useEffect } from "react";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import "./Profile.scss";
-import { optionsGender } from "../../../../until/common";
-import { useAuth } from "../../../../until/hooks";
+import { useDispatch } from "react-redux";
+import { getUser } from "./ProfilSlice";
+import { OPTION_GENDER } from "../../../../contanst/global";
 
 function Profile() {
   const formikRef = useRef(null);
-  const { userAuth } = useAuth();
-  console.log(userAuth);
+  const dispatch = useDispatch();
+
   const validationSchema = useMemo(() => {
     return {
       name: Yup.string().required(t("MS_01", { param: t("full_name") })),
@@ -39,6 +40,7 @@ function Profile() {
         ),
     };
   }, []);
+
   const initialValues = useMemo(() => {
     return {
       name: "",
@@ -52,6 +54,11 @@ function Profile() {
   const handleUpdate = useCallback((values) => {
     console.log(values);
   }, []);
+
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch])
 
   return (
     <Formik
@@ -83,7 +90,7 @@ function Profile() {
                       name="gender"
                       placeholder={t("gender")}
                       type="select"
-                      options={optionsGender}
+                      options={OPTION_GENDER}
                     />
                   </div>
                 </div>

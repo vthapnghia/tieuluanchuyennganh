@@ -2,18 +2,47 @@ import "./TableCommon.scss";
 import { Pagination } from "react-bootstrap";
 import { Formik } from "formik";
 import Icons from "../Icons";
+import { useCallback } from "react";
 
 function TableCommon({
-  cols,
-  rows,
+  cols = [],
+  rows = [],
   paginate,
   trueButton,
   handleEdit,
   handleRemove,
   oneButton,
   labelHeader,
+  checkAll,
+  handleSort,
+  handleClick,
+  handleOnClickLeftIcon,
   ...props
 }) {
+
+  const handleSortTable = useCallback(
+    (type, index) => {
+      const arrowUp = document.getElementById(`arrow-up-${index}`);
+      const arrowDown = document.getElementById(`arrow-down-${index}`);
+      const arrowDownClick =
+        document.getElementsByClassName("arrow-down-click");
+      const arrowUpClick = document.getElementsByClassName("arrow-up-click");
+      if (type === "increase") {
+        if (arrowDownClick) {
+          arrowDown.classList.remove("arrow-down-click");
+        }
+        arrowUp.classList.toggle("arrow-up-click");
+      } else {
+        if (arrowUpClick) {
+          arrowUp.classList.remove("arrow-up-click");
+        }
+        arrowDown.classList.toggle("arrow-down-click");
+      }
+      handleSort(type, index);
+    },
+    [handleSort]
+  );
+
   return (
     <>
       <Formik initialValues={{ search: "" }}>
@@ -29,7 +58,30 @@ function TableCommon({
                         className="col"
                         style={{ flex: col.width, textAlign: col.align }}
                       >
-                        {col.label}
+                        {col.sort ? (
+                          <div className="d-flex flex-row align-items-center justify-content-center">
+                            <span>{col.label}</span>
+                            <div className="col-sort">
+                              <div
+                                onClick={() =>
+                                  handleSortTable("increase", index)
+                                }
+                                id={`arrow-up-${index}`}
+                                className="arrow-up"
+                              ></div>
+                              <div className="arrow-beetwen"></div>
+                              <div
+                                onClick={() =>
+                                  handleSortTable("decrease", index)
+                                }
+                                id={`arrow-down-${index}`}
+                                className="arrow-down"
+                              ></div>
+                            </div>
+                          </div>
+                        ) : (
+                          col.label
+                        )}
                       </div>
                     );
                   })}
@@ -42,14 +94,19 @@ function TableCommon({
                     </div>
                   )}
                 </li>
-
                 {rows.map((row, index) => (
-                  <li key={index} className="table-row align-items-center">
+                  <li key={index} className="table-row align-items-center" onClick={handleClick(row.id)}>
                     {row.columns.map((r, index) => (
                       <div
                         key={index}
                         className="col"
-                        style={{ flex: r.width, textAlign: r.align }}
+                        style={{
+                          flex: r.width,
+                          textAlign: r.align,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
                       >
                         {r.label}
                       </div>

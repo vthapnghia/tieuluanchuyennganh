@@ -125,7 +125,7 @@
 }
 .custom-navbar-admin {
   height: 80px;
-  width: calc(100% - 280px);
+  width: 100% ;
   background-color: $main_color;
   display: flex;
   align-items: center;
@@ -136,17 +136,13 @@
   right: 0;
   transition: all 1s;
   z-index: 1;
-  @media screen and (max-width: 900px) {
-    width: 100%;
-  }
+
   .nav-title {
     font-family: $font-family;
     color: $white;
     font-size: 28px;
     transition: all 2s;
-    @media screen and (max-width: 900px) {
-      margin-left: 36px;
-    }
+    margin-left: 36px;
   }
 
   .menu-response {
@@ -156,9 +152,6 @@
     left: 20px;
     text-align: center;
     cursor: pointer;
-    @media screen and (min-width: 900px) {
-      left: -16px;
-    }
   }
 
   .nav-dropdown {

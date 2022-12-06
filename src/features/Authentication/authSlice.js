@@ -14,7 +14,8 @@ const login = createAsyncThunk("LOGIN", async (param, { rejectWithValue }) => {
 
 const logout = createAsyncThunk( "LOGOUT", async (param, { rejectWithValue }) => {
     try {
-      return true;
+      const res = true;
+      return res;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -23,7 +24,7 @@ const logout = createAsyncThunk( "LOGOUT", async (param, { rejectWithValue }) =>
 
 const register = createAsyncThunk(  "REGISTER", async (param, { rejectWithValue }) => {
     try {
-      const res = "";
+      const res = userAPI.register(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,7 +44,7 @@ const authSlice = createSlice({
       const res = action.payload?.data;
       state.user = res?.user;
       state.isAuth = true;
-      localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res.token);
+      localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res?.token);
       storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
     },
     [logout.pending]: (state, action) => {
@@ -51,7 +52,7 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.clear();
     },
-    [register.fulfilled]: (state, action) => {},
+    // [register.fulfilled]: (state, action) => {},
   },
 });
 

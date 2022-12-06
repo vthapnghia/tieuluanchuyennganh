@@ -5,14 +5,17 @@ import Login from "./features/Authentication/page/Login/index";
 import User from "./features/User";
 import Home from "./features/User/pages/Home";
 import Products from "./features/User/pages/Products";
-import ProductDetail from "./features/User/Components/ProductDetail";
 import Cart from "./features/User/pages/Cart";
 import NotFound from "./components/NotFound";
 import Profile from "./features/User/pages/Profile";
-import Blog from "./features/User/pages/Blog";
+import News from "./features/User/pages/News";
 import PrivateRoute from "./components/PrivateRoute";
-import ManagerProducts from "./features/Admin/pages/ManagerProducts";
 import Spinner from "./components/Spinner";
+import NewsDetail from "./features/User/pages/News/NewsDetail";
+import ManagementProduct from "./features/Admin/pages/ManagementProduct";
+import ManagementNews from "./features/Admin/pages/ManagementNews";
+import ProductDetail from "./features/User/pages/Products/ProductDetail";
+import NewDetail from "./features/Admin/pages/ManagementNews/NewsDetail";
 
 function App() {
   return (
@@ -27,8 +30,12 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route path={PATH.ADMIN.PRODUCTS} element={<ManagerProducts />} />
-          <Route path={PATH.ADMIN.BASE} element={<ManagerProducts />} />
+          <Route path={PATH.ADMIN.PRODUCTS} element={<ManagementProduct />} />
+          <Route path={PATH.ADMIN.BASE} element={<ManagementProduct />} />
+          <Route path={PATH.ADMIN.NEWS} element={<ManagementNews />} />
+          <Route path={PATH.ADMIN.ADD_NEWS} element={<NewDetail />} />
+          <Route path={PATH.ADMIN.NEWS_DETAIL} element={<NewDetail />} />
+          <Route path={PATH.ADMIN.ADD_NEWS} element={<NewDetail />} />
         </Route>
         <Route path={"/"} element={<User />}>
           <Route path={"/"} element={<Home />}></Route>
@@ -54,7 +61,8 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path={PATH.BLOG} element={<Blog />} />
+          <Route path={PATH.NEWS.LIST_NEWS} element={<News />} />
+          <Route path={PATH.NEWS.DETAIL_NEWS} element={<NewsDetail />} />
         </Route>
         <Route path={PATH.NOT_FOUND} element={<NotFound />} />
       </Routes>

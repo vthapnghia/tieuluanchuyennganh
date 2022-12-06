@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import cartAPI from "../../../../API/cartAPI";
+// import cartAPI from "../../../../API/cartAPI";
 
 const getCart = createAsyncThunk( "GET_CART", async (param, { rejectWithValue }) => {
     try {
-      const res = await cartAPI.getCart();
-      return res;
+      // const res = await cartAPI.getCart();
+      // return res;
+      return;
     } catch (error) {
       rejectWithValue(error);
     }

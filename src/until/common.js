@@ -1,5 +1,5 @@
 import axiosClient from "../axiosClient";
-import { GENDER, KEY_STORAGE } from "../contanst/global";
+import { KEY_STORAGE } from "../contanst/global";
 import { hideLoading, showLoading } from "../loading";
 
 const isAuthenticated = () => {
@@ -20,31 +20,32 @@ const getJsonObject = (key) => {
   }
 };
 
-const doRequest = async (method, url, data) => {
+const doRequest = async (method, url, data, headers) => {
   let response = {};
   showLoading();
-  if (method === "get") {
-    response = await axiosClient.get(url);
-  } else {
-    if (method === "post") {
-      response = await axiosClient.post(url, data);
+  try {
+    switch (method) {
+      case "get":
+        response = await axiosClient.get(url, data, headers);
+        break;
+      case "post":
+        response = await axiosClient.post(url, data, headers);
+        break;
+      case "put":
+        response = await axiosClient.put(url, data, headers);
+        break;
+      case "delete":
+        response = await axiosClient.delete(url, data, headers);
+        break;
+      default:
+        break;
     }
+    hideLoading();
+    return response;
+  } catch (error) {
+    hideLoading();
+    return true;
   }
-
-  hideLoading();
-  return response;
 };
 
-const optionsGender = [
-  { value: 1, label: GENDER.MALE },
-  { value: 2, label: GENDER.FELMALE },
-  { value: 3, label: GENDER.OTHER },
-];
-
-export {
-  isAuthenticated,
-  storeJsonObject,
-  getJsonObject,
-  doRequest,
-  optionsGender,
-};
+export { isAuthenticated, storeJsonObject, getJsonObject, doRequest };

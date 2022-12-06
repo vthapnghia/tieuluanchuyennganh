@@ -1,18 +1,30 @@
 import { forwardRef, useCallback, useEffect, useState } from "react";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 import "./Input.scss";
 import Icons from "../Icons";
 import ReactSelect from "react-select";
 import { COLOR } from "../../contanst/global";
 const Input = forwardRef(
   (
-    { leftIcon, style, type, disabled, options, quanlity, label,handleOnClickLeftIcon, ...props },
+    {
+      leftIcon,
+      style,
+      type,
+      disabled,
+      options,
+      quanlity,
+      label,
+      handleOnClickLeftIcon,
+      textLabel,
+      ...props
+    },
     ref
   ) => {
     const [field, meta, helpers] = useField(props);
     const [misnusDisabled, setMinusDisabled] = useState(false);
     const [plusDisabled, setPlusDisabled] = useState(false);
     const [temp, setTemp] = useState(field.value ?? "");
+    const { setFieldValue } = useFormikContext();
 
     const colourDefaultStyles = {
       container: (styles) => ({
@@ -33,7 +45,7 @@ const Input = forwardRef(
         transition: "none",
         height: "100%",
         padding: "1rem 3rem",
-        textAlign: "center"
+        textAlign: "center",
       }),
       option: (styles, { isFocused }) => {
         return {
@@ -113,7 +125,11 @@ const Input = forwardRef(
 
     return (
       <div className="input-group">
-        {label && <label><b>{label}</b></label>}
+        {label && (
+          <label>
+            <b>{label}</b>
+          </label>
+        )}
         {type === "textarea" ? (
           <textarea
             {...props}
@@ -127,7 +143,7 @@ const Input = forwardRef(
           />
         ) : type === "text" || type === "password" ? (
           <>
-            {leftIcon && <span className="left-icon" onClick={handleOnClickLeftIcon(temp)}>{leftIcon}</span>}
+            {/* {leftIcon && <span className="left-icon" onClick={handleOnClickLeftIcon(temp)}>{leftIcon}</span>} */}
             <input
               {...props}
               {...field}
@@ -168,11 +184,42 @@ const Input = forwardRef(
                 className="plus right-icon"
                 onClick={plusDisabled ? () => {} : handleQuanlity("increase")}
               >
-                <Icons.Plus color={plusDisabled ? COLOR.GRAY : "currentcolor"} />
+                <Icons.Plus
+                  color={plusDisabled ? COLOR.GRAY : "currentcolor"}
+                />
               </span>
             )}
           </>
-        ) : type==="file" ? <input type="file"/> : (
+        ) : type === "file" ? (
+          <div style={{ display: "flex", flexDirection: "column" }} className="input-file">
+            <img
+              src={temp}
+              alt="img"
+              onLoad={(event) => (event.target.style.display = "inline-block")}
+              // onError={(event) => (event.target.style.display = "none")}
+              className="image"
+            />
+            <input
+              id="file"
+              type="file"
+              onChange={(e) => {
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                  if (fileReader.readyState === 2) {
+                    setTemp(fileReader.result);
+                  }
+                };
+                fileReader.readAsDataURL(e.target.files[0]);
+                setFieldValue(props.name, e.target.files[0]);
+              }}
+              style={style}
+              hidden
+            />
+            <label htmlFor="file" className="label-img">
+              {textLabel}
+            </label>
+          </div>
+        ) : (
           <ReactSelect
             className={props.className}
             onChange={handleChangeSelect}

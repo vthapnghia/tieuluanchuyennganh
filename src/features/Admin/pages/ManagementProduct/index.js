@@ -4,22 +4,26 @@ import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
-import "./ManagerProducts.scss";
+import "./ManagementProduct.scss";
 import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../../../contanst/path";
 
-function ManagerProducts(props) {
+function ManagementProduct(props) {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const formikRef = useRef();
+  const navigate = useNavigate();
   const cols = [
-    { label: "column 1", align: "center", width: "20%" },
+    { label: "column 1", align: "center", width: "20%", sort: true },
     { label: "column 1", align: "center", width: "20%" },
     { label: "column 1", align: "center", width: "20%" },
     { label: "column 1", align: "center", width: "20%" },
   ];
   const rows = [
     {
+      id: 1,
       columns: [
         { label: "column 1", align: "center", width: "20%" },
         { label: "column 1", align: "center", width: "20%" },
@@ -28,6 +32,7 @@ function ManagerProducts(props) {
       ],
     },
     {
+      id: 2,
       columns: [
         { label: "column 1", align: "center", width: "20%" },
         { label: "column 1", align: "center", width: "20%" },
@@ -37,6 +42,7 @@ function ManagerProducts(props) {
     },
 
     {
+      id: 3,
       columns: [
         { label: "column 1", align: "center", width: "20%" },
         { label: "column 1", align: "center", width: "20%" },
@@ -45,6 +51,7 @@ function ManagerProducts(props) {
       ],
     },
     {
+      id: 4,
       columns: [
         { label: "column 1", align: "center", width: "20%" },
         { label: "column 1", align: "center", width: "20%" },
@@ -53,6 +60,7 @@ function ManagerProducts(props) {
       ],
     },
     {
+      id: 5,
       columns: [
         { label: "column 1", align: "center", width: "20%" },
         { label: "column 1", align: "center", width: "20%" },
@@ -61,6 +69,7 @@ function ManagerProducts(props) {
       ],
     },
     {
+      id: 6,
       columns: [
         { label: "column 1", align: "center", width: "20%" },
         { label: "column 1", align: "center", width: "20%" },
@@ -70,27 +79,40 @@ function ManagerProducts(props) {
     },
   ];
 
-  const handleRemove = (id) => () => {
-    console.log("remove: ", id);
-  };
+  const handleRemove = useCallback(
+    (id) => () => {
+      console.log("remove: ", id);
+      setShowModal(!showModal);
+    },
+    [showModal]
+  );
 
-  const handleEdit = (id) => () => {
-    console.log("remove: ", id);
-  };
+  const handleEdit = useCallback(
+    (id) => () => {
+      console.log("remove: ", id);
+      navigate(PATH.ADMIN.PRODUCT_DETAIL.replace(":id", id));
+    },
+    [navigate]
+  );
 
-  const handleOnKeyDown = (e) => {
+  const handleOnKeyDown = useCallback((e) => {
     if (e.key === "Enter") {
       console.log(formikRef.current?.values);
     }
-  };
+  }, []);
 
-  const handleOnClickLeftIcon = (values) => () => {
-    console.log(values);
-  };
+  // const handleOnClickLeftIcon = 
+  //   (values) => {
+  //     console.log(values);
+  //   }
 
   const handleCloseModal = useCallback(() => {
     setShowModal(!showModal);
   }, [showModal]);
+
+  const handleSort = useCallback((type, index) => {
+    console.log(type, index);
+  }, []);
   return (
     <Formik
       initialValues={{ search: "" }}
@@ -107,8 +129,8 @@ function ManagerProducts(props) {
                 type="text"
                 leftIcon={<Icons.Search />}
                 onKeyDown={handleOnKeyDown}
-                handleOnClickLeftIcon={handleOnClickLeftIcon}
-              ></Input>
+                // handleOnClickLeftIcon={handleOnClickLeftIcon}
+              />
             </div>
             <div className="btn-add-product">
               <Button className="primary">Thêm sản phẩm</Button>
@@ -121,12 +143,18 @@ function ManagerProducts(props) {
             labelHeader={t("action")}
             handleRemove={handleRemove}
             handleEdit={handleEdit}
+            handleSort={handleSort}
+            handleClick={() => {}}
           />
         </div>
-        <ModalCommon show={showModal} handleClose={handleCloseModal} />
+        <ModalCommon
+          show={showModal}
+          handleClose={handleCloseModal}
+          modaleTitle={t("confirm_remove")}
+        />
       </>
     </Formik>
   );
 }
 
-export default ManagerProducts;
+export default ManagementProduct;

@@ -6,11 +6,18 @@ const PATH = {
   HOME: "/home",
   LOGIN: "/login",
   CART: "/cart",
-  BLOG: "/blog",
+  NEWS: {
+    LIST_NEWS: "/news",
+    DETAIL_NEWS: "/news/:id"
+  },
   ADMIN: {
     BASE: "/admin",
-    CUSTOMER: "/admin/manage-customer",
-    PRODUCTS: "/admin/manage-products",
+    CUSTOMER: "/admin/manage-user",
+    PRODUCTS: "/admin/manage-product",
+    PRODUCT_DETAIL: "/admin/product/:id",
+    NEWS: "/admin/manage-news",
+    NEWS_DETAIL: "/admin/news/:id",
+    ADD_NEWS: "/admin/news"
   },
   PROFILE: "/profile",
   NOT_FOUND: "/*",

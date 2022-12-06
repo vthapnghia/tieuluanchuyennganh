@@ -1,0 +1,13 @@
+.modal-dialog {
+    top: 50%;
+    transform: translate(0, -50%)!important;
+  .modal-content {
+    padding: 20px;
+    border: none !important;
+    .modal-btn {
+      button {
+        float: right;
+      }
+    }
+  }
+}

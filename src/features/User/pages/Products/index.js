@@ -1,19 +1,24 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../../Components/ProductItem";
 import "./Products.scss";
+import { getAllProduct } from "./ProductSlice";
 
-const arr = [
-  1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
-];
 function Products() {
+  const products = useSelector((state) => state.product.products);
+  const dispatch = useDispatch();
+  console.log(products);
+
+  useEffect(() => {
+    dispatch(getAllProduct());
+  }, [dispatch]);
   return (
     <div className="untree_co-section product-section before-footer-section">
-      <div className="search-product">
-        
-      </div>
+      <div className="search-product"></div>
       <div className="container">
         <div className="row">
-          {arr.map((item, index) => {
-            return <ProductItem key={index} />;
+          {products?.products.map((product, index) => {
+            return <ProductItem key={index} product={product}/>;
           })}
         </div>
       </div>
