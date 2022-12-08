@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { t } from "i18next";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Button from "../../../../../components/Button";
@@ -11,6 +11,7 @@ import {
   getNewsById,
   uploadNews,
 } from "../../../../User/pages/News/NewsSlice";
+import "./NewsDetail.scss";
 
 function NewDetail() {
   const formikRef = useRef();
@@ -57,10 +58,24 @@ function NewDetail() {
     [dispatch, id, showModal]
   );
 
+  const initialValues = useMemo(() => {
+    if (id) {
+      return {
+        thumbnail: news?.thumbnail,
+        title: news?.title,
+        content: news?.content,
+      };
+    }
+    return {
+      thumbnail: "",
+      title: "",
+      content: "",
+    };
+  }, [id, news]);
   const handleClose = useCallback(() => {
     formikRef.current.resetForm();
     setShowModal(!showModal);
-    if(id){
+    if (id) {
       dispatch(getNewsById(id));
     }
   }, [showModal, id, dispatch]);
@@ -73,21 +88,24 @@ function NewDetail() {
 
   return (
     <Formik
-      initialValues={{
-        thumbnail: news?.thumbnail,
-        title: news?.title,
-        content: news?.content,
-      }}
+      initialValues={initialValues}
       enableReinitialize
       onSubmit={handleSave}
       innerRef={formikRef}
     >
       <>
-        <div className="add-news">
+        <div className="news-detail-admin">
           <div className="container">
             <div className="row">
               <div className="col col-md-6 col-sm-12 ">
-                <div className="video">
+                <div className="multiple-img">
+                  <div id="images">
+                    {id && (
+                      <figure>
+                        <img src={news?.thumbnail} alt="img" />
+                      </figure>
+                    )}
+                  </div>
                   <Input
                     name="thumbnail"
                     type="file"

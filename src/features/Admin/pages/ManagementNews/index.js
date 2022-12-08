@@ -83,7 +83,7 @@ function ManagementNews() {
 
   const handleClick = useCallback(
     (id) => () => {
-      navigate(PATH.ADMIN.NEWS_DETAIL.replace(":id", id));
+      navigate(PATH.ADMIN.NEWS.NEWS_DETAIL.replace(":id", id));
     },
     [navigate]
   );
@@ -91,20 +91,20 @@ function ManagementNews() {
   const handleClose = useCallback(async () => {
     setShowModal(!showModal);
     await dispatch(deleteNews(id)).then((res) => {
-      console.log(res);
-      if (res.status.status === 200) {
-        setModalTitle(t("action_success", { param: t("update_news") }));
+      if (res.payload?.status === 200) {
+        setModalTitle(t("action_success", { param: t("delete_news") }));
       } else {
-        setModalTitle(t("action_fail", { param: t("update_news") }));
+        setModalTitle(t("action_fail", { param: t("delete_news") }));
         setModalBody(t("try_again"));
       }
       setShowMessage(!showMessage);
     });
   }, [showModal, dispatch, id, showMessage, t]);
 
-  const handleCloseMessage = useCallback(async () => {
+  const handleCloseMessage = useCallback(() => {
     setShowMessage(!showMessage);
-  }, [showMessage]);
+    dispatch(getAllNews());
+  }, [dispatch, showMessage]);
 
   useEffect(() => {
     dispatch(getAllNews());
@@ -132,7 +132,7 @@ function ManagementNews() {
             <div className="btn-add-news">
               <Button
                 className="primary"
-                onClick={() => navigate(PATH.ADMIN.ADD_NEWS)}
+                onClick={() => navigate(PATH.ADMIN.NEWS.ADD_NEWS)}
               >
                 {t("add_news")}
               </Button>

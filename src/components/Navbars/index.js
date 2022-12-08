@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import PATH from "../../contanst/path";
+import  PATH  from "../../contanst/path";
 import Icons from "../Icons";
 import "./Navbars.scss";
 import { DropdownButton } from "react-bootstrap";
@@ -30,7 +30,7 @@ function Navbars() {
 
   const getTileNav = useMemo(() => {
     let title = "";
-    if (pathname === "/admin/manage-customer") {
+    if (pathname === PATH.ADMIN.PRODUCTS.BASE) {
       title = t("manage_customers");
     } else {
       title = t("manage_products");
@@ -52,7 +52,7 @@ function Navbars() {
 
   return (
     <>
-      {true ? (
+      {is_admin ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
             <Icons.Menu color="white" />

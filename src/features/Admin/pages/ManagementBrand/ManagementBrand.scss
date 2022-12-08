@@ -1,0 +1,13 @@
+@import "/src/assets/scss/variables.scss";
+
+.manager-product {
+  .manager-action {
+    padding: 0 20px;
+
+    .input-search-product {
+      .input-group {
+        margin: 0;
+      }
+    }
+  }
+}

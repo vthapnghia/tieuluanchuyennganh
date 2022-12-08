@@ -1,53 +1,61 @@
-import PATH from "./contanst/path";
+import  PATH from "./contanst/path";
 import { lazy } from "react";
 
-const Home = lazy(() => import("./features/User/pages/Home"));
-const Cart = lazy(() => import("./features/User/pages/Cart"));
-const Product = lazy(() => import("./features/User/pages/Products"));
-const ProductDetail = lazy(() => import("./features/User/Components/ProductDetail"));
-const Profile = lazy(() => import("./features/User/pages/Profile"));
 
-var routes = [
+const ManagementProduct = lazy(() => import("./features/Admin/pages/ManagementProduct")); 
+const ProductDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementProduct/ProductDetail"));
+const ManagementNews = lazy(() => import("./features/Admin/pages/ManagementNews"));
+const NewDetail = lazy(() => import("./features/Admin/pages/ManagementNews/NewsDetail"));
+const ManagementUser = lazy(() => import("./features/Admin/pages/ManagementUser"));
+const ManagementBrand = lazy(() => import("./features/Admin/pages/ManagementBrand")); 
+
+const routesAdmin = [
   {
-    path: PATH.HOME,
-    name: "Home",
-    component: Home,
-    allowed: [] 
+    path: PATH.ADMIN.BASE,
+    name: "Admin base",
+    component: ManagementProduct,
   },
   {
-    path: PATH.CART,
-    name: "Cart",
-    component: Cart,
-    allowed: [] 
+    path: PATH.ADMIN.PRODUCTS.BASE,
+    name: "Product base",
+    component: ManagementProduct,
   },
-
   {
-    path: PATH.PRODUCT.LIST_PRODUCT,
-    name: "Product",
-    component: Product,
-    allowed: [] 
-  },
-
-  {
-    path: PATH.PRODUCT.DETAIL_PRODUCT,
+    path: PATH.ADMIN.PRODUCTS.PRODUCT_DETAIL,
     name: "Product detail",
-    component: ProductDetail,
-    allowed: [] 
+    component: ProductDetailAdmin,
   },
-
   {
-    path: PATH.PROFILE,
-    name: "Profile",
-    component: Profile,
-    allowed: [] 
+    path: PATH.ADMIN.PRODUCTS.ADD_PRODUCT,
+    name: "Add product",
+    component: ProductDetailAdmin,
   },
-
   {
-    path: PATH.CART,
-    name: "Cart",
-    component: Cart,
-    allowed: [] 
+    path:PATH.ADMIN.NEWS.BASE,
+    name: "News base",
+    component: ManagementNews,
   },
-];
+  {
+    path: PATH.ADMIN.NEWS.NEWS_DETAIL,
+    name: "Add details",
+    component: NewDetail,
+  },
+  {
+    path: PATH.ADMIN.NEWS.ADD_NEWS,
+    name: "Add news",
+    component: NewDetail,
+  },
+  {
+    path: PATH.ADMIN.USER,
+    name: "User",
+    component: ManagementUser,
+  },
+  {
+    path:PATH.ADMIN.BRAND.BASE,
+    name: "Brand base",
+    component: ManagementBrand,
+  },
+]
 
-export default routes;
+
+export { routesAdmin};

@@ -4,53 +4,65 @@ import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
-import "./ManagementProduct.scss";
 import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteProduct,
-  getAllProduct,
-} from "../../../User/pages/Products/ProductSlice";
+import { deleteNews } from "../../../User/pages/News/NewsSlice";
+import "./ManagementUser.scss";
 
-function ManagementProduct() {
+function ManagementUser() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const formikRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.products?.products);
-  const [listProduct, setListProduct] = useState(product);
-  const [idProduct, setIdProduct] = useState();
+  const allNews = useSelector((state) => state.news.allNews);
+  const [id, setId] = useState(null);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
 
   const cols = [
-    { label: t("name_product"), align: "center", width: "20%" },
-    { label: t("brand"), align: "center", width: "20%", sort: true },
-    { label: t("price"), align: "center", width: "20%" },
+    { label: t("image"), align: "center", width: "20%" },
+    { label: t("title"), align: "center", width: "30%" },
+    { label: t("date_post"), align: "center", width: "20%", sort: true },
   ];
+
   const rows = useMemo(() => {
-    return listProduct?.map((productItem) => {
+    return allNews?.news.map((itemNews) => {
       return {
-        id: productItem._id,
+        id: itemNews._id,
         columns: [
-          { label: productItem.name, align: "center", width: "20%" },
-          { label: productItem.brand, align: "center", width: "20%" },
-          { label: productItem.price, align: "center", width: "20%" },
+          {
+            label: (
+              <img
+                src={
+                  itemNews.thumbnail ||
+                  "https://4h.no/getfile.php/136434-1576598515/Prosjektplattformen/Oppdrag/Bilder/Kultur/bildemanipulasjon.jpg%20%28mobile480%29.jpg"
+                }
+                alt="news"
+                width="100"
+                height="100"
+                style={{ objectFit: "cover", borderRadius: "10px" }}
+              />
+            ),
+            align: "center",
+            width: "20%",
+          },
+          { label: itemNews.title, align: "center", width: "30%" },
+          { label: "06-12/2022", align: "center", width: "20%" },
         ],
       };
     });
-  }, [listProduct]);
+  }, [allNews]);
 
   const handleRemove = useCallback(
     (id) => (e) => {
       e.stopPropagation();
       setShowModal(!showModal);
-      setIdProduct(id);
+      setId(id);
     },
     [showModal]
   );
@@ -61,62 +73,41 @@ function ManagementProduct() {
     }
   }, []);
 
-  // const handleOnClickLeftIcon =
-  //   (values) => {
-  //     console.log(values);
-  //   }
+  const handleOnClickLeftIcon = useCallback((values) => {
+    console.log(values);
+  }, []);
 
-  const handleCloseModal = useCallback(async () => {
-    setShowModal(!showModal);
-    await dispatch(deleteProduct(idProduct)).then((res) => {
-      if (res.payload?.status === 200) {
-        setModalTitle(t("action_success", { param: t("delete_product") }));
-      } else {
-        setModalTitle(t("action_fail", { param: t("delete_product") }));
-        setModalBody(t("try_again"));
-      }
-      setShowMessage(!showMessage);
-    });
-  }, [showModal, dispatch, idProduct, showMessage, t]);
-
-  const handleCloseMessage = useCallback(() => {
-    setShowMessage(!showMessage);
-    dispatch(getAllProduct());
-  }, [showMessage, dispatch]);
-
-  const handleSort = useCallback(
-    (type, index) => {
-      const list = [...product];
-      setListProduct(
-        list.sort((a, b) => {
-          if (type === 1) {
-            if (a.brand > b.brand) return 1;
-            if (a.brand < b.brand) return -1;
-          } else {
-            if (a.brand < b.brand) return 1;
-            if (a.brand > b.brand) return -1;
-          }
-          return 0;
-        })
-      );
-    },
-    [product]
-  );
+  const handleSort = useCallback((type, index) => {
+    console.log(type, index);
+  }, []);
 
   const handleClick = useCallback(
     (id) => () => {
-      navigate(PATH.ADMIN.PRODUCTS.PRODUCT_DETAIL.replace(":id", id));
+      navigate(PATH.ADMIN.NEWS_DETAIL.replace(":id", id));
     },
     [navigate]
   );
 
-  useEffect(() => {
-    dispatch(getAllProduct());
-  }, [dispatch]);
+  const handleClose = useCallback(async () => {
+    setShowModal(!showModal);
+    await dispatch(deleteNews(id)).then((res) => {
+      if (res.status.status === 200) {
+        setModalTitle(t("action_success", { param: t("update_news") }));
+      } else {
+        setModalTitle(t("action_fail", { param: t("update_news") }));
+        setModalBody(t("try_again"));
+      }
+      setShowMessage(!showMessage);
+    });
+  }, [showModal, dispatch, id, showMessage, t]);
+
+  const handleCloseMessage = useCallback(async () => {
+    setShowMessage(!showMessage);
+  }, [showMessage]);
 
   useEffect(() => {
-    setListProduct(product);
-  }, [product]);
+    dispatch();
+  }, [dispatch]);
 
   return (
     <Formik
@@ -125,24 +116,24 @@ function ManagementProduct() {
       innerRef={formikRef}
     >
       <>
-        <div className="manager-product">
-          <div className="manager-action d-flex align-items-center justify-content-between">
-            <div className="input-search-product">
+        <div className="management-user">
+          <div className="management-action d-flex align-items-center justify-content-between">
+            <div className="input-search-user">
               <Input
                 name="search"
-                placeholder="Tìm kiếm sản phẩm"
+                placeholder={t("search_news")}
                 type="text"
                 leftIcon={<Icons.Search />}
                 onKeyDown={handleOnKeyDown}
-                // handleOnClickLeftIcon={handleOnClickLeftIcon}
+                handleOnClickLeftIcon={handleOnClickLeftIcon}
               />
             </div>
-            <div className="btn-add-product">
+            <div className="btn-add-user">
               <Button
                 className="primary"
-                onClick={() => navigate(PATH.ADMIN.PRODUCTS.ADD_PRODUCT)}
+                onClick={() => navigate(PATH.ADMIN.ADD_NEWS)}
               >
-                {t("add_product")}
+                {t("add_news")}
               </Button>
             </div>
           </div>
@@ -160,7 +151,7 @@ function ManagementProduct() {
           show={showModal}
           modalTitle={t("confirm_remove", { param: t("news") })}
           modalBody={t("messge_confirm_remove")}
-          handleClose={handleCloseModal}
+          handleClose={handleClose}
           isButton
         />
         <ModalCommon
@@ -175,4 +166,4 @@ function ManagementProduct() {
   );
 }
 
-export default ManagementProduct;
+export default ManagementUser;

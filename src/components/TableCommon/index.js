@@ -27,7 +27,7 @@ function TableCommon({
       const arrowDownClick =
         document.getElementsByClassName("arrow-down-click");
       const arrowUpClick = document.getElementsByClassName("arrow-up-click");
-      if (type === "increase") {
+      if (type === 1) {
         if (arrowDownClick) {
           arrowDown.classList.remove("arrow-down-click");
         }
@@ -64,7 +64,7 @@ function TableCommon({
                             <div className="col-sort">
                               <div
                                 onClick={() =>
-                                  handleSortTable("increase", index)
+                                  handleSortTable(1, index)
                                 }
                                 id={`arrow-up-${index}`}
                                 className="arrow-up"
@@ -72,7 +72,7 @@ function TableCommon({
                               <div className="arrow-beetwen"></div>
                               <div
                                 onClick={() =>
-                                  handleSortTable("decrease", index)
+                                  handleSortTable(-1, index)
                                 }
                                 id={`arrow-down-${index}`}
                                 className="arrow-down"

@@ -96,7 +96,7 @@ function Login() {
         await dispatch(login(values)).then((res) => {
           if (res.payload.status === 200) {
             const response = res.payload?.data;
-            if (response.user.is_admin) {
+            if (response.is_admin) {
               navigate(PATH.ADMIN.BASE);
             } else {
               if (response.user.user_id) {

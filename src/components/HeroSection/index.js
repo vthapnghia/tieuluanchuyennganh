@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../contanst/path";
+import  PATH  from "../../contanst/path";
 import Button from "../Button";
 import "./HeroSection.scss";
 

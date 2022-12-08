@@ -34,7 +34,7 @@ const register = createAsyncThunk(  "REGISTER", async (param, { rejectWithValue 
 
 const initialState = {
   user: null,
-  isAuth: false,
+  isAdmin: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -43,8 +43,9 @@ const authSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       const res = action.payload?.data;
       state.user = res?.user;
-      state.isAuth = true;
+      state.isAdmin = res?.is_admin;
       localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res?.token);
+      storeJsonObject(KEY_STORAGE.IS_ADMIN, res?.is_admin);
       storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
     },
     [logout.pending]: (state, action) => {

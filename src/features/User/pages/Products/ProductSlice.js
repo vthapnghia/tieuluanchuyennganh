@@ -8,7 +8,7 @@ const getAllProduct = createAsyncThunk("GET_ALL_PRODUCT", async (data, {rejectWi
     } catch (error) {
         rejectWithValue(error);
     }
-} )
+});
 
 const getProductById = createAsyncThunk("GET_PRODUCT_BY_ID", async (data, {rejectWithValue}) => {
     try {
@@ -17,8 +17,34 @@ const getProductById = createAsyncThunk("GET_PRODUCT_BY_ID", async (data, {rejec
     } catch (error) {
         rejectWithValue(error);
     }
-} )
+});
 
+const addProduct = createAsyncThunk("AĐ_PRODUCT", async (data, {rejectWithValue}) => {
+    try {
+        const res = await productAPI.addProduct(data);
+        return res;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+const uploadProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithValue}) => {
+    try {
+        const res = await productAPI.addProduct(data);
+        return res;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
+const deleteProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithValue}) => {
+    try {
+        const res = await productAPI.deleteProduct(data);
+        return res;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
 
 const initialState = {
     products: null,
@@ -33,12 +59,18 @@ const ProductSlice = createSlice({
             state.products = res
         },
         [getProductById.fulfilled]: (state, action) => {
-            const res = action.payload.data;
+            const res = action.payload?.data;
             state.productById = res
         }
     }
 });
 
 const {reducer} = ProductSlice;
-export {getAllProduct, getProductById};
+export {
+    getAllProduct, 
+    getProductById, 
+    addProduct, 
+    uploadProduct, 
+    deleteProduct
+};
 export default reducer;

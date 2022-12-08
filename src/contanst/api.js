@@ -12,7 +12,16 @@ const API_URL = {
   REGISTER: "login/register",
   PRODUCT: {
     ALL_PRODUCT: "product",
-    PRODUCT_BY_ID: "product/:id"
+    PRODUCT_BY_ID: "product/:id",
+    ADD_PRODUCT: "product",
+    UPDATE_PRODUCT: "product/:id",
+    DELETE_PRODUCT: "product/:id"
+  },
+  BRAND: {
+    ALL_BRAND: "brand",
+    ADD_BRAND: "brand",
+    BRAND_BY_ID: "brand/:id",
+    REMOVE_BRAND: "brand/:id"
   }
   
 };

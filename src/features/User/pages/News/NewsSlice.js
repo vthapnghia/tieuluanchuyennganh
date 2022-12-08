@@ -70,11 +70,11 @@ const NewsSlice = createSlice({
   initialState,
   extraReducers: {
     [getAllNews.fulfilled]: (state, action) => {
-      const res = action.payload.data;
+      const res = action.payload?.data;
       state.allNews = res;
     },
     [getNewsById.fulfilled]: (state, action) => {
-      const res = action.payload.data;
+      const res = action.payload?.data;
       state.newsById = res;
     },
   },

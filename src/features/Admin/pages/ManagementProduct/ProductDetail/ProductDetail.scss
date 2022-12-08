@@ -1,0 +1,22 @@
+.product-detail-admin{
+    padding-bottom: 50px ;
+    .multiple-img{
+        #images{
+            display: flex;
+            flex-wrap: wrap;
+            .display-img{
+                display: flex;
+                flex-wrap: wrap;
+            }
+            figure{
+                margin: 5px;
+                img{
+                    width: 95px;
+                    height: 95px;
+                    object-fit: cover;
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+}

@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import PATH from "./contanst/path";
-import Admin from "./features/Admin";
 import Login from "./features/Authentication/page/Login/index";
 import User from "./features/User";
 import Home from "./features/User/pages/Home";
@@ -12,31 +11,32 @@ import News from "./features/User/pages/News";
 import PrivateRoute from "./components/PrivateRoute";
 import Spinner from "./components/Spinner";
 import NewsDetail from "./features/User/pages/News/NewsDetail";
-import ManagementProduct from "./features/Admin/pages/ManagementProduct";
-import ManagementNews from "./features/Admin/pages/ManagementNews";
 import ProductDetail from "./features/User/pages/Products/ProductDetail";
-import NewDetail from "./features/Admin/pages/ManagementNews/NewsDetail";
+import { routesAdmin } from "./routes";
+import AdminRoute from "./components/AdminRoute";
+import Admin from "./features/Admin";
+import { Suspense } from "react";
 
 function App() {
   return (
     <div className="app">
       <Routes>
         <Route path={PATH.LOGIN} element={<Login />} />
-        <Route
-          path={PATH.ADMIN.BASE}
-          element={
-            <PrivateRoute>
-              <Admin />
-            </PrivateRoute>
-          }
-        >
-          <Route path={PATH.ADMIN.PRODUCTS} element={<ManagementProduct />} />
-          <Route path={PATH.ADMIN.BASE} element={<ManagementProduct />} />
-          <Route path={PATH.ADMIN.NEWS} element={<ManagementNews />} />
-          <Route path={PATH.ADMIN.ADD_NEWS} element={<NewDetail />} />
-          <Route path={PATH.ADMIN.NEWS_DETAIL} element={<NewDetail />} />
-          <Route path={PATH.ADMIN.ADD_NEWS} element={<NewDetail />} />
-        </Route>
+        {routesAdmin.map((routeItem, index) => {
+          return (
+            <Route
+              key={index}
+              path={routeItem.path}
+              element={
+                <Suspense fallback={<></>}>
+                  <AdminRoute>
+                    <Admin component={routeItem.component} />
+                  </AdminRoute>
+                </Suspense>
+              }
+            />
+          );
+        })}
         <Route path={"/"} element={<User />}>
           <Route path={"/"} element={<Home />}></Route>
           <Route path={PATH.HOME} element={<Home />} />

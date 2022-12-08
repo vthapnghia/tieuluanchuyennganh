@@ -11,11 +11,14 @@ const Input = forwardRef(
       style,
       type,
       disabled,
-      options,
+      options = [],
       quanlity,
       label,
       handleOnClickLeftIcon,
       textLabel,
+      multiple,
+      align,
+      marginNone,
       ...props
     },
     ref
@@ -31,7 +34,7 @@ const Input = forwardRef(
         ...styles,
         height: "58px",
       }),
-      control: (styles, { isDisabled, isFocused }) => ({
+      control: (styles) => ({
         ...styles,
         backgroundColor: COLOR.WHITE,
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
@@ -45,7 +48,11 @@ const Input = forwardRef(
         transition: "none",
         height: "100%",
         padding: "1rem 3rem",
-        textAlign: "center",
+        textAlign: align ? align : "center",
+      }),
+      valueContainer: (styles) => ({
+        ...styles,
+        padding: "0",
       }),
       option: (styles, { isFocused }) => {
         return {
@@ -99,6 +106,27 @@ const Input = forwardRef(
       [helpers, meta]
     );
 
+    const onChangeFile = (e) => {
+      let fileInput = document.getElementById("file-input");
+      let imageContainer = document.getElementById("images");
+      imageContainer.innerHTML = "";
+      for (let i of fileInput.files) {
+        let reader = new FileReader();
+        let figure = document.createElement("figure");
+        let figCap = document.createElement("figcaption");
+        // figCap.innerText = i.name;
+        figure.appendChild(figCap);
+        reader.onload = () => {
+          let img = document.createElement("img");
+          img.setAttribute("src", reader.result);
+          figure.insertBefore(img, figCap);
+        };
+        imageContainer.appendChild(figure);
+        reader.readAsDataURL(i);
+      }
+      multiple ? setFieldValue(props.name, e.target.files) : setFieldValue(props.name, e.target.files[0]);
+    };
+
     useEffect(() => {
       if (type === "number") {
         if (meta.value === 1) {
@@ -119,12 +147,14 @@ const Input = forwardRef(
         const selected = options.find((option) => field.value === option.value);
         setTemp(selected);
       } else {
-        setTemp(field.value ?? "");
+        if(type !== "file"){
+          setTemp(field.value ?? "");
+        }
       }
     }, [field.value, options, type]);
 
     return (
-      <div className="input-group">
+      <div className={`input-group ${marginNone ? "m-0" : ""}`}>
         {label && (
           <label>
             <b>{label}</b>
@@ -191,37 +221,60 @@ const Input = forwardRef(
             )}
           </>
         ) : type === "file" ? (
-          <div style={{ display: "flex", flexDirection: "column" }} className="input-file">
-            <img
-              src={temp}
-              alt="img"
-              onLoad={(event) => (event.target.style.display = "inline-block")}
-              // onError={(event) => (event.target.style.display = "none")}
-              className="image"
-            />
-            <input
-              id="file"
-              type="file"
-              onChange={(e) => {
-                const fileReader = new FileReader();
-                fileReader.onload = () => {
-                  if (fileReader.readyState === 2) {
-                    setTemp(fileReader.result);
+          <div
+            style={{ display: "flex", flexDirection: "column" }}
+            className="input-file"
+          >
+            {/* {!multiple ? (
+              <>
+                <img
+                  src={temp}
+                  alt="img"
+                  onLoad={(event) =>
+                    (event.target.style.display = "inline-block")
                   }
-                };
-                fileReader.readAsDataURL(e.target.files[0]);
-                setFieldValue(props.name, e.target.files[0]);
-              }}
-              style={style}
-              hidden
-            />
-            <label htmlFor="file" className="label-img">
+                  className="image mb-3"
+                />
+
+                <input
+                  id="file-input"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={(e) => {
+                    const fileReader = new FileReader();
+                    fileReader.onload = () => {
+                      if (fileReader.readyState === 2) {
+                        setTemp(fileReader.result);
+                      }
+                    };
+                    fileReader.readAsDataURL(e.target.files[0]);
+                    setFieldValue(props.name, e.target.files[0]);
+                  }}
+                  style={style}
+                  hidden
+                />
+              </>
+            ) : (
+              <> */}
+                <input
+                  type="file"
+                  id="file-input"
+                  accept="image/png, image/jpeg"
+                  onChange={onChangeFile}
+                  multiple
+                  hidden
+                />
+              {/* </>
+            )} */}
+            <label htmlFor="file-input" className="label-img">
               {textLabel}
             </label>
           </div>
         ) : (
           <ReactSelect
-            className={props.className}
+            className={`${meta.error && meta.touched ? "has-error" : ""} ${
+              props.className ? props.className : ""
+            }`}
             onChange={handleChangeSelect}
             type="select"
             value={temp}
@@ -238,10 +291,10 @@ const Input = forwardRef(
             isDisabled={props.disabled}
           />
         )}
-        {meta.error && meta.touched && type !== "select" ? (
+        {meta.error && meta.touched ? (
           <span className="warning-icon-input">
             <Icons.Exclamation />
-            <span className="tooltiptext">{meta.error}</span>
+            <span className="tooltiptext">{meta.error && meta.touched}</span>
           </span>
         ) : (
           <></>

@@ -1,15 +1,14 @@
 import SideBar from "./component/Sidebar";
 import "./Admin.scss";
 import Navbars from "./../../components/Navbars/index";
-import { Outlet } from "react-router-dom";
 
-function Admin() {
+function Admin(props) {
   return (
     <div className="admin">
       <SideBar />
       <Navbars />
       <div className="content-page">
-        <Outlet />
+        <props.component />
       </div>
     </div>
   );

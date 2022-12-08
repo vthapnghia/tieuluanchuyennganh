@@ -21,6 +21,14 @@
     outline: none;
   }
 
+  .textarea-common {
+    min-height: 100px;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+      display: none;
+    }
+  }
+
   label {
     margin-bottom: 5px;
     font-family: $font-family;
@@ -107,6 +115,7 @@
 
   .has-error {
     border: 1px solid $error-input-color;
+    border-radius: 10px!important;
   }
 
   .action-quanlily {
@@ -117,6 +126,7 @@
   }
 
   .input-file {
+    height: max-content;
     .image {
       width: 100%;
       min-height: 300px;
@@ -134,12 +144,12 @@
       font-weight: 600;
       font-family: $font-family;
       cursor: pointer;
-      margin-top: 1rem;
+      margin: 0;
       text-align: center;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       display: block;
       height: 50px;
-      &:hover{
+      &:hover {
         background-color: $main_color_hover;
       }
     }
