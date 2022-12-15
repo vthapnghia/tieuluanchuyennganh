@@ -1,33 +1,70 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import cartAPI from "../../../../API/cartAPI";
+import cartAPI from "../../../../API/cartAPI";
 
-const getCart = createAsyncThunk( "GET_CART", async (param, { rejectWithValue }) => {
+const getAllCart = createAsyncThunk( "GET_CART", async (param, { rejectWithValue }) => {
     try {
-      // const res = await cartAPI.getCart();
-      // return res;
-      return;
+      const res = await cartAPI.getAllCart(param);
+      return res;
     } catch (error) {
       rejectWithValue(error);
     }
   }
 );
 
+const addToCart = createAsyncThunk( "ADD_TO_CART", async (param, { rejectWithValue }) => {
+    try {
+      const res = await cartAPI.addToCart(param);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+const editQuantity = createAsyncThunk( "EDIT_QUANTITY", async (param, { rejectWithValue }) => {
+  try {
+    const res = await cartAPI.editQuantity(param);
+    return res;
+  } catch (error) {
+    rejectWithValue(error);
+  }
+}
+);
+
+const removeToCart = createAsyncThunk( "REMOVE_TO_CART", async (param, { rejectWithValue }) => {
+  try {
+    const res = await cartAPI.removeToCart(param);
+    return res;
+  } catch (error) {
+    rejectWithValue(error);
+  }
+}
+);
+
 const initialState = {
-  cart: {},
+  cart: null,
   count: null,
+  checkBox: null,
+  
 };
 
 const CartSlice = createSlice({
   name: "cart",
   initialState,
+  reducers: {
+    arrayCheckBox: (state, action) => {
+      state.checkBox = action.payload;
+    },
+  },
   extraReducers: {
-    [getCart.fulfilled]: (state, action) => {
-      state.cart = action.payload?.data.cartItems;
-      state.count = action.payload?.data.count;
+    [getAllCart.fulfilled]: (state, action) => {
+      state.cart = action.payload?.data?.cartItems;
+      state.count = action.payload?.data?.count;
     },
   },
 });
 
 const { reducer } = CartSlice;
-export { getCart };
+const { arrayCheckBox } = CartSlice.actions;
+export { getAllCart, addToCart, removeToCart, editQuantity, arrayCheckBox };
 export default reducer;

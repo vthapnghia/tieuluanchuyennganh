@@ -1,0 +1,65 @@
+@import "/src/assets/scss//variables.scss";
+
+.pay {
+  min-height: 100vh;
+
+  .form-pay {
+    margin: 16px 0;
+    .form-header {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .form-body {
+      border-top: 1px solid rgba(175, 175, 175, 0.34);
+      border-bottom: 1px solid rgba(175, 175, 175, 0.34);
+      padding: 15px 0;
+      .temporary_fee,
+      .ship_fee {
+        font-size: 14px;
+        color: #717171;
+        padding: 10px 0 5px 0;
+      }
+    }
+    .form-footer {
+      float: right;
+      .label-total {
+        font-size: 20px;
+        font-weight: 600;
+        padding: 16px 0;
+      }
+      .btn-order {
+        float: right;
+        height: 124px;
+        position: relative;
+        overflow: hidden;
+        .pay-online {
+          position: absolute;
+          transition: all 1s;
+          top: -121px;
+        }
+        .pay-offline {
+          position: absolute;
+          margin: 12px;
+          transition: all 1s;
+        }
+      }
+      .offline {
+        .pay-online {
+          top: -121px;
+        }
+        .pay-offline {
+          top: 0;
+        }
+      }
+
+      .online{
+        .pay-online {
+          top: 0;
+        }
+        .pay-offline {
+          top: 0;
+        }
+      }
+    }
+  }
+}

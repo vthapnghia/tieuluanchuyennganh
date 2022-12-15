@@ -7,7 +7,6 @@ import { getAllProduct } from "./ProductSlice";
 function Products() {
   const products = useSelector((state) => state.product.products);
   const dispatch = useDispatch();
-  console.log(products);
 
   useEffect(() => {
     dispatch(getAllProduct());

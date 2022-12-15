@@ -30,7 +30,7 @@ const addProduct = createAsyncThunk("AĐ_PRODUCT", async (data, {rejectWithValue
 
 const uploadProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithValue}) => {
     try {
-        const res = await productAPI.addProduct(data);
+        const res = await productAPI.uploadProduct(data);
         return res;
     } catch (error) {
         rejectWithValue(error);

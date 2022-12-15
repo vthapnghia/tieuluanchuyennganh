@@ -8,7 +8,7 @@ import { useMemo, useCallback, useEffect } from "react";
 import { useAuth } from "../../until/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Authentication/authSlice";
-import { getCart } from "../../features/User/pages/Cart/cartSlice";
+import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
 
 function Navbars() {
   const { t } = useTranslation();
@@ -46,7 +46,7 @@ function Navbars() {
 
   useEffect(() => {
     if (userAuth && !is_admin) {
-      dispatch(getCart());
+      dispatch(getAllCart());
     }
   }, [dispatch, userAuth, is_admin]);
 
@@ -120,7 +120,7 @@ function Navbars() {
                   <Link className="nav-link" to={PATH.CART}>
                     <Icons.Cart />
                     {count > 0 ? (
-                      <span className="quanlity-cart">{count}</span>
+                      <span className="quantity-cart">{count}</span>
                     ) : (
                       <></>
                     )}

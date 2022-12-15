@@ -20,13 +20,13 @@ const getJsonObject = (key) => {
   }
 };
 
-const doRequest = async (method, url, data, headers) => {
+const doRequest = async (method, url, data, headers, noLoading) => {
   let response = {};
-  showLoading();
+  !noLoading && showLoading();
   try {
     switch (method) {
       case "get":
-        response = await axiosClient.get(url, data, headers);
+        response = await axiosClient.get(url, headers);
         break;
       case "post":
         response = await axiosClient.post(url, data, headers);
@@ -40,10 +40,10 @@ const doRequest = async (method, url, data, headers) => {
       default:
         break;
     }
-    hideLoading();
+    !noLoading && hideLoading();
     return response;
   } catch (error) {
-    hideLoading();
+    !noLoading && hideLoading();
     return true;
   }
 };

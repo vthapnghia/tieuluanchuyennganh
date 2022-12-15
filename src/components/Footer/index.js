@@ -4,9 +4,9 @@ import "./Footer.scss";
 
 function Footer() {
   return (
-    <footer className="footer-section">
+    <footer className="border-top footer-section">
       <div className="container relative">
-        <div className="border-top copyright">
+        <div className=" copyright">
           <div className="row pt-4">
             <div className="col-lg-6">
               <p className="mb-2 text-center text-lg-start">

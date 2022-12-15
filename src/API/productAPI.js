@@ -17,8 +17,8 @@ const productAPI = {
   },
   uploadProduct: (data) => {
     const {formData, id} = data
-    const url = API_URL.PRODUCT.ADD_PRODUCT.replace(":id", id);;
-    return doRequest("post", url, formData, CONFIGHEADER_2);
+    const url = API_URL.PRODUCT.UPDATE_PRODUCT.replace(":id", id);;
+    return doRequest("put", url, formData, CONFIGHEADER_2);
   },
   deleteProduct: (data) => {
     const url = API_URL.PRODUCT.DELETE_PRODUCT.replace(":id", data);;

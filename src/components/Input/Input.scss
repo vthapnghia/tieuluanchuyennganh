@@ -59,17 +59,20 @@
   }
 
   .left-icon {
-    position: absolute;
     top: 50%;
     left: 1rem;
-    transform: translateY(-50%);
   }
 
   .right-icon {
-    position: absolute;
     top: 50%;
     right: 1rem;
+  }
+
+  .left-icon,
+  .right-icon {
+    position: absolute;
     transform: translateY(-50%);
+    cursor: pointer;
   }
 
   .warning-icon-input {
@@ -115,7 +118,7 @@
 
   .has-error {
     border: 1px solid $error-input-color;
-    border-radius: 10px!important;
+    border-radius: 10px !important;
   }
 
   .action-quanlily {

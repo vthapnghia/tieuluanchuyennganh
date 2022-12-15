@@ -7,7 +7,12 @@ import * as Yup from "yup";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
 import ModalCommon from "../../../../../components/ModalCommon";
-import { OPTION_GENDER, OPTION_SIZE } from "../../../../../contanst/global";
+import {
+  OPTIONS_COLOR,
+  OPTION_GENDER,
+  OPTION_SIZE,
+  OPTION_TYPE,
+} from "../../../../../contanst/global";
 import {
   addProduct,
   getProductById,
@@ -35,8 +40,21 @@ function ProductDetailAdmin() {
 
   const handleSave = useCallback(
     async (values) => {
-      const { image, name, brand, gender, description,price, ...rest } = values;
+      console.log(values);
+      const {
+        image,
+        name,
+        brand,
+        gender,
+        description,
+        price,
+        discount,
+        type,
+        color,
+        ...rest
+      } = values;
       const formData = new FormData();
+      const size =  await JSON.stringify(rest)
       const files = Object.values(image);
       files.forEach((elmennt) => {
         formData.append("image", elmennt);
@@ -46,7 +64,10 @@ function ProductDetailAdmin() {
       formData.append("price", price);
       formData.append("gender", gender);
       formData.append("description", description);
-      formData.append("size", JSON.stringify(rest));
+      formData.append("discount", discount);
+      formData.append("type", type);
+      formData.append("color", color);
+      formData.append("size", size);
       if (!id) {
         await dispatch(addProduct(formData)).then((res) => {
           console.log(res);
@@ -63,7 +84,9 @@ function ProductDetailAdmin() {
         await dispatch(uploadProduct({ formData: formData, id: id })).then(
           (res) => {
             if (res.payload?.status === 200) {
-              setModalTitle(t("action_success", { param: t("update_product") }));
+              setModalTitle(
+                t("action_success", { param: t("update_product") })
+              );
               setShowModal(!showModal);
             } else {
               setModalTitle(t("action_fail", { param: t("update_product") }));
@@ -83,20 +106,22 @@ function ProductDetailAdmin() {
       dispatch(getProductById(id));
     }
   }, [showModal, id, dispatch]);
-
   const initialValues = useMemo(() => {
     if (id) {
-    return {
-      image: product?.product_image,
-      name: product?.name,
-      description: product?.description,
-      price: product?.price,
-      brand: product?.brand,
-      gender: product?.gender,
-    }
+      const init = { ...product?.size };
+      init.image = product?.product_image;
+      init.name = product?.name;
+      init.description = product?.description;
+      init.price = product?.price;
+      init.brand = product?.brand;
+      init.gender = product?.gender;
+      init.discount = product?.discount;
+      init.type = product?.type;
+      init.color = product?.color;
+      return init;
     } else {
       const size = OPTION_SIZE.map((sizeItem) => {
-        return [`size_${sizeItem.label}`, ""];
+        return [sizeItem.label, 0];
       });
       const initObject = Object.fromEntries(size);
       initObject.image = "";
@@ -105,6 +130,9 @@ function ProductDetailAdmin() {
       initObject.price = "";
       initObject.brand = "";
       initObject.gender = "";
+      initObject.discount = "";
+      initObject.type = "";
+      initObject.color = "";
       return initObject;
     }
   }, [id, product]);
@@ -128,6 +156,9 @@ function ProductDetailAdmin() {
       price: Yup.number().required(t("MS_01", { param: t("description") })),
       brand: Yup.string().required(t("MS_01", { param: t("brand") })),
       gender: Yup.string().required(t("MS_01", { param: t("gender") })),
+      discount: Yup.number().required(t("MS_01", { param: t("description") })),
+      type: Yup.string().required(t("MS_01", { param: t("type") })),
+      color: Yup.string().required(t("MS_01", { param: t("color") })),
     };
   }, []);
 
@@ -139,7 +170,7 @@ function ProductDetailAdmin() {
 
   useEffect(() => {
     dispatch(getAllBrand());
-  }, [dispatch])
+  }, [dispatch]);
   return (
     <Formik
       initialValues={initialValues}
@@ -198,6 +229,7 @@ function ProductDetailAdmin() {
                     align="left"
                   />
                 </div>
+
                 <div className="input">
                   <Input
                     name="description"
@@ -207,10 +239,36 @@ function ProductDetailAdmin() {
                 </div>
                 <div className="input">
                   <Input
+                    name="discount"
+                    placeholder={t("discount")}
+                    type="number"
+                    style={{ textAlign: "left" }}
+                  />
+                </div>
+                <div className="input">
+                  <Input
+                    name="type"
+                    placeholder={t("type")}
+                    type="select"
+                    options={OPTION_TYPE}
+                    align="left"
+                  />
+                </div>
+                <div className="input">
+                  <Input
                     name="gender"
                     placeholder={t("gender")}
                     type="select"
                     options={OPTION_GENDER}
+                    align="left"
+                  />
+                </div>
+                <div className="input">
+                  <Input
+                    name="color"
+                    placeholder={t("color")}
+                    type="select"
+                    options={OPTIONS_COLOR}
                     align="left"
                   />
                 </div>
@@ -225,8 +283,8 @@ function ProductDetailAdmin() {
                           {t("size")} {sizeItem.value}
                         </label>
                         <Input
-                          name={`size_${sizeItem.value}`}
-                          placeholder={t("quanlity")}
+                          name={sizeItem.value}
+                          placeholder={t("quantity")}
                           type="number"
                           style={{ padding: "16px 30px" }}
                           marginNone

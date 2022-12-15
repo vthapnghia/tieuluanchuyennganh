@@ -1,14 +1,13 @@
-import { Outlet } from "react-router-dom";
 import Footer from "../../components/Footer";
-import HeroSection from "../../components/HeroSection";
+// import HeroSection from "../../components/HeroSection";
 import Navbars from "../../components/Navbars";
 
-function User(params) {
+function User(props) {
   return (
     <>
       <Navbars />
-      <HeroSection />
-      <Outlet />
+      {/* <HeroSection /> */}
+      <props.component />
       <Footer />
     </>
   );

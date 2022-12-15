@@ -5,7 +5,7 @@ import Input from "./../../../../components/Input/index";
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import Icons from "../../../../components/Icons";
-import { COLOR } from "../../../../contanst/global";
+import { COLOR, KEY_STORAGE } from "../../../../contanst/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login, register } from "../../authSlice";
@@ -99,27 +99,32 @@ function Login() {
             if (response.is_admin) {
               navigate(PATH.ADMIN.BASE);
             } else {
-              if (response.user.user_id) {
-                navigate(PATH.HOME);
+              if (response.user._id) {
+                const path = localStorage.getItem(KEY_STORAGE.OLD_PATH);
+                if (path) {
+                  navigate(path);
+                } else {
+                  navigate(PATH.HOME);
+                }
               } else {
                 navigate(PATH.PROFILE);
               }
             }
           } else {
-            setModalTitle(t("info_wrong", {param: "đăng nhập"}));
-            setModalBody(t("try_one_login"))
+            setModalTitle(t("info_wrong", { param: "đăng nhập" }));
+            setModalBody(t("try_one_login"));
             setShowModal(!showModal);
           }
         });
       } else {
         await dispatch(register(values)).then((res) => {
-          if(res.payload.data === 200){
-            setModalTitle(t("action_success", {param: t("register")}));
-            setModalBody(t("confirm_mail"))
+          if (res.payload.data === 200) {
+            setModalTitle(t("action_success", { param: t("register") }));
+            setModalBody(t("confirm_mail"));
             setShowModal(!showModal);
-          }else{
-            setModalTitle(t("action_fail", {param: t("register")}));
-            setModalBody(t("try_again"))
+          } else {
+            setModalTitle(t("action_fail", { param: t("register") }));
+            setModalBody(t("try_again"));
             setShowModal(!showModal);
           }
         });

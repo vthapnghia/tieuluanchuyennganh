@@ -1,4 +1,5 @@
 const PATH= {
+  BASE: "/",
   PRODUCT: {
     LIST_PRODUCT: "/product",
     DETAIL_PRODUCT: "/product/:id",
@@ -6,6 +7,7 @@ const PATH= {
   HOME: "/home",
   LOGIN: "/login",
   CART: "/cart",
+  PAY: "/pay",
   NEWS: {
     LIST_NEWS: "/news",
     DETAIL_NEWS: "/news/:id",
@@ -28,6 +30,9 @@ const PATH= {
     BRAND: {
       BASE: "/admin/management-brand",
     },
+    SHIP: {
+      BASE: "/admin/management-ship",
+    }
   },
 };
 

@@ -1,6 +1,7 @@
-@import '/src/assets/scss/variables.scss';
+@import "/src/assets/scss/variables.scss";
 .Cart {
   background-color: $bg_color;
+  padding-bottom: 50px;
   .site-blocks-table {
     overflow: auto;
     .product-thumbnail {
@@ -56,5 +57,23 @@
     input {
       border-radius: 10px !important;
     }
+  }
+
+  .btn-continue-shopping {
+    padding: 0 32px;
+    .btn-group {
+      float: right;
+      div {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .into-money {
+    // padding: 0 32px;
+    // span {
+    //   width: max-content;
+    //   float: right;
+    // }
   }
 }

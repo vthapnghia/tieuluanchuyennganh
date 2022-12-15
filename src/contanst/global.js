@@ -5,7 +5,8 @@ const KEY_STORAGE = {
   SESSION_ID: "SESSION_ID",
   REFRESH_TOKEN: "REFRESH_TOKEN",
   CP_USER: "CP_USER",
-  IS_ADMIN: "IS_ADMIN"
+  IS_ADMIN: "IS_ADMIN",
+  OLD_PATH: "OLD_PATH"
 };
 
 const COLOR = {
@@ -46,6 +47,18 @@ const OPTION_SIZE = [
   { value: 41, label: "41" },
 ];
 
+const OPTION_TYPE = [
+  { value: 1, label: "Giày" },
+  { value: 2, label: "Dép" },
+];
+
+
+const OPTIONS_COLOR = [
+  { value: "Xanh", label: "Xanh" },
+  { value: "Xám", label: "Xám" },
+  { value: "Vàng", label: "Vàng" },
+  { value: "Đen", label: "Đen" },
+]
 
 const GET_TOKEN = localStorage.getItem(KEY_STORAGE.ACCESS_TOKEN);
 
@@ -68,6 +81,12 @@ const SIDEBAR_PATH = [
   { path: PATH.ADMIN.BRAND.BASE, name: "Quản lý nhãn hiệu" },
   { path: PATH.ADMIN.USER, name: "Quản lý người dùng" },
   { path: PATH.ADMIN.NEWS.BASE, name: "Quản lý bài viết" },
+  { path: PATH.ADMIN.SHIP.BASE, name: "Quản lý vận chuyển" },
+];
+
+const PAYMENT_OPTION = [
+  { value: 1, label: "Thanh toán trực tiếp" },
+  { value: 2, label: "Thanh toán online" },
 ];
 
 export {
@@ -78,5 +97,8 @@ export {
   CONFIGHEADER_1,
   CONFIGHEADER_2,
   SIDEBAR_PATH,
-  OPTION_SIZE
+  OPTION_SIZE,
+  OPTION_TYPE,
+  OPTIONS_COLOR,
+  PAYMENT_OPTION
 };

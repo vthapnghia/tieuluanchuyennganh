@@ -1,13 +1,21 @@
-import  PATH from "./contanst/path";
+import PATH from "./contanst/path";
 import { lazy } from "react";
 
-
-const ManagementProduct = lazy(() => import("./features/Admin/pages/ManagementProduct")); 
+const ManagementProduct = lazy(() => import("./features/Admin/pages/ManagementProduct"));
 const ProductDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementProduct/ProductDetail"));
 const ManagementNews = lazy(() => import("./features/Admin/pages/ManagementNews"));
 const NewDetail = lazy(() => import("./features/Admin/pages/ManagementNews/NewsDetail"));
 const ManagementUser = lazy(() => import("./features/Admin/pages/ManagementUser"));
-const ManagementBrand = lazy(() => import("./features/Admin/pages/ManagementBrand")); 
+const ManagementBrand = lazy(() => import("./features/Admin/pages/ManagementBrand"));
+const Home = lazy(() => import("./features/User/pages/Home"));
+const Products = lazy(() => import("./features/User/pages/Products"));
+const ProductDetail = lazy(() => import("./features/User/pages/Products/ProductDetail"));
+const Cart = lazy(() => import("./features/User/pages/Cart"));
+const Profile = lazy(() => import("./features/User/pages/Profile"));
+const News = lazy(() => import("./features/User/pages/News"));
+const NewsDetail = lazy(() => import("./features/User/pages/News/NewsDetail"));
+const Pay = lazy (() => import("./features/User/pages/Pay"));
+const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
 
 const routesAdmin = [
   {
@@ -31,7 +39,7 @@ const routesAdmin = [
     component: ProductDetailAdmin,
   },
   {
-    path:PATH.ADMIN.NEWS.BASE,
+    path: PATH.ADMIN.NEWS.BASE,
     name: "News base",
     component: ManagementNews,
   },
@@ -51,11 +59,72 @@ const routesAdmin = [
     component: ManagementUser,
   },
   {
-    path:PATH.ADMIN.BRAND.BASE,
+    path: PATH.ADMIN.BRAND.BASE,
     name: "Brand base",
     component: ManagementBrand,
   },
-]
+  {
+    path: PATH.ADMIN.SHIP.BASE,
+    name: "Ship base",
+    component: ManagementShip,
+  },
+];
 
+const routesUser = [
+  {
+    path: PATH.BASE,
+    name: "Base",
+    component: Home,
+    isPrivate: false,
+  },
+  {
+    path: PATH.HOME,
+    name: "Home",
+    component: Home,
+    isPrivate: false,
+  },
+  {
+    path: PATH.PRODUCT.LIST_PRODUCT,
+    name: "List produt",
+    component: Products,
+    isPrivate: false,
+  },
+  {
+    path: PATH.PRODUCT.DETAIL_PRODUCT,
+    name: "Product detail",
+    component: ProductDetail,
+    isPrivate: false,
+  },
+  {
+    path: PATH.CART,
+    name: "Cart",
+    component: Cart,
+    isPrivate: true,
+  },
+  {
+    path: PATH.PROFILE,
+    name: "Profile",
+    component: Profile,
+    isPrivate: true,
+  },
+  {
+    path: PATH.NEWS.LIST_NEWS,
+    name: "List news",
+    component: News,
+    isPrivate: false,
+  },
+  {
+    path: PATH.NEWS.DETAIL_NEWS,
+    name: "News detail",
+    component: NewsDetail,
+    isPrivate: false,
+  },
+  {
+    path: PATH.PAY,
+    name: "Pay",
+    component: Pay,
+    isPrivate: true,
+  },
+];
 
-export { routesAdmin};
+export { routesAdmin, routesUser };

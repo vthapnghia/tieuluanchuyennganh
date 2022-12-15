@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import Icons from "../../../../components/Icons";
 import "./Sidebar.scss";
 import { useCallback } from "react";
-import PATH from "../../../../contanst/path";
 import { useNavigate } from "react-router-dom";
 import { SIDEBAR_PATH } from "../../../../contanst/global";
 

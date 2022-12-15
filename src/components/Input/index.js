@@ -12,13 +12,19 @@ const Input = forwardRef(
       type,
       disabled,
       options = [],
-      quanlity,
+      quantity,
       label,
       handleOnClickLeftIcon,
       textLabel,
       multiple,
       align,
       marginNone,
+      readonly,
+      max = 99,
+      min = 1,
+      handleIconQuantity,
+      data,
+      handleOnChange,
       ...props
     },
     ref
@@ -91,19 +97,27 @@ const Input = forwardRef(
     const handleChangeSelect = useCallback(
       (items) => {
         helpers.setValue(items.value);
+        handleOnChange(items.value);
       },
-      [helpers]
+      [helpers, handleOnChange]
     );
 
     const handleQuanlity = useCallback(
-      (option) => () => {
-        if (option === "decrease") {
-          meta.value - 1 > 0 && helpers.setValue(meta.value - 1);
+      (option) => (e) => {
+        e.stopPropagation();
+        if (option === -1) {
+          if (meta.value - 1 >= min) {
+            helpers.setValue(meta.value - 1);
+            handleIconQuantity && handleIconQuantity(-1, data);
+          }
         } else {
-          meta.value + 1 < 100 && helpers.setValue(meta.value + 1);
+          if (meta.value + 1 <= max) {
+            helpers.setValue(meta.value + 1);
+            handleIconQuantity && handleIconQuantity(1, data);
+          }
         }
       },
-      [helpers, meta]
+      [helpers, meta, handleIconQuantity, min, max, data]
     );
 
     const onChangeFile = (e) => {
@@ -124,15 +138,27 @@ const Input = forwardRef(
         imageContainer.appendChild(figure);
         reader.readAsDataURL(i);
       }
-      multiple ? setFieldValue(props.name, e.target.files) : setFieldValue(props.name, e.target.files[0]);
+      multiple
+        ? setFieldValue(props.name, e.target.files)
+        : setFieldValue(props.name, e.target.files[0]);
     };
+
+    function containsNumbers(str) {
+      return /^[0-9]+$/.test(str);
+    }
+
+    const onKeyDown = useCallback((e) => {
+      if (!containsNumbers(e.key) && e.key !== "Backspace") {
+        e.preventDefault();
+      }
+    }, []);
 
     useEffect(() => {
       if (type === "number") {
-        if (meta.value === 1) {
+        if (meta.value === min) {
           setMinusDisabled(true);
         } else {
-          if (meta.value === 99) {
+          if (meta.value === max) {
             setPlusDisabled(true);
           } else {
             setMinusDisabled(false);
@@ -140,16 +166,12 @@ const Input = forwardRef(
           }
         }
       }
-    }, [type, meta]);
+    }, [type, meta, min, max]);
 
     useEffect(() => {
       if (type === "select") {
         const selected = options.find((option) => field.value === option.value);
         setTemp(selected);
-      } else {
-        if(type !== "file"){
-          setTemp(field.value ?? "");
-        }
       }
     }, [field.value, options, type]);
 
@@ -164,7 +186,6 @@ const Input = forwardRef(
           <textarea
             {...props}
             {...field}
-            value={temp}
             className={`textarea-common ${
               meta.error && meta.touched ? "has-error" : ""
             } ${props.className ? props.className : ""}`}
@@ -177,7 +198,6 @@ const Input = forwardRef(
             <input
               {...props}
               {...field}
-              value={temp}
               className={`input-common ${
                 meta.error && meta.touched ? "has-error" : ""
               } ${props.className ? props.className : ""}`}
@@ -188,11 +208,8 @@ const Input = forwardRef(
           </>
         ) : type === "number" ? (
           <>
-            {quanlity && (
-              <span
-                className="minus left-icon"
-                onClick={misnusDisabled ? () => {} : handleQuanlity("decrease")}
-              >
+            {quantity && (
+              <span className="minus left-icon" onClick={handleQuanlity(-1)}>
                 <Icons.Minus
                   color={misnusDisabled ? COLOR.GRAY : "currentcolor"}
                 />
@@ -201,19 +218,17 @@ const Input = forwardRef(
             <input
               {...props}
               {...field}
-              type={type}
-              value={temp}
+              type="text"
               className={`number-common ${
                 meta.error && meta.touched ? "has-error" : ""
               } ${props.className ? props.className : ""}`}
               style={style}
               disabled={disabled}
+              readOnly={readonly}
+              onKeyDown={onKeyDown}
             />
-            {quanlity && (
-              <span
-                className="plus right-icon"
-                onClick={plusDisabled ? () => {} : handleQuanlity("increase")}
-              >
+            {quantity && (
+              <span className="plus right-icon" onClick={handleQuanlity(1)}>
                 <Icons.Plus
                   color={plusDisabled ? COLOR.GRAY : "currentcolor"}
                 />
@@ -225,47 +240,14 @@ const Input = forwardRef(
             style={{ display: "flex", flexDirection: "column" }}
             className="input-file"
           >
-            {/* {!multiple ? (
-              <>
-                <img
-                  src={temp}
-                  alt="img"
-                  onLoad={(event) =>
-                    (event.target.style.display = "inline-block")
-                  }
-                  className="image mb-3"
-                />
-
-                <input
-                  id="file-input"
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  onChange={(e) => {
-                    const fileReader = new FileReader();
-                    fileReader.onload = () => {
-                      if (fileReader.readyState === 2) {
-                        setTemp(fileReader.result);
-                      }
-                    };
-                    fileReader.readAsDataURL(e.target.files[0]);
-                    setFieldValue(props.name, e.target.files[0]);
-                  }}
-                  style={style}
-                  hidden
-                />
-              </>
-            ) : (
-              <> */}
-                <input
-                  type="file"
-                  id="file-input"
-                  accept="image/png, image/jpeg"
-                  onChange={onChangeFile}
-                  multiple
-                  hidden
-                />
-              {/* </>
-            )} */}
+            <input
+              type="file"
+              id="file-input"
+              accept="image/png, image/jpeg"
+              onChange={onChangeFile}
+              multiple
+              hidden
+            />
             <label htmlFor="file-input" className="label-img">
               {textLabel}
             </label>
