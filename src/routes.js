@@ -14,7 +14,7 @@ const Cart = lazy(() => import("./features/User/pages/Cart"));
 const Profile = lazy(() => import("./features/User/pages/Profile"));
 const News = lazy(() => import("./features/User/pages/News"));
 const NewsDetail = lazy(() => import("./features/User/pages/News/NewsDetail"));
-const Pay = lazy (() => import("./features/User/pages/Pay"));
+const Order = lazy (() => import("./features/User/pages/Order"));
 const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
 
 const routesAdmin = [
@@ -120,9 +120,9 @@ const routesUser = [
     isPrivate: false,
   },
   {
-    path: PATH.PAY,
-    name: "Pay",
-    component: Pay,
+    path: PATH.ORDER,
+    name: "Order",
+    component: Order,
     isPrivate: true,
   },
 ];

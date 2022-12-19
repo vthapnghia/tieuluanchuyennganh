@@ -1,5 +1,6 @@
 const API_URL = {
   LOGIN: "login",
+  USER: "user/",
   CART: {
     GET_ALL_CART: "cart",
     ADD_TO_CART: "cart",

@@ -11,9 +11,10 @@ const userAPI = {
     const url = API_URL.REGISTER;
     return doRequest("post", url, data, CONFIGHEADER_1);
   },
-  getUser: () => {
-    // const url = API_URL.LOGIN;
-  }
+  getUser: (data) => {
+    const url = API_URL.USER;
+    return doRequest("get", url, "", CONFIGHEADER_1);
+  },
 };
 
 export default userAPI;

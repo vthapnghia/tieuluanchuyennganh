@@ -141,6 +141,9 @@ function Navbars() {
                       <Link className="dropdown-item" to={PATH.PROFILE}>
                         {t("profile")}
                       </Link>
+                      <Link className="dropdown-item" to={PATH.PROFILE}>
+                        {t("my_order")}
+                      </Link>
                       <span
                         className="dropdown-item"
                         style={{ cursor: "pointer" }}
@@ -148,6 +151,7 @@ function Navbars() {
                       >
                         {t("logout")}
                       </span>
+
                     </DropdownButton>
                   ) : (
                     <Link className="nav-link icon-user" to={PATH.LOGIN}>

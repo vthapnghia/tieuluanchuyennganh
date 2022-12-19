@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useEffect, useState } from "react";
-import { useField, useFormikContext } from "formik";
+import { Form, useField, useFormikContext } from "formik";
 import "./Input.scss";
 import Icons from "../Icons";
 import ReactSelect from "react-select";
@@ -25,6 +25,7 @@ const Input = forwardRef(
       handleIconQuantity,
       data,
       handleOnChange,
+      accept,
       ...props
     },
     ref
@@ -176,7 +177,7 @@ const Input = forwardRef(
     }, [field.value, options, type]);
 
     return (
-      <div className={`input-group ${marginNone ? "m-0" : ""}`}>
+      <Form className={`input-group ${marginNone ? "m-0" : ""}`}>
         {label && (
           <label>
             <b>{label}</b>
@@ -236,22 +237,62 @@ const Input = forwardRef(
             )}
           </>
         ) : type === "file" ? (
-          <div
-            style={{ display: "flex", flexDirection: "column" }}
-            className="input-file"
-          >
-            <input
-              type="file"
-              id="file-input"
-              accept="image/png, image/jpeg"
-              onChange={onChangeFile}
-              multiple
-              hidden
-            />
-            <label htmlFor="file-input" className="label-img">
-              {textLabel}
-            </label>
-          </div>
+          multiple ? (
+            <div
+              style={{ display: "flex", flexDirection: "column" }}
+              className="input-file"
+            >
+              <input
+                type="file"
+                id="file-input"
+                accept={accept}
+                onChange={onChangeFile}
+                multiple
+                hidden
+              />
+              <label htmlFor="file-input" className="label-img">
+                {textLabel}
+              </label>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={temp}
+                alt="img"
+                width={100}
+                height={100}
+                onLoad={(event) =>
+                  (event.target.style.display = "inline-block")
+                }
+              />
+              <input
+                id="file"
+                type="file"
+                accept={accept}
+                onChange={(e) => {
+                  const fileReader = new FileReader();
+                  fileReader.onload = () => {
+                    if (fileReader.readyState === 2) {
+                      setTemp(fileReader.result);
+                    }
+                  };
+                  fileReader.readAsDataURL(e.target.files[0]);
+                  setFieldValue(props.name, e.target.files[0]);
+                }}
+                style={style}
+                hidden
+              />
+              <label htmlFor="file" className="label-img">
+                {textLabel}
+              </label>
+            </div>
+          )
         ) : (
           <ReactSelect
             className={`${meta.error && meta.touched ? "has-error" : ""} ${
@@ -281,7 +322,7 @@ const Input = forwardRef(
         ) : (
           <></>
         )}
-      </div>
+      </Form>
     );
   }
 );

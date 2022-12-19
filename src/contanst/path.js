@@ -7,7 +7,7 @@ const PATH= {
   HOME: "/home",
   LOGIN: "/login",
   CART: "/cart",
-  PAY: "/pay",
+  ORDER: "/order",
   NEWS: {
     LIST_NEWS: "/news",
     DETAIL_NEWS: "/news/:id",

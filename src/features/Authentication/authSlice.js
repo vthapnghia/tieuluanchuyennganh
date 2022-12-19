@@ -12,7 +12,9 @@ const login = createAsyncThunk("LOGIN", async (param, { rejectWithValue }) => {
   }
 });
 
-const logout = createAsyncThunk( "LOGOUT", async (param, { rejectWithValue }) => {
+const logout = createAsyncThunk(
+  "LOGOUT",
+  async (param, { rejectWithValue }) => {
     try {
       const res = true;
       return res;
@@ -22,9 +24,23 @@ const logout = createAsyncThunk( "LOGOUT", async (param, { rejectWithValue }) =>
   }
 );
 
-const register = createAsyncThunk(  "REGISTER", async (param, { rejectWithValue }) => {
+const register = createAsyncThunk(
+  "REGISTER",
+  async (param, { rejectWithValue }) => {
     try {
       const res = userAPI.register(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+const getUser = createAsyncThunk(
+  "GET_USER",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.getUser(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -53,10 +69,14 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.clear();
     },
+    [getUser.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.user = res?.user;
+    },
     // [register.fulfilled]: (state, action) => {},
   },
 });
 
 const { reducer } = authSlice;
-export { login, logout, register };
+export { login, logout, register, getUser };
 export default reducer;

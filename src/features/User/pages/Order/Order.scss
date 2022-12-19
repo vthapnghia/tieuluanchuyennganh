@@ -29,35 +29,41 @@
       }
       .btn-order {
         float: right;
-        height: 124px;
         position: relative;
-        overflow: hidden;
+        overflow-x: hidden;
+        width: 210px;
+        height: 300px;
+        padding: 5px;
+        &::-webkit-scrollbar { 
+          width: 0 !important;
+          display: none; 
+          }
         .pay-online {
           position: absolute;
           transition: all 1s;
-          top: -121px;
         }
         .pay-offline {
           position: absolute;
-          margin: 12px;
           transition: all 1s;
+          width: 100%;
+          box-shadow: none;
         }
       }
       .offline {
         .pay-online {
-          top: -121px;
+          right: -210px;
         }
         .pay-offline {
-          top: 0;
+          left: 0px;
         }
       }
 
-      .online{
+      .online {
         .pay-online {
-          top: 0;
+          right: 5px;
         }
         .pay-offline {
-          top: 0;
+          left: -210px;
         }
       }
     }

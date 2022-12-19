@@ -167,7 +167,7 @@ function Cart() {
     if (intoMoney === 0) {
       e.preventDefault();
     } else {
-      navigate(PATH.PAY, { state: { intoMoney: intoMoney, product: checkBox } });
+      navigate(PATH.ORDER, { state: { intoMoney: intoMoney, product: checkBox } });
     }
   }, [intoMoney, checkBox, navigate]);
 

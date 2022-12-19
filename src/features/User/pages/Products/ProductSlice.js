@@ -49,10 +49,20 @@ const deleteProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithVa
 const initialState = {
     products: null,
     productById: null,
+    filterFlag: null,
+    sortFlag: 0,
 }
 const ProductSlice = createSlice({
     name: 'product',
     initialState,
+    reducers: {
+        setFilter: (state, action) => {
+            state.filterFlag = action.payload;
+        },
+        setSort: (state, action) => {
+            state.sortFlag = action.payload;
+        }
+    },
     extraReducers: {
         [getAllProduct.fulfilled]: (state, action) =>{
             const res = action.payload?.data;
@@ -66,11 +76,14 @@ const ProductSlice = createSlice({
 });
 
 const {reducer} = ProductSlice;
+const {setFilter, setSort} = ProductSlice.actions;
 export {
     getAllProduct, 
     getProductById, 
     addProduct, 
     uploadProduct, 
-    deleteProduct
+    deleteProduct,
+    setFilter,
+    setSort
 };
 export default reducer;
