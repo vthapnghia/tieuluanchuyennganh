@@ -12,13 +12,9 @@ import {
   OPTIONS_COLOR,
   OPTION_SIZE,
   OPTION_TYPE,
+  SORT_OPTION,
 } from "../../../../contanst/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
-
-const sortOption = [
-  { value: "1", label: "Giá tăng dần" },
-  { value: "-1", label: "Giá giảm dần" },
-];
 
 function Products() {
   const products = useSelector((state) => state.product.products?.products);
@@ -424,7 +420,7 @@ function Products() {
             <div className="sort-product col col-md-4">
               <Select
                 onChange={handleChangeSort}
-                options={sortOption}
+                options={SORT_OPTION}
                 placeholder={t("sort_by")}
                 // value={sortFlag}
                 components={{

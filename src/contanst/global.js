@@ -60,6 +60,11 @@ const OPTIONS_COLOR = [
   { value: "Đen", label: "Đen" },
 ]
 
+const SORT_OPTION = [
+  { value: "1", label: "Giá tăng dần" },
+  { value: "-1", label: "Giá giảm dần" },
+];
+
 const GET_TOKEN = localStorage.getItem(KEY_STORAGE.ACCESS_TOKEN);
 
 const CONFIGHEADER_1 = {
@@ -100,5 +105,6 @@ export {
   OPTION_SIZE,
   OPTION_TYPE,
   OPTIONS_COLOR,
-  PAYMENT_OPTION
+  PAYMENT_OPTION,
+  SORT_OPTION
 };
