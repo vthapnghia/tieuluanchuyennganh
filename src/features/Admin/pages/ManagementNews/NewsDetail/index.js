@@ -143,7 +143,7 @@ function NewDetail() {
           show={showModal}
           modalTitle={modalTitle}
           modalBody={modalBody}
-          handleClose={handleClose}
+          handleConfirm={handleClose}
           isButton
         />
       </>

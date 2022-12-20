@@ -238,7 +238,7 @@ function ManagementShip(props) {
         </div>
         <ModalCommon
           show={showModal}
-          handleClose={() => formikRef.current.submitForm()}
+          handleConfirm={() => formikRef.current.submitForm()}
           modalTitle={modalTitle}
           modalBody={modalBody}
           labelButton={idShip ? t("update") : t("add")}
@@ -247,7 +247,7 @@ function ManagementShip(props) {
         />
         <ModalCommon
           show={showModalRemove}
-          handleClose={handleCloseModalRemove}
+          handleConfirm={handleCloseModalRemove}
           modalTitle={t("delete_ship")}
           modalBody={t("messge_confirm_remove")}
           handleCloseModal={closeModalRemove}
@@ -255,7 +255,7 @@ function ManagementShip(props) {
         />
         <ModalCommon
           show={showModalMessage}
-          handleClose={handleCloseModalMessage}
+          handleConfirm={handleCloseModalMessage}
           modalTitle={messageTitle}
           modalBody={messageBody}
           handleCloseModal={closeModalMessage}

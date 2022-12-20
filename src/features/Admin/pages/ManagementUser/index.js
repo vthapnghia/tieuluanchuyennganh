@@ -151,14 +151,14 @@ function ManagementUser() {
           show={showModal}
           modalTitle={t("confirm_remove", { param: t("news") })}
           modalBody={t("messge_confirm_remove")}
-          handleClose={handleClose}
+          handleConfirm={handleClose}
           isButton
         />
         <ModalCommon
           show={showMessage}
           modalTitle={modalTitle}
           modalBody={modalBody}
-          handleClose={handleCloseMessage}
+          handleConfirm={handleCloseMessage}
           isButton
         />
       </>

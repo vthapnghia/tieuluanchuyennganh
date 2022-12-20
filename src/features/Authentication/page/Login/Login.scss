@@ -120,6 +120,11 @@
     }
   }
 
+  .forgot-password{
+    text-decoration: none;
+    color: $black;
+  }
+
   .container-form.sign-in .form.sign-in,
   .container-form.sign-in .logo.sign-in,
   .container-form.sign-in .back-to-home.sign-in,

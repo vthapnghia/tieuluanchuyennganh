@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import { t } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
@@ -12,11 +12,15 @@ import { getAllShip } from "../../../Admin/pages/ManagementShip/ShipSlice";
 import "./Order.scss";
 import { getUser } from "../../../Authentication/authSlice";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { createOrder } from "./OrderSlice";
+import ModalCommon from "../../../../components/ModalCommon";
+import PATH from "../../../../contanst/path";
 
 function Order(props) {
   const { state } = useLocation();
   const { product, intoMoney } = state;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const ship = useSelector((state) => state.ship.allShip?.ships);
   const formikRef = useRef();
   const user = useSelector((state) => state.auth.user);
@@ -24,6 +28,8 @@ function Order(props) {
   const [shipId, setShipId] = useState(null);
   const [payMethod, setPayMethod] = useState(null);
   const [req, setReq] = useState({});
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFail, setShowFail] = useState(false);
   const optionShip = ship?.map((element) => {
     return { value: element._id, label: element.type };
   });
@@ -67,12 +73,28 @@ function Order(props) {
         ship_id: shipId,
         payment_method: Number(payMethod),
         address: values.address,
-        full_name: values.full_name,
-        phone: values.phone,
+        receiver_name: values.full_name,
+        receiver_phone: values.phone,
         is_fast_buy: false,
       };
+      dispatch(createOrder(data)).then((res) => {
+        if (res.payload.status === 200) {
+          setShowSuccess(!showSuccess);
+        } else {
+          setShowFail(!showFail);
+        }
+      });
     },
-    [product, payMethod, shipId, feeShip, intoMoney]
+    [
+      product,
+      payMethod,
+      shipId,
+      feeShip,
+      intoMoney,
+      dispatch,
+      showSuccess,
+      showFail,
+    ]
   );
 
   const handleOnChangePayMethod = useCallback(
@@ -105,8 +127,8 @@ function Order(props) {
           ship_id: values?.type_ship,
           payment_method: Number(values?.payment_method),
           address: values?.address,
-          full_name: values?.name,
-          phone: values?.phone,
+          receiver_name: values?.name,
+          receiver_phone: values?.phone,
           is_fast_buy: false,
         });
       }
@@ -122,6 +144,15 @@ function Order(props) {
     },
     [ship]
   );
+
+  const handleConfirmSuccess = useCallback(() => {
+    setShowSuccess(!showSuccess);
+    navigate(PATH.CART);
+  }, [showSuccess, navigate]);
+
+  const handleConfirmFail = useCallback(() => {
+    setShowFail(!showFail);
+  }, [showFail]);
 
   useEffect(() => {
     dispatch(getAllShip());
@@ -193,7 +224,7 @@ function Order(props) {
                     {t("temporary_fee", { param: intoMoney })}&#8363;
                   </div>
                   <div className="ship_fee">
-                    {t("ship_fee", { param: ship ? ship[0].price : 0 })}&#8363;
+                    {t("ship_fee", { param: feeShip })}&#8363;
                   </div>
                 </div>
                 <div className="form-footer">
@@ -229,6 +260,22 @@ function Order(props) {
             </div>
           </div>
         </div>
+        <ModalCommon
+          show={showSuccess}
+          modalTitle={t("action_success", { param: t("order") })}
+          modalBody={null}
+          handleConfirm={handleConfirmSuccess}
+          handleCloseModal={() => setShowSuccess(!showSuccess)}
+          isButton
+        />
+        <ModalCommon
+          show={showFail}
+          modalTitle={t("action_fail", { param: t("order") })}
+          modalBody={null}
+          handleConfirm={handleConfirmFail}
+          handleCloseModal={() => setShowFail(!showFail)}
+          isButton
+        />
       </>
     </Formik>
   );

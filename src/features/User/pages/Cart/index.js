@@ -237,14 +237,14 @@ function Cart() {
             show={show}
             modalTitle={t("confirm_remove", { param: t("product") })}
             modalBody={t("messge_confirm_remove")}
-            handleClose={handleClose}
+            handleConfirm={handleClose}
             isButton
           />
           <ModalCommon
             show={showMessage}
             modalTitle={modalTitle}
             modalBody={modalBody}
-            handleClose={handleCloseMessage}
+            handleConfirm={handleCloseMessage}
             isButton
           />
         </>

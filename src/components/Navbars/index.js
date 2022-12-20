@@ -13,7 +13,7 @@ import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
 function Navbars() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { is_admin, userAuth } = useAuth();
+  const { is_admin, userAuth, is_seller} = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const count = useSelector((state) => state.cart.count);
@@ -52,7 +52,7 @@ function Navbars() {
 
   return (
     <>
-      {is_admin ? (
+      {is_admin || is_seller? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
             <Icons.Menu color="white" />

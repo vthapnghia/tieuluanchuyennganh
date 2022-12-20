@@ -8,7 +8,7 @@ function ModalCommon({
   modalTitle,
   modalBody,
   isButton,
-  handleClose,
+  handleConfirm,
   labelButton,
   handleCloseModal,
   ...props
@@ -20,7 +20,7 @@ function ModalCommon({
         <div className="body">{modalBody && <div>{modalBody}</div>}</div>
         <div className="modal-btn">
           {isButton && (
-            <Button className="primary" onClick={handleClose}>
+            <Button className="primary" onClick={handleConfirm}>
               {labelButton ? labelButton : t("confirm")}
             </Button>
           )}

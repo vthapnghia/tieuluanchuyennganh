@@ -17,7 +17,7 @@ import {
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
 
 function Products() {
-  const products = useSelector((state) => state.product.products?.products);
+  const products = useSelector((state) => state.product.products);
   const brand = useSelector((state) => state.brand.allBrand?.brands);
   const filterFlag = useSelector((state) => state.product.filterFlag);
   const sortFlag = useSelector((state) => state.product.sortFlag);
@@ -254,7 +254,6 @@ function Products() {
     }
   }, [brand]);
 
-  console.log(filterFlag);
   return (
     <div className="product-section">
       <div className="row">

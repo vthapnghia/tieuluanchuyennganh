@@ -96,7 +96,7 @@ function Login() {
         await dispatch(login(values)).then((res) => {
           if (res.payload.status === 200) {
             const response = res.payload?.data;
-            if (response.is_admin) {
+            if (response.is_admin || response.is_seller) {
               navigate(PATH.ADMIN.BASE);
             } else {
               if (response.user._id) {
@@ -118,10 +118,10 @@ function Login() {
         });
       } else {
         await dispatch(register(values)).then((res) => {
-          if (res.payload.data === 200) {
-            setModalTitle(t("action_success", { param: t("register") }));
-            setModalBody(t("confirm_mail"));
-            setShowModal(!showModal);
+          if (res.payload.status === 200) {
+            navigate(PATH.VERIFY_REGISTER, {
+              state: { id: res.payload.data.account._id },
+            });
           } else {
             setModalTitle(t("action_fail", { param: t("register") }));
             setModalBody(t("try_again"));
@@ -178,7 +178,7 @@ function Login() {
           <div id="container" className="container-form sign-in">
             <div className="d-flex flex-wrap vh-100">
               <div className="w-50 common flex-column sign-up">
-                <Link className="logo sign-up" to="/">
+                <Link className="logo" to="/">
                   {t("logo")}
                   <span>.</span>
                 </Link>
@@ -282,7 +282,9 @@ function Login() {
                     </div>
 
                     <p>
-                      <b>{t("forgot_password")}</b>
+                      <Link to={PATH.RESET_PASSWORD.BASE} className="forgot-password">
+                        <b>{t("forgot_password")}</b>
+                      </Link>
                     </p>
                     <p>
                       <span>{t("no_account")}</span>
@@ -327,7 +329,7 @@ function Login() {
           show={showModal}
           modalTitle={modalTitle}
           modalBody={modalBody}
-          handleClose={handleClose}
+          handleConfirm={handleClose}
           isButton
         />
       </>

@@ -9,12 +9,18 @@ import { routesAdmin, routesUser } from "./routes";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./features/Admin";
 import { Suspense } from "react";
+import VerifyRegister from "./features/Authentication/page/VerifyRegister";
+import ResetPassword from "./features/Authentication/page/ResetPassword";
+import Verify from "./features/Authentication/page/ResetPassword/Verify";
 
 function App() {
   return (
     <div className="app">
       <Routes>
         <Route path={PATH.LOGIN} element={<Login />} />
+        <Route path={PATH.VERIFY_REGISTER} element={<VerifyRegister />} />
+        <Route path={PATH.RESET_PASSWORD.BASE} element={<ResetPassword />} />
+        <Route path={PATH.RESET_PASSWORD.RESET_PASSWORD_VERIFY} element={<Verify />} />
         {routesAdmin.map((routeItem, index) => {
           return (
             <Route

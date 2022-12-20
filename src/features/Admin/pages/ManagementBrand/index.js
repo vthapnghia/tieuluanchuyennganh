@@ -158,7 +158,7 @@ function ManagementBrand(props) {
         </div>
         <ModalCommon
           show={showModal}
-          handleClose={() => formikRef.current.submitForm()}
+          handleConfirm={() => formikRef.current.submitForm()}
           modalTitle={t("add_brand")}
           modalBody={modalBody}
           labelButton={t("add")}
@@ -166,14 +166,14 @@ function ManagementBrand(props) {
         />
         <ModalCommon
           show={showModalRemove}
-          handleClose={handleCloseModalRemove}
+          handleConfirm={handleCloseModalRemove}
           modalTitle={t("delete_brand")}
           modalBody={t("messge_confirm_remove")}
           isButton
         />
         <ModalCommon
           show={showModalMessage}
-          handleClose={handleCloseModalMessage}
+          handleConfirm={handleCloseModalMessage}
           modalTitle={messageTitle}
           modalBody={messageBody}
           isButton

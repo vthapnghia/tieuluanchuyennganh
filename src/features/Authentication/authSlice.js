@@ -48,9 +48,46 @@ const getUser = createAsyncThunk(
   }
 );
 
+const verifyRegister = createAsyncThunk(
+  "VERIFY_REGISTER",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.verifyRegister(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+const getCodeResetPass = createAsyncThunk(
+  "GET_CODE_RESET_PASS",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.getCodeResetPass(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+const resetPasswordVerify = createAsyncThunk(
+  "GET_CODE_RESET_PASS",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.resetPasswordVerify(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   isAdmin: false,
+  isSeller: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -60,8 +97,10 @@ const authSlice = createSlice({
       const res = action.payload?.data;
       state.user = res?.user;
       state.isAdmin = res?.is_admin;
+      state.isSeller = res?.is_seller;
       localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res?.token);
       storeJsonObject(KEY_STORAGE.IS_ADMIN, res?.is_admin);
+      storeJsonObject(KEY_STORAGE.IS_SELER, res?.is_seller);
       storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
     },
     [logout.pending]: (state, action) => {
@@ -78,5 +117,13 @@ const authSlice = createSlice({
 });
 
 const { reducer } = authSlice;
-export { login, logout, register, getUser };
+export {
+  login,
+  logout,
+  register,
+  getUser,
+  verifyRegister,
+  getCodeResetPass,
+  resetPasswordVerify,
+};
 export default reducer;

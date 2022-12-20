@@ -1,10 +1,29 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { useDispatch } from "react-redux";
+import { createOrder } from "../OrderSlice";
+import ModalCommon from "../../../../../components/ModalCommon";
+import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../../../../contanst/path";
 
 const style = { layout: "vertical" };
 
 function ButtonWrapper({ currency, showSpinner, amount, req }) {
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
+  const dispatchReact = useDispatch();
+  const navigate = useNavigate
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFail, setShowFail] = useState(false);
+
+  const handleConfirmSuccess = useCallback(() => {
+    setShowSuccess(!showSuccess);
+    navigate(PATH.CART);
+  }, [showSuccess, navigate]);
+
+  const handleConfirmFail = useCallback(() => {
+    setShowFail(!showFail);
+  }, [showFail]);
  
   useEffect(() => {
     dispatch({
@@ -14,7 +33,7 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
         currency: currency,
       },
     });
-  }, [currency]);
+  }, [currency, dispatch]);
 
   return (
     <>
@@ -39,7 +58,13 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
         }}
         onApprove={function (data, actions) {
           return actions.order.capture().then(function (orderData) {
-            console.log("data: ", req);
+            dispatchReact(createOrder(req)).then((res) => {
+              if (res.payload.status === 200) {
+                setShowSuccess(!showSuccess);
+              } else {
+                setShowFail(!showFail);
+              }
+            });;
           });
         }}
         onError={(error) => {
@@ -48,6 +73,22 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
         onCancel={() => {}}
         cookiePolicy='single-host-origin'
       />
+      <ModalCommon
+          show={showSuccess}
+          modalTitle={t("action_success", { param: t("order") })}
+          modalBody={null}
+          handleConfirm={handleConfirmSuccess}
+          handleCloseModal={() => setShowSuccess(!showSuccess)}
+          isButton
+        />
+        <ModalCommon
+          show={showFail}
+          modalTitle={t("action_fail", { param: t("order") })}
+          modalBody={null}
+          handleConfirm={handleConfirmFail}
+          handleCloseModal={() => setShowFail(!showFail)}
+          isButton
+        />
     </>
   );
 }

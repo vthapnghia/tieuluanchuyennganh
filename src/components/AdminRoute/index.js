@@ -3,13 +3,13 @@ import PATH from "../../contanst/path";
 import { useAuth } from "../../until/hooks";
 
 function AdminRoute({ children, ...rest }) {
-  const {userAuth, is_admin} = useAuth();
+  const {userAuth, is_admin, is_seller} = useAuth();
   const location = useLocation();
 
   if (!userAuth) {
     return <Navigate to={PATH.LOGIN} state={{ from: location }} />;
   }else{
-    if(!is_admin){
+    if(!is_admin && !is_seller){
         return <Navigate to={PATH.NOT_FOUND} state={{ from: location }} />;
     }
   }

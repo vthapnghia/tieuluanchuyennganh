@@ -160,14 +160,14 @@ function ManagementProduct() {
           show={showModal}
           modalTitle={t("confirm_remove", { param: t("product") })}
           modalBody={t("messge_confirm_remove")}
-          handleClose={handleCloseModal}
+          handleConfirm={handleCloseModal}
           isButton
         />
         <ModalCommon
           show={showMessage}
           modalTitle={modalTitle}
           modalBody={modalBody}
-          handleClose={handleCloseMessage}
+          handleConfirm={handleCloseMessage}
           isButton
         />
       </>

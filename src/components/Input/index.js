@@ -98,7 +98,7 @@ const Input = forwardRef(
     const handleChangeSelect = useCallback(
       (items) => {
         helpers.setValue(items.value);
-        handleOnChange(items.value);
+        handleOnChange && handleOnChange(items.value);
       },
       [helpers, handleOnChange]
     );
