@@ -111,6 +111,8 @@
   "verify": "Xác thực",
   "reset_password": "Đặt lại mật khẩu",
   "back_login": "Quay lại trang đăng nhập",
+  "update_user": "Cập nhật thông tin",
+  
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

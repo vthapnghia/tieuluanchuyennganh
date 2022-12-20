@@ -1,5 +1,5 @@
 import API_URL from "../contanst/api";
-import { CONFIGHEADER_1 } from "../contanst/global";
+import { CONFIGHEADER_1, CONFIGHEADER_2 } from "../contanst/global";
 import { doRequest } from "../until/common";
 
 const userAPI = {
@@ -7,13 +7,21 @@ const userAPI = {
     const url = API_URL.LOGIN;
     return doRequest("post", url, data, CONFIGHEADER_1);
   },
+  firstLogin: (data) => {
+    const url = API_URL.USER.FIRST_LOGIN;
+    return doRequest("post", url, data, CONFIGHEADER_2);
+  },
   register: (data) => {
     const url = API_URL.REGISTER;
     return doRequest("post", url, data, CONFIGHEADER_1);
   },
   getUser: (data) => {
-    const url = API_URL.USER;
+    const url = API_URL.USER.GET_USER;
     return doRequest("get", url, "", CONFIGHEADER_1);
+  },
+  updateUser: (data) => {
+    const url = API_URL.USER.UPDATE_USER;
+    return doRequest("put", url, data, CONFIGHEADER_2);
   },
   verifyRegister: (param) => {
     const { data, id } = param;

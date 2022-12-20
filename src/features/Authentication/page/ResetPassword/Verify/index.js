@@ -19,9 +19,8 @@ function Verify(params) {
   const navigate = useNavigate();
 
   const handleResetPassword = useCallback(
-    (values) => {
-      console.log(values);
-      dispatch(resetPasswordVerify(values)).then((res) => {
+    async (values) => {
+      await dispatch(resetPasswordVerify(values)).then((res) => {
         console.log(res);
         if (res.payload.status === 200) {
           setShow(!show);

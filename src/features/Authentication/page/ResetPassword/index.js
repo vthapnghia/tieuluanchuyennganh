@@ -18,16 +18,19 @@ function ResetPassword(params) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleResetPassword = useCallback((values) => {
-    dispatch(getCodeResetPass(values)).then((res) => {
+  const handleResetPassword = useCallback(
+    async (values) => {
+      await dispatch(getCodeResetPass(values)).then((res) => {
         console.log(res);
-      if (res.payload.status === 200) {
-        setShow(!show);
-      } else {
-        setShowFail(!showFail);
-      }
-    });
-  }, [dispatch, show, showFail]);
+        if (res.payload.status === 200) {
+          setShow(!show);
+        } else {
+          setShowFail(!showFail);
+        }
+      });
+    },
+    [dispatch, show, showFail]
+  );
 
   const handleConfirmFail = useCallback(() => {
     setShowFail(!showFail);
@@ -35,9 +38,8 @@ function ResetPassword(params) {
 
   const handleConfirm = useCallback(() => {
     setShow(!show);
-    navigate(PATH.RESET_PASSWORD.RESET_PASSWORD_VERIFY)
+    navigate(PATH.RESET_PASSWORD.RESET_PASSWORD_VERIFY);
   }, [show, navigate]);
-
 
   return (
     <Formik

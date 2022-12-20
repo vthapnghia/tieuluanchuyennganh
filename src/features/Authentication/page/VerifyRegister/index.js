@@ -20,20 +20,20 @@ function VerifyRegister(params) {
   const [showFail, setShowFail] = useState(false);
 
   const handleVerify = useCallback(
-    (values) => {
+    async (values) => {
       if (location.state.id) {
-        dispatch(verifyRegister({ data: values, id: location.state.id })).then(
+        await dispatch(verifyRegister({ data: values, id: location.state.id })).then(
           (res) => {
             if (res.payload.status === 200) {
               setShow(!show);
             } else {
-              setShow(!show);
+              setShowFail(!showFail);
             }
           }
         );
       }
     },
-    [dispatch, location, show]
+    [dispatch, location, show, showFail]
   );
 
   const handleConfirm = useCallback(() => {

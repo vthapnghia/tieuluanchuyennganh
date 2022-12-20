@@ -330,6 +330,7 @@ function Login() {
           modalTitle={modalTitle}
           modalBody={modalBody}
           handleConfirm={handleClose}
+          handleCloseModal={() => setShowModal(!showModal)}
           isButton
         />
       </>

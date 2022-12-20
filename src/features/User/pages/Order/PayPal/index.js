@@ -75,7 +75,7 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
       />
       <ModalCommon
           show={showSuccess}
-          modalTitle={t("action_success", { param: t("order") })}
+          modalTitle={t("action_success", { param: t("order_v") })}
           modalBody={null}
           handleConfirm={handleConfirmSuccess}
           handleCloseModal={() => setShowSuccess(!showSuccess)}
@@ -83,7 +83,7 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
         />
         <ModalCommon
           show={showFail}
-          modalTitle={t("action_fail", { param: t("order") })}
+          modalTitle={t("action_fail", { param: t("order_v") })}
           modalBody={null}
           handleConfirm={handleConfirmFail}
           handleCloseModal={() => setShowFail(!showFail)}

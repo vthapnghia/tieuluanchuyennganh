@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import  PATH  from "../../contanst/path";
+import PATH from "../../contanst/path";
 import Icons from "../Icons";
 import "./Navbars.scss";
 import { DropdownButton } from "react-bootstrap";
@@ -13,7 +13,7 @@ import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
 function Navbars() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { is_admin, userAuth, is_seller} = useAuth();
+  const { is_admin, userAuth, is_seller } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const count = useSelector((state) => state.cart.count);
@@ -52,7 +52,7 @@ function Navbars() {
 
   return (
     <>
-      {is_admin || is_seller? (
+      {is_admin || is_seller ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
             <Icons.Menu color="white" />
@@ -131,11 +131,14 @@ function Navbars() {
                     <DropdownButton
                       id="dropdown-basic-button"
                       title={
-                        <img
-                          className="user-img"
-                          alt="img"
-                          src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
-                        ></img>
+                        <>
+                          <img
+                            className="user-img"
+                            alt="img"
+                            src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
+                          ></img>
+                          <span style={{paddingLeft: "10px"}}>{userAuth.name}</span>
+                        </>
                       }
                     >
                       <Link className="dropdown-item" to={PATH.PROFILE}>
@@ -151,7 +154,6 @@ function Navbars() {
                       >
                         {t("logout")}
                       </span>
-
                     </DropdownButton>
                   ) : (
                     <Link className="nav-link icon-user" to={PATH.LOGIN}>

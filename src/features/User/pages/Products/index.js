@@ -15,6 +15,7 @@ import {
   SORT_OPTION,
 } from "../../../../contanst/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
+import Button from "../../../../components/Button";
 
 function Products() {
   const products = useSelector((state) => state.product.products);
@@ -370,7 +371,7 @@ function Products() {
             </Accordion.Item>
           </Accordion>
           <Accordion>
-            <Accordion.Item eventKey="0" >
+            <Accordion.Item eventKey="0">
               <Accordion.Header>{t("size")}</Accordion.Header>
               <Accordion.Body>
                 {OPTION_SIZE.map((sizeItem, index) => {
@@ -440,9 +441,13 @@ function Products() {
               return <ProductItem key={index} product={product} />;
             })}
           </div>
+          {products?.length > 9 && (
+            <div className="button-load text-center">
+              <Button className="primary">Xem thêm</Button>
+            </div>
+          )}
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 }

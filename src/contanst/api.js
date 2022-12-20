@@ -5,7 +5,11 @@ const API_URL = {
     BASE: "login/resetPassword",
     VERIFY: "login/resetPassword/verify",
   },
-  USER: "user/",
+  USER: {
+    FIRST_LOGIN: "user",
+    GET_USER: "user/",
+    UPDATE_USER: "user",
+  },
   CART: {
     GET_ALL_CART: "cart",
     ADD_TO_CART: "cart",

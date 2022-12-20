@@ -1,18 +1,25 @@
 import { Formik } from "formik";
 import { t } from "i18next";
 import * as Yup from "yup";
-import { useMemo, useRef, useCallback, useEffect } from "react";
+import { useMemo, useRef, useCallback, useEffect, useState } from "react";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import "./Profile.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { OPTION_GENDER } from "../../../../contanst/global";
-import { getUser } from "../../../Authentication/authSlice";
+import {
+  firstLogin,
+  getUser,
+  updateUser,
+} from "../../../Authentication/authSlice";
+import ModalCommon from "../../../../components/ModalCommon";
 
 function Profile() {
   const formikRef = useRef(null);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const [show, setShow] = useState(false);
+  const [showFail, setShowFail] = useState(false);
 
   const validationSchema = useMemo(() => {
     return {
@@ -30,16 +37,7 @@ function Profile() {
         .max(250, t("MS_03", { param: t("address") })),
       phone: Yup.string()
         .required(t("MS_01", { param: t("address") }))
-        .test(
-          "lenght number",
-          t("MS_08", { param: t("phone") }),
-          (value, context) => {
-            if (value.length !== 10) {
-              return false;
-            }
-            return true;
-          }
-        ),
+        .required(t("MS_01", { param: t("phone") })),
     };
   }, []);
 
@@ -52,11 +50,53 @@ function Profile() {
       address: user?.address || "",
       phone: user?.phone || "",
     };
-  }, [user?.name, user?.age, user?.gender, user?.address, user?.phone]);
+  }, [
+    user?.name,
+    user?.age,
+    user?.gender,
+    user?.address,
+    user?.phone,
+    user?.avatar,
+  ]);
 
-  const handleUpdate = useCallback((values) => {
-    console.log(values);
-  }, []);
+  const handleUpdate = useCallback(
+    async (values) => {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("age", values.age);
+      formData.append("gender", values.gender);
+      formData.append("address", values.address);
+      formData.append("phone", values.phone);
+      formData.append("avatar", values.avatar);
+      if (user === null) {
+        await dispatch(firstLogin(formData)).then((res) => {
+          if (res.payload.status === 200) {
+            setShow(!show);
+          } else {
+            setShowFail(!showFail);
+          }
+        });
+      } else {
+        await dispatch(updateUser(formData)).then((res) => {
+          if (res.payload.status === 200) {
+            setShow(!show);
+          } else {
+            setShowFail(!showFail);
+          }
+        });
+      }
+    },
+    [dispatch, user, show, showFail]
+  );
+
+  const handleConfirm = useCallback(() => {
+    setShow(!show);
+    dispatch(getUser());
+  }, [show, dispatch]);
+
+  const handleConfirmFail = useCallback(() => {
+    setShowFail(!showFail);
+  }, [showFail]);
 
   useEffect(() => {
     dispatch(getUser());
@@ -126,6 +166,22 @@ function Profile() {
             </div>
           </div>
         </div>
+        <ModalCommon
+          show={show}
+          modalTitle={t("action_success", { param: t("update_user") })}
+          modalBody={null}
+          handleConfirm={handleConfirm}
+          handleCloseModal={() => setShow(!show)}
+          isButton
+        />
+        <ModalCommon
+          show={showFail}
+          modalTitle={t("action_fail", { param: t("update_user") })}
+          modalBody={t("try_again")}
+          handleConfirm={handleConfirmFail}
+          handleCloseModal={() => setShowFail(!showFail)}
+          isButton
+        />
       </>
     </Formik>
   );

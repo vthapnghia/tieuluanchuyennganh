@@ -22,11 +22,12 @@ function ManagementProduct() {
   const formikRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.products?.products);
+  const product = useSelector((state) => state.product.products);
   const [listProduct, setListProduct] = useState(product);
   const [idProduct, setIdProduct] = useState();
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+
 
   const cols = [
     { label: t("name_product"), align: "center", width: "20%" },

@@ -48,6 +48,30 @@ const getUser = createAsyncThunk(
   }
 );
 
+const updateUser = createAsyncThunk(
+  "UPDATE_USER",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.updateUser(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+const firstLogin = createAsyncThunk(
+  "FIRST_LOGIN",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.firstLogin(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const verifyRegister = createAsyncThunk(
   "VERIFY_REGISTER",
   async (param, { rejectWithValue }) => {
@@ -125,5 +149,7 @@ export {
   verifyRegister,
   getCodeResetPass,
   resetPasswordVerify,
+  updateUser,
+  firstLogin,
 };
 export default reducer;
