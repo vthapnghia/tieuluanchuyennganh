@@ -137,14 +137,14 @@ function Navbars() {
                             alt="img"
                             src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
                           ></img>
-                          <span style={{paddingLeft: "10px"}}>{userAuth.name}</span>
+                          {/* <span style={{paddingLeft: "10px"}}>{userAuth.name}</span> */}
                         </>
                       }
                     >
                       <Link className="dropdown-item" to={PATH.PROFILE}>
                         {t("profile")}
                       </Link>
-                      <Link className="dropdown-item" to={PATH.PROFILE}>
+                      <Link className="dropdown-item" to={PATH.USER_ORDERS.BASE}>
                         {t("my_order")}
                       </Link>
                       <span

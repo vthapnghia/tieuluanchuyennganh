@@ -112,7 +112,18 @@
   "reset_password": "Đặt lại mật khẩu",
   "back_login": "Quay lại trang đăng nhập",
   "update_user": "Cập nhật thông tin",
-  
+  "discount_label": "-{{param}}%",
+  "order_all": "Tất cả",
+  "in_ship": "Đang giao",
+  "complete": "Hoàn thành",
+  "shopping": "Mua sắm",
+  "no_product_in_cart": "Chưa có sản phẩm nào trong giỏ hàng",
+  "status": "Trạng thái",
+  "in_order": "Đã đặt hàng",
+  "date_order": "Ngày đặt hàng: {{param}}",
+  "user_receiver": "Người nhận",
+  "rate": "Đánh giá",
+
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

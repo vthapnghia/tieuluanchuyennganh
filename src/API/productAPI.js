@@ -7,6 +7,11 @@ const productAPI = {
     const url = API_URL.PRODUCT.ALL_PRODUCT;
     return doRequest("get", url, "", CONFIGHEADER_1);
   },
+  getProduct: (data) => {
+    const {page, pageSize} = data;
+    const url = API_URL.PRODUCT.ALL_PRODUCT.concat(`?page=${page}&pageSize=${pageSize}`);
+    return doRequest("get", url, "", CONFIGHEADER_1);
+  },
   getProductById: (data) => {
     const url = API_URL.PRODUCT.PRODUCT_BY_ID.replace(":id", data);
     return doRequest("get", url, CONFIGHEADER_1);

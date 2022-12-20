@@ -16,6 +16,8 @@ const News = lazy(() => import("./features/User/pages/News"));
 const NewsDetail = lazy(() => import("./features/User/pages/News/NewsDetail"));
 const Order = lazy (() => import("./features/User/pages/Order"));
 const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
+const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
+const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
 
 const routesAdmin = [
   {
@@ -123,6 +125,18 @@ const routesUser = [
     path: PATH.ORDER,
     name: "Order",
     component: Order,
+    isPrivate: true,
+  },
+  {
+    path: PATH.USER_ORDERS.BASE,
+    name: "Order detail",
+    component: UserOrders,
+    isPrivate: true,
+  },
+  {
+    path: PATH.USER_ORDERS.ORDER_DETAIL,
+    name: "User orders",
+    component: OrdersDetail,
     isPrivate: true,
   },
 ];

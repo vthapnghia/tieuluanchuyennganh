@@ -47,6 +47,8 @@ const API_URL = {
   },
   ORDER: {
     CREATE_ORDER: "order",
+    GET_ALL_ORDER_USER: "order/user",
+    GET_ORDER_BY_ID: "order/:id",
   },
 };
 

@@ -1,19 +1,38 @@
 import { t } from "i18next";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PATH from "../../../../contanst/path";
 import "./ProductItem.scss";
 
-function ProductItem({product}) {
-  const { pathname } = useLocation();
+function ProductItem({ product }) {
   return (
-    <div
-      className="col col-md-3 mb-5"
-    >
-      <div className="product-item" >
-        <img src={product.product_image[0]} alt="product" className="img-fluid product-thumbnail" />
+    <div className="col col-md-3 mb-5">
+      <div className="product-item">
+        {product.discount > 0 && (
+          <div className="discount">
+            {t("discount_label", { param: product.discount })}
+          </div>
+        )}
+        <img
+          src={product.product_image[0]}
+          alt="product"
+          className="img-fluid product-thumbnail"
+        />
         <h3 className="product-title">{product.name}</h3>
-        <strong className="product-price">{product.price} &#8363;</strong>
-        <Link className="icon-cross" to={PATH.PRODUCT.DETAIL_PRODUCT.replace(":id", product._id)}>
+        {product.discount > 0 ? (
+          <div className="d-flex flex-column align-items-center">
+            <div className="product-price-initial">{product.price} &#8363;</div>
+            <div className="product-price-discount">
+              {product.price * (1 - product.discount / 100)} &#8363;
+            </div>
+          </div>
+        ) : (
+          <strong className="product-price">{product.price} &#8363;</strong>
+        )}
+
+        <Link
+          className="icon-cross"
+          to={PATH.PRODUCT.DETAIL_PRODUCT.replace(":id", product._id)}
+        >
           <p>{t("product_detail")}</p>
         </Link>
       </div>

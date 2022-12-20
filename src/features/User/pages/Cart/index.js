@@ -56,54 +56,60 @@ function Cart() {
     let productInCart = [];
 
     cart?.forEach((element) => {
-      if (element.status === 1) {
-        productInCart.push({
-          id: `${element.product._id}_${element.size}_${element.quantity}_${element.product.price}`,
-          columns: [
-            {
-              label: (
-                <img
-                  src={element.product.product_image[0]}
-                  alt="product"
-                  width="100"
-                  height="100"
-                  style={{ objectFit: "cover", borderRadius: "10px" }}
-                />
-              ),
-              align: "center",
-              width: "10%",
-            },
-            { label: element.product.name, align: "center", width: "15%" },
-            {
-              label: `${element.product.price} ₫`,
-              align: "center",
-              width: "15%",
-            },
-            { label: element.size, align: "center", width: "10%" },
-            {
-              label: (
-                <Input
-                  name={`quantity_${element.product._id}_${element.size}`}
-                  type="number"
-                  quantity={true}
-                  readonly
-                  onClick={(e) => e.stopPropagation()}
-                  max={element.product.size[element.size]}
-                  handleIconQuantity={handleIconQuantity}
-                  data={{ product_id: element.product._id, size: element.size }}
-                />
-              ),
-              align: "center",
-              width: "12%",
-            },
-            {
-              label: `${element.product.price * element.quantity} ₫`,
-              align: "center",
-              width: "15%",
-            },
-          ],
-        });
-      }
+      productInCart.push({
+        id: `${element.product._id}_${element.size}_${element.quantity}_${
+          element.product.price * (1 - element.product.discount / 100)
+        }`,
+        columns: [
+          {
+            label: (
+              <img
+                src={element.product.product_image[0]}
+                alt="product"
+                width="100"
+                height="100"
+                style={{ objectFit: "cover", borderRadius: "10px" }}
+              />
+            ),
+            align: "center",
+            width: "10%",
+          },
+          { label: element.product.name, align: "center", width: "15%" },
+          {
+            label: `${
+              element.product.price * (1 - element.product.discount / 100)
+            } ₫`,
+            align: "center",
+            width: "15%",
+          },
+          { label: element.size, align: "center", width: "10%" },
+          {
+            label: (
+              <Input
+                name={`quantity_${element.product._id}_${element.size}`}
+                type="number"
+                quantity={true}
+                readonly
+                onClick={(e) => e.stopPropagation()}
+                max={element.product.size[element.size]}
+                handleIconQuantity={handleIconQuantity}
+                data={{ product_id: element.product._id, size: element.size }}
+              />
+            ),
+            align: "center",
+            width: "12%",
+          },
+          {
+            label: `${
+              element.product.price *
+              (1 - element.product.discount / 100) *
+              element.quantity
+            } ₫`,
+            align: "center",
+            width: "15%",
+          },
+        ],
+      });
     });
 
     return productInCart;
@@ -163,13 +169,18 @@ function Cart() {
     return init;
   }, [cart]);
 
-  const handlePay = useCallback((e) => {
-    if (intoMoney === 0) {
-      e.preventDefault();
-    } else {
-      navigate(PATH.ORDER, { state: { intoMoney: intoMoney, product: checkBox } });
-    }
-  }, [intoMoney, checkBox, navigate]);
+  const handlePay = useCallback(
+    (e) => {
+      if (intoMoney === 0) {
+        e.preventDefault();
+      } else {
+        navigate(PATH.ORDER, {
+          state: { intoMoney: intoMoney, product: checkBox },
+        });
+      }
+    },
+    [intoMoney, checkBox, navigate]
+  );
 
   useEffect(() => {
     dispatch(getAllCart());
@@ -197,39 +208,55 @@ function Cart() {
           <div className="Cart">
             <div className="untree_co-section before-footer-section">
               <div className="container">
-                <div className="row">
-                  <TableCommon
-                    cols={cols}
-                    rows={rows}
-                    oneButton={true}
-                    labelHeader={t("remove")}
-                    handleRemove={handleRemove}
-                    handleClick={handleClick}
-                    checkAll
-                  />
-                </div>
-                <div className="row into-money">
-                  <span>{`${t("into_money")}: ${intoMoney}`}</span>
-                </div>
-                <div className="row">
-                  <div className="btn-continue-shopping ">
-                    <div className="btn-group">
-                      <div>
-                        <Button
-                          className="primary"
-                          onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
-                        >
-                          {t("continue_shopping")}
-                        </Button>
-                      </div>
-                      <div>
-                        <Button className="btn primary" onClick={handlePay}>
-                          {t("pay")}
-                        </Button>
+                {cart && cart.length > 0 ? (
+                  <>
+                    <div className="row">
+                      <TableCommon
+                        cols={cols}
+                        rows={rows}
+                        oneButton={true}
+                        labelHeader={t("remove")}
+                        handleRemove={handleRemove}
+                        handleClick={handleClick}
+                        checkAll
+                      />
+                    </div>
+                    <div className="row into-money">
+                      <span>{`${t("into_money")}: ${intoMoney}`}</span>
+                    </div>
+                    <div className="row">
+                      <div className="btn-continue-shopping ">
+                        <div className="btn-group">
+                          <div>
+                            <Button
+                              className="primary"
+                              onClick={() =>
+                                navigate(PATH.PRODUCT.LIST_PRODUCT)
+                              }
+                            >
+                              {t("continue_shopping")}
+                            </Button>
+                          </div>
+                          <div>
+                            <Button className="btn primary" onClick={handlePay}>
+                              {t("pay")}
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     </div>
+                  </>
+                ) : (
+                  <div className="no-product">
+                    <h2>{t("no_product_in_cart")}</h2>
+                    <Button
+                      className="primary"
+                      onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+                    >
+                      {t("shopping")}
+                    </Button>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

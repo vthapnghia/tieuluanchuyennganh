@@ -14,6 +14,11 @@ const PATH = {
 
   CART: "/cart",
   ORDER: "/order",
+  USER_ORDERS: 
+  {
+    BASE: "/user-order",
+    ORDER_DETAIL: "/order-detail",
+  },
   NEWS: {
     LIST_NEWS: "/news",
     DETAIL_NEWS: "/news/:id",

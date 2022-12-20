@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../../Components/ProductItem";
 import "./Products.scss";
-import { getAllProduct, setFilter, setSort } from "./ProductSlice";
+import { getProduct, setFilter, setPageNumber, setSort } from "./ProductSlice";
 import Icons from "../../../../components/Icons";
 import Select from "react-select";
 import {
@@ -18,10 +18,12 @@ import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
 import Button from "../../../../components/Button";
 
 function Products() {
-  const products = useSelector((state) => state.product.products);
+  const products = useSelector((state) => state.product.products?.product);
   const brand = useSelector((state) => state.brand.allBrand?.brands);
   const filterFlag = useSelector((state) => state.product.filterFlag);
   const sortFlag = useSelector((state) => state.product.sortFlag);
+  const pageNumber = useSelector((state) => state.product.pageNumber);
+  const page = useSelector((state) => state.product.page);
   const { t } = useTranslation();
   const [listProduct, setListProduct] = useState(products);
   const dispatch = useDispatch();
@@ -204,6 +206,11 @@ function Products() {
     [getAllFilter, products, handleFilter, sortFlag, dispatch]
   );
 
+  const handleViewAdd = useCallback(() => {
+    const number = (pageNumber / 10 + 1) * 10;
+    dispatch(setPageNumber(number));
+  }, [dispatch, pageNumber]);
+
   useEffect(() => {
     if (sortFlag !== 0) {
       const productTemp = [...products];
@@ -243,8 +250,11 @@ function Products() {
 
   useEffect(() => {
     dispatch(getAllBrand());
-    dispatch(getAllProduct());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getProduct({ page: page, pageSize: pageNumber }));
+  }, [dispatch, pageNumber, page]);
 
   useEffect(() => {
     if (brand && brand.length > 0) {
@@ -393,7 +403,9 @@ function Products() {
                           Object.fromEntries(filterFlag)["size"] &&
                           Object.fromEntries(filterFlag)["size"].find(
                             (item) => {
-                              return Number(item.label) === Number(sizeItem.value);
+                              return (
+                                Number(item.label) === Number(sizeItem.value)
+                              );
                             }
                           )
                             ? true
@@ -441,9 +453,11 @@ function Products() {
               return <ProductItem key={index} product={product} />;
             })}
           </div>
-          {products?.length > 9 && (
+          {listProduct?.length > 19 && (
             <div className="button-load text-center">
-              <Button className="primary">Xem thêm</Button>
+              <Button onClick={handleViewAdd} className="primary">
+                Xem thêm
+              </Button>
             </div>
           )}
         </div>

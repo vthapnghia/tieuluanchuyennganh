@@ -120,9 +120,9 @@ function TableCommon({
               </div>
             )}
           </li>
-          {rows.map((row, index) => (
+          {rows.map((row) => (
             <li
-              key={index}
+              key={row.id}
               className="table-row align-items-center"
               onClick={handleClick(row.id)}
             >

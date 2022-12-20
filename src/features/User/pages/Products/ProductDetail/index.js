@@ -92,7 +92,7 @@ function ProductDetail() {
       setSizeArray(Object.entries(products?.size));
     }
   }, [products]);
-  
+
   return (
     <>
       <Formik
@@ -130,6 +130,12 @@ function ProductDetail() {
               </Carousel>
             </div>
             <div className="content-detail ml-2 w-50 d-flex flex-column">
+              {products?.discount > 0 && (
+                <div className="discount">
+                  {" "}
+                  {t("discount_label", { param: products?.discount })}
+                </div>
+              )}
               <h2>{products?.name}</h2>
 
               <div className="d-flex align-items-center mt-3 mb-3">
@@ -142,14 +148,23 @@ function ProductDetail() {
                 >
                   <b className="label">{t("price")}&#58;</b>
                 </div>
-                {products?.discount !== 0 && (
-                  <b className="price-discount">
+                {products?.discount !== 0 ? (
+                  <>
+                    <div className="price-initial">
+                      {products?.price} &#8363;
+                    </div>
+                    <div
+                      className="price-discount"
+                      style={{ color: "red", fontSize: "20px" }}
+                    >
+                      {products?.price * (1 - products?.discount / 100)} &#8363;
+                    </div>
+                  </>
+                ) : (
+                  <b style={{ color: "red", fontSize: "20px" }}>
                     {products?.price} &#8363;
                   </b>
                 )}
-                <b style={{ color: "red", fontSize: "20px" }}>
-                  {products?.price} &#8363;
-                </b>
               </div>
               <div className="d-flex align-items-center mt-3 mb-3">
                 <div style={{ minWidth: "max-content", marginRight: "20px" }}>

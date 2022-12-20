@@ -95,6 +95,14 @@ const PAYMENT_OPTION = [
   { value: 2, label: "Thanh toán online" },
 ];
 
+const STATUS_ORDER= {
+  IN_ORDER: 1,
+  IN_SHIP: 2,
+  COMPLETE: 3,
+  NOT_RATE: 4,
+  RATE: 5
+}
+
 export {
   KEY_STORAGE,
   COLOR,
@@ -107,5 +115,6 @@ export {
   OPTION_TYPE,
   OPTIONS_COLOR,
   PAYMENT_OPTION,
-  SORT_OPTION
+  SORT_OPTION,
+  STATUS_ORDER
 };

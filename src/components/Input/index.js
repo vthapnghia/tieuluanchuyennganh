@@ -174,9 +174,9 @@ const Input = forwardRef(
         const selected = options.find((option) => field.value === option.value);
         setTemp(selected);
       } else {
-        if (type === "file") {
-          setTemp(field.value);
-        }
+        // if (type === "file") {
+        //   setTemp(field.value);
+        // }
       }
     }, [field.value, options, type]);
 
