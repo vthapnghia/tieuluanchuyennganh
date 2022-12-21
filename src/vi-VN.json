@@ -123,6 +123,11 @@
   "date_order": "Ngày đặt hàng: {{param}}",
   "user_receiver": "Người nhận",
   "rate": "Đánh giá",
+  "address_receiver": "Địa chỉ nhận hàng",
+  "total_order": "Tổng thanh toán",
+  "rate_product": "Đánh giá sản phẩm",
+  "commnent": "Bình luận",
+  "view_rate": "Xem đánh giá",
 
 
   "MS_01": "Vui lòng nhập {{param}}",

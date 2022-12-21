@@ -1,16 +1,30 @@
 import { t } from "i18next";
 import moment from "moment";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import * as Yup from "yup";
 import Icons from "../../../../../components/Icons";
 import { getOrderById } from "../UserOrderSlice";
 import "./OrderDetail.scss";
+import ModalCommon from "../../../../../components/ModalCommon";
+import Input from "../../../../../components/Input";
+import { Formik } from "formik";
+import { RATE } from "../../../../../contanst/global";
+import Rate from "../../../../../components/Rate";
+import { createRate } from "../../Products/ProductDetail/RateSlice";
 
 function OrderDetail(params) {
   const location = useLocation();
   const dispatch = useDispatch();
   const orderById = useSelector((state) => state.userOrder.orderById);
+  const [idProduct, setIdProduct] = useState();
+  const [rate, setRate] = useState(1);
+  const [show, setShow] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [modalTitleMessage, setTitleModalessage] = useState(null);
+  const [modalBodyMessage, setBodyModalMessage] = useState(null);
+  const formikRef = useRef();
 
   const getHeaderByStatus = useCallback((orderStatus) => {
     let status = "";
@@ -28,27 +42,137 @@ function OrderDetail(params) {
     return status;
   }, []);
 
+  const totalItemProduct = useCallback((quantity, price, discount) => {
+    return quantity * (price * (1 - discount / 100));
+  }, []);
+
+  const handleClickProduct = useCallback(
+    (id) => {
+      setIdProduct(id);
+      setShow(!show);
+    },
+    [show]
+  );
+
+  const handleGetRate = useCallback(
+    (rate) => () => {
+      setRate(rate);
+    },
+    []
+  );
+
+  const modalBody = useMemo(() => {
+    return (
+      <div>
+        <div>
+          <div id="images"></div>
+          <Input
+            name="image"
+            type="file"
+            multiple
+            textLabel={t("upload_img")}
+          />
+        </div>
+        <div>
+          <Input name="comment" type="textarea" placeholder={t("comment")} />
+        </div>
+        <div>
+          <Rate handleGetRate={handleGetRate} />
+        </div>
+      </div>
+    );
+  }, [handleGetRate]);
+
+  const handleSubmitRate = useCallback(
+    async (values) => {
+      setShow(!show);
+      const { image, comment } = values;
+      const formData = new FormData();
+      formData.append("product_id", idProduct);
+      formData.append("rate", rate);
+      formData.append("comment", comment);
+      const files = Object.values(image);
+      files.forEach((elmennt) => {
+        formData.append("image", elmennt);
+      });
+      await dispatch(createRate(formData)).then((res) => {
+        if (res.payload.staus === 200) {
+          setTitleModalessage(t("action_success", { param: t("comment") }));
+          setBodyModalMessage(null);
+          setShowMessage(!showMessage);
+        } else {
+          setTitleModalessage(t("action_fail", { param: t("comment") }));
+          setBodyModalMessage(t("try_again"));
+          setShowMessage(!showMessage);
+        }
+      });
+    },
+    [dispatch, idProduct, rate, show, showMessage]
+  );
+
+  const handleConfirm = useCallback(() => {
+    setShowMessage(!showMessage);
+    dispatch(getOrderById(location.state.id));
+  }, [showMessage, dispatch, location.state.id]);
+
+  const borderColorRate = useMemo(() => {
+    let borderColor = "#ccc";
+    const findNoRate = orderById?.orderDetail.find((itemDetail) => {
+      return itemDetail.status === 1;
+    });
+    if (orderById?.order.status === 3 && !findNoRate) {
+      borderColor = "#2dc258";
+    }
+    return borderColor;
+  }, [orderById?.order.status, orderById?.orderDetail]);
   useEffect(() => {
     console.log(orderById);
   }, [orderById]);
 
   useEffect(() => {
     dispatch(getOrderById(location.state.id));
-  }, [dispatch, location]);
+  }, [dispatch, location.state.id]);
+
   return (
-    <div className="user-order-detail">
-      <div className="container">
-        <div className="header">
-          <div>{`${t("status")}: ${getHeaderByStatus(
-            orderById?.order.status
-          )}`}</div>
-          <div>{`${t("date_order", {
-            param: moment(new Date(orderById?.order.created_at)).format(
-              "DD/MM/YYYY"
-            ),
-          })}`}</div>
-        </div>
-        <div className="body">
+    <Formik
+      initialValues={{ image: "", comment: "" }}
+      validationSchema={Yup.object({
+        image: Yup.mixed().test(
+          "file",
+          t("MS_01", { param: "file" }),
+          (value) => {
+            if (!value) {
+              return false;
+            }
+            return true;
+          }
+        ),
+        comment: Yup.string().required(t("MS_01", { param: t("comment") })),
+      })}
+      enableReinitialize
+      innerRef={formikRef}
+      onSubmit={handleSubmitRate}
+    >
+      <div className="user-order-detail">
+        <div className="container">
+          <div className="header">
+            <div>{`${t("status")}: ${getHeaderByStatus(
+              orderById?.order.status
+            )}`}</div>
+            <div>{`${t("date_order", {
+              param: moment(new Date(orderById?.order.created_at)).format(
+                "DD/MM/YYYY"
+              ),
+            })}`}</div>
+          </div>
+          <div className="address-receiver">
+            <span>{`${t("address_receiver")}: `}</span>
+            <span>{`${orderById?.order.receiver_name}, ${orderById?.order.receiver_phone}, ${orderById?.order.location}`}</span>
+          </div>
+          <div className="total-order">
+            <span>{`${t("total_order")}: `}</span>
+            <span>{orderById?.order.total}&#8363;</span>
+          </div>
           <div className="status">
             <div className="status-item">
               <div
@@ -150,36 +274,88 @@ function OrderDetail(params) {
               <div
                 className="status-icon"
                 style={{
-                  borderColor: `${
-                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                  }`,
+                  borderColor: borderColorRate
                 }}
               >
-                <Icons.Star
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 4 ? "#2dc258" : "#ccc"}
-                />
+                <Icons.Star height="40" width="40" color={borderColorRate} />
               </div>
               <div
                 className="status-label"
                 style={{
-                  color: `${orderById?.order.status >= 4 ? "#2dc258" : "#ccc"}`,
+                  color: borderColorRate,
                 }}
               >
                 {t("rate")}
               </div>
             </div>
-            <div className="order-receiver">
+          </div>
+          <div className="order-product">
+            {orderById?.orderDetail.map((itemDetail) => {
+              return (
+                <div className="row product-item" key={itemDetail.product._id}>
+                  <div className="col col-md-2 img-product">
+                    <img src={itemDetail.product.product_image[0]} alt="img" />
+                  </div>
+                  <div className="col col-md-5name-product">
+                    <span>{itemDetail.product.name}</span>
+                  </div>
+                  <div
+                    className={`col ${
+                      orderById?.order.status === 3 && itemDetail.status === 1
+                        ? "col-md-1"
+                        : "col-md-2"
+                    } "quantity"`}
+                  >
+                    <span>{itemDetail.quantity}</span>
+                  </div>
+                  <div className="col col-md-2 total">
+                    <span>
+                      {totalItemProduct(
+                        itemDetail.quantity,
+                        itemDetail.product.price,
+                        itemDetail.product.discount
+                      )}
+                      &#8363;
+                    </span>
+                  </div>
+                  {orderById?.order.status === 3 && itemDetail.status === 1 && (
+                    <div
+                      className="col col-md-2 btn-rate"
+                      onClick={() => handleClickProduct(itemDetail.product._id)}
+                    >
+                      <span>{t("rate")}</span>
+                    </div>
+                  )}
 
-            </div>
+                  {orderById?.order.status === 3 && itemDetail.status === 2 && (
+                    <div className="col col-md-2 btn-rate" onClick={() => {}}>
+                      <span>{t("view_rate")}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="footer">
-            
-        </div>
+        <ModalCommon
+          className="modal-rate"
+          show={show}
+          modalTitle={t("rate_product")}
+          modalBody={modalBody}
+          handleConfirm={() => formikRef.current.submitForm()}
+          handleCloseModal={() => setShow(!show)}
+          isButton
+        />
+        <ModalCommon
+          show={showMessage}
+          modalTitle={modalTitleMessage}
+          modalBody={modalBodyMessage}
+          handleConfirm={handleConfirm}
+          handleCloseModal={() => setShowMessage(!showMessage)}
+          isButton
+        />
       </div>
-    </div>
+    </Formik>
   );
 }
 

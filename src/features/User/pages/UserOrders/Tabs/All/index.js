@@ -6,7 +6,7 @@ import { STATUS_ORDER } from "../../../../../../contanst/global";
 import PATH from "../../../../../../contanst/path";
 import "./All.scss";
 
-function All({ orders }) {
+function All({ orders, status }) {
   const navigate = useNavigate();
   
   const getHeaderByStatus = useCallback((orderStatus) => {
@@ -39,9 +39,11 @@ function All({ orders }) {
     });
     return total;
   }, []);
+
   const handleClickOrderItem = useCallback((id) => {
     navigate(PATH.USER_ORDERS.ORDER_DETAIL, {state: {id: id}});
   }, [navigate]);
+
   return (
     <div className="order-by-status">
       {orders.map((orderItem) => {

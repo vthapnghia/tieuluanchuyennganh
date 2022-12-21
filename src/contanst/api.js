@@ -50,6 +50,9 @@ const API_URL = {
     GET_ALL_ORDER_USER: "order/user",
     GET_ORDER_BY_ID: "order/:id",
   },
+  RATE: {
+    CREATE_RATE: "rating"
+  }
 };
 
 export default API_URL;

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import orderAPI from "../../../../API/orderAPI";
 
 const getAllOrder = createAsyncThunk(
-  "CREATE_ORDER",
+  "GET_ALL_ORDER",
   async (param, { rejectWithValue }) => {
     try {
       const res = await orderAPI.getAllOrder(param);
@@ -14,7 +14,7 @@ const getAllOrder = createAsyncThunk(
 );
 
 const getOrderById = createAsyncThunk(
-  "CREATE_ORDER",
+  "GET_ORDER_BY_ID",
   async (param, { rejectWithValue }) => {
     try {
       const res = await orderAPI.getOrderById(param);

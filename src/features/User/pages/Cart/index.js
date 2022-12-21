@@ -222,7 +222,7 @@ function Cart() {
                       />
                     </div>
                     <div className="row into-money">
-                      <span>{`${t("into_money")}: ${intoMoney}`}</span>
+                      <span>{`${t("into_money")}: ${intoMoney}`}&#8363;</span>
                     </div>
                     <div className="row">
                       <div className="btn-continue-shopping ">

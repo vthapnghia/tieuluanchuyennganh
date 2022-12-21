@@ -103,6 +103,8 @@ const STATUS_ORDER= {
   RATE: 5
 }
 
+const RATE = [1, 2, 3, 4, 5];
+
 export {
   KEY_STORAGE,
   COLOR,
@@ -116,5 +118,6 @@ export {
   OPTIONS_COLOR,
   PAYMENT_OPTION,
   SORT_OPTION,
-  STATUS_ORDER
+  STATUS_ORDER,
+  RATE
 };

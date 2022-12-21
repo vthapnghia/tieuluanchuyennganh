@@ -73,6 +73,7 @@ function ProductDetailAdmin() {
           console.log(res);
           if (res.payload?.status === 201) {
             setModalTitle(t("action_success", { param: t("add_product") }));
+            setModalBody(null);
             setShowModal(!showModal);
           } else {
             setModalTitle(t("action_fail", { param: t("add_product") }));
@@ -87,6 +88,7 @@ function ProductDetailAdmin() {
               setModalTitle(
                 t("action_success", { param: t("update_product") })
               );
+              setModalBody(null);
               setShowModal(!showModal);
             } else {
               setModalTitle(t("action_fail", { param: t("update_product") }));

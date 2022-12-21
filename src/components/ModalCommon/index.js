@@ -11,10 +11,16 @@ function ModalCommon({
   handleConfirm,
   labelButton,
   handleCloseModal,
+  className,
   ...props
 }) {
   return (
-    <Modal show={show} animation={true}>
+    <Modal
+      show={show}
+      animation={true}
+      className={`${className ? className : ""}`}
+      onHide={handleCloseModal}
+    >
       <div className="modal-content">
         <h3>{modalTitle}</h3>
         <div className="body">{modalBody && <div>{modalBody}</div>}</div>
@@ -26,7 +32,9 @@ function ModalCommon({
           )}
         </div>
       </div>
-      <div className="close-btn" onClick={handleCloseModal}>x</div>
+      <div className="close-btn" onClick={handleCloseModal}>
+        x
+      </div>
     </Modal>
   );
 }
