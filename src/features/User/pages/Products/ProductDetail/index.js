@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { useCallback, useEffect, useState } from "react";
-import { Carousel, Tab, Tabs } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
@@ -8,7 +8,6 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
 import { getProductById } from "../../Products/ProductSlice";
-import Comment from "./Comment";
 import "./ProductDetail.scss";
 import { useRef } from "react";
 import Icons from "../../../../../components/Icons";
@@ -17,6 +16,7 @@ import { useAuth } from "../../../../../until/hooks";
 import PATH from "../../../../../contanst/path";
 import { KEY_STORAGE } from "../../../../../contanst/global";
 import ModalCommon from "../../../../../components/ModalCommon";
+import moment from "moment";
 
 function ProductDetail() {
   const { userAuth } = useAuth();
@@ -24,6 +24,7 @@ function ProductDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const products = useSelector((state) => state.product.productById?.product);
+  const rate = useSelector((state) => state.product.productById?.ratings);
   const { t } = useTranslation();
   const [sizeArray, setSizeArray] = useState([]);
   const [quantityOfSize, setQuanlityOfSize] = useState(0);
@@ -88,6 +89,9 @@ function ProductDetail() {
   }, [id, dispatch]);
 
   useEffect(() => {
+    console.log(rate);
+  }, [rate]);
+  useEffect(() => {
     if (products?.size) {
       setSizeArray(Object.entries(products?.size));
     }
@@ -109,8 +113,8 @@ function ProductDetail() {
         onSubmit={handleAddToCart}
         innerRef={formikRef}
       >
-        <>
-          <div className="product-detail p-5 d-flex justify-content-around">
+        <div className="product-detail">
+          <div className="product p-5 d-flex justify-content-around">
             <div className="img-slider">
               <Carousel
                 activeIndex={index}
@@ -218,18 +222,46 @@ function ProductDetail() {
               </div>
             </div>
           </div>
-          <div className="comment-description">
+          <div className="comment">
             <div className="container">
-              <Tabs
-                defaultActiveKey="profile"
-                id="uncontrolled-tab-example"
-                className="mb-3 "
-              >
-                <Tab eventKey="depscription" title="Description"></Tab>
-                <Tab eventKey="reviews" title="Reviews">
-                  <Comment />
-                </Tab>
-              </Tabs>
+              <span className="rate-product">{t("rate_product")}</span>
+              <div className="list-comment">
+                {rate?.map((rateItem, index) => {
+                  return (
+                    <div key={index} className="comment-item">
+                      <div className="header-comment">
+                        <div className="avatar-comment">
+                          <img src={rateItem.user.avatar} alt="img" />
+                        </div>
+                        <div className="user-comment">
+                          <div className="user-name">
+                            <span>{rateItem.user.name}</span>
+                          </div>
+                          <div className="date-comment">
+                            <span>
+                              {moment(new Date(rateItem.created_at)).format(
+                                "DD/MM/YYYY"
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-commnet">
+                        <span>{rateItem.comment}</span>
+                      </div>
+                      <div className="list-img-commnet">
+                        {rateItem.image.map((itemImg, index) => {
+                          return (
+                            <div key={index} className="img-item">
+                              <img src={itemImg} alt="img" />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
           <ModalCommon
@@ -239,7 +271,7 @@ function ProductDetail() {
             handleConfirm={handleClose}
             isButton
           />
-        </>
+        </div>
       </Formik>
     </>
   );

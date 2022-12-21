@@ -10,7 +10,6 @@ import "./OrderDetail.scss";
 import ModalCommon from "../../../../../components/ModalCommon";
 import Input from "../../../../../components/Input";
 import { Formik } from "formik";
-import { RATE } from "../../../../../contanst/global";
 import Rate from "../../../../../components/Rate";
 import { createRate } from "../../Products/ProductDetail/RateSlice";
 
@@ -91,6 +90,7 @@ function OrderDetail(params) {
       formData.append("product_id", idProduct);
       formData.append("rate", rate);
       formData.append("comment", comment);
+      formData.append("order_detail_id", location.state.id);
       const files = Object.values(image);
       files.forEach((elmennt) => {
         formData.append("image", elmennt);
@@ -107,7 +107,7 @@ function OrderDetail(params) {
         }
       });
     },
-    [dispatch, idProduct, rate, show, showMessage]
+    [dispatch, idProduct, rate, show, showMessage, location.state.id]
   );
 
   const handleConfirm = useCallback(() => {
@@ -125,9 +125,6 @@ function OrderDetail(params) {
     }
     return borderColor;
   }, [orderById?.order.status, orderById?.orderDetail]);
-  useEffect(() => {
-    console.log(orderById);
-  }, [orderById]);
 
   useEffect(() => {
     dispatch(getOrderById(location.state.id));
@@ -274,7 +271,7 @@ function OrderDetail(params) {
               <div
                 className="status-icon"
                 style={{
-                  borderColor: borderColorRate
+                  borderColor: borderColorRate,
                 }}
               >
                 <Icons.Star height="40" width="40" color={borderColorRate} />
