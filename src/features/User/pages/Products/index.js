@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../../Components/ProductItem";
 import "./Products.scss";
-import { getProduct, setFilter, setPageNumber, setSort } from "./ProductSlice";
+import { getProduct, searchProduct, setFilter, setPageNumber, setSort } from "./ProductSlice";
 import Icons from "../../../../components/Icons";
 import Select from "react-select";
 import {
@@ -28,6 +28,7 @@ function Products() {
   const [listProduct, setListProduct] = useState(products);
   const dispatch = useDispatch();
   const [brandOption, setBrandOption] = useState([]);
+  const ref = useRef();
 
   const getAllFilter = useMemo(() => {
     let category = [];
@@ -210,6 +211,16 @@ function Products() {
     const number = (pageNumber / 10 + 1) * 10;
     dispatch(setPageNumber(number));
   }, [dispatch, pageNumber]);
+
+  const handleSearch = useCallback(() => {
+      dispatch(searchProduct(ref.current.value))
+  }, [dispatch])
+
+  const handleOnkeyDown = useCallback((e) => {
+    if(e.key === "Enter"){
+      dispatch(searchProduct(ref.current.value));
+    }
+}, [dispatch])
 
   useEffect(() => {
     if (sortFlag !== 0) {
@@ -423,8 +434,8 @@ function Products() {
         <div className="col-md-9">
           <div className="row">
             <div className="search-product col col-md-4">
-              <input type="text" placeholder={t("search")}></input>
-              <div className="icon-search">
+              <input type="text" placeholder={t("search")} ref={ref} onKeyDown={handleOnkeyDown}></input>
+              <div className="icon-search" onClick={handleSearch}>
                 <Icons.Search />
               </div>
             </div>
@@ -453,7 +464,7 @@ function Products() {
               return <ProductItem key={index} product={product} />;
             })}
           </div>
-          {listProduct?.length > 19 && (
+          {listProduct?.length > 19 && listProduct.count > listProduct?.length && (
             <div className="button-load text-center">
               <Button onClick={handleViewAdd} className="primary">
                 Xem thêm

@@ -246,6 +246,14 @@ function ProductDetail() {
                           </div>
                         </div>
                       </div>
+                      <div className="star-comment">
+                        <Icons.Star color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`}/>
+                        <Icons.Star color={`${rateItem.rate >= 2 ? "#ffc700" : "#ccc"}`}/>
+                        <Icons.Star color={`${rateItem.rate >= 3 ? "#ffc700" : "#ccc"}`}/>
+                        <Icons.Star color={`${rateItem.rate >= 4 ? "#ffc700" : "#ccc"}`}/>
+                        <Icons.Star color={`${rateItem.rate === 5 ? "#ffc700" : "#ccc"}`}/>
+                        
+                      </div>
                       <div className="text-commnet">
                         <span>{rateItem.comment}</span>
                       </div>

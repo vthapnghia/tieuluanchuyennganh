@@ -46,6 +46,15 @@ const uploadProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithVa
     }
 });
 
+const searchProduct = createAsyncThunk("SEARCH_PRODUCT", async (data, {rejectWithValue}) => {
+    try {
+        const res = await productAPI.searchProduct(data);
+        return res;
+    } catch (error) {
+        rejectWithValue(error);
+    }
+});
+
 const deleteProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithValue}) => {
     try {
         const res = await productAPI.deleteProduct(data);
@@ -80,16 +89,20 @@ const ProductSlice = createSlice({
     extraReducers: {
         [getAllProduct.fulfilled]: (state, action) =>{
             const res = action.payload?.data;
-            state.products = res
+            state.products = res;
         },
         [getProduct.fulfilled]: (state, action) =>{
             const res = action.payload?.data;
-            state.products = res
+            state.products = res;
         },
         [getProductById.fulfilled]: (state, action) => {
             const res = action.payload?.data;
-            state.productById = res
-        }
+            state.productById = res;
+        },
+        [searchProduct.fulfilled]: (state, action) => {
+            const res = action.payload?.data;
+            state.products = res;
+        },
     }
 });
 
@@ -105,5 +118,6 @@ export {
     setFilter,
     setSort,
     setPageNumber,
+    searchProduct
 };
 export default reducer;

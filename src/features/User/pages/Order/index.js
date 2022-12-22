@@ -25,7 +25,7 @@ function Order(props) {
   const formikRef = useRef();
   const user = useSelector((state) => state.auth.user);
   const [feeShip, setFeeShip] = useState(0);
-  const [shipId, setShipId] = useState(ship[0]._id);
+  const [shipId, setShipId] = useState(null);
   const [payMethod, setPayMethod] = useState(null);
   const [req, setReq] = useState({});
   const [showSuccess, setShowSuccess] = useState(false);
@@ -161,8 +161,10 @@ function Order(props) {
   }, [dispatch]);
 
   useEffect(() => {
-    setFeeShip(ship[0].price);
-    setShipId(ship[0]._id);
+    if (ship) {
+      setFeeShip(ship[0].price);
+      setShipId(ship[0]._id);
+    }
   }, [ship]);
 
   return (

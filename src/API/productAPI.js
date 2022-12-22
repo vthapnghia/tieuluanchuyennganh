@@ -29,6 +29,10 @@ const productAPI = {
     const url = API_URL.PRODUCT.DELETE_PRODUCT.replace(":id", data);;
     return doRequest("delete", url, "", CONFIGHEADER_1);
   },
+  searchProduct: (data) => {
+    const url = API_URL.PRODUCT.SEARCH_PRODUCT.concat(`?search=${data}`);
+    return doRequest("get", url, "", CONFIGHEADER_1);
+  },
 };
 
 export default productAPI;

@@ -49,7 +49,7 @@ function Cart() {
     { label: t("price"), align: "center", width: "15%" },
     { label: t("size"), align: "center", width: "10%" },
     { label: t("quantity"), align: "center", width: "12%" },
-    { label: t("total"), align: "center", width: "15%" },
+    { label: t("title_total"), align: "center", width: "15%" },
   ];
 
   const rows = useMemo(() => {
@@ -171,13 +171,9 @@ function Cart() {
 
   const handlePay = useCallback(
     (e) => {
-      if (intoMoney === 0) {
-        e.preventDefault();
-      } else {
-        navigate(PATH.ORDER, {
-          state: { intoMoney: intoMoney, product: checkBox },
-        });
-      }
+      navigate(PATH.ORDER, {
+        state: { intoMoney: intoMoney, product: checkBox },
+      });
     },
     [intoMoney, checkBox, navigate]
   );
@@ -196,6 +192,7 @@ function Cart() {
     });
     setIntoMoney(total);
   }, [checkBox]);
+
   return (
     <>
       <Formik
@@ -238,7 +235,11 @@ function Cart() {
                             </Button>
                           </div>
                           <div>
-                            <Button className="btn primary" onClick={handlePay}>
+                            <Button
+                              className="btn primary"
+                              onClick={handlePay}
+                              disabled={!checkBox || checkBox?.length === 0}
+                            >
                               {t("pay")}
                             </Button>
                           </div>

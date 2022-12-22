@@ -36,7 +36,7 @@ function UserOrders(params) {
   return (
     <div className="user-order">
       <div className="container">
-        {allOrder ? (
+        {allOrder && allOrder.length > 0 ? (
           <Tabs
             defaultActiveKey="in-order"
             id="uncontrolled-tab-example"

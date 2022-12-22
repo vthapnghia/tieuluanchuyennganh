@@ -45,11 +45,11 @@ function TabItem({ orders }) {
 
   return (
     <div className="order-by-status">
-      {orders.map((orderItem) => {
+      {orders.map((orderItem, index) => {
         return (
           <div
             className="order-item"
-            key={orderItem.orderId}
+            key={index}
             onClick={() => handleClickOrderItem(orderItem.orderId)}
           >
             <div className="header">
@@ -62,11 +62,11 @@ function TabItem({ orders }) {
                 ),
               })}`}</div>
             </div>
-            {orderItem.orderDetail.map((itemDetail) => {
+            {orderItem.orderDetail.map((itemDetail, index) => {
               return (
                 <div
                   className="row product-order-item"
-                  key={itemDetail.product._id}
+                  key={index}
                 >
                   <div className="col col-md-2 product-img">
                     <img src={itemDetail.product.product_image[0]} alt="img" />

@@ -11,7 +11,11 @@ import ModalCommon from "../../../../../components/ModalCommon";
 import Input from "../../../../../components/Input";
 import { Formik } from "formik";
 import Rate from "../../../../../components/Rate";
-import { createRate } from "../../Products/ProductDetail/RateSlice";
+import {
+  createRate,
+  getRate,
+  updateRate,
+} from "../../Products/ProductDetail/RateSlice";
 
 function OrderDetail(params) {
   const location = useLocation();
@@ -21,9 +25,12 @@ function OrderDetail(params) {
   const [idOrderDetail, setIdOrderDetail] = useState();
   const [rate, setRate] = useState(1);
   const [show, setShow] = useState(false);
+  const [showRate, setShowRate] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [modalTitleMessage, setTitleModalessage] = useState(null);
-  const [modalBodyMessage, setBodyModalMessage] = useState(null);
+  const [modalTitleMessage, setModalTitleMessage] = useState(null);
+  const [modalBodyMessage, setModalBodyMessage] = useState(null);
+  const [modalBodyRate, setBodyModalRate] = useState(null);
+  const [editFlag, setEditFlag] = useState(false);
   const formikRef = useRef();
 
   const getHeaderByStatus = useCallback((orderStatus) => {
@@ -97,24 +104,45 @@ function OrderDetail(params) {
       files.forEach((elmennt) => {
         formData.append("image", elmennt);
       });
-      await dispatch(createRate(formData)).then((res) => {
-        if (res.payload.status === 200) {
-          setTitleModalessage(t("action_success", { param: t("comment") }));
-          setBodyModalMessage(null);
-          setShowMessage(!showMessage);
-        } else {
-          setTitleModalessage(t("action_fail", { param: t("comment") }));
-          setBodyModalMessage(t("try_again"));
-          setShowMessage(!showMessage);
-        }
-      });
+      if (editFlag) {
+        await dispatch(updateRate(formData)).then((res) => {
+          if (res.payload.status === 200) {
+            setModalTitleMessage(
+              t("action_success", { param: t("update_rate") })
+            );
+            setModalBodyMessage(null);
+            setShowMessage(!showMessage);
+          } else {
+            setModalTitleMessage(t("action_fail", { param: t("update_rate") }));
+            setModalBodyMessage(t("try_again"));
+            setShowMessage(!showMessage);
+          }
+        });
+      } else {
+        await dispatch(createRate(formData)).then((res) => {
+          if (res.payload.status === 200) {
+            setModalTitleMessage(
+              t("action_success", { param: t("rate_product") })
+            );
+            setModalBodyMessage(null);
+            setShowMessage(!showMessage);
+          } else {
+            setModalTitleMessage(
+              t("action_fail", { param: t("rate_product") })
+            );
+            setModalBodyMessage(t("try_again"));
+            setShowMessage(!showMessage);
+          }
+        });
+      }
     },
-    [dispatch, idProduct, rate, show, showMessage, idOrderDetail]
+    [dispatch, idProduct, rate, show, showMessage, idOrderDetail, editFlag]
   );
 
   const handleConfirm = useCallback(() => {
     setShowMessage(!showMessage);
     dispatch(getOrderById(location.state.id));
+    formikRef.current.resetForm();
   }, [showMessage, dispatch, location.state.id]);
 
   const borderColorRate = useMemo(() => {
@@ -128,13 +156,65 @@ function OrderDetail(params) {
     return borderColor;
   }, [orderById?.order.status, orderById?.orderDetail]);
 
+  const modalBodyViewRate = useCallback((rateItem) => {
+    return (
+      <div>
+        <div>
+          <div id="images">
+            <div className="display-img">
+              {rateItem &&
+                rateItem?.image.map((img, index) => {
+                  return (
+                    <figure key={index}>
+                      <img src={img} alt="img" />
+                    </figure>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+        <div style={{ margin: "10px 5px" }}>
+          <span>{rateItem.comment}</span>
+        </div>
+        <div className="d-flex" style={{ margin: "0 5px" }}>
+          <Icons.Star color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`} />
+          <Icons.Star color={`${rateItem.rate >= 2 ? "#ffc700" : "#ccc"}`} />
+          <Icons.Star color={`${rateItem.rate >= 3 ? "#ffc700" : "#ccc"}`} />
+          <Icons.Star color={`${rateItem.rate >= 4 ? "#ffc700" : "#ccc"}`} />
+          <Icons.Star color={`${rateItem.rate === 5 ? "#ffc700" : "#ccc"}`} />
+        </div>
+      </div>
+    );
+  }, []);
+
+  const handleViewRate = useCallback(
+    async (orderDetailId, productId) => {
+      await dispatch(getRate({ orderDetailId, productId })).then((res) => {
+        if (res.payload.status === 200) {
+          const response = res.payload.data?.ratings;
+          setIdProduct(productId);
+          setIdOrderDetail(orderDetailId);
+          setBodyModalRate(modalBodyViewRate(response));
+          setShowRate(!showRate);
+        }
+      });
+    },
+    [dispatch, showRate, modalBodyViewRate]
+  );
+
+  const handleConfirmEditRate = useCallback(() => {
+    setShowRate(!showRate);
+    setEditFlag(!editFlag)
+    setShow(!show);
+  }, [showRate, show, editFlag]);
+  
   useEffect(() => {
     dispatch(getOrderById(location.state.id));
   }, [dispatch, location.state.id]);
 
   useEffect(() => {
-    console.log(orderById);
-  }, [orderById]);
+    dispatch(getOrderById(location.state.id));
+  }, [dispatch, location.state.id]);
 
   return (
     <Formik
@@ -336,7 +416,12 @@ function OrderDetail(params) {
                   )}
 
                   {orderById?.order.status === 3 && itemDetail.status === 2 && (
-                    <div className="col col-md-2 btn-rate" onClick={() => {}}>
+                    <div
+                      className="col col-md-2 btn-rate"
+                      onClick={() =>
+                        handleViewRate(itemDetail.id, itemDetail.product._id)
+                      }
+                    >
                       <span>{t("view_rate")}</span>
                     </div>
                   )}
@@ -353,6 +438,16 @@ function OrderDetail(params) {
           handleConfirm={() => formikRef.current.submitForm()}
           handleCloseModal={() => setShow(!show)}
           isButton
+        />
+        <ModalCommon
+          className="modal-rate"
+          show={showRate}
+          modalTitle={t("view_rate")}
+          modalBody={modalBodyRate}
+          handleConfirm={handleConfirmEditRate}
+          handleCloseModal={() => setShowRate(!showRate)}
+          isButton
+          labelButton={t("edit")}
         />
         <ModalCommon
           show={showMessage}

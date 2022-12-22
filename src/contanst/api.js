@@ -31,6 +31,7 @@ const API_URL = {
     ADD_PRODUCT: "product",
     UPDATE_PRODUCT: "product/:id",
     DELETE_PRODUCT: "product/:id",
+    SEARCH_PRODUCT: "product/search"
   },
   BRAND: {
     ALL_BRAND: "brand",
@@ -53,7 +54,9 @@ const API_URL = {
     UPDATE_ORDER_BY_ID: "order/:id"
   },
   RATE: {
-    CREATE_RATE: "rating"
+    CREATE_RATE: "rating",
+    GET_RATE: "rating/:id_1/:id_2",
+    UPDATE_RATE: "rating",
   }
 };
 

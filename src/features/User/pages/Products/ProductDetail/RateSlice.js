@@ -13,13 +13,44 @@ const createRate = createAsyncThunk(
   }
 );
 
-const initialState = {};
+const getRate = createAsyncThunk(
+  "GET_RATE",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await rateAPI.getRate(data);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+const updateRate = createAsyncThunk(
+  "UPDATE_RATE",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await rateAPI.updateRate(data);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+const initialState = {
+  rateProduct: null,
+};
 const RateSlice = createSlice({
   name: "product",
   initialState,
-  extraReducers: {},
+  extraReducers: {
+    [getRate.fulfilled]: (state, actions) => {
+      const res = actions.payload?.actions;
+      state.rateProduct = res;
+    }
+  },
 });
 
 const { reducer } = RateSlice;
-export { createRate };
+export { createRate, getRate, updateRate };
 export default reducer;

@@ -118,6 +118,7 @@
   "complete": "Hoàn thành",
   "shopping": "Mua sắm",
   "no_product_in_cart": "Chưa có sản phẩm nào trong giỏ hàng",
+  "no_product_in_order": "Chưa có đơn hàng nào",
   "status": "Trạng thái",
   "in_order": "Đã đặt hàng",
   "date_order": "Ngày đặt hàng: {{param}}",
@@ -132,6 +133,8 @@
   "title_total": "Tổng",
   "update_order": "Cập nhật đơn hàng",
   "update_order_confirm": "Bạn muốn cập nhập đơn hàng này?",
+  "edit": "Chỉnh sửa",
+  "update_rate": "Chỉnh sửa đánh giá",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
