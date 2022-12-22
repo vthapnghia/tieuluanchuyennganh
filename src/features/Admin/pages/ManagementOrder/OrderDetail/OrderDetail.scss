@@ -1,0 +1,83 @@
+@import "/src/assets/scss/variables.scss";
+
+.admin-order-detail {
+  min-height: 100vh;
+  padding-top: 50px;
+  .header {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+    .status {
+      display: flex;
+      align-items: center;
+      span:first-child {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .body {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    .address-receiver,
+    .total-order,
+    .method-ship,
+    .method-pay {
+      padding: 5px;
+      span:first-child {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      span:last-child {
+        font-size: 16px;
+      }
+    }
+    .update-status {
+      padding: 10px 0;
+    }
+  }
+
+  .order-product {
+    padding: 20px 50px;
+    .title-product {
+      height: 50px;
+      background-color: $main-color;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      color: $white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      div{
+        text-align: center;
+      }
+    }
+    .product-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 20px;
+      .img-product {
+        img {
+          width: 100px;
+          height: 100px;
+          border-radius: 10px;
+        }
+      }
+
+      div{
+        text-align: center;
+      }
+    }
+  }
+}

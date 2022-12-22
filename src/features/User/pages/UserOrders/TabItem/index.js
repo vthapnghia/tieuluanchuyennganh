@@ -1,12 +1,11 @@
 import { t } from "i18next";
 import moment from "moment/moment";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { STATUS_ORDER } from "../../../../../../contanst/global";
-import PATH from "../../../../../../contanst/path";
-import "./All.scss";
+import PATH from "../../../../../contanst/path";
+import "./TabItem.scss";
 
-function All({ orders, status }) {
+function TabItem({ orders }) {
   const navigate = useNavigate();
   
   const getHeaderByStatus = useCallback((orderStatus) => {
@@ -59,7 +58,7 @@ function All({ orders, status }) {
               )}`}</div>
               <div>{`${t("date_order", {
                 param: moment(new Date(orderItem.orderCreateDay)).format(
-                  "DD/MM/YYYY"
+                  "DD-MM-YYYY"
                 ),
               })}`}</div>
             </div>
@@ -101,4 +100,4 @@ function All({ orders, status }) {
   );
 }
 
-export default All;
+export default TabItem;

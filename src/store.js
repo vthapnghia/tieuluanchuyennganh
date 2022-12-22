@@ -8,6 +8,7 @@ import shipSlice from "./features/Admin/pages/ManagementShip/ShipSlice";
 import orderSlice from "./features/User/pages/Order/OrderSlice";
 import userOrderSlice from "./features/User/pages/UserOrders/UserOrderSlice";
 import RateSlice from "./features/User/pages/Products/ProductDetail/RateSlice";
+import orderAdminSlice from "./features/Admin/pages/ManagementOrder/OrderAdminSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
     ship: shipSlice,
     order: orderSlice,
     userOrder: userOrderSlice,
-    rate: RateSlice
+    rate: RateSlice,
+    orderAdmin: orderAdminSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

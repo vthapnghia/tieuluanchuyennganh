@@ -22,7 +22,7 @@ function ManagementProduct() {
   const formikRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.products);
+  const product = useSelector((state) => state.product.products?.product);
   const [listProduct, setListProduct] = useState(product);
   const [idProduct, setIdProduct] = useState();
   const [modalBody, setModalBody] = useState("");

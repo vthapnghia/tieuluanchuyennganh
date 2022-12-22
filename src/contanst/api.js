@@ -48,7 +48,9 @@ const API_URL = {
   ORDER: {
     CREATE_ORDER: "order",
     GET_ALL_ORDER_USER: "order/user",
+    GET_ALL_ORDER_ADMIN: "order",
     GET_ORDER_BY_ID: "order/:id",
+    UPDATE_ORDER_BY_ID: "order/:id"
   },
   RATE: {
     CREATE_RATE: "rating"

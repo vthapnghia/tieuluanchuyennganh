@@ -128,7 +128,10 @@
   "rate_product": "Đánh giá sản phẩm",
   "commnent": "Bình luận",
   "view_rate": "Xem đánh giá",
-
+  "shipping": "Giao hàng",
+  "title_total": "Tổng",
+  "update_order": "Cập nhật đơn hàng",
+  "update_order_confirm": "Bạn muốn cập nhập đơn hàng này?",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

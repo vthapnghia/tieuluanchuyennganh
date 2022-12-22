@@ -25,6 +25,18 @@ const getOrderById = createAsyncThunk(
   }
 );
 
+const updateOrderById = createAsyncThunk(
+  "UPDATE_ORDER_BY_ID",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = await orderAPI.updateOrder(param);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   allOrder: null,
   orderById: null,
@@ -33,6 +45,11 @@ const initialState = {
 const OrderSlice = createSlice({
   name: "order",
   initialState,
+  reducers: {
+    setOrderByID: (state, action) => {
+      state.orderById = action.payload;
+    },
+  },
   extraReducers: {
     [getAllOrder.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -46,5 +63,6 @@ const OrderSlice = createSlice({
 });
 
 const { reducer } = OrderSlice;
-export { getAllOrder, getOrderById };
+const { setOrderByID } = OrderSlice.actions;
+export { getAllOrder, getOrderById, updateOrderById, setOrderByID };
 export default reducer;

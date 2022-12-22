@@ -25,7 +25,7 @@ function Order(props) {
   const formikRef = useRef();
   const user = useSelector((state) => state.auth.user);
   const [feeShip, setFeeShip] = useState(0);
-  const [shipId, setShipId] = useState(null);
+  const [shipId, setShipId] = useState(ship[0]._id);
   const [payMethod, setPayMethod] = useState(null);
   const [req, setReq] = useState({});
   const [showSuccess, setShowSuccess] = useState(false);
@@ -77,6 +77,7 @@ function Order(props) {
         receiver_phone: values.phone,
         is_fast_buy: false,
       };
+      console.log();
       dispatch(createOrder(data)).then((res) => {
         if (res.payload.status === 200) {
           setShowSuccess(!showSuccess);
@@ -160,7 +161,8 @@ function Order(props) {
   }, [dispatch]);
 
   useEffect(() => {
-    ship && setFeeShip(ship[0].price);
+    setFeeShip(ship[0].price);
+    setShipId(ship[0]._id);
   }, [ship]);
 
   return (

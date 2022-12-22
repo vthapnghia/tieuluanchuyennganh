@@ -240,7 +240,7 @@ function ProductDetail() {
                           <div className="date-comment">
                             <span>
                               {moment(new Date(rateItem.created_at)).format(
-                                "DD/MM/YYYY"
+                                "DD-MM-YYYY"
                               )}
                             </span>
                           </div>

@@ -88,6 +88,7 @@ const SIDEBAR_PATH = [
   { path: PATH.ADMIN.USER, name: "Quản lý người dùng" },
   { path: PATH.ADMIN.NEWS.BASE, name: "Quản lý bài viết" },
   { path: PATH.ADMIN.SHIP.BASE, name: "Quản lý vận chuyển" },
+  { path: PATH.ADMIN.ORDER.BASE, name: "Quản lý đơn hàng" },
 ];
 
 const PAYMENT_OPTION = [
@@ -95,13 +96,11 @@ const PAYMENT_OPTION = [
   { value: 2, label: "Thanh toán online" },
 ];
 
-const STATUS_ORDER= {
-  IN_ORDER: 1,
-  IN_SHIP: 2,
-  COMPLETE: 3,
-  NOT_RATE: 4,
-  RATE: 5
-}
+const STATUS_ORDER_OPTION= [
+  { value: 1, label: "Đã đặt hàng" },
+  { value: 2, label: "Đang giao" },
+  { value: 3, label: "Hoàn thành" },
+]
 
 const RATE = [1, 2, 3, 4, 5];
 
@@ -118,6 +117,6 @@ export {
   OPTIONS_COLOR,
   PAYMENT_OPTION,
   SORT_OPTION,
-  STATUS_ORDER,
+  STATUS_ORDER_OPTION,
   RATE
 };

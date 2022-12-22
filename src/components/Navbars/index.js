@@ -9,6 +9,7 @@ import { useAuth } from "../../until/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Authentication/authSlice";
 import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
+import { SIDEBAR_PATH } from "../../contanst/global";
 
 function Navbars() {
   const { t } = useTranslation();
@@ -29,11 +30,12 @@ function Navbars() {
   }, []);
 
   const getTileNav = useMemo(() => {
-    let title = "";
-    if (pathname === PATH.ADMIN.PRODUCTS.BASE) {
-      title = t("manage_customers");
-    } else {
-      title = t("manage_products");
+    let title = t("manage_products");
+    const pathBySidebar = SIDEBAR_PATH.find((itemPath) => {
+      return itemPath.path === pathname;
+    });
+    if (pathBySidebar) {
+      title = pathBySidebar.name;
     }
     return title;
   }, [pathname, t]);
@@ -144,7 +146,10 @@ function Navbars() {
                       <Link className="dropdown-item" to={PATH.PROFILE}>
                         {t("profile")}
                       </Link>
-                      <Link className="dropdown-item" to={PATH.USER_ORDERS.BASE}>
+                      <Link
+                        className="dropdown-item"
+                        to={PATH.USER_ORDERS.BASE}
+                      >
                         {t("my_order")}
                       </Link>
                       <span

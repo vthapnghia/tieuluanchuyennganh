@@ -93,6 +93,7 @@ function ManagementNews() {
     await dispatch(deleteNews(id)).then((res) => {
       if (res.payload?.status === 200) {
         setModalTitle(t("action_success", { param: t("delete_news") }));
+        setModalBody(null);
       } else {
         setModalTitle(t("action_fail", { param: t("delete_news") }));
         setModalBody(t("try_again"));

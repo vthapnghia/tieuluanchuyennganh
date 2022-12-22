@@ -18,6 +18,7 @@ function OrderDetail(params) {
   const dispatch = useDispatch();
   const orderById = useSelector((state) => state.userOrder.orderById);
   const [idProduct, setIdProduct] = useState();
+  const [idOrderDetail, setIdOrderDetail] = useState();
   const [rate, setRate] = useState(1);
   const [show, setShow] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -46,8 +47,9 @@ function OrderDetail(params) {
   }, []);
 
   const handleClickProduct = useCallback(
-    (id) => {
-      setIdProduct(id);
+    (idProduct, idOrderDetail) => {
+      setIdProduct(idProduct);
+      setIdOrderDetail(idOrderDetail);
       setShow(!show);
     },
     [show]
@@ -90,13 +92,13 @@ function OrderDetail(params) {
       formData.append("product_id", idProduct);
       formData.append("rate", rate);
       formData.append("comment", comment);
-      formData.append("order_detail_id", location.state.id);
+      formData.append("order_detail_id", idOrderDetail);
       const files = Object.values(image);
       files.forEach((elmennt) => {
         formData.append("image", elmennt);
       });
       await dispatch(createRate(formData)).then((res) => {
-        if (res.payload.staus === 200) {
+        if (res.payload.status === 200) {
           setTitleModalessage(t("action_success", { param: t("comment") }));
           setBodyModalMessage(null);
           setShowMessage(!showMessage);
@@ -107,7 +109,7 @@ function OrderDetail(params) {
         }
       });
     },
-    [dispatch, idProduct, rate, show, showMessage, location.state.id]
+    [dispatch, idProduct, rate, show, showMessage, idOrderDetail]
   );
 
   const handleConfirm = useCallback(() => {
@@ -129,6 +131,10 @@ function OrderDetail(params) {
   useEffect(() => {
     dispatch(getOrderById(location.state.id));
   }, [dispatch, location.state.id]);
+
+  useEffect(() => {
+    console.log(orderById);
+  }, [orderById]);
 
   return (
     <Formik
@@ -158,7 +164,7 @@ function OrderDetail(params) {
             )}`}</div>
             <div>{`${t("date_order", {
               param: moment(new Date(orderById?.order.created_at)).format(
-                "DD/MM/YYYY"
+                "DD-MM-YYYY"
               ),
             })}`}</div>
           </div>
@@ -287,9 +293,9 @@ function OrderDetail(params) {
             </div>
           </div>
           <div className="order-product">
-            {orderById?.orderDetail.map((itemDetail) => {
+            {orderById?.orderDetail.map((itemDetail, index) => {
               return (
-                <div className="row product-item" key={itemDetail.product._id}>
+                <div className="row product-item" key={index}>
                   <div className="col col-md-2 img-product">
                     <img src={itemDetail.product.product_image[0]} alt="img" />
                   </div>
@@ -318,7 +324,12 @@ function OrderDetail(params) {
                   {orderById?.order.status === 3 && itemDetail.status === 1 && (
                     <div
                       className="col col-md-2 btn-rate"
-                      onClick={() => handleClickProduct(itemDetail.product._id)}
+                      onClick={() =>
+                        handleClickProduct(
+                          itemDetail.product._id,
+                          itemDetail.id
+                        )
+                      }
                     >
                       <span>{t("rate")}</span>
                     </div>

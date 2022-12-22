@@ -32,7 +32,7 @@ const doRequest = async (method, url, data, headers, noLoading) => {
         response = await axiosClient.post(url, data, headers);
         break;
       case "put":
-        response = await axiosClient.put(url, data, headers);
+          response = await axiosClient.put(url, data, headers);
         break;
       case "delete":
         response = await axiosClient.delete(url, headers);

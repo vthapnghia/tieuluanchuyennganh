@@ -44,6 +44,10 @@ const PATH = {
     SHIP: {
       BASE: "/admin/management-ship",
     },
+    ORDER:{
+      BASE: "/admin/management-order",
+      ORDER_DETAIL: "/admin/order/:id"
+    }
   },
 };
 

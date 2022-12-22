@@ -18,6 +18,8 @@ const Order = lazy (() => import("./features/User/pages/Order"));
 const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
 const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
 const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
+const ManagementOrder = lazy(() => import("./features/Admin/pages/ManagementOrder"));
+const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrder/OrderDetail"));
 
 const routesAdmin = [
   {
@@ -69,6 +71,16 @@ const routesAdmin = [
     path: PATH.ADMIN.SHIP.BASE,
     name: "Ship base",
     component: ManagementShip,
+  },
+  {
+    path: PATH.ADMIN.ORDER.BASE,
+    name: "Order base",
+    component: ManagementOrder,
+  },
+  {
+    path: PATH.ADMIN.ORDER.ORDER_DETAIL,
+    name: "Order details",
+    component: OrderDetailAdmin,
   },
 ];
 

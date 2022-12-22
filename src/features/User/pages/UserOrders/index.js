@@ -1,13 +1,13 @@
 import { t } from "i18next";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "./UserOrders.scss";
 import { getAllOrder } from "./UserOrderSlice";
-import All from "./Tabs/All";
 import Button from "../../../../components/Button";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
+import TabItem from "./TabItem";
 
 function UserOrders(params) {
   const allOrder = useSelector((state) => state.userOrder.allOrder?.orders);
@@ -44,35 +44,35 @@ function UserOrders(params) {
           >
             <Tab eventKey="in-order" title={t("order_all")}>
               {allOrder && allOrder.length > 0 && (
-                <All orders={orderByStatus(0)} />
+                <TabItem orders={orderByStatus(0)} />
               )}
             </Tab>
             <Tab eventKey="in_order" title={t("in_order")}>
               {allOrder && allOrder.length > 0 && (
-                <All orders={orderByStatus(1)} />
+                <TabItem orders={orderByStatus(1)} />
               )}
             </Tab>
             <Tab eventKey="in-ship" title={t("in_ship")}>
               {allOrder && allOrder.length > 0 && (
-                <All orders={orderByStatus(2)} />
+                <TabItem orders={orderByStatus(2)} />
               )}
             </Tab>
             <Tab eventKey="complete" title={t("complete")}>
               {allOrder && allOrder.length > 0 && (
-                <All orders={orderByStatus(3)} />
+                <TabItem orders={orderByStatus(3)} />
               )}
             </Tab>
           </Tabs>
         ) : (
           <div className="no-order">
-          <h2>{t("no_product_in_order")}</h2>
-          <Button
-            className="primary"
-            onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
-          >
-            {t("shopping")}
-          </Button>
-        </div>
+            <h2>{t("no_product_in_order")}</h2>
+            <Button
+              className="primary"
+              onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+            >
+              {t("shopping")}
+            </Button>
+          </div>
         )}
       </div>
     </div>
