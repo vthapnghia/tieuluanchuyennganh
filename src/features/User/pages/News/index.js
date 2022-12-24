@@ -7,7 +7,6 @@ import { getAllNews } from "./NewsSlice";
 function News() {
   const dispatch = useDispatch();
   const allNews = useSelector((state) => state.news.allNews);
-  console.log(allNews);
 
   useEffect(() => {
     dispatch(getAllNews());

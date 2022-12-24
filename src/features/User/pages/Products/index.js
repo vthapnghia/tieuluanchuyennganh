@@ -467,7 +467,7 @@ function Products() {
           {listProduct?.length > 19 && listProduct.count > listProduct?.length && (
             <div className="button-load text-center">
               <Button onClick={handleViewAdd} className="primary">
-                Xem thêm
+                {t("add_view")}
               </Button>
             </div>
           )}

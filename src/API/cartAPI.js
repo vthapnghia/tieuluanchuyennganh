@@ -1,20 +1,19 @@
 import API_URL from "../contanst/api";
-import { CONFIGHEADER_1 } from "../contanst/global";
 import { doRequest } from "../until/common";
 
 const cartAPI = {
   getAllCart: (data) => {
     const url = API_URL.CART.GET_ALL_CART;
-    return doRequest("get", url, "", CONFIGHEADER_1);
+    return doRequest("get", url);
   },
   addToCart: (data) => {
     const url = API_URL.CART.ADD_TO_CART;
-    return doRequest("post", url, data, CONFIGHEADER_1);
+    return doRequest("post", url, { data: data });
   },
   editQuantity: (param) => {
     const { data, noLoading } = param;
     const url = API_URL.CART.EDIT_QUANTITY;
-    return doRequest("post", url, data, CONFIGHEADER_1, noLoading);
+    return doRequest("post", url, { data: data, noLoading: noLoading });
   },
   removeToCart: (data) => {
     const { id, size } = data;
@@ -22,7 +21,7 @@ const cartAPI = {
       ":size",
       size
     );
-    return doRequest("delete", url, "", CONFIGHEADER_1);
+    return doRequest("delete", url);
   },
 };
 

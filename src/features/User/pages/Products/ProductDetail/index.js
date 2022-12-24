@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import Icons from "../../../../../components/Icons";
 import { addToCart, getAllCart } from "../../Cart/cartSlice";
 import { useAuth } from "../../../../../until/hooks";
 import PATH from "../../../../../contanst/path";
-import { KEY_STORAGE } from "../../../../../contanst/global";
+import { KEY_STORAGE, OPTION_GENDER } from "../../../../../contanst/global";
 import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
 
@@ -36,6 +36,7 @@ function ProductDetail() {
   const [show, setShow] = useState(false);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+  const [buyNow, setBuyNow] = useState(false);
 
   const handleSelect = useCallback((selectedIndex) => {
     setIndex(selectedIndex);
@@ -52,19 +53,42 @@ function ProductDetail() {
       const data = { ...values };
       data.product_id = id;
       data.size = Number(size);
-      await dispatch(addToCart(data)).then((res) => {
-        if (res.payload.status === 201 || res.payload.status === 200) {
-          setModalTitle(t("action_success", { param: t("add_to_cart") }));
-          setShow(!show);
-          dispatch(getAllCart());
-        } else {
-          setModalTitle(t("action_fail", { param: t("add_to_cart") }));
-          setModalBody(t("try_again"));
-          setShow(!show);
-        }
-      });
+      if (buyNow) {
+        const intoMoney =
+          products?.price * (1 - products?.discount / 100) * values.quantity;
+        const product = [
+          `${id}_${size}_${values.quantity}_${
+            products.price * (1 - products.discount / 100)
+          }`,
+        ];
+        navigate(PATH.ORDER, {
+          state: { intoMoney: intoMoney, product: product, fastBuy: true },
+        }, );
+      } else {
+        await dispatch(addToCart(data)).then((res) => {
+          if (res.payload.status === 201 || res.payload.status === 200) {
+            setModalTitle(t("action_success", { param: t("add_to_cart") }));
+            setShow(!show);
+            dispatch(getAllCart());
+          } else {
+            setModalTitle(t("action_fail", { param: t("add_to_cart") }));
+            setModalBody(t("try_again"));
+            setShow(!show);
+          }
+        });
+      }
     },
-    [size, id, dispatch, show, t]
+    [
+      size,
+      id,
+      dispatch,
+      show,
+      t,
+      buyNow,
+      products?.price,
+      products?.discount,
+      navigate,
+    ]
   );
 
   const checkAddToCart = useCallback(() => {
@@ -75,10 +99,26 @@ function ProductDetail() {
       if (!size) {
         setMessage(t("MS_09", { param: t("size") }));
       } else {
+        setBuyNow(false);
         formikRef.current.submitForm();
       }
     }
   }, [size, t, navigate, userAuth, pathname]);
+
+  const getGender = useMemo(() => {
+    let gender = "";
+    if (products?.gender) {
+      gender = OPTION_GENDER.find((itemGender) => {
+        return itemGender.value === products?.gender;
+      });
+    }
+    return gender.label;
+  }, [products?.gender]);
+
+  const handlebuyNow = useCallback(() => {
+    setBuyNow(true);
+    formikRef.current.submitForm();
+  }, []);
 
   const handleClose = useCallback(() => {
     setShow(!show);
@@ -89,13 +129,10 @@ function ProductDetail() {
   }, [id, dispatch]);
 
   useEffect(() => {
-    console.log(rate);
-  }, [rate]);
-  useEffect(() => {
     if (products?.size) {
       setSizeArray(Object.entries(products?.size));
     }
-  }, [products]);
+  }, [products?.size]);
 
   return (
     <>
@@ -177,6 +214,27 @@ function ProductDetail() {
                 <div>{products?.description}</div>
               </div>
 
+              <div className="d-flex align-items-center mt-3 mb-3">
+                <div style={{ minWidth: "max-content", marginRight: "20px" }}>
+                  <b className="label">{t("brand")}&#58;</b>
+                </div>
+                <div>{products?.brand}</div>
+              </div>
+
+              <div className="d-flex align-items-center mt-3 mb-3">
+                <div style={{ minWidth: "max-content", marginRight: "20px" }}>
+                  <b className="label">{t("color")}&#58;</b>
+                </div>
+                <div>{products?.color}</div>
+              </div>
+
+              <div className="d-flex align-items-center mt-3 mb-3">
+                <div style={{ minWidth: "max-content", marginRight: "20px" }}>
+                  <b className="label">{t("gender")}&#58;</b>
+                </div>
+                <div>{getGender}</div>
+              </div>
+
               <div className="d-flex align-items-center w-100">
                 <div style={{ minWidth: "max-content", marginRight: "10px" }}>
                   <b className="label">{t("size")}&#58;</b>
@@ -218,7 +276,9 @@ function ProductDetail() {
                 <Button className="primary add-cart" onClick={checkAddToCart}>
                   {t("add_to_cart")}
                 </Button>
-                <Button className="primary buy-now">{t("buy_now")}</Button>
+                <Button className="primary buy-now" onClick={handlebuyNow}>
+                  {t("buy_now")}
+                </Button>
               </div>
             </div>
           </div>
@@ -247,12 +307,21 @@ function ProductDetail() {
                         </div>
                       </div>
                       <div className="star-comment">
-                        <Icons.Star color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`}/>
-                        <Icons.Star color={`${rateItem.rate >= 2 ? "#ffc700" : "#ccc"}`}/>
-                        <Icons.Star color={`${rateItem.rate >= 3 ? "#ffc700" : "#ccc"}`}/>
-                        <Icons.Star color={`${rateItem.rate >= 4 ? "#ffc700" : "#ccc"}`}/>
-                        <Icons.Star color={`${rateItem.rate === 5 ? "#ffc700" : "#ccc"}`}/>
-                        
+                        <Icons.Star
+                          color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`}
+                        />
+                        <Icons.Star
+                          color={`${rateItem.rate >= 2 ? "#ffc700" : "#ccc"}`}
+                        />
+                        <Icons.Star
+                          color={`${rateItem.rate >= 3 ? "#ffc700" : "#ccc"}`}
+                        />
+                        <Icons.Star
+                          color={`${rateItem.rate >= 4 ? "#ffc700" : "#ccc"}`}
+                        />
+                        <Icons.Star
+                          color={`${rateItem.rate === 5 ? "#ffc700" : "#ccc"}`}
+                        />
                       </div>
                       <div className="text-commnet">
                         <span>{rateItem.comment}</span>

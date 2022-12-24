@@ -43,24 +43,17 @@ function UserOrders(params) {
             className="mb-3"
           >
             <Tab eventKey="in-order" title={t("order_all")}>
-              {allOrder && allOrder.length > 0 && (
                 <TabItem orders={orderByStatus(0)} />
-              )}
             </Tab>
             <Tab eventKey="in_order" title={t("in_order")}>
-              {allOrder && allOrder.length > 0 && (
                 <TabItem orders={orderByStatus(1)} />
-              )}
             </Tab>
             <Tab eventKey="in-ship" title={t("in_ship")}>
-              {allOrder && allOrder.length > 0 && (
                 <TabItem orders={orderByStatus(2)} />
-              )}
             </Tab>
             <Tab eventKey="complete" title={t("complete")}>
-              {allOrder && allOrder.length > 0 && (
+              
                 <TabItem orders={orderByStatus(3)} />
-              )}
             </Tab>
           </Tabs>
         ) : (

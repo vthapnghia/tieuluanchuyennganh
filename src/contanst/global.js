@@ -66,21 +66,6 @@ const SORT_OPTION = [
   { value: "-1", label: "Giá giảm dần" },
 ];
 
-const GET_TOKEN = localStorage.getItem(KEY_STORAGE.ACCESS_TOKEN);
-
-const CONFIGHEADER_1 = {
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${GET_TOKEN}`,
-  },
-};
-
-const CONFIGHEADER_2 = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-    Authorization: `Bearer ${GET_TOKEN}`,
-  },
-};
 
 const SIDEBAR_PATH = [
   { path: PATH.ADMIN.PRODUCTS.BASE, name: "Quản lý sản phẩm" },
@@ -109,8 +94,6 @@ export {
   COLOR,
   GENDER,
   OPTION_GENDER,
-  CONFIGHEADER_1,
-  CONFIGHEADER_2,
   SIDEBAR_PATH,
   OPTION_SIZE,
   OPTION_TYPE,

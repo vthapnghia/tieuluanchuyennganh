@@ -5,7 +5,7 @@ import "./ProductItem.scss";
 
 function ProductItem({ product }) {
   return (
-    <div className="col col-md-3 mb-5">
+    <div className="col-12 col-md-4 col-lg-3 mb-5">
       <div className="product-item">
         {product.discount > 0 && (
           <div className="discount">

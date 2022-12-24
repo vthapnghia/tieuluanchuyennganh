@@ -2,17 +2,85 @@
 
 .home-page {
   background-color: $bg_color;
+
+  .title-section {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    position: relative;
+    color: $main-color;
+
+    &::before {
+      content: "";
+      height: 1px;
+      background: $main-color;
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+    }
+
+    &::after {
+      content: "";
+      height: 1px;
+      background: $main-color;
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      top: 50%;
+    }
+  }
+
   .before-footer-section {
     padding: 7rem 0 12rem 0 !important;
   }
   .blog-section {
-    padding: 7rem 0 12rem 0;
+    padding: 7rem 0 7rem 0;
+    .title-section {
+      &::before,
+      &::after {
+        width: 40%;
+      }
+    }
+    .view-add-news {
+      text-align: center;
+      margin-top: 40px;
+    }
   }
 
   .section-title {
-    color: $dark;
+    color: $main-color;
   }
   .product-section {
-    padding: 7rem 0;
+    padding: 7rem 0 0 0;
+
+    .title-section {
+      &::before,
+      &::after {
+        width: 40%;
+      }
+    }
+
+    .view-add-product {
+      text-align: center;
+    }
+  }
+
+  .choose-us-session {
+    padding: 7rem 0 0 0;
+
+    .title-section {
+      &::before,
+      &::after {
+        width: 30%;
+      }
+    }
+
+    .img-wrap{
+      img{
+        border-radius: 10px;
+      }
+    }
   }
 }

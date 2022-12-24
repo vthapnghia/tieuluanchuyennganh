@@ -150,7 +150,6 @@ function Login() {
   });
 
   const handleClose = useCallback(() => {
-    formikRef.current.resetForm();
     setShowModal(!showModal);
   }, [showModal]);
 

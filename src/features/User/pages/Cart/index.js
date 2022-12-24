@@ -179,7 +179,7 @@ function Cart() {
   );
 
   useEffect(() => {
-    dispatch(getAllCart());
+    dispatch(getAllCart()).then(res => console.log(res));
   }, [dispatch]);
 
   useEffect(() => {
@@ -266,6 +266,7 @@ function Cart() {
             modalTitle={t("confirm_remove", { param: t("product") })}
             modalBody={t("messge_confirm_remove")}
             handleConfirm={handleClose}
+            handleCloseModal={() => setShow(!show)}
             isButton
           />
           <ModalCommon
@@ -273,6 +274,7 @@ function Cart() {
             modalTitle={modalTitle}
             modalBody={modalBody}
             handleConfirm={handleCloseMessage}
+            handleCloseModal={() => setShowMessage(!showMessage)}
             isButton
           />
         </>

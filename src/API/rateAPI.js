@@ -1,11 +1,10 @@
 import API_URL from "../contanst/api";
-import { CONFIGHEADER_1, CONFIGHEADER_2 } from "../contanst/global";
 import { doRequest } from "../until/common";
 
 const rateAPI = {
   createRate: (data) => {
     const url = API_URL.RATE.CREATE_RATE;
-    return doRequest("post", url, data, CONFIGHEADER_2);
+    return doRequest("post", url, {data: data, isUploadImg: true});
   },
   getRate: (data) => {
     const { orderDetailId, productId } = data;
@@ -13,11 +12,11 @@ const rateAPI = {
       ":id_2",
       productId
     );
-    return doRequest("get", url, "", CONFIGHEADER_1);
+    return doRequest("get", url);
   },
   updateRate: (data) => {
     const url = API_URL.RATE.UPDATE_RATE;
-    return doRequest("put", url, data, CONFIGHEADER_2);
+    return doRequest("put", url, {data: data, isUploadImg: true});
   },
 };
 

@@ -20,22 +20,29 @@ const getJsonObject = (key) => {
   }
 };
 
-const doRequest = async (method, url, data, headers, noLoading) => {
+const doRequest = async (method, url, { data, isUploadImg, noLoading } = {}) => {
   let response = {};
+  const token = localStorage.getItem(KEY_STORAGE.ACCESS_TOKEN);
+  const reqHeader = {
+    headers: {
+      "Content-Type": isUploadImg ? "multipart/form-data" : "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
   !noLoading && showLoading();
   try {
     switch (method) {
       case "get":
-        response = await axiosClient.get(url, headers);
+        response = await axiosClient.get(url, reqHeader);
         break;
       case "post":
-        response = await axiosClient.post(url, data, headers);
+        response = await axiosClient.post(url, data, reqHeader);
         break;
       case "put":
-          response = await axiosClient.put(url, data, headers);
+        response = await axiosClient.put(url, data, reqHeader);
         break;
       case "delete":
-        response = await axiosClient.delete(url, headers);
+        response = await axiosClient.delete(url, reqHeader);
         break;
       default:
         break;

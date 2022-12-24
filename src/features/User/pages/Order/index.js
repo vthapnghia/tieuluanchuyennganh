@@ -75,7 +75,7 @@ function Order(props) {
         location: values.address,
         receiver_name: values.name,
         receiver_phone: values.phone,
-        is_fast_buy: false,
+        is_fast_buy: state?.fastBuy || false,
       };
       console.log();
       dispatch(createOrder(data)).then((res) => {
@@ -95,6 +95,7 @@ function Order(props) {
       dispatch,
       showSuccess,
       showFail,
+      state?.fastBuy,
     ]
   );
 
@@ -130,11 +131,11 @@ function Order(props) {
           location: values?.address,
           receiver_name: values?.name,
           receiver_phone: values?.phone,
-          is_fast_buy: false,
+          is_fast_buy: state?.fastBuy || false,
         });
       }
     },
-    [feeShip, intoMoney, product]
+    [feeShip, intoMoney, product, state?.fastBuy]
   );
 
   const handleOnChangeTypeShip = useCallback(

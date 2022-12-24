@@ -135,6 +135,8 @@
   "update_order_confirm": "Bạn muốn cập nhập đơn hàng này?",
   "edit": "Chỉnh sửa",
   "update_rate": "Chỉnh sửa đánh giá",
+  "add_view": "Xem thêm",
+  "why-choose-us": "Tại sao chọn chúng tôi",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

@@ -47,10 +47,10 @@ function Navbars() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    if (userAuth && !is_admin) {
+    if (userAuth && !is_admin && !is_seller) {
       dispatch(getAllCart());
     }
-  }, [dispatch, userAuth, is_admin]);
+  }, [dispatch, userAuth, is_admin, is_seller]);
 
   return (
     <>
@@ -68,7 +68,7 @@ function Navbars() {
                 <img
                   className="admin-img"
                   alt="img"
-                  src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
+                  src={`${userAuth.avatar}`}
                 ></img>
               }
             >
@@ -137,7 +137,7 @@ function Navbars() {
                           <img
                             className="user-img"
                             alt="img"
-                            src="https://i1-dulich.vnecdn.net/2022/05/27/du-lich-Viet-Nam-3-1653637304.jpg?w=1200&h=0&q=100&dpr=2&fit=crop&s=tKgsN3j--Yx684u-cGFF-A"
+                            src={`${userAuth.avatar}`}
                           ></img>
                           {/* <span style={{paddingLeft: "10px"}}>{userAuth.name}</span> */}
                         </>
