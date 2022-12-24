@@ -4,7 +4,13 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../../Components/ProductItem";
 import "./Products.scss";
-import { getProduct, searchProduct, setFilter, setPageNumber, setSort } from "./ProductSlice";
+import {
+  getProduct,
+  searchProduct,
+  setFilter,
+  setPageNumber,
+  setSort,
+} from "./ProductSlice";
 import Icons from "../../../../components/Icons";
 import Select from "react-select";
 import {
@@ -131,34 +137,44 @@ function Products() {
     (arrFilter) => {
       let tempFilter = [...products];
       arrFilter.forEach((itemFilter) => {
+        let filterType = [];
+        let productFiterType = [];
         switch (itemFilter[0]) {
           case "type":
             itemFilter[1].forEach((childItemFilter) => {
-              tempFilter = tempFilter.filter((productItem) => {
+              productFiterType = tempFilter.filter((productItem) => {
                 return productItem.type === childItemFilter.label;
               });
+              filterType = filterType.concat(productFiterType);
             });
+            tempFilter = filterType;
             break;
           case "brand":
             itemFilter[1].forEach((childItemFilter) => {
-              tempFilter = tempFilter.filter((productItem) => {
+              productFiterType = tempFilter.filter((productItem) => {
                 return productItem.brand === childItemFilter.label;
               });
+              filterType = filterType.concat(productFiterType);
             });
+            tempFilter = filterType;
             break;
           case "color":
             itemFilter[1].forEach((childItemFilter) => {
-              tempFilter = tempFilter.filter((productItem) => {
+              productFiterType = tempFilter.filter((productItem) => {
                 return productItem.color === childItemFilter.label;
               });
+              filterType = filterType.concat(productFiterType);
             });
+            tempFilter = filterType;
             break;
           case "size":
             itemFilter[1].forEach((childItemFilter) => {
-              tempFilter = tempFilter.filter((productItem) => {
+              productFiterType = tempFilter.filter((productItem) => {
                 return productItem.size[childItemFilter.label] > 0;
               });
+              filterType = filterType.concat(productFiterType);
             });
+            tempFilter = filterType;
             break;
           default:
             break;
@@ -213,14 +229,17 @@ function Products() {
   }, [dispatch, pageNumber]);
 
   const handleSearch = useCallback(() => {
-      dispatch(searchProduct(ref.current.value))
-  }, [dispatch])
+    dispatch(searchProduct(ref.current.value));
+  }, [dispatch]);
 
-  const handleOnkeyDown = useCallback((e) => {
-    if(e.key === "Enter"){
-      dispatch(searchProduct(ref.current.value));
-    }
-}, [dispatch])
+  const handleOnkeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        dispatch(searchProduct(ref.current.value));
+      }
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (sortFlag !== 0) {
@@ -434,7 +453,12 @@ function Products() {
         <div className="col-md-9">
           <div className="row">
             <div className="search-product col col-md-4">
-              <input type="text" placeholder={t("search")} ref={ref} onKeyDown={handleOnkeyDown}></input>
+              <input
+                type="text"
+                placeholder={t("search")}
+                ref={ref}
+                onKeyDown={handleOnkeyDown}
+              ></input>
               <div className="icon-search" onClick={handleSearch}>
                 <Icons.Search />
               </div>
@@ -464,13 +488,14 @@ function Products() {
               return <ProductItem key={index} product={product} />;
             })}
           </div>
-          {listProduct?.length > 19 && listProduct.count > listProduct?.length && (
-            <div className="button-load text-center">
-              <Button onClick={handleViewAdd} className="primary">
-                {t("add_view")}
-              </Button>
-            </div>
-          )}
+          {listProduct?.length > 19 &&
+            listProduct.count > listProduct?.length && (
+              <div className="button-load text-center">
+                <Button onClick={handleViewAdd} className="primary">
+                  {t("add_view")}
+                </Button>
+              </div>
+            )}
         </div>
       </div>
     </div>
