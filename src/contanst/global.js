@@ -7,7 +7,6 @@ const KEY_STORAGE = {
   CP_USER: "CP_USER",
   IS_ADMIN: "IS_ADMIN",
   IS_SELER: "IS_ADMIN",
-  OLD_PATH: "OLD_PATH"
 };
 
 const COLOR = {

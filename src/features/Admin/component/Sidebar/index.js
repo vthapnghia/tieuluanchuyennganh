@@ -1,12 +1,11 @@
-import { useTranslation } from "react-i18next";
 import Icons from "../../../../components/Icons";
 import "./Sidebar.scss";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { SIDEBAR_PATH } from "../../../../contanst/global";
+import { shoe } from "../../../../assets/img";
 
 function SideBar(params) {
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleTurnOffMenu = useCallback(() => {
@@ -31,8 +30,7 @@ function SideBar(params) {
         <Icons.ArrowLeft />
       </div>
       <div className="sidebar-header">
-        {t("logo")}
-        <span>.</span>
+        <img src={shoe} alt="img"/>
       </div>
       <hr />
       <div className="sidebar-action">

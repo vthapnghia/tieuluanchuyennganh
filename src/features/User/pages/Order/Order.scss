@@ -18,7 +18,41 @@
         color: #717171;
         padding: 10px 0 5px 0;
       }
+
+      .temporary_fee {
+        display: flex;
+
+        .voucher {
+          display: flex;
+
+          .into-money-old {
+            position: relative;
+            margin-right: 10px;
+            &::before {
+              content: "";
+              width: 100%;
+              height: 1px;
+              background-color: #717171;
+              position: absolute;
+              top: 50%;
+            }
+          }
+        }
+      }
     }
+    .voucher {
+      display: flex;
+      .icon-voucher {
+        margin-right: 10px;
+      }
+      span:last-child {
+        cursor: pointer;
+      }
+      span:last-child:hover {
+        color: #fb3a3a;
+      }
+    }
+
     .form-footer {
       float: right;
       .label-total {
@@ -33,10 +67,10 @@
         width: 210px;
         height: 300px;
         padding: 5px;
-        &::-webkit-scrollbar { 
+        &::-webkit-scrollbar {
           width: 0 !important;
-          display: none; 
-          }
+          display: none;
+        }
         .pay-online {
           position: absolute;
           transition: all 1s;

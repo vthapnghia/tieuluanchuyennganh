@@ -2,15 +2,15 @@ import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ProductItem from "../../Components/ProductItem";
+import ProductItem from "../../pages/Products/ProductItem";
 import { getProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
 import "./Home.scss";
 import PATH from "../../../../contanst/path";
-import { whyChooseUs } from "../../../../assets/img";
+import { shoe_bg } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
 import { getAllNews } from "../News/NewsSlice";
-import NewsItem from "../../Components/NewsItem";
+import NewsItem from "../News/NewsItem";
 
 function Home() {
   const products = useSelector((state) => state.product.products?.product);
@@ -133,7 +133,7 @@ function Home() {
 
             <div className="col-lg-5">
               <div className="img-wrap">
-                <img src={whyChooseUs} alt="wrap" className="img-fluid" />
+                <img src={shoe_bg} alt="wrap" className="img-fluid" />
               </div>
             </div>
           </div>

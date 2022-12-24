@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { Link } from "react-router-dom";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../../contanst/path";
 import "./ProductItem.scss";
 
 function ProductItem({ product }) {

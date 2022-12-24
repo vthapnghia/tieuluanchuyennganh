@@ -4,7 +4,7 @@ import { Carousel } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
 import { getProductById } from "../../Products/ProductSlice";
@@ -14,7 +14,7 @@ import Icons from "../../../../../components/Icons";
 import { addToCart, getAllCart } from "../../Cart/cartSlice";
 import { useAuth } from "../../../../../until/hooks";
 import PATH from "../../../../../contanst/path";
-import { KEY_STORAGE, OPTION_GENDER } from "../../../../../contanst/global";
+import { OPTION_GENDER } from "../../../../../contanst/global";
 import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
 
@@ -32,7 +32,6 @@ function ProductDetail() {
   const formikRef = useRef();
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [show, setShow] = useState(false);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
@@ -93,7 +92,6 @@ function ProductDetail() {
 
   const checkAddToCart = useCallback(() => {
     if (!userAuth) {
-      localStorage.setItem(KEY_STORAGE.OLD_PATH, pathname);
       navigate(PATH.LOGIN);
     } else {
       if (!size) {
@@ -103,7 +101,7 @@ function ProductDetail() {
         formikRef.current.submitForm();
       }
     }
-  }, [size, t, navigate, userAuth, pathname]);
+  }, [size, t, navigate, userAuth]);
 
   const getGender = useMemo(() => {
     let gender = "";

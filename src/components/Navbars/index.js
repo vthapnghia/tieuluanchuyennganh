@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Authentication/authSlice";
 import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
 import { SIDEBAR_PATH } from "../../contanst/global";
+import { shoe, shoe_bg } from "../../assets/img";
 
 function Navbars() {
   const { t } = useTranslation();
@@ -68,7 +69,7 @@ function Navbars() {
                 <img
                   className="admin-img"
                   alt="img"
-                  src={`${userAuth.avatar}`}
+                  src={userAuth.avatar|| shoe}
                 ></img>
               }
             >
@@ -89,8 +90,9 @@ function Navbars() {
         <nav className="custom-navbar navbar navbar-expand-md navbar-dark">
           <div className="container">
             <Link className="navbar-brand" to="/">
-              {t("logo")}
-              <span>.</span>
+              {/* {t("logo")}
+              <span>.</span> */}
+              <img src={shoe_bg} alt="img"/>
             </Link>
 
             <div className="collapse navbar-collapse" id="navbarsFurni">
@@ -137,9 +139,8 @@ function Navbars() {
                           <img
                             className="user-img"
                             alt="img"
-                            src={`${userAuth.avatar}`}
-                          ></img>
-                          {/* <span style={{paddingLeft: "10px"}}>{userAuth.name}</span> */}
+                            src={userAuth.avatar || shoe}
+                          />
                         </>
                       }
                     >

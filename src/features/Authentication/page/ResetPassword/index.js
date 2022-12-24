@@ -10,6 +10,7 @@ import ModalCommon from "../../../../components/ModalCommon";
 import PATH from "../../../../contanst/path";
 import { getCodeResetPass } from "../../authSlice";
 import "./ResetPassword.scss";
+import { shoe } from "../../../../assets/img";
 
 function ResetPassword(params) {
   const formikRef = useRef();
@@ -51,10 +52,9 @@ function ResetPassword(params) {
       onSubmit={handleResetPassword}
       innerRef={formikRef}
     >
-      <div className="verify-register">
-        <Link className="logo sign-up" to={PATH.LOGIN}>
-          {t("logo")}
-          <span>.</span>
+      <div className="reset-password">
+        <Link className="logo" to={PATH.LOGIN}>
+          <img src={shoe} alt="img"/>
         </Link>
         <h2>{t("reset_password")}</h2>
         <div className="input">

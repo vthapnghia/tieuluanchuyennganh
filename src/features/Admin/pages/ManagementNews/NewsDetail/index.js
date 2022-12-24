@@ -111,6 +111,7 @@ function NewDetail() {
                     type="file"
                     className="img-upload"
                     textLabel={t("upload_img")}
+                    multiple
                   />
                 </div>
               </div>

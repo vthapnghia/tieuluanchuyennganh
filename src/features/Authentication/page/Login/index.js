@@ -5,7 +5,7 @@ import Input from "./../../../../components/Input/index";
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import Icons from "../../../../components/Icons";
-import { COLOR, KEY_STORAGE } from "../../../../contanst/global";
+import { COLOR } from "../../../../contanst/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login, register } from "../../authSlice";
@@ -14,6 +14,7 @@ import PATH from "../../../../contanst/path";
 import { useGoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import ModalCommon from "../../../../components/ModalCommon";
+import { shoe } from "../../../../assets/img";
 
 function Login() {
   const { t } = useTranslation();
@@ -100,12 +101,7 @@ function Login() {
               navigate(PATH.ADMIN.BASE);
             } else {
               if (response.user._id) {
-                const path = localStorage.getItem(KEY_STORAGE.OLD_PATH);
-                if (path) {
-                  navigate(path);
-                } else {
-                  navigate(PATH.HOME);
-                }
+                navigate(PATH.HOME);
               } else {
                 navigate(PATH.PROFILE);
               }
@@ -177,10 +173,6 @@ function Login() {
           <div id="container" className="container-form sign-in">
             <div className="d-flex flex-wrap vh-100">
               <div className="w-50 common flex-column sign-up">
-                <Link className="logo" to="/">
-                  {t("logo")}
-                  <span>.</span>
-                </Link>
                 <div className="form-wrapper common">
                   <div className="form sign-up">
                     <Input
@@ -238,10 +230,6 @@ function Login() {
               </div>
 
               <div className="w-50 common flex-column sign-in">
-                <Link className="logo sign-in" to="/">
-                  {t("logo")}
-                  <span>.</span>
-                </Link>
                 <div className="form-wrapper common">
                   <div className="form sign-in">
                     <Input
@@ -281,7 +269,10 @@ function Login() {
                     </div>
 
                     <p>
-                      <Link to={PATH.RESET_PASSWORD.BASE} className="forgot-password">
+                      <Link
+                        to={PATH.RESET_PASSWORD.BASE}
+                        className="forgot-password"
+                      >
                         <b>{t("forgot_password")}</b>
                       </Link>
                     </p>
@@ -304,8 +295,7 @@ function Login() {
               <div className="w-50 common flex-column">
                 <div className="text sign-in">
                   <h1>
-                    {t("logo")}
-                    <span>.</span>
+                    <img src={shoe} alt="img" />
                   </h1>
                   <h2>{t("welcome")}</h2>
                 </div>
@@ -315,8 +305,7 @@ function Login() {
                 <div className="img sign-up"></div>
                 <div className="text sign-up">
                   <h1>
-                    {t("logo")}
-                    <span>.</span>
+                    <img src={shoe} alt="img" />
                   </h1>
                   <h2>{t("join_with_us")}</h2>
                 </div>

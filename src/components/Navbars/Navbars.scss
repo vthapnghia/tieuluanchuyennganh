@@ -5,10 +5,15 @@
   padding: 20px !important;
   height: 80px;
   .navbar-brand {
-    font-size: 32px;
-    font-weight: 600;
-    > span {
-      opacity: 0.4;
+    // font-size: 32px;
+    // font-weight: 600;
+    // > span {
+    //   opacity: 0.4;
+    // }
+    img {
+      height: 80px;
+      width: auto;
+      object-fit: cover;
     }
   }
 
@@ -125,7 +130,7 @@
 }
 .custom-navbar-admin {
   height: 80px;
-  width: 100% ;
+  width: 100%;
   background-color: $main_color;
   display: flex;
   align-items: center;

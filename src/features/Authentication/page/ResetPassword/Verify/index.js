@@ -4,11 +4,12 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { shoe } from "../../../../../assets/img";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
 import ModalCommon from "../../../../../components/ModalCommon";
 import PATH from "../../../../../contanst/path";
-import { getCodeResetPass, resetPasswordVerify } from "../../../authSlice";
+import { resetPasswordVerify } from "../../../authSlice";
 import "./Verify.scss";
 
 function Verify(params) {
@@ -21,7 +22,6 @@ function Verify(params) {
   const handleResetPassword = useCallback(
     async (values) => {
       await dispatch(resetPasswordVerify(values)).then((res) => {
-        console.log(res);
         if (res.payload.status === 200) {
           setShow(!show);
         } else {
@@ -93,9 +93,8 @@ function Verify(params) {
       innerRef={formikRef}
     >
       <div className="verify-reset-password">
-        <Link className="logo sign-up" to={PATH.LOGIN}>
-          {t("logo")}
-          <span>.</span>
+        <Link className="logo" to={PATH.LOGIN}>
+          <img src={shoe} alt="img" />
         </Link>
         <h2>{t("reset_password")}</h2>
         <div className="input">

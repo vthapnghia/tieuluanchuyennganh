@@ -13,6 +13,7 @@ import {
   updateUser,
 } from "../../../Authentication/authSlice";
 import ModalCommon from "../../../../components/ModalCommon";
+import { shoe } from "../../../../assets/img";
 
 function Profile() {
   const formikRef = useRef(null);
@@ -43,7 +44,7 @@ function Profile() {
 
   const initialValues = useMemo(() => {
     return {
-      avatar: user?.avatar || "",
+      avatar: user?.avatar || shoe,
       name: user?.name || "",
       age: user?.age || "",
       gender: user?.gender || "",

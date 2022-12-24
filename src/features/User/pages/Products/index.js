@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import ProductItem from "../../Components/ProductItem";
+import ProductItem from "./ProductItem";
 import "./Products.scss";
 import {
   getProduct,

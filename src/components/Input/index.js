@@ -173,12 +173,8 @@ const Input = forwardRef(
       if (type === "select") {
         const selected = options.find((option) => field.value === option.value);
         setTemp(selected);
-      } else {
-        // if (type === "file") {
-        //   setTemp(field.value);
-        // }
       }
-    }, [field.value, options, type]);
+    }, [field.value, options, type, multiple]);
 
     return (
       <Form className={`input-group ${marginNone ? "m-0" : ""}`}>
@@ -267,7 +263,11 @@ const Input = forwardRef(
               }}
             >
               <img
-                src={temp}
+                src={
+                  typeof field?.value === "object"
+                    ? URL.createObjectURL(field?.value)
+                    : field?.value
+                }
                 alt="img"
                 width={100}
                 height={100}

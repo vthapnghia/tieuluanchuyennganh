@@ -57,6 +57,9 @@ const API_URL = {
     CREATE_RATE: "rating",
     GET_RATE: "rating/:id_1/:id_2",
     UPDATE_RATE: "rating",
+  },
+  VOUCHER: {
+    GET_ALL_VOUCHER: "promotion"
   }
 };
 

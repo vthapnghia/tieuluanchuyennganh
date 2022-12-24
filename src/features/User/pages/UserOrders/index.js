@@ -33,6 +33,10 @@ function UserOrders(params) {
   useEffect(() => {
     dispatch(getAllOrder());
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log(allOrder);
+  }, [allOrder])
   return (
     <div className="user-order">
       <div className="container">

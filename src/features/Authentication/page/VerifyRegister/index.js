@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { shoe } from "../../../../assets/img";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import ModalCommon from "../../../../components/ModalCommon";
@@ -56,9 +57,8 @@ function VerifyRegister(params) {
       innerRef={formikRef}
     >
       <div className="verify-register">
-        <Link className="logo sign-up" to={PATH.HOME}>
-          {t("logo")}
-          <span>.</span>
+        <Link className="logo" to={PATH.HOME}>
+          <img src={shoe} alt="img"/>
         </Link>
         <h2>{t("check_mail")}</h2>
         <div className="input">

@@ -1,5 +1,6 @@
 @import "/src/assets/scss/variables.scss";
 .post-entry {
+  cursor: pointer;
   a {
     text-decoration: none;
   }
@@ -23,14 +24,13 @@
         color: $black;
       }
     }
-    .content{
+    .content {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
   }
-  &:hover,
-  &:focus {
+  &:hover {
     .post-thumbnail {
       img {
         opacity: 0.7;

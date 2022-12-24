@@ -7,7 +7,7 @@ import "./TabItem.scss";
 
 function TabItem({ orders }) {
   const navigate = useNavigate();
-  
+
   const getHeaderByStatus = useCallback((orderStatus) => {
     let status = "";
     switch (orderStatus) {
@@ -28,20 +28,12 @@ function TabItem({ orders }) {
     return quantity * (price * (1 - discount / 100));
   }, []);
 
-  const totalOrder = useCallback((orderDetail) => {
-    let total = 0;
-    orderDetail.orderDetail.forEach((element) => {
-      total =
-        total +
-        element.quantity *
-          (element.product.price * (1 - element.product.discount / 100));
-    });
-    return total;
-  }, []);
-
-  const handleClickOrderItem = useCallback((id) => {
-    navigate(PATH.USER_ORDERS.ORDER_DETAIL, {state: {id: id}});
-  }, [navigate]);
+  const handleClickOrderItem = useCallback(
+    (id) => {
+      navigate(PATH.USER_ORDERS.ORDER_DETAIL, { state: { id: id } });
+    },
+    [navigate]
+  );
 
   return (
     <div className="order-by-status">
@@ -64,10 +56,7 @@ function TabItem({ orders }) {
             </div>
             {orderItem.orderDetail.map((itemDetail, index) => {
               return (
-                <div
-                  className="row product-order-item"
-                  key={index}
-                >
+                <div className="row product-order-item" key={index}>
                   <div className="col col-md-2 product-img">
                     <img src={itemDetail.product.product_image[0]} alt="img" />
                   </div>
@@ -91,7 +80,7 @@ function TabItem({ orders }) {
               );
             })}
             <div className="footer">
-              {`${t("into_money")}: ${totalOrder(orderItem)}`}&#8363;
+              {`${t("into_money")}: ${orderItem.orderTotal}`}&#8363;
             </div>
           </div>
         );

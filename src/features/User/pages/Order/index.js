@@ -15,6 +15,8 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { createOrder } from "./OrderSlice";
 import ModalCommon from "../../../../components/ModalCommon";
 import PATH from "../../../../contanst/path";
+import Icons from "../../../../components/Icons";
+import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
 
 function Order(props) {
   const { state } = useLocation();
@@ -22,6 +24,7 @@ function Order(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ship = useSelector((state) => state.ship.allShip?.ships);
+  const voucher = useSelector((state) => state.voucher.allVoucher?.promotions);
   const formikRef = useRef();
   const user = useSelector((state) => state.auth.user);
   const [feeShip, setFeeShip] = useState(0);
@@ -30,6 +33,9 @@ function Order(props) {
   const [req, setReq] = useState({});
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
+  const [showVoucher, setShowVoucher] = useState(false);
+  const [checkedVoucher, setCheckedVoucher] = useState(null);
+  const [total, setTotal] = useState(null);
   const optionShip = ship?.map((element) => {
     return { value: element._id, label: element.type };
   });
@@ -69,7 +75,7 @@ function Order(props) {
 
       const data = {
         items: items,
-        total: feeShip + intoMoney,
+        total: total,
         ship_id: shipId,
         payment_method: Number(payMethod),
         location: values.address,
@@ -90,12 +96,11 @@ function Order(props) {
       product,
       payMethod,
       shipId,
-      feeShip,
-      intoMoney,
       dispatch,
       showSuccess,
       showFail,
       state?.fastBuy,
+      total,
     ]
   );
 
@@ -156,9 +161,61 @@ function Order(props) {
     setShowFail(!showFail);
   }, [showFail]);
 
+  const modalBody = useMemo(() => {
+    const voucherFiter = voucher?.filter((voucherItem) => {
+      const dateFrom = new Date(voucherItem.use_date_from);
+      const datoTo = new Date(voucherItem.use_date_to);
+      const currentDate = new Date();
+      return datoTo - currentDate > 0 && currentDate - dateFrom > 0;
+    });
+    if (!voucherFiter || voucherFiter.length === 0) {
+      return t("no_voucher");
+    }
+    return voucherFiter.map((item, index) => {
+      return (
+        <div
+          key={index}
+          style={{ padding: "10px 0", display: "flex", alignItems: "center" }}
+        >
+          <input
+            type="radio"
+            name="radio"
+            id={item._id}
+            value={item.discount_price}
+            disabled={intoMoney < item.discount_price}
+          />
+          <label htmlFor={item._id} style={{ marginLeft: "10px" }}>{`${t(
+            "min_order"
+          )} ${item.min_order}`}</label>
+        </div>
+      );
+    });
+  }, [intoMoney, voucher]);
+
+  const chooseVoucher = useCallback(() => {
+    setShowVoucher(!showVoucher);
+  }, [showVoucher]);
+
+  const handleConfirmVoucher = useCallback(
+    (e) => {
+      const elementInput = document.querySelectorAll("input[name='radio']");
+      if (elementInput && elementInput.length > 0) {
+        elementInput.forEach((item) => {
+          if (item.checked) {
+            setCheckedVoucher(Number(item.value));
+            return;
+          }
+        });
+      }
+      setShowVoucher(!showVoucher);
+    },
+    [showVoucher]
+  );
+
   useEffect(() => {
     dispatch(getAllShip());
     dispatch(getUser());
+    dispatch(getAllVoucher());
   }, [dispatch]);
 
   useEffect(() => {
@@ -167,6 +224,14 @@ function Order(props) {
       setShipId(ship[0]._id);
     }
   }, [ship]);
+
+  useEffect(() => {
+    if (checkedVoucher) {
+      setTotal(intoMoney + feeShip - checkedVoucher);
+    } else {
+      setTotal(intoMoney + feeShip);
+    }
+  }, [intoMoney, feeShip, checkedVoucher]);
 
   return (
     <Formik
@@ -225,16 +290,39 @@ function Order(props) {
                   {t("order_n", { param: product.length })}
                 </div>
                 <div className="form-body">
-                  <div className="temporary_fee">
-                    {t("temporary_fee", { param: intoMoney })}&#8363;
+                  <div className="voucher">
+                    <div className="temporary_fee">
+                      <span>{`${t("temporary_fee")}:`}&#160;</span>
+                      {checkedVoucher ? (
+                        <div className="voucher">
+                          <span className="into-money-old">
+                            {intoMoney}&#8363;
+                          </span>
+                          <span>{intoMoney - checkedVoucher}&#8363;</span>
+                        </div>
+                      ) : (
+                        <span>{intoMoney}&#8363;</span>
+                      )}
+                    </div>
                   </div>
+
                   <div className="ship_fee">
                     {t("ship_fee", { param: feeShip })}&#8363;
                   </div>
                 </div>
+                <div className="voucher">
+                  <div className="icon-voucher">
+                    <Icons.Ticked color="#fb3a3a" />
+                  </div>
+                  <span>{t("voucher")}</span>
+                  <span onClick={chooseVoucher}>{`(${t(
+                    "choose_voucher"
+                  )})`}</span>
+                </div>
                 <div className="form-footer">
                   <div className="label-total">
-                    {t("total", { param: feeShip + intoMoney })}&#8363;
+                    {total}
+                    &#8363;
                   </div>
                   <div className="btn-order offline" id="btn-order">
                     <div className="pay-online">
@@ -248,7 +336,7 @@ function Order(props) {
                         <PayPal
                           currency="USD"
                           showSpinner={false}
-                          amount={((feeShip + intoMoney) / 23000).toFixed(2)}
+                          amount={(total / 23000).toFixed(2)}
                           req={req}
                         />
                       </PayPalScriptProvider>
@@ -276,9 +364,17 @@ function Order(props) {
         <ModalCommon
           show={showFail}
           modalTitle={t("action_fail", { param: t("order_v") })}
-          modalBody={null}
+          modalBody={t("try_again")}
           handleConfirm={handleConfirmFail}
           handleCloseModal={() => setShowFail(!showFail)}
+          isButton
+        />
+        <ModalCommon
+          show={showVoucher}
+          modalTitle={t("voucher")}
+          modalBody={modalBody}
+          handleConfirm={handleConfirmVoucher}
+          handleCloseModal={() => setShowVoucher(!showVoucher)}
           isButton
         />
       </>

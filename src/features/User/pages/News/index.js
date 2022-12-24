@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import NewsItem from "../../Components/NewsItem";
+import NewsItem from "./NewsItem";
 import "./News.scss";
 import { getAllNews } from "./NewsSlice";
 

@@ -17,8 +17,10 @@
     font-size: 32px;
     font-weight: 600;
     color: $main_color;
-    > span {
-      opacity: 0.4;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
