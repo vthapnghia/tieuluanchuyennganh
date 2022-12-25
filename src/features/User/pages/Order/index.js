@@ -310,7 +310,7 @@ function Order(props) {
                     {t("ship_fee", { param: feeShip })}&#8363;
                   </div>
                 </div>
-                <div className="voucher">
+                <div className="voucher-option">
                   <div className="icon-voucher">
                     <Icons.Ticked color="#fb3a3a" />
                   </div>
