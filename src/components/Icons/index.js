@@ -663,6 +663,21 @@ const Ticked = (props) => {
     </svg>
   );
 };
+
+const Dots = (props) => {
+  const { width = 16, height = 16, color = "currentcolor" } = props;
+  return (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      fill={color}
+      viewBox="0 0 512 512"
+    >
+      <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512z" />
+    </svg>
+  );
+};
 const Icons = {
   User,
   Cart,
@@ -696,7 +711,8 @@ const Icons = {
   Receipt,
   TruckFull,
   BoxOpen,
-  Ticked
+  Ticked,
+  Dots
 };
 
 export default Icons;

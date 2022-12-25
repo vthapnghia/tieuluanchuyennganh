@@ -5,7 +5,7 @@ const ManagementProduct = lazy(() => import("./features/Admin/pages/ManagementPr
 const ProductDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementProduct/ProductDetail"));
 const ManagementNews = lazy(() => import("./features/Admin/pages/ManagementNews"));
 const NewDetail = lazy(() => import("./features/Admin/pages/ManagementNews/NewsDetail"));
-const ManagementUser = lazy(() => import("./features/Admin/pages/ManagementUser"));
+const ManagementAcount = lazy(() => import("./features/Admin/pages/ManagementAccount"));
 const ManagementBrand = lazy(() => import("./features/Admin/pages/ManagementBrand"));
 const Home = lazy(() => import("./features/User/pages/Home"));
 const Products = lazy(() => import("./features/User/pages/Products"));
@@ -20,6 +20,7 @@ const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
 const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
 const ManagementOrder = lazy(() => import("./features/Admin/pages/ManagementOrder"));
 const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrder/OrderDetail"));
+const ManagementVoucher = lazy(() => import("./features/Admin/pages/ManagementVoucher"));
 
 const routesAdmin = [
   {
@@ -53,9 +54,9 @@ const routesAdmin = [
     component: NewDetail,
   },
   {
-    path: PATH.ADMIN.USER,
-    name: "User",
-    component: ManagementUser,
+    path: PATH.ADMIN.ACCOUNT,
+    name: "Account",
+    component: ManagementAcount,
   },
   {
     path: PATH.ADMIN.BRAND.BASE,
@@ -76,6 +77,11 @@ const routesAdmin = [
     path: PATH.ADMIN.ORDER.ORDER_DETAIL,
     name: "Order details",
     component: OrderDetailAdmin,
+  },
+  {
+    path: PATH.ADMIN.VOUCHER.BASE,
+    name: "Voucher",
+    component: ManagementVoucher,
   },
 ];
 

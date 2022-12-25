@@ -69,10 +69,11 @@ const SORT_OPTION = [
 const SIDEBAR_PATH = [
   { path: PATH.ADMIN.PRODUCTS.BASE, name: "Quản lý sản phẩm" },
   { path: PATH.ADMIN.BRAND.BASE, name: "Quản lý nhãn hiệu" },
-  { path: PATH.ADMIN.USER, name: "Quản lý người dùng" },
+  { path: PATH.ADMIN.ACCOUNT, name: "Quản lý tài khoản" },
   { path: PATH.ADMIN.NEWS.BASE, name: "Quản lý bài viết" },
   { path: PATH.ADMIN.SHIP.BASE, name: "Quản lý vận chuyển" },
   { path: PATH.ADMIN.ORDER.BASE, name: "Quản lý đơn hàng" },
+  { path: PATH.ADMIN.VOUCHER.BASE, name: "Quản lý khuyến mãi" },
 ];
 
 const PAYMENT_OPTION = [

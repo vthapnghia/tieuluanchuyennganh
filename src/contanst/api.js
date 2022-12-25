@@ -10,7 +10,9 @@ const API_URL = {
   USER: {
     FIRST_LOGIN: "user",
     GET_USER: "user/",
-    UPDATE_USER: "user",
+    UPDATE_USER: "user", 
+    GET_ALL_ACCOUNT: "user/account",
+    DELETE_ACCOUNT: "user/account/:id",
   },
   CART: {
     GET_ALL_CART: "cart",
@@ -61,7 +63,9 @@ const API_URL = {
     UPDATE_RATE: "rating",
   },
   VOUCHER: {
-    GET_ALL_VOUCHER: "promotion"
+    GET_ALL_VOUCHER: "promotion",
+    DELETE_VOUCHER: "promotion/:id",
+    ADD_VOUCHER: "promotion",
   }
 };
 

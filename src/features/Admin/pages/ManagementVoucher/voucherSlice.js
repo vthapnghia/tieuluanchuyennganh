@@ -13,6 +13,30 @@ const getAllVoucher = createAsyncThunk(
   }
 );
 
+const deleteVoucher = createAsyncThunk(
+  "DELETE_Voucher",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = voucherAPI.deleteVoucher(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+const addVoucher = createAsyncThunk(
+  "ADD_Voucher",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = voucherAPI.addVoucher(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   allVoucher: null,
 };
@@ -28,5 +52,5 @@ const voucherSlice = createSlice({
 });
 
 const { reducer } = voucherSlice;
-export { getAllVoucher };
+export { getAllVoucher, deleteVoucher, addVoucher };
 export default reducer;

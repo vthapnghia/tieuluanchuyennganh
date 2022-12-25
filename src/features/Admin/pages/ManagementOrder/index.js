@@ -27,21 +27,17 @@ function ManagementOrder() {
   );
 
   useEffect(() => {
-    console.log(allOrder);
-  }, [allOrder]);
-
-  useEffect(() => {
     dispatch(getAllOrderAdmin());
   }, [dispatch]);
   return (
     <div className="management-order">
       <div className="container">
         <Tabs
-          defaultActiveKey="in-order"
+          defaultActiveKey="order-all"
           id="uncontrolled-tab-example"
           className="mb-3"
         >
-          <Tab eventKey="in-order" title={t("order_all")}>
+          <Tab eventKey="order-all" title={t("all")}>
             {allOrder && allOrder.length > 0 && (
               <TabItem orders={orderByStatus(0)} />
             )}

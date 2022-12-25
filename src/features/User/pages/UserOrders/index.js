@@ -46,7 +46,7 @@ function UserOrders(params) {
             id="uncontrolled-tab-example"
             className="mb-3"
           >
-            <Tab eventKey="in-order" title={t("order_all")}>
+            <Tab eventKey="in-order" title={t("all")}>
                 <TabItem orders={orderByStatus(0)} />
             </Tab>
             <Tab eventKey="in_order" title={t("in_order")}>

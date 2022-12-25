@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import authAPI from "../../API/authAPI";
 import { KEY_STORAGE } from "../../contanst/global";
 import { storeJsonObject } from "../../until/common";
-import userAPI from "../../API/userApi";
 
 const login = createAsyncThunk("LOGIN", async (param, { rejectWithValue }) => {
   try {
-    const res = await userAPI.login(param);
+    const res = await authAPI.login(param);
     return res;
   } catch (error) {
     return rejectWithValue(error);
@@ -28,7 +28,7 @@ const register = createAsyncThunk(
   "REGISTER",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.register(param);
+      const res = authAPI.register(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -40,7 +40,7 @@ const getUser = createAsyncThunk(
   "GET_USER",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.getUser(param);
+      const res = authAPI.getUser(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -52,7 +52,7 @@ const updateUser = createAsyncThunk(
   "UPDATE_USER",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.updateUser(param);
+      const res = authAPI.updateUser(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -64,7 +64,7 @@ const firstLogin = createAsyncThunk(
   "FIRST_LOGIN",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.firstLogin(param);
+      const res = authAPI.firstLogin(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -76,7 +76,7 @@ const verifyRegister = createAsyncThunk(
   "VERIFY_REGISTER",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.verifyRegister(param);
+      const res = authAPI.verifyRegister(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -88,7 +88,7 @@ const getCodeResetPass = createAsyncThunk(
   "GET_CODE_RESET_PASS",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.getCodeResetPass(param);
+      const res = authAPI.getCodeResetPass(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -100,7 +100,7 @@ const resetPasswordVerify = createAsyncThunk(
   "GET_CODE_RESET_PASS",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.resetPasswordVerify(param);
+      const res = authAPI.resetPasswordVerify(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -112,7 +112,7 @@ const loginGoogle = createAsyncThunk(
   "LOGIN_GOOGLE",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.loginGoogle(param);
+      const res = authAPI.loginGoogle(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);
@@ -124,7 +124,7 @@ const adminLogin = createAsyncThunk(
   "ADMIN_LOGIN",
   async (param, { rejectWithValue }) => {
     try {
-      const res = userAPI.adminLogin(param);
+      const res = authAPI.adminLogin(param);
       return res;
     } catch (error) {
       return rejectWithValue(error);

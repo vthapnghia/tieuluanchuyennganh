@@ -1,7 +1,7 @@
 import API_URL from "../contanst/api";
 import { doRequest } from "../until/common";
 
-const userAPI = {
+const authAPI = {
   login: (data) => {
     const url = API_URL.LOGIN;
     return doRequest("post", url, { data: data });
@@ -45,4 +45,4 @@ const userAPI = {
   },
 };
 
-export default userAPI;
+export default authAPI;

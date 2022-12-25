@@ -166,7 +166,7 @@ function Order(props) {
       const dateFrom = new Date(voucherItem.use_date_from);
       const datoTo = new Date(voucherItem.use_date_to);
       const currentDate = new Date();
-      return datoTo - currentDate > 0 && currentDate - dateFrom > 0;
+      return voucherItem.amount > 0 && datoTo - currentDate > 0 && currentDate - dateFrom > 0;
     });
     if (!voucherFiter || voucherFiter.length === 0) {
       return t("no_voucher");

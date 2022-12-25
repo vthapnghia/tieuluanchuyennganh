@@ -14,8 +14,7 @@ const PATH = {
 
   CART: "/cart",
   ORDER: "/order",
-  USER_ORDERS: 
-  {
+  USER_ORDERS: {
     BASE: "/user-order",
     ORDER_DETAIL: "/order-detail",
   },
@@ -27,7 +26,7 @@ const PATH = {
   NOT_FOUND: "/*",
   ADMIN: {
     LOGIN: "/admin",
-    USER: "/admin/management-user",
+    ACCOUNT: "/admin/management-account",
     PRODUCTS: {
       BASE: "/admin/management-product",
       PRODUCT_DETAIL: "/admin/product/:id",
@@ -44,9 +43,12 @@ const PATH = {
     SHIP: {
       BASE: "/admin/management-ship",
     },
-    ORDER:{
+    ORDER: {
       BASE: "/admin/management-order",
-      ORDER_DETAIL: "/admin/order/:id"
+      ORDER_DETAIL: "/admin/order/:id",
+    },
+    VOUCHER: {
+      BASE: "/admin/management-voucher",
     }
   },
 };

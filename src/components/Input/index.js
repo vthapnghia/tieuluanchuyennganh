@@ -297,7 +297,7 @@ const Input = forwardRef(
               </label>
             </div>
           )
-        ) : (
+        ) : type === "select" ? (
           <ReactSelect
             className={`${meta.error && meta.touched ? "has-error" : ""} ${
               props.className ? props.className : ""
@@ -316,6 +316,17 @@ const Input = forwardRef(
             placeholder={props.placeholder ?? ""}
             placement="auto"
             isDisabled={props.disabled}
+          />
+        ) : (
+          <input
+            {...props}
+            {...field}
+            className={`input-common ${
+              meta.error && meta.touched ? "has-error" : ""
+            } ${props.className ? props.className : ""}`}
+            style={style}
+            disabled={disabled}
+            type={type}
           />
         )}
         {meta.error && meta.touched ? (
