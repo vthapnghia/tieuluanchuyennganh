@@ -23,15 +23,15 @@ function VerifyRegister(params) {
   const handleVerify = useCallback(
     async (values) => {
       if (location.state.id) {
-        await dispatch(verifyRegister({ data: values, id: location.state.id })).then(
-          (res) => {
-            if (res.payload.status === 200) {
-              setShow(!show);
-            } else {
-              setShowFail(!showFail);
-            }
+        await dispatch(
+          verifyRegister({ data: values, id: location.state.id })
+        ).then((res) => {
+          if (res.payload.status === 200) {
+            setShow(!show);
+          } else {
+            setShowFail(!showFail);
           }
-        );
+        });
       }
     },
     [dispatch, location, show, showFail]
@@ -57,21 +57,24 @@ function VerifyRegister(params) {
       innerRef={formikRef}
     >
       <div className="verify-register">
-        <Link className="logo" to={PATH.HOME}>
-          <img src={shoe} alt="img"/>
-        </Link>
-        <h2>{t("check_mail")}</h2>
-        <div className="input">
-          <Input name="secret" placeholder={t("code_verify")} type="text" />
+        <div className="form-verify-register">
+          <Link className="logo" to={PATH.HOME}>
+            <img src={shoe} alt="img" />
+          </Link>
+          <h2>{t("check_mail")}</h2>
+          <div className="input">
+            <Input name="secret" placeholder={t("code_verify")} type="text" />
+          </div>
+          <div className="btn-confirm">
+            <Button
+              className="primary"
+              onClick={() => formikRef.current?.submitForm()}
+            >
+              {t("confirm")}
+            </Button>
+          </div>
         </div>
-        <div className="btn-confirm">
-          <Button
-            className="primary"
-            onClick={() => formikRef.current?.submitForm()}
-          >
-            {t("confirm")}
-          </Button>
-        </div>
+
         <ModalCommon
           show={show}
           modalTitle={t("action_success", { param: t("verify") })}

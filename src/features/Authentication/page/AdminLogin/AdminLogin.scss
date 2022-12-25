@@ -1,12 +1,12 @@
 @import "/src/assets/scss/variables.scss";
 
-.reset-password {
+.admin-login {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $main-color;
-  .form-reset {
+  background-color: $main-color; 
+  .login-admin-form {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,19 +34,26 @@
       }
     }
 
-    .input {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      .input-group {
-        width: 400px;
+    .btn-admin-login{
+        margin: 10px;
+    }
+
+    .header-login {
+      span {
+        font-size: 24px;
+        font-weight: 600;
+        color: $dark;
       }
     }
 
-    .btn-confirm {
-      width: 400px;
-      button {
-        float: right;
+    .forgot-password {
+      text-decoration: none;
+      color: $dark;
+      float: right;
+      font-size: 12px;
+      font-weight: 400;
+      &:hover{
+        color: $red;
       }
     }
   }

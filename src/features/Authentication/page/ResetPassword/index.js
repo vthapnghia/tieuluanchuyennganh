@@ -10,7 +10,7 @@ import ModalCommon from "../../../../components/ModalCommon";
 import PATH from "../../../../contanst/path";
 import { getCodeResetPass } from "../../authSlice";
 import "./ResetPassword.scss";
-import { shoe } from "../../../../assets/img";
+import { shoe_bg } from "../../../../assets/img";
 
 function ResetPassword(params) {
   const formikRef = useRef();
@@ -53,21 +53,24 @@ function ResetPassword(params) {
       innerRef={formikRef}
     >
       <div className="reset-password">
-        <Link className="logo" to={PATH.LOGIN}>
-          <img src={shoe} alt="img"/>
-        </Link>
-        <h2>{t("reset_password")}</h2>
-        <div className="input">
-          <Input name="email" placeholder={t("email")} type="text" />
+        <div className="form-reset">
+          <Link className="logo" to={PATH.LOGIN}>
+            <img src={shoe_bg} alt="img" />
+          </Link>
+          <h2>{t("reset_password")}</h2>
+          <div className="input">
+            <Input name="email" placeholder={t("email")} type="text" />
+          </div>
+          <div className="btn-confirm">
+            <Button
+              className="primary"
+              onClick={() => formikRef.current?.submitForm()}
+            >
+              {t("confirm")}
+            </Button>
+          </div>
         </div>
-        <div className="btn-confirm">
-          <Button
-            className="primary"
-            onClick={() => formikRef.current?.submitForm()}
-          >
-            {t("confirm")}
-          </Button>
-        </div>
+
         <ModalCommon
           show={show}
           modalTitle={t("check_mail")}

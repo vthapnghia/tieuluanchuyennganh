@@ -93,34 +93,37 @@ function Verify(params) {
       innerRef={formikRef}
     >
       <div className="verify-reset-password">
-        <Link className="logo" to={PATH.LOGIN}>
-          <img src={shoe} alt="img" />
-        </Link>
-        <h2>{t("reset_password")}</h2>
-        <div className="input">
-          <Input name="email" placeholder={t("email")} type="text" />
+        <div className="form-verify-reset">
+          <Link className="logo" to={PATH.LOGIN}>
+            <img src={shoe} alt="img" />
+          </Link>
+          <h2>{t("reset_password")}</h2>
+          <div className="input">
+            <Input name="email" placeholder={t("email")} type="text" />
+          </div>
+          <div className="input">
+            <Input name="secret" placeholder={t("code_verify")} type="text" />
+          </div>
+          <div className="input">
+            <Input name="password" placeholder={t("password")} type="text" />
+          </div>
+          <div className="input">
+            <Input
+              name="passwordRepeat"
+              placeholder={t("confirm_password")}
+              type="password"
+            />
+          </div>
+          <div className="btn-confirm">
+            <Button
+              className="primary"
+              onClick={() => formikRef.current?.submitForm()}
+            >
+              {t("confirm")}
+            </Button>
+          </div>
         </div>
-        <div className="input">
-          <Input name="secret" placeholder={t("code_verify")} type="text" />
-        </div>
-        <div className="input">
-          <Input name="password" placeholder={t("password")} type="text" />
-        </div>
-        <div className="input">
-          <Input
-            name="passwordRepeat"
-            placeholder={t("confirm_password")}
-            type="password"
-          />
-        </div>
-        <div className="btn-confirm">
-          <Button
-            className="primary"
-            onClick={() => formikRef.current?.submitForm()}
-          >
-            {t("confirm")}
-          </Button>
-        </div>
+
         <ModalCommon
           show={show}
           modalTitle={t("action_success", { param: t("verify") })}

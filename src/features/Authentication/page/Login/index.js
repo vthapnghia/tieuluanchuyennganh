@@ -97,14 +97,10 @@ function Login() {
         await dispatch(login(values)).then((res) => {
           if (res.payload.status === 200) {
             const response = res.payload?.data;
-            if (response.is_admin || response.is_seller) {
-              navigate(PATH.ADMIN.BASE);
+            if (response.user._id) {
+              navigate(PATH.HOME);
             } else {
-              if (response.user._id) {
-                navigate(PATH.HOME);
-              } else {
-                navigate(PATH.PROFILE);
-              }
+              navigate(PATH.PROFILE);
             }
           } else {
             setModalTitle(t("info_wrong", { param: "đăng nhập" }));
@@ -129,8 +125,8 @@ function Login() {
     [dispatch, navigate, isSignIn, showModal, t]
   );
 
-  const onSuccess = (data) => {
-    dispatch(loginGoogle({ google_id: data.googleId })).then((res) => {
+  const onSuccess = async(data) => {
+    await dispatch(loginGoogle({ google_id: data.googleId })).then((res) => {
       if (res.payload.status === 200) {
         const response = res.payload?.data;
         if (response.user._id) {

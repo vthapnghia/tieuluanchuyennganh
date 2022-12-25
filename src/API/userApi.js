@@ -39,6 +39,10 @@ const userAPI = {
     const url = API_URL.LOGIN_GOOGLE;
     return doRequest("post", url, { data: data });
   },
+  adminLogin: (data) => {
+    const url = API_URL.ADMIN_LOGIN;
+    return doRequest("post", url, { data: data });
+  },
 };
 
 export default userAPI;

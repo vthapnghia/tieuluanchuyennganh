@@ -1,6 +1,7 @@
 const API_URL = {
   LOGIN: "login",
   LOGIN_GOOGLE: "login/google",
+  ADMIN_LOGIN: "login/admin",
   VERIFY_REGISTER: "login/verify/:id",
   RESET_PASSWORD: {
     BASE: "login/resetPassword",

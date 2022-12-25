@@ -26,7 +26,7 @@ const PATH = {
   PROFILE: "/profile",
   NOT_FOUND: "/*",
   ADMIN: {
-    BASE: "/admin",
+    LOGIN: "/admin",
     USER: "/admin/management-user",
     PRODUCTS: {
       BASE: "/admin/management-product",

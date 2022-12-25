@@ -23,11 +23,6 @@ const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrd
 
 const routesAdmin = [
   {
-    path: PATH.ADMIN.BASE,
-    name: "Admin base",
-    component: ManagementProduct,
-  },
-  {
     path: PATH.ADMIN.PRODUCTS.BASE,
     name: "Product base",
     component: ManagementProduct,
