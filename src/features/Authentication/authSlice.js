@@ -108,6 +108,18 @@ const resetPasswordVerify = createAsyncThunk(
   }
 );
 
+const loginGoogle = createAsyncThunk(
+  "LOGIN_GOOGLE",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = userAPI.loginGoogle(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   isAdmin: false,
@@ -136,7 +148,16 @@ const authSlice = createSlice({
       const res = action.payload?.data;
       state.user = res?.user;
     },
-    // [register.fulfilled]: (state, action) => {},
+    [loginGoogle.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.user = res?.user;
+      state.isAdmin = res?.is_admin;
+      state.isSeller = res?.is_seller;
+      localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res?.token);
+      storeJsonObject(KEY_STORAGE.IS_ADMIN, res?.is_admin);
+      storeJsonObject(KEY_STORAGE.IS_SELER, res?.is_seller);
+      storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
+    },
   },
 });
 
@@ -151,5 +172,6 @@ export {
   resetPasswordVerify,
   updateUser,
   firstLogin,
+  loginGoogle
 };
 export default reducer;

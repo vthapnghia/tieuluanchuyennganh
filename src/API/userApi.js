@@ -35,6 +35,10 @@ const userAPI = {
     const url = API_URL.RESET_PASSWORD.VERIFY;
     return doRequest("post", url, { data: data });
   },
+  loginGoogle: (data) => {
+    const url = API_URL.LOGIN_GOOGLE;
+    return doRequest("post", url, { data: data });
+  },
 };
 
 export default userAPI;

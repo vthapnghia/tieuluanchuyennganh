@@ -8,7 +8,7 @@ import Icons from "../../../../components/Icons";
 import { COLOR } from "../../../../contanst/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { login, register } from "../../authSlice";
+import { login, loginGoogle, register } from "../../authSlice";
 import Button from "./../../../../components/Button/index";
 import PATH from "../../../../contanst/path";
 import { useGoogleLogin } from "react-google-login";
@@ -130,7 +130,20 @@ function Login() {
   );
 
   const onSuccess = (data) => {
-    console.log(data.googleId);
+    dispatch(loginGoogle({ google_id: data.googleId })).then((res) => {
+      if (res.payload.status === 200) {
+        const response = res.payload?.data;
+        if (response.user._id) {
+          navigate(PATH.HOME);
+        } else {
+          navigate(PATH.PROFILE);
+        }
+      } else {
+        setModalTitle(t("action_success", { param: t("login") }));
+        setModalBody(t("try_one_login"));
+        setShowModal(!showModal);
+      }
+    });
   };
 
   const onFailure = (res) => {
