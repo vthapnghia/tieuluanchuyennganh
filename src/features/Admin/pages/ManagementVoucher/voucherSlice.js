@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import voucherAPI from "../../../../API/voucherAPI";
 
 const getAllVoucher = createAsyncThunk(
-  "GET_ALL_Voucher",
+  "GET_ALL_VOUCHER",
   async (param, { rejectWithValue }) => {
     try {
       const res = voucherAPI.getAllVoucher();
@@ -14,7 +14,7 @@ const getAllVoucher = createAsyncThunk(
 );
 
 const deleteVoucher = createAsyncThunk(
-  "DELETE_Voucher",
+  "DELETE_VOUCHER",
   async (param, { rejectWithValue }) => {
     try {
       const res = voucherAPI.deleteVoucher(param);
@@ -26,7 +26,7 @@ const deleteVoucher = createAsyncThunk(
 );
 
 const addVoucher = createAsyncThunk(
-  "ADD_Voucher",
+  "ADD_VOUCHER",
   async (param, { rejectWithValue }) => {
     try {
       const res = voucherAPI.addVoucher(param);
@@ -37,9 +37,35 @@ const addVoucher = createAsyncThunk(
   }
 );
 
+const updateVoucher = createAsyncThunk(
+  "ADD_VOUCHER",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = voucherAPI.updateVoucher(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+const getVoucherById = createAsyncThunk(
+  "GET_VOUCHER_BY_ID",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = voucherAPI.getVoucherById(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   allVoucher: null,
+  voucherById: null,
 };
+
 const voucherSlice = createSlice({
   name: "voucher",
   initialState,
@@ -48,9 +74,19 @@ const voucherSlice = createSlice({
       const res = action.payload?.data;
       state.allVoucher = res;
     },
+    [getVoucherById.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.voucherById = res;
+    },
   },
 });
 
 const { reducer } = voucherSlice;
-export { getAllVoucher, deleteVoucher, addVoucher };
+export {
+  getAllVoucher,
+  deleteVoucher,
+  addVoucher,
+  getVoucherById,
+  updateVoucher,
+};
 export default reducer;

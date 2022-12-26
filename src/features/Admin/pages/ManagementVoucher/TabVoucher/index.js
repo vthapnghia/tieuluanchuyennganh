@@ -6,7 +6,7 @@ import ModalCommon from "../../../../../components/ModalCommon";
 import TableCommon from "../../../../../components/TableCommon";
 import { deleteVoucher, getAllVoucher } from "../voucherSlice";
 
-function TabVoucher({ vouchers }) {
+function TabVoucher({ vouchers, handleClick }) {
   const [listVoucher, setListVoucher] = useState(vouchers);
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
@@ -17,7 +17,7 @@ function TabVoucher({ vouchers }) {
 
   const cols = [
     { label: t("code"), align: "center", width: "15%" },
-    { label: t("use_date_from"), align: "center", width: "20%", sort: true},
+    { label: t("use_date_from"), align: "center", width: "20%", sort: true },
     { label: t("use_date_to"), align: "center", width: "20%" },
     { label: t("quantity"), align: "center", width: "10%" },
   ];
@@ -71,7 +71,8 @@ function TabVoucher({ vouchers }) {
   );
 
   const handleRemove = useCallback(
-    (id) => () => {
+    (id) => (e) => {
+      e.stopPropagation();
       setId(id);
       setShowMessage(!showMessage);
     },
@@ -98,12 +99,15 @@ function TabVoucher({ vouchers }) {
     });
   }, [showMessage, id, dispatch, show]);
 
+  const voucherItemClick = useCallback((id) => (e) => {
+    handleClick(e,id);
+  }, [handleClick]);
+
   useEffect(() => {
     if (vouchers && vouchers.length > 0) {
       setListVoucher(vouchers);
     }
   }, [vouchers]);
-
 
   return (
     <div id="voucher-by-status">
@@ -115,7 +119,7 @@ function TabVoucher({ vouchers }) {
           labelHeader={t("action")}
           handleRemove={handleRemove}
           handleSort={handleSort}
-          handleClick={() => {}}
+          handleClick={voucherItemClick}
         />
       ) : (
         <></>

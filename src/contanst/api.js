@@ -66,6 +66,8 @@ const API_URL = {
     GET_ALL_VOUCHER: "promotion",
     DELETE_VOUCHER: "promotion/:id",
     ADD_VOUCHER: "promotion",
+    GET_VOUCHER_BY_ID: "promotion/:id",
+    UPDTAE_VOUCHER: "promotion/:id",
   }
 };
 

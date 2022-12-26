@@ -15,4 +15,23 @@
       }
     }
   }
+
+  .btn-add-voucher {
+    height: 80px;
+    padding: 0 20px;
+    button {
+      float: right;
+    }
+  }
+}
+
+.modal-voucher {
+  .modal-dialog {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    .modal-content {
+      width: max-content;
+    }
+  }
 }
