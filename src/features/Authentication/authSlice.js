@@ -168,8 +168,8 @@ const authSlice = createSlice({
       state.isAdmin = res?.is_admin;
       state.isSeller = res?.is_seller;
       localStorage.setItem(KEY_STORAGE.ACCESS_TOKEN, res?.token);
-      localStorage.setItem(KEY_STORAGE.IS_ADMIN, res?.is_admin);
-      localStorage.setItem(KEY_STORAGE.IS_SELLER, res?.is_seller);
+      storeJsonObject(KEY_STORAGE.IS_ADMIN, res?.is_admin);
+      storeJsonObject(KEY_STORAGE.IS_SELLER, res?.is_seller);
       storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
     },
   },
@@ -187,6 +187,6 @@ export {
   updateUser,
   firstLogin,
   loginGoogle,
-  adminLogin
+  adminLogin,
 };
 export default reducer;

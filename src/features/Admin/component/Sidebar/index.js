@@ -11,8 +11,7 @@ import { useAuth } from "../../../../until/hooks";
 
 function SideBar(params) {
   const navigate = useNavigate();
-  const { is_admin, is_seller } = useAuth();
-
+  const { is_admin } = useAuth();
   const handleTurnOffMenu = useCallback(() => {
     const Menu = document.getElementById("sidebar");
     const displayMenu = Menu.classList.contains("display-sidebar");
@@ -39,22 +38,21 @@ function SideBar(params) {
       </div>
       <hr />
       <div className="sidebar-action">
-        {is_seller &&
-          SIDEBAR_PATH_SELLER.map((item, index) => {
-            return (
-              <div className="action-item" key={index}>
-                <div onClick={() => handleMenu(item.path)}>{item.name}</div>
-              </div>
-            );
-          })}
-        {is_admin &&
-          SIDEBAR_PATH_ADMIN.map((item, index) => {
-            return (
-              <div className="action-item" key={index}>
-                <div onClick={() => handleMenu(item.path)}>{item.name}</div>
-              </div>
-            );
-          })}
+        {!is_admin
+          ? SIDEBAR_PATH_SELLER.map((item, index) => {
+              return (
+                <div className="action-item" key={index}>
+                  <div onClick={() => handleMenu(item.path)}>{item.name}</div>
+                </div>
+              );
+            })
+          : SIDEBAR_PATH_ADMIN.map((item, index) => {
+              return (
+                <div className="action-item" key={index}>
+                  <div onClick={() => handleMenu(item.path)}>{item.name}</div>
+                </div>
+              );
+            })}
       </div>
     </div>
   );

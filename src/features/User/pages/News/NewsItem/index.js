@@ -5,7 +5,6 @@ import "./NewsItem.scss";
 
 function NewsItem({ newsItem }) {
   const navigate = useNavigate();
-  console.log(newsItem);
 
   return (
     <div

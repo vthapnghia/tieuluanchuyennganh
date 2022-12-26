@@ -179,7 +179,7 @@ function Cart() {
   );
 
   useEffect(() => {
-    dispatch(getAllCart()).then(res => console.log(res));
+    dispatch(getAllCart())
   }, [dispatch]);
 
   useEffect(() => {

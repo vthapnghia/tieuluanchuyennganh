@@ -109,14 +109,14 @@ function Navbars() {
                     {t("product")}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link className="nav-link" to="/">
-                    Về chúng tôi
+                    {t("about_us")}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link className="nav-link" to={PATH.NEWS.LIST_NEWS}>
-                    Bản tin
+                  {t("news")}
                   </Link>
                 </li>
               </ul>

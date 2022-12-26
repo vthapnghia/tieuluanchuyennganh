@@ -67,18 +67,8 @@ function ManagementNews() {
     [showModal]
   );
 
-  const handleOnKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-      console.log(formikRef.current?.values);
-    }
-  }, []);
-
-  const handleOnClickLeftIcon = useCallback((values) => {
-    console.log(values);
-  }, []);
-
   const handleSort = useCallback((type, index) => {
-    console.log(type, index);
+    
   }, []);
 
   const handleClick = useCallback(

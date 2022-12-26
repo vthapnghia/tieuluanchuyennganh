@@ -9,8 +9,8 @@ const useAuth = () => {
   let userAuth = null;
   if (!user) {
     const localUser = getJsonObject(KEY_STORAGE.CP_USER);
-    const localAdmin = localStorage.getItem(KEY_STORAGE.IS_ADMIN);
-    const localSeller = localStorage.getItem(KEY_STORAGE.IS_SELLER);
+    const localAdmin = getJsonObject(KEY_STORAGE.IS_ADMIN);
+    const localSeller = getJsonObject(KEY_STORAGE.IS_SELLER);
     is_admin = localAdmin ?? false;
     is_seller = localSeller ?? false;
     userAuth = localUser || null;
