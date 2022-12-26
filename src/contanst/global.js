@@ -6,7 +6,7 @@ const KEY_STORAGE = {
   REFRESH_TOKEN: "REFRESH_TOKEN",
   CP_USER: "CP_USER",
   IS_ADMIN: "IS_ADMIN",
-  IS_SELER: "IS_ADMIN",
+  IS_SELLER: "IS_SELLER",
 };
 
 const COLOR = {
@@ -52,28 +52,30 @@ const OPTION_TYPE = [
   { value: 2, label: "Dép" },
 ];
 
-
 const OPTIONS_COLOR = [
   { value: "Xanh", label: "Xanh" },
   { value: "Xám", label: "Xám" },
   { value: "Vàng", label: "Vàng" },
   { value: "Đen", label: "Đen" },
-]
+];
 
 const SORT_OPTION = [
   { value: "1", label: "Giá tăng dần" },
   { value: "-1", label: "Giá giảm dần" },
 ];
 
-
-const SIDEBAR_PATH = [
+const SIDEBAR_PATH_SELLER = [
   { path: PATH.ADMIN.PRODUCTS.BASE, name: "Quản lý sản phẩm" },
   { path: PATH.ADMIN.BRAND.BASE, name: "Quản lý nhãn hiệu" },
-  { path: PATH.ADMIN.ACCOUNT, name: "Quản lý tài khoản" },
   { path: PATH.ADMIN.NEWS.BASE, name: "Quản lý bài viết" },
   { path: PATH.ADMIN.SHIP.BASE, name: "Quản lý vận chuyển" },
   { path: PATH.ADMIN.ORDER.BASE, name: "Quản lý đơn hàng" },
   { path: PATH.ADMIN.VOUCHER.BASE, name: "Quản lý khuyến mãi" },
+  { path: PATH.ADMIN.REVENUE, name: "Doanh thu" },
+];
+
+const SIDEBAR_PATH_ADMIN = [
+  { path: PATH.ADMIN.ACCOUNT, name: "Quản lý tài khoản" },
 ];
 
 const PAYMENT_OPTION = [
@@ -81,25 +83,52 @@ const PAYMENT_OPTION = [
   { value: 2, label: "Thanh toán online" },
 ];
 
-const STATUS_ORDER_OPTION= [
+const STATUS_ORDER_OPTION = [
   { value: 1, label: "Đã đặt hàng" },
   { value: 2, label: "Đang giao" },
   { value: 3, label: "Hoàn thành" },
-]
+];
 
 const RATE = [1, 2, 3, 4, 5];
+
+const OPTIONS_MONTH = [
+  { value: 1, label: "Tháng 1" },
+  { value: 2, label: "Tháng 2" },
+  { value: 3, label: "Tháng 3" },
+  { value: 4, label: "Tháng 4" },
+  { value: 5, label: "Tháng 5" },
+  { value: 6, label: "Tháng 6" },
+  { value: 7, label: "Tháng 7" },
+  { value: 8, label: "Tháng 8" },
+  { value: 9, label: "Tháng 9" },
+  { value: 10, label: "Tháng 10" },
+  { value: 11, label: "Tháng 11" },
+  { value: 12, label: "Tháng 12" },
+];
+
+const OPTIONS_YEAR = [
+  { value: 2021, label: "Năm 2021" },
+  { value: 2022, label: "Năm 2022" },
+  { value: 2023, label: "Năm 2023" },
+];
+
+const CURRENT_DATE = new Date();
 
 export {
   KEY_STORAGE,
   COLOR,
   GENDER,
   OPTION_GENDER,
-  SIDEBAR_PATH,
+  SIDEBAR_PATH_SELLER,
+  SIDEBAR_PATH_ADMIN,
   OPTION_SIZE,
   OPTION_TYPE,
   OPTIONS_COLOR,
   PAYMENT_OPTION,
   SORT_OPTION,
   STATUS_ORDER_OPTION,
-  RATE
+  RATE,
+  OPTIONS_MONTH,
+  CURRENT_DATE,
+  OPTIONS_YEAR,
 };

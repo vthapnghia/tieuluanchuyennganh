@@ -1,0 +1,69 @@
+@import "/src/assets/scss/variables.scss";
+
+#revenue {
+  min-height: 100vh;
+  .option {
+    position: relative;
+    display: flex;
+    .change-option {
+      width: 150px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .bg-active {
+      position: absolute;
+      width: 150px;
+      left: 0;
+      transition: 1s;
+      background-color: $main-color;
+      height: 40px;
+      z-index: -1;
+      border-radius: 20px;
+    }
+  }
+
+  #chart-revenue {
+    position: relative;
+    .revenue-month,
+    .revenue-year {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      transition: all 2s;
+    }
+  }
+  .month {
+    .revenue-year {
+      right: -100%;
+      top: 50%;
+      transform: translate(0, -50%);
+      opacity: 0;
+    }
+    .revenue-month {
+      left: 50%;
+      top:50%;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+  }
+
+  .year {
+    .revenue-month {
+      left: -100%;
+      top: 50%;
+      transform: translate(0, -50%);
+      opacity: 0;
+    }
+    .revenue-year {
+      right: 50%;
+      top: 50%;
+      transform: translate(50%, -50%);
+      opacity: 1;
+    }
+  }
+}

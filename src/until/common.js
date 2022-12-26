@@ -20,7 +20,11 @@ const getJsonObject = (key) => {
   }
 };
 
-const doRequest = async (method, url, { data, isUploadImg, noLoading } = {}) => {
+const doRequest = async (
+  method,
+  url,
+  { data, isUploadImg, noLoading } = {}
+) => {
   let response = {};
   const token = localStorage.getItem(KEY_STORAGE.ACCESS_TOKEN);
   const reqHeader = {
@@ -55,4 +59,19 @@ const doRequest = async (method, url, { data, isUploadImg, noLoading } = {}) => 
   }
 };
 
-export { isAuthenticated, storeJsonObject, getJsonObject, doRequest };
+const getDayOfMonth = (month, year) => {
+  const dayOfMonth = new Date(year, month, 0).getDate();
+  let arrDayOfMonth = []
+  for (let index = 1; index <= dayOfMonth; index++) {
+    arrDayOfMonth.push(index)
+  }
+  return arrDayOfMonth;
+};
+
+export {
+  isAuthenticated,
+  storeJsonObject,
+  getJsonObject,
+  doRequest,
+  getDayOfMonth,
+};

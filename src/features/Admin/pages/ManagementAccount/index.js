@@ -12,17 +12,13 @@ function ManagementAccount(params) {
 
   const accountByActive = useCallback(
     (status) => {
-      if (status === null) {
-        return allAccount;
-      } else {
-        return allAccount?.filter((itemAccount) => {
-          return itemAccount.is_active === status;
-        });
-      }
+      return allAccount?.filter((itemAccount) => {
+        return itemAccount.is_active === status;
+      });
     },
     [allAccount]
   );
-  
+
   useEffect(() => {
     dispatch(getAllAccount());
   }, [dispatch]);
@@ -32,18 +28,18 @@ function ManagementAccount(params) {
       <div className="container">
         {allAccount && allAccount.length > 0 ? (
           <Tabs
-            defaultActiveKey="all"
+            defaultActiveKey="active"
             id="uncontrolled-tab-example"
             className="mb-3"
           >
-            <Tab eventKey="all" title={t("all")}>
+            {/* <Tab eventKey="all" title={t("all")}>
               <TabAccount accounts={accountByActive(null)} />
-            </Tab>
+            </Tab> */}
             <Tab eventKey="active" title={t("active")}>
-              <TabAccount accounts={accountByActive(true)} />
+              <TabAccount accounts={accountByActive(true)} isLock={false} />
             </Tab>
             <Tab eventKey="no-active" title={t("no_active")}>
-              <TabAccount accounts={accountByActive(false)} />
+              <TabAccount accounts={accountByActive(false)} isLock={true} />
             </Tab>
           </Tabs>
         ) : (

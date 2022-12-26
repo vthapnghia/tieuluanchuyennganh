@@ -21,6 +21,7 @@ const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDe
 const ManagementOrder = lazy(() => import("./features/Admin/pages/ManagementOrder"));
 const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrder/OrderDetail"));
 const ManagementVoucher = lazy(() => import("./features/Admin/pages/ManagementVoucher"));
+const Revenue  = lazy(() => import("./features/Admin/pages/Revenue"));
 
 const routesAdmin = [
   {
@@ -82,6 +83,11 @@ const routesAdmin = [
     path: PATH.ADMIN.VOUCHER.BASE,
     name: "Voucher",
     component: ManagementVoucher,
+  },
+  {
+    path: PATH.ADMIN.REVENUE,
+    name: "Revenue",
+    component: Revenue,
   },
 ];
 

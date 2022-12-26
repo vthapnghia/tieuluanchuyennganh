@@ -120,7 +120,7 @@ function ManagementNews() {
       <>
         <div className="management-news">
           <div className="management-action d-flex align-items-center justify-content-between">
-            <div className="input-search-news">
+            {/* <div className="input-search-news">
               <Input
                 name="search"
                 placeholder={t("search_news")}
@@ -129,7 +129,7 @@ function ManagementNews() {
                 onKeyDown={handleOnKeyDown}
                 handleOnClickLeftIcon={handleOnClickLeftIcon}
               />
-            </div>
+            </div> */}
             <div className="btn-add-news">
               <Button
                 className="primary"

@@ -9,7 +9,11 @@ import { useAuth } from "../../until/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Authentication/authSlice";
 import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
-import { SIDEBAR_PATH } from "../../contanst/global";
+import {
+  SIDEBAR_PATH,
+  SIDEBAR_PATH_ADMIN,
+  SIDEBAR_PATH_SELLER,
+} from "../../contanst/global";
 import { shoe, shoe_bg } from "../../assets/img";
 
 function Navbars() {
@@ -32,7 +36,8 @@ function Navbars() {
 
   const getTileNav = useMemo(() => {
     let title = t("manage_products");
-    const pathBySidebar = SIDEBAR_PATH.find((itemPath) => {
+    const pathSideBar = SIDEBAR_PATH_SELLER.concat(SIDEBAR_PATH_ADMIN);
+    const pathBySidebar = pathSideBar.find((itemPath) => {
       return itemPath.path === pathname;
     });
     if (pathBySidebar) {
@@ -69,13 +74,10 @@ function Navbars() {
                 <img
                   className="admin-img"
                   alt="img"
-                  src={userAuth.avatar|| shoe}
+                  src={userAuth.avatar || shoe}
                 ></img>
               }
             >
-              <Link className="dropdown-item" to="/">
-                {t("forgot_password")}
-              </Link>
               <span
                 className="dropdown-item"
                 style={{ cursor: "pointer" }}
@@ -92,7 +94,7 @@ function Navbars() {
             <Link className="navbar-brand" to="/">
               {/* {t("logo")}
               <span>.</span> */}
-              <img src={shoe_bg} alt="img"/>
+              <img src={shoe_bg} alt="img" />
             </Link>
 
             <div className="collapse navbar-collapse" id="navbarsFurni">

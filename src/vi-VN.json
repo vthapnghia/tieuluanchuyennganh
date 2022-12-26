@@ -161,6 +161,11 @@
   "delete_voucher": "Xóa voucher",
   "update_voucher": "Cập nhật voucher",
   "add_voucher": "Thêm voucher",
+  "revenue_month": "Doanh thu tháng",
+  "revenue_year": "Doanh thu năm",
+  "choose_month": "hãy chọn tháng",
+  "choose_year": "Hãy chọn năm",
+  "view": "Xem",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

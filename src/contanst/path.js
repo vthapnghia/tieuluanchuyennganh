@@ -49,7 +49,8 @@ const PATH = {
     },
     VOUCHER: {
       BASE: "/admin/management-voucher",
-    }
+    },
+    REVENUE: "/admin/revenue",
   },
 };
 

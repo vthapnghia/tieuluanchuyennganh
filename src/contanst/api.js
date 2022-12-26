@@ -68,6 +68,10 @@ const API_URL = {
     ADD_VOUCHER: "promotion",
     GET_VOUCHER_BY_ID: "promotion/:id",
     UPDTAE_VOUCHER: "promotion/:id",
+  },
+  REVENUE: {
+    REVENUE_BY_MONTH: "statics/month",
+    REVENUE_BY_YEAR: "statics/year"
   }
 };
 

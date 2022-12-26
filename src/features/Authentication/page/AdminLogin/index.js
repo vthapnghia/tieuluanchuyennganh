@@ -24,7 +24,11 @@ function AdminLogin(params) {
     (values) => {
       dispatch(adminLogin(values)).then((res) => {
         if (res.payload.status === 200) {
-          navigate(PATH.ADMIN.PRODUCTS.BASE);
+          if (res.payload.data.is_admin) {
+            navigate(PATH.ADMIN.ACCOUNT);
+          } else {
+            navigate(PATH.ADMIN.PRODUCTS.BASE);
+          }
         } else {
           setModalTitle(t("action_success", { param: t("login") }));
           setModalBody(t("try_one_login"));

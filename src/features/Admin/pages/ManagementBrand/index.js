@@ -127,7 +127,7 @@ function ManagementBrand(props) {
       <>
         <div className="manager-brand">
           <div className="manager-action d-flex align-items-center justify-content-between">
-            <div className="input-search-brand">
+            {/* <div className="input-search-brand">
               <Input
                 name="search"
                 placeholder="Tìm kiếm sản phẩm"
@@ -136,7 +136,7 @@ function ManagementBrand(props) {
                 onKeyDown={handleOnKeyDown}
                 // handleOnClickLeftIcon={handleOnClickLeftIcon}
               />
-            </div>
+            </div> */}
             <div className="btn-add-brand">
               <Button
                 className="primary"
@@ -163,6 +163,7 @@ function ManagementBrand(props) {
           modalBody={modalBody}
           labelButton={t("add")}
           isButton
+          handleCloseModal={() => setShowModal(!showModal)}
         />
         <ModalCommon
           show={showModalRemove}
@@ -170,6 +171,7 @@ function ManagementBrand(props) {
           modalTitle={t("delete_brand")}
           modalBody={t("messge_confirm_remove")}
           isButton
+          handleCloseModal={() => setShowModalRemove(!showModalRemove)}
         />
         <ModalCommon
           show={showModalMessage}
@@ -177,6 +179,7 @@ function ManagementBrand(props) {
           modalTitle={messageTitle}
           modalBody={messageBody}
           isButton
+          handleCloseModal={() => setShowModalMessage(!showModalMessage)}
         />
       </>
     </Formik>

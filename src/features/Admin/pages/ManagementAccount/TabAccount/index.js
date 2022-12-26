@@ -7,7 +7,7 @@ import ModalCommon from "../../../../../components/ModalCommon";
 import TableCommon from "../../../../../components/TableCommon";
 import { deleteAccount, getAllAccount } from "../AccountSlice";
 
-function TabAccount({ accounts }) {
+function TabAccount({ accounts, isLock = false }) {
   const [listAccount, setListAccount] = useState(accounts);
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
@@ -115,7 +115,7 @@ function TabAccount({ accounts }) {
         <TableCommon
           cols={cols}
           rows={rows}
-          oneButton={true}
+          oneButton={isLock ? false : true}
           labelHeader={t("action")}
           handleRemove={handleRemove}
           handleSort={handleSort}
