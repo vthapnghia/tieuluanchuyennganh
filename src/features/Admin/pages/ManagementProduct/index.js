@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
 import TableCommon from "../../../../components/TableCommon";
-import { Formik } from "formik";
 import "./ManagementProduct.scss";
 import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
@@ -13,13 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
   getAllProduct,
+  searchProduct,
 } from "../../../User/pages/Products/ProductSlice";
 
 function ManagementProduct() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const formikRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.products?.product);
@@ -27,7 +25,7 @@ function ManagementProduct() {
   const [idProduct, setIdProduct] = useState();
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
-
+  const ref = useRef();
 
   const cols = [
     { label: t("name_product"), align: "center", width: "20%" },
@@ -55,17 +53,6 @@ function ManagementProduct() {
     },
     [showModal]
   );
-
-  const handleOnKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-      console.log(formikRef.current?.values);
-    }
-  }, []);
-
-  // const handleOnClickLeftIcon =
-  //   (values) => {
-  //     console.log(values);
-  //   }
 
   const handleCloseModal = useCallback(async () => {
     setShowModal(!showModal);
@@ -111,6 +98,19 @@ function ManagementProduct() {
     [navigate]
   );
 
+  const handleOnkeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        dispatch(searchProduct(ref.current.value));
+      }
+    },
+    [dispatch]
+  );
+
+  const handleSearch = useCallback(() => {
+    dispatch(searchProduct(ref.current.value));
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(getAllProduct());
   }, [dispatch]);
@@ -120,59 +120,54 @@ function ManagementProduct() {
   }, [product]);
 
   return (
-    <Formik
-      initialValues={{ search: "" }}
-      enableReinitialize
-      innerRef={formikRef}
-    >
-      <>
-        <div className="manager-product">
-          <div className="manager-action d-flex align-items-center justify-content-between">
-            <div className="input-search-product">
-              <Input
-                name="search"
-                placeholder="Tìm kiếm sản phẩm"
-                type="text"
-                leftIcon={<Icons.Search />}
-                onKeyDown={handleOnKeyDown}
-                // handleOnClickLeftIcon={handleOnClickLeftIcon}
-              />
-            </div>
-            <div className="btn-add-product">
-              <Button
-                className="primary"
-                onClick={() => navigate(PATH.ADMIN.PRODUCTS.ADD_PRODUCT)}
-              >
-                {t("add_product")}
-              </Button>
+    <>
+      <div className="manager-product">
+        <div className="manager-action d-flex align-items-center justify-content-between">
+          <div className="input-search-product">
+            <input
+              type="text"
+              placeholder={t("search")}
+              ref={ref}
+              onKeyDown={handleOnkeyDown}
+            ></input>
+            <div className="icon-search" onClick={handleSearch}>
+              <Icons.Search />
             </div>
           </div>
-          <TableCommon
-            cols={cols}
-            rows={rows}
-            oneButton={true}
-            labelHeader={t("action")}
-            handleRemove={handleRemove}
-            handleSort={handleSort}
-            handleClick={handleClick}
-          />
+          <div className="btn-add-product">
+            <Button
+              className="primary"
+              onClick={() => navigate(PATH.ADMIN.PRODUCTS.ADD_PRODUCT)}
+            >
+              {t("add_product")}
+            </Button>
+          </div>
         </div>
-        <ModalCommon
-          show={showModal}
-          modalTitle={t("confirm_remove", { param: t("product") })}
-          modalBody={t("messge_confirm_remove")}
-          handleConfirm={handleCloseModal}
-          isButton
+        <TableCommon
+          cols={cols}
+          rows={rows}
+          oneButton={true}
+          labelHeader={t("action")}
+          handleRemove={handleRemove}
+          handleSort={handleSort}
+          handleClick={handleClick}
         />
-        <ModalCommon
-          show={showMessage}
-          modalTitle={modalTitle}
-          modalBody={modalBody}
-          handleConfirm={handleCloseMessage}
-          isButton
-        />
-      </>
-    </Formik>
+      </div>
+      <ModalCommon
+        show={showModal}
+        modalTitle={t("confirm_remove", { param: t("product") })}
+        modalBody={t("messge_confirm_remove")}
+        handleConfirm={handleCloseModal}
+        isButton
+      />
+      <ModalCommon
+        show={showMessage}
+        modalTitle={modalTitle}
+        modalBody={modalBody}
+        handleConfirm={handleCloseMessage}
+        isButton
+      />
+    </>
   );
 }
 

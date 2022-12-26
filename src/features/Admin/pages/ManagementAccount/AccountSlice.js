@@ -25,6 +25,18 @@ const deleteAccount = createAsyncThunk(
   }
 );
 
+const searchAccount = createAsyncThunk(
+  "DELETE_ACCOUNT",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = accountAPI.searchAccount(param);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   allAccount: null,
 };
@@ -33,12 +45,12 @@ const AccountSlice = createSlice({
   initialState,
   extraReducers: {
     [getAllAccount.fulfilled]: (state, action) => {
-      const res = action.payload.data;
+      const res = action.payload?.data;
       state.allAccount = res;
     },
   },
 });
 
 const { reducer } = AccountSlice;
-export { getAllAccount, deleteAccount };
+export { getAllAccount, deleteAccount, searchAccount };
 export default reducer;

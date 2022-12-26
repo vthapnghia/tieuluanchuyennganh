@@ -12,7 +12,6 @@ import { useAuth } from "../../../../until/hooks";
 function SideBar(params) {
   const navigate = useNavigate();
   const { is_admin, is_seller } = useAuth();
-  console.log(is_admin, is_seller);
 
   const handleTurnOffMenu = useCallback(() => {
     const Menu = document.getElementById("sidebar");

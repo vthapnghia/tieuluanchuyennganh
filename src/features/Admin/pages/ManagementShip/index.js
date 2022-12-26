@@ -210,7 +210,7 @@ function ManagementShip(props) {
       <>
         <div className="manager-ship">
           <div className="manager-action d-flex align-items-center justify-content-between">
-            <div className="input-search-ship">
+            {/* <div className="input-search-ship">
               <Input
                 name="search"
                 placeholder="Tìm kiếm sản phẩm"
@@ -219,7 +219,7 @@ function ManagementShip(props) {
                 onKeyDown={handleOnKeyDown}
                 // handleOnClickLeftIcon={handleOnClickLeftIcon}
               />
-            </div>
+            </div> */}
             <div className="btn-add-ship">
               <Button className="primary" onClick={handleAddShip}>
                 {t("add_ship")}

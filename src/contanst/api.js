@@ -13,6 +13,7 @@ const API_URL = {
     UPDATE_USER: "user", 
     GET_ALL_ACCOUNT: "user/account",
     DELETE_ACCOUNT: "user/account/:id",
+    SEARCH_ACCOUNT: "user/account/search"
   },
   CART: {
     GET_ALL_CART: "cart",
