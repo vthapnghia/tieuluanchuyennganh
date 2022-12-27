@@ -83,7 +83,6 @@ function Order(props) {
         receiver_phone: values.phone,
         is_fast_buy: state?.fastBuy || false,
       };
-      console.log();
       dispatch(createOrder(data)).then((res) => {
         if (res.payload.status === 200) {
           setShowSuccess(!showSuccess);
@@ -154,7 +153,7 @@ function Order(props) {
 
   const handleConfirmSuccess = useCallback(() => {
     setShowSuccess(!showSuccess);
-    navigate(PATH.CART);
+    navigate(PATH.USER_ORDERS.BASE);
   }, [showSuccess, navigate]);
 
   const handleConfirmFail = useCallback(() => {

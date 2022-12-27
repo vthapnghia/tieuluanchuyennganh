@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
 import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
-import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
@@ -19,10 +17,11 @@ function ManagementNews() {
   const formikRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const allNews = useSelector((state) => state.news.allNews);
+  const allNews = useSelector((state) => state.news.allNews?.news);
   const [id, setId] = useState(null);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+  const [listNews, setListNews] = useState(allNews);
 
   const cols = [
     { label: t("image"), align: "center", width: "20%" },
@@ -31,7 +30,7 @@ function ManagementNews() {
   ];
 
   const rows = useMemo(() => {
-    return allNews?.news.map((itemNews) => {
+    return listNews?.map((itemNews) => {
       return {
         id: itemNews._id,
         columns: [
@@ -56,7 +55,7 @@ function ManagementNews() {
         ],
       };
     });
-  }, [allNews]);
+  }, [listNews]);
 
   const handleRemove = useCallback(
     (id) => (e) => {
@@ -67,9 +66,19 @@ function ManagementNews() {
     [showModal]
   );
 
-  const handleSort = useCallback((type, index) => {
-    
-  }, []);
+  const handleSort = useCallback(
+    (type, index) => {
+      const list = [...listNews];
+      setListNews(
+        list.sort((a, b) => {
+          const date_a = new Date(a.created_at);
+          const date_b = new Date(b.created_at);
+          return (date_a - date_b) * type;
+        })
+      );
+    },
+    [listNews]
+  );
 
   const handleClick = useCallback(
     (id) => () => {
@@ -100,6 +109,12 @@ function ManagementNews() {
   useEffect(() => {
     dispatch(getAllNews());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (allNews && allNews.length > 0) {
+      setListNews(allNews);
+    }
+  }, [allNews]);
 
   return (
     <Formik

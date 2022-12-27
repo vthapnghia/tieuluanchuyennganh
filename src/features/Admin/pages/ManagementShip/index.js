@@ -9,7 +9,13 @@ import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import { addShip, getAllShip, getShipById, removeShip, uploadShip } from "./ShipSlice";
+import {
+  addShip,
+  getAllShip,
+  getShipById,
+  removeShip,
+  uploadShip,
+} from "./ShipSlice";
 
 function ManagementShip(props) {
   const { t } = useTranslation();
@@ -24,15 +30,16 @@ function ManagementShip(props) {
   const [messageTitle, setMessageTitle] = useState(null);
   const [messageBody, setMessageBody] = useState(null);
   const [modalTitle, setModalTitle] = useState(null);
+  const [listShip, setListShip] = useState(ship);
 
   const cols = [
     { label: t("type_ship"), align: "left", width: "10%" },
-    { label: t("price"), align: "center", width: "10%" },
+    { label: t("price"), align: "center", width: "10%", sort: true },
     { label: t("description"), align: "center", width: "20%" },
   ];
 
   const rows = useMemo(() => {
-    return ship?.map((shipItem) => {
+    return listShip?.map((shipItem) => {
       return {
         id: shipItem._id,
         columns: [
@@ -42,7 +49,7 @@ function ManagementShip(props) {
         ],
       };
     });
-  }, [ship]);
+  }, [listShip]);
 
   const handleRemove = useCallback(
     (id) => (e) => {
@@ -59,9 +66,17 @@ function ManagementShip(props) {
     }
   }, []);
 
-  const handleSort = useCallback((type, index) => {
-    console.log(type, index);
-  }, []);
+  const handleSort = useCallback(
+    (type, index) => {
+      const list = [...listShip];
+      setListShip(
+        list.sort((a, b) => {
+          return (a.price - b.price) * type;
+        })
+      );
+    },
+    [listShip]
+  );
 
   const handleClick = useCallback(
     (id) => async () => {
@@ -99,7 +114,7 @@ function ManagementShip(props) {
     async (values) => {
       setShowModal(!showModal);
       if (idShip) {
-        await dispatch(uploadShip({data: values, id: idShip})).then((res) => {
+        await dispatch(uploadShip({ data: values, id: idShip })).then((res) => {
           if (res.payload.status === 200) {
             setMessageTitle(t("action_success", { param: t("update_ship") }));
             setMessageBody(t(null));
@@ -192,6 +207,12 @@ function ManagementShip(props) {
   useEffect(() => {
     dispatch(getAllShip());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (ship && ship.length > 0) {
+      setListShip(ship);
+    }
+  }, [ship]);
 
   return (
     <Formik

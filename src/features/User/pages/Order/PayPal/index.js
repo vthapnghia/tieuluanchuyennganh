@@ -18,7 +18,7 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
 
   const handleConfirmSuccess = useCallback(() => {
     setShowSuccess(!showSuccess);
-    navigate(PATH.CART);
+    navigate(PATH.USER_ORDERS.BASE);
   }, [showSuccess, navigate]);
 
   const handleConfirmFail = useCallback(() => {

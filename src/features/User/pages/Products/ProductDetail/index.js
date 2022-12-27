@@ -62,7 +62,7 @@ function ProductDetail() {
         ];
         navigate(PATH.ORDER, {
           state: { intoMoney: intoMoney, product: product, fastBuy: true },
-        }, );
+        });
       } else {
         await dispatch(addToCart(data)).then((res) => {
           if (res.payload.status === 201 || res.payload.status === 200) {
@@ -114,13 +114,34 @@ function ProductDetail() {
   }, [products?.gender]);
 
   const handlebuyNow = useCallback(() => {
-    setBuyNow(true);
-    formikRef.current.submitForm();
-  }, []);
+    if (!userAuth) {
+      navigate(PATH.LOGIN);
+    } else {
+      if (!size) {
+        setMessage(t("MS_09", { param: t("size") }));
+      } else {
+        setBuyNow(true);
+        formikRef.current.submitForm();
+      }
+    }
+  }, [userAuth, size, t, navigate]);
 
   const handleClose = useCallback(() => {
     setShow(!show);
   }, [show]);
+
+  const validationSchema = useMemo(() => {
+    if (size) {
+      return {
+        quantity: Yup.number()
+          .min(1, t("MS_06", { param: t("quantity"), min: 1 }))
+          .max(
+            quantityOfSize,
+            t("MS_07", { param: "quantity", max: quantityOfSize })
+          ),
+      };
+    }
+  }, [size, quantityOfSize, t]);
 
   useEffect(() => {
     dispatch(getProductById(id));
@@ -137,14 +158,7 @@ function ProductDetail() {
       <Formik
         initialValues={{ quantity: 1 }}
         enableReinitialize
-        validationSchema={Yup.object({
-          quantity: Yup.number()
-            .min(1, t("MS_06", { param: t("quantity"), min: 1 }))
-            .max(
-              quantityOfSize,
-              t("MS_07", { param: "quantity", max: quantityOfSize })
-            ),
-        })}
+        validationSchema={Yup.object(validationSchema)}
         onSubmit={handleAddToCart}
         innerRef={formikRef}
       >
@@ -268,6 +282,7 @@ function ProductDetail() {
                   type="number"
                   quantity={true}
                   max={quantityOfSize}
+                  disabled={size ? false : true}
                 />
               </div>
               <div className="action">

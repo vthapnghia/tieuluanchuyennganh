@@ -12,7 +12,7 @@ function PrivateRoute({ children, isPrivate, ...rest }) {
     if(is_admin || is_seller){
         return <Navigate to={PATH.NOT_FOUND} state={{ from: location }} />;
     }else{
-      if(location.pathname !== PATH.PROFILE && !userAuth._id && isPrivate){
+      if(location.pathname !== PATH.PROFILE && !userAuth?._id && isPrivate){
         return <Navigate to={PATH.PROFILE} state={{ from: location }} />;
       }
     }

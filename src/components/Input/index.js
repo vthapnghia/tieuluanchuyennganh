@@ -209,7 +209,7 @@ const Input = forwardRef(
           </>
         ) : type === "number" ? (
           <>
-            {quantity && (
+            {quantity && !disabled &&(
               <span className="minus left-icon" onClick={handleQuanlity(-1)}>
                 <Icons.Minus
                   color={misnusDisabled ? COLOR.GRAY : "currentcolor"}
@@ -228,7 +228,7 @@ const Input = forwardRef(
               readOnly={readonly}
               onKeyDown={onKeyDown}
             />
-            {quantity && (
+            {quantity && !disabled &&(
               <span className="plus right-icon" onClick={handleQuanlity(1)}>
                 <Icons.Plus
                   color={plusDisabled ? COLOR.GRAY : "currentcolor"}
@@ -315,7 +315,7 @@ const Input = forwardRef(
             menuPortalTarget={document.body}
             placeholder={props.placeholder ?? ""}
             placement="auto"
-            isDisabled={props.disabled}
+            isDisabled={disabled}
           />
         ) : (
           <input
@@ -332,7 +332,7 @@ const Input = forwardRef(
         {meta.error && meta.touched ? (
           <span className="warning-icon-input">
             <Icons.Exclamation />
-            <span className="tooltiptext">{meta.error && meta.touched}</span>
+            <span className="tooltiptext">{meta.error}</span>
           </span>
         ) : (
           <></>

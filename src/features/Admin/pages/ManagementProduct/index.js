@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
   getAllProduct,
+  getProduct,
   searchProduct,
 } from "../../../User/pages/Products/ProductSlice";
 
@@ -21,6 +22,8 @@ function ManagementProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.products?.product);
+  const count = useSelector((state) => state.product.products?.count);
+  const [pageNumber, setPageNumber] = useState(10);
   const [listProduct, setListProduct] = useState(product);
   const [idProduct, setIdProduct] = useState();
   const [modalBody, setModalBody] = useState("");
@@ -111,9 +114,15 @@ function ManagementProduct() {
     dispatch(searchProduct(ref.current.value));
   }, [dispatch]);
 
+  const handleViewAdd = useCallback(() => {
+    const number = (pageNumber / 10 + 1) * 10;
+    setPageNumber(number)
+  }, [pageNumber]);
+
+
   useEffect(() => {
-    dispatch(getAllProduct());
-  }, [dispatch]);
+    dispatch(getProduct({ page: 1, pageSize: pageNumber }));
+  }, [dispatch, pageNumber]);
 
   useEffect(() => {
     setListProduct(product);
@@ -152,6 +161,13 @@ function ManagementProduct() {
           handleSort={handleSort}
           handleClick={handleClick}
         />
+        {listProduct?.length > 9 && count > listProduct?.length && (
+          <div className="button-load text-center">
+            <Button onClick={handleViewAdd} className="primary">
+              {t("add_view")}
+            </Button>
+          </div>
+        )}
       </div>
       <ModalCommon
         show={showModal}
