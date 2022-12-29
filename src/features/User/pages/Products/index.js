@@ -25,6 +25,7 @@ import Button from "../../../../components/Button";
 
 function Products() {
   const products = useSelector((state) => state.product.products?.product);
+  const count = useSelector((state) => state.product.products?.count);
   const brand = useSelector((state) => state.brand.allBrand?.brands);
   const filterFlag = useSelector((state) => state.product.filterFlag);
   const sortFlag = useSelector((state) => state.product.sortFlag);
@@ -488,14 +489,13 @@ function Products() {
               return <ProductItem key={index} product={product} />;
             })}
           </div>
-          {listProduct?.length > 19 &&
-            listProduct.count > listProduct?.length && (
-              <div className="button-load text-center">
-                <Button onClick={handleViewAdd} className="primary">
-                  {t("add_view")}
-                </Button>
-              </div>
-            )}
+          {listProduct?.length > 19 && count > listProduct?.length && (
+            <div className="button-load text-center">
+              <Button onClick={handleViewAdd} className="primary">
+                {t("add_view")}
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

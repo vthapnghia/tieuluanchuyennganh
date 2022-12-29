@@ -30,7 +30,7 @@ function AdminLogin(params) {
             navigate(PATH.ADMIN.PRODUCTS.BASE);
           }
         } else {
-          setModalTitle(t("action_success", { param: t("login") }));
+          setModalTitle(t("action_fail", { param: t("login") }));
           setModalBody(t("try_one_login"));
           setShowModal(!showModal);
         }

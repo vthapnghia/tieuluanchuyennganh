@@ -111,9 +111,7 @@ function ManagementNews() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (allNews && allNews.length > 0) {
       setListNews(allNews);
-    }
   }, [allNews]);
 
   return (
@@ -159,6 +157,7 @@ function ManagementNews() {
           modalTitle={t("confirm_remove", { param: t("news") })}
           modalBody={t("messge_confirm_remove")}
           handleConfirm={handleClose}
+          handleCloseModal={() => {setShowModal(!showModal)}}
           isButton
         />
         <ModalCommon
@@ -166,6 +165,7 @@ function ManagementNews() {
           modalTitle={modalTitle}
           modalBody={modalBody}
           handleConfirm={handleCloseMessage}
+          handleCloseModal={() => {setShowMessage(!showMessage)}}
           isButton
         />
       </>

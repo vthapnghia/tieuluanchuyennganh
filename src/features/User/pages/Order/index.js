@@ -45,7 +45,7 @@ function Order(props) {
       name: user?.name || "",
       phone: user?.phone || "",
       address: user?.address || "",
-      type_ship: ship ? ship[0]._id : "",
+      type_ship: ship ? ship[0]?._id : "",
       payment_method: 1,
     };
   }, [user, ship]);
@@ -219,8 +219,8 @@ function Order(props) {
 
   useEffect(() => {
     if (ship) {
-      setFeeShip(ship[0].price);
-      setShipId(ship[0]._id);
+      setFeeShip(ship[0]?.price);
+      setShipId(ship[0]?._id);
     }
   }, [ship]);
 

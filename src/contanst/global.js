@@ -57,6 +57,14 @@ const OPTIONS_COLOR = [
   { value: "Xám", label: "Xám" },
   { value: "Vàng", label: "Vàng" },
   { value: "Đen", label: "Đen" },
+  { value: "Hồng", label: "Hồng" },
+  { value: "Tím", label: "Tím" },
+  { value: "Đỏ", label: "Đỏ" },
+  { value: "Trắng", label: "Trắng" },
+  { value: "Camo", label: "Camo" },
+  { value: "Nâu", label: "Nâu" },
+  { value: "Sliver", label: "Sliver" },
+  { value: "Xanh lá", label: "Xanh lá" },
 ];
 
 const SORT_OPTION = [

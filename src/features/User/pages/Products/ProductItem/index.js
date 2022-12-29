@@ -22,7 +22,7 @@ function ProductItem({ product }) {
           <div className="d-flex flex-column align-items-center">
             <div className="product-price-initial">{product.price} &#8363;</div>
             <div className="product-price-discount">
-              {product.price * (1 - product.discount / 100)} &#8363;
+              {(product.price * (1 - product.discount / 100)).toFixed(2)} &#8363;
             </div>
           </div>
         ) : (

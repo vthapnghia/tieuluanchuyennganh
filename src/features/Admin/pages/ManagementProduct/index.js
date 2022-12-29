@@ -23,12 +23,15 @@ function ManagementProduct() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.products?.product);
   const count = useSelector((state) => state.product.products?.count);
+  const test = useSelector((state) => state.product.products)
   const [pageNumber, setPageNumber] = useState(10);
   const [listProduct, setListProduct] = useState(product);
   const [idProduct, setIdProduct] = useState();
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const ref = useRef();
+  
+console.log(test);
 
   const cols = [
     { label: t("name_product"), align: "center", width: "20%" },
@@ -118,7 +121,6 @@ function ManagementProduct() {
     const number = (pageNumber / 10 + 1) * 10;
     setPageNumber(number)
   }, [pageNumber]);
-
 
   useEffect(() => {
     dispatch(getProduct({ page: 1, pageSize: pageNumber }));

@@ -210,7 +210,7 @@ function ProductDetail() {
                       className="price-discount"
                       style={{ color: "red", fontSize: "20px" }}
                     >
-                      {products?.price * (1 - products?.discount / 100)} &#8363;
+                      {(products?.price * (1 - products?.discount / 100)).toFixed(2)} &#8363;
                     </div>
                   </>
                 ) : (

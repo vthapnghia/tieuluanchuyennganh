@@ -73,7 +73,6 @@ function NewDetail() {
     };
   }, [id, news]);
   const handleClose = useCallback(() => {
-    formikRef.current.resetForm();
     setShowModal(!showModal);
     if (id) {
       dispatch(getNewsById(id));
@@ -100,18 +99,18 @@ function NewDetail() {
               <div className="col col-md-6 col-sm-12 ">
                 <div className="multiple-img">
                   <div id="images">
-                    {id && (
+                    {/* {id && (
                       <figure>
                         <img src={news?.thumbnail} alt="img" />
                       </figure>
-                    )}
+                    )} */}
                   </div>
                   <Input
                     name="thumbnail"
                     type="file"
                     className="img-upload"
                     textLabel={t("upload_img")}
-                    multiple
+                    // multiple
                   />
                 </div>
               </div>
@@ -145,6 +144,7 @@ function NewDetail() {
           modalTitle={modalTitle}
           modalBody={modalBody}
           handleConfirm={handleClose}
+          handleCloseModal={() => setShowModal(!showModal)}
           isButton
         />
       </>
