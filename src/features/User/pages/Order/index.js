@@ -186,13 +186,12 @@ function Order(props) {
             name="radio"
             id={item._id}
             value={item.discount_price}
-            disabled={intoMoney < item.discount_price}
+            disabled={intoMoney < item.min_order}
             onChange={handleChangePromotion}
             defaultChecked= {isChecked === item._id}
           />
-          <label htmlFor={item._id} style={{ marginLeft: "10px" }}>{`${t(
-            "min_order"
-          )} ${item.min_order}`}</label>
+          <label htmlFor={item._id} style={{ marginLeft: "10px" }}>
+            {t("condition", {param: item.discount_price, min: item.min_order})}</label>
         </div>
       );
     });

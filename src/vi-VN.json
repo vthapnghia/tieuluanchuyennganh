@@ -166,6 +166,7 @@
   "choose_month": "hãy chọn tháng",
   "choose_year": "Hãy chọn năm",
   "view": "Xem",
+  "condition": "Giảm {{param}} cho hóa đơn từ {{min}}",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
