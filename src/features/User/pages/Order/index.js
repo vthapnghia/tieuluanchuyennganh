@@ -39,6 +39,7 @@ function Order(props) {
   const optionShip = ship?.map((element) => {
     return { value: element._id, label: element.type };
   });
+  const [isChecked, setIsChecked] = useState(null);
 
   const initialValues = useMemo(() => {
     return {
@@ -160,6 +161,10 @@ function Order(props) {
     setShowFail(!showFail);
   }, [showFail]);
 
+  const handleChangePromotion = useCallback((e) => {
+    setIsChecked(e.target.id) ;
+  }, [])
+
   const modalBody = useMemo(() => {
     const voucherFiter = voucher?.filter((voucherItem) => {
       const dateFrom = new Date(voucherItem.use_date_from);
@@ -182,6 +187,8 @@ function Order(props) {
             id={item._id}
             value={item.discount_price}
             disabled={intoMoney < item.discount_price}
+            onChange={handleChangePromotion}
+            defaultChecked= {isChecked === item._id}
           />
           <label htmlFor={item._id} style={{ marginLeft: "10px" }}>{`${t(
             "min_order"
@@ -189,7 +196,7 @@ function Order(props) {
         </div>
       );
     });
-  }, [intoMoney, voucher]);
+  }, [intoMoney, voucher, handleChangePromotion, isChecked]);
 
   const chooseVoucher = useCallback(() => {
     setShowVoucher(!showVoucher);
@@ -320,7 +327,7 @@ function Order(props) {
                 </div>
                 <div className="form-footer">
                   <div className="label-total">
-                    {total}
+                    {t("total", {param: total})}
                     &#8363;
                   </div>
                   <div className="btn-order offline" id="btn-order">

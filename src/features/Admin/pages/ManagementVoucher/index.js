@@ -308,7 +308,7 @@ function ManagementVoucher(params) {
       <div id="management-voucher">
         <div className="btn-add-voucher">
           <Button className="primary" onClick={handleBtnAddVoucher}>
-            {t("add_news")}
+            {t("add_voucher")}
           </Button>
         </div>
 
