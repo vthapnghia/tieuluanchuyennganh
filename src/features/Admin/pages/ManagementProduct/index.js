@@ -176,6 +176,7 @@ console.log(test);
         modalTitle={t("confirm_remove", { param: t("product") })}
         modalBody={t("messge_confirm_remove")}
         handleConfirm={handleCloseModal}
+        handleCloseModal={() => setShowModal(!showModal)}
         isButton
       />
       <ModalCommon
@@ -183,6 +184,7 @@ console.log(test);
         modalTitle={modalTitle}
         modalBody={modalBody}
         handleConfirm={handleCloseMessage}
+        handleCloseModal={() => setShowMessage(!showMessage)}
         isButton
       />
     </>
