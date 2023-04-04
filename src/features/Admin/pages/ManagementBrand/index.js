@@ -2,14 +2,14 @@ import { useTranslation } from "react-i18next";
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
-import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
 import "./ManagementBrand.scss";
-import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useDispatch, useSelector } from "react-redux";
 import { addBrand, getAllBrand, removeBrand } from "./BrandSlice";
 import * as yup from "yup";
+import TableAdminCommon from "../../../../components/TableAdminCommon";
+import Icons from "../../../../components/Icons";
 
 function ManagementBrand(props) {
   const { t } = useTranslation();
@@ -19,7 +19,6 @@ function ManagementBrand(props) {
   const formikRef = useRef();
   const dispatch = useDispatch();
   const brand = useSelector((state) => state.brand.allBrand?.brands);
-  // const brandById = useSelector(state => state.brand.brandById)
   const [idBrand, setIdBrand] = useState();
   const [messageTitle, setMessageTitle] = useState();
   const [messageBody, setMessageBody] = useState();
@@ -134,7 +133,6 @@ function ManagementBrand(props) {
                 type="text"
                 leftIcon={<Icons.Search />}
                 onKeyDown={handleOnKeyDown}
-                // handleOnClickLeftIcon={handleOnClickLeftIcon}
               />
             </div> */}
             <div className="btn-add-brand">
@@ -146,11 +144,10 @@ function ManagementBrand(props) {
               </Button>
             </div>
           </div>
-          <TableCommon
+          <TableAdminCommon
             cols={cols}
             rows={rows}
             oneButton={true}
-            labelHeader={t("action")}
             handleRemove={handleRemove}
             handleSort={handleSort}
             handleClick={handleClick}

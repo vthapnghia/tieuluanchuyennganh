@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Authentication/authSlice";
 import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
 import {
-  SIDEBAR_PATH,
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../contanst/global";
@@ -60,10 +59,10 @@ function Navbars() {
 
   return (
     <>
-      {is_admin || is_seller ? (
+      {true ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
-            <Icons.Menu color="white" />
+            <Icons.Menu color="black" />
           </div>
           <div className="nav-title">{getTileNav}</div>
 
@@ -74,7 +73,7 @@ function Navbars() {
                 <img
                   className="admin-img"
                   alt="img"
-                  src={userAuth.avatar || shoe}
+                  src={userAuth?.avatar || shoe}
                 ></img>
               }
             >

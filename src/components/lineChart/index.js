@@ -11,7 +11,6 @@ import {
 } from "chart.js";
 import { useMemo } from "react";
 import { COLOR } from "../../contanst/global";
-import { FastField } from "formik";
 
 ChartJS.register(
   CategoryScale,

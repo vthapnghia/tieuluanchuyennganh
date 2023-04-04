@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import Button from "../../../../components/Button";
-import TableCommon from "../../../../components/TableCommon";
 import "./ManagementProduct.scss";
 import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
@@ -14,6 +13,7 @@ import {
   getProduct,
   searchProduct,
 } from "../../../User/pages/Products/ProductSlice";
+import TableAdminCommon from "../../../../components/TableAdminCommon";
 
 function ManagementProduct() {
   const { t } = useTranslation();
@@ -23,21 +23,20 @@ function ManagementProduct() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.products?.product);
   const count = useSelector((state) => state.product.products?.count);
-  const test = useSelector((state) => state.product.products)
   const [pageNumber, setPageNumber] = useState(10);
   const [listProduct, setListProduct] = useState(product);
   const [idProduct, setIdProduct] = useState();
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const ref = useRef();
-  
-console.log(test);
 
   const cols = [
     { label: t("name_product"), align: "center", width: "20%" },
     { label: t("brand"), align: "center", width: "20%", sort: true },
     { label: t("price"), align: "center", width: "20%" },
   ];
+
+  
   const rows = useMemo(() => {
     return listProduct?.map((productItem) => {
       return {
@@ -119,7 +118,7 @@ console.log(test);
 
   const handleViewAdd = useCallback(() => {
     const number = (pageNumber / 10 + 1) * 10;
-    setPageNumber(number)
+    setPageNumber(number);
   }, [pageNumber]);
 
   useEffect(() => {
@@ -147,18 +146,17 @@ console.log(test);
           </div>
           <div className="btn-add-product">
             <Button
-              className="primary"
+              className="green"
               onClick={() => navigate(PATH.ADMIN.PRODUCTS.ADD_PRODUCT)}
             >
               {t("add_product")}
             </Button>
           </div>
         </div>
-        <TableCommon
+        <TableAdminCommon
           cols={cols}
           rows={rows}
           oneButton={true}
-          labelHeader={t("action")}
           handleRemove={handleRemove}
           handleSort={handleSort}
           handleClick={handleClick}

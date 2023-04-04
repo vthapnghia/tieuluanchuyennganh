@@ -6,9 +6,12 @@ function Admin(props) {
   return (
     <div className="admin">
       <SideBar />
-      <Navbars />
       <div className="content-page">
-        <props.component />
+        <Navbars />
+        <div className="child-component">
+          <props.component />
+        </div>
+        
       </div>
     </div>
   );
