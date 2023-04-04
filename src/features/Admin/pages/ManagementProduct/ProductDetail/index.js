@@ -54,7 +54,7 @@ function ProductDetailAdmin() {
         ...rest
       } = values;
       const formData = new FormData();
-      const size =  await JSON.stringify(rest)
+      const size = await JSON.stringify(rest);
       const files = Object.values(image);
       files.forEach((elmennt) => {
         formData.append("image", elmennt);
@@ -183,9 +183,9 @@ function ProductDetailAdmin() {
     >
       <>
         <div className="product-detail-admin">
-          <div className="container">
+          {/* <div className="container"> */}
             <div className="row d-flex justify-content-center">
-              <div className="col col-md-8 col-sm-12 ">
+              <div className="col col-md-6 col-sm-12 ">
                 <div className="multiple-img">
                   <div id="images">
                     <div className="display-img">
@@ -239,6 +239,8 @@ function ProductDetailAdmin() {
                     type="textarea"
                   />
                 </div>
+              </div>
+              <div className="col col-md-6 col-sm-12 ">
                 <div className="input">
                   <Input
                     name="discount"
@@ -305,7 +307,7 @@ function ProductDetailAdmin() {
                 </div>
               </div>
             </div>
-          </div>
+          {/* </div> */}
         </div>
         <ModalCommon
           show={showModal}
