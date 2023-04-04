@@ -59,7 +59,7 @@ function Navbars() {
 
   return (
     <>
-      {true ? (
+      {is_admin || is_seller ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
             <Icons.Menu color="black" />

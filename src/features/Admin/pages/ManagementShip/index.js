@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
-import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
 import "./ManagementShip.scss";
 import ModalCommon from "../../../../components/ModalCommon";

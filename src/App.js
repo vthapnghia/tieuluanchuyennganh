@@ -27,19 +27,6 @@ function App() {
           element={<Verify />}
         />
         {routesAdmin.map((routeItem, index) => {
-          // return (
-          // <Route
-          //   key={index}
-          //   path={routeItem.path}
-          //   element={
-          //     <Suspense fallback={<></>}>
-          //       <AdminRoute>
-          //         <Admin component={routeItem.component} />
-          //       </AdminRoute>
-          //     </Suspense>
-          //   }
-          // />
-          // );
           return (
             <Route
               key={index}
@@ -59,7 +46,13 @@ function App() {
             <Route
               key={index}
               path={routeItem.path}
-              element= {routeItem.component} 
+              element={
+                <Suspense fallback={<></>}>
+                  <PrivateRoute isPrivate={routeItem.isPrivate}>
+                    <User component={routeItem.component} />
+                  </PrivateRoute>
+                </Suspense>
+              }
             />
           );
         })}

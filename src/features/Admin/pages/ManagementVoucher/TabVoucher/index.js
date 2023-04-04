@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ModalCommon from "../../../../../components/ModalCommon";
 import TableAdminCommon from "../../../../../components/TableAdminCommon";
-import TableCommon from "../../../../../components/TableCommon";
 import { deleteVoucher, getAllVoucher } from "../voucherSlice";
 
 function TabVoucher({ vouchers, handleClick }) {

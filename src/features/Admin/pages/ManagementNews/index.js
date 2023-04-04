@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import Button from "../../../../components/Button";
-import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useNavigate } from "react-router-dom";
