@@ -3,6 +3,7 @@ import moment from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ModalCommon from "../../../../../components/ModalCommon";
+import TableAdminCommon from "../../../../../components/TableAdminCommon";
 import TableCommon from "../../../../../components/TableCommon";
 import { deleteVoucher, getAllVoucher } from "../voucherSlice";
 
@@ -112,11 +113,10 @@ function TabVoucher({ vouchers, handleClick }) {
   return (
     <div id="voucher-by-status">
       {vouchers && vouchers.length > 0 ? (
-        <TableCommon
+        <TableAdminCommon
           cols={cols}
           rows={rows}
           oneButton={true}
-          labelHeader={t("action")}
           handleRemove={handleRemove}
           handleSort={handleSort}
           handleClick={voucherItemClick}

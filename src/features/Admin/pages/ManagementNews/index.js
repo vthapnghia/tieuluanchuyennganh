@@ -9,6 +9,7 @@ import PATH from "../../../../contanst/path";
 import "./ManagementNews.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNews, getAllNews } from "../../../User/pages/News/NewsSlice";
+import TableAdminCommon from "../../../../components/TableAdminCommon";
 
 function ManagementNews() {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ function ManagementNews() {
   const [listNews, setListNews] = useState(allNews);
 
   const cols = [
-    { label: t("image"), align: "center", width: "20%" },
+    // { label: t("image"), align: "center", width: "20%" },
     { label: t("title"), align: "center", width: "30%" },
     { label: t("date_post"), align: "center", width: "20%", sort: true },
   ];
@@ -34,22 +35,22 @@ function ManagementNews() {
       return {
         id: itemNews._id,
         columns: [
-          {
-            label: (
-              <img
-                src={
-                  itemNews.thumbnail ||
-                  "https://4h.no/getfile.php/136434-1576598515/Prosjektplattformen/Oppdrag/Bilder/Kultur/bildemanipulasjon.jpg%20%28mobile480%29.jpg"
-                }
-                alt="news"
-                width="100"
-                height="100"
-                style={{ objectFit: "cover", borderRadius: "10px" }}
-              />
-            ),
-            align: "center",
-            width: "20%",
-          },
+          // {
+          //   label: (
+          //     <img
+          //       src={
+          //         itemNews.thumbnail ||
+          //         "https://4h.no/getfile.php/136434-1576598515/Prosjektplattformen/Oppdrag/Bilder/Kultur/bildemanipulasjon.jpg%20%28mobile480%29.jpg"
+          //       }
+          //       alt="news"
+          //       width="100"
+          //       height="100"
+          //       style={{ objectFit: "cover", borderRadius: "10px" }}
+          //     />
+          //   ),
+          //   align: "center",
+          //   width: "20%",
+          // },
           { label: itemNews.title, align: "center", width: "30%" },
           { label: "06-12/2022", align: "center", width: "20%" },
         ],
@@ -142,11 +143,10 @@ function ManagementNews() {
               </Button>
             </div>
           </div>
-          <TableCommon
+          <TableAdminCommon
             cols={cols}
             rows={rows}
             oneButton={true}
-            labelHeader={t("action")}
             handleRemove={handleRemove}
             handleSort={handleSort}
             handleClick={handleClick}

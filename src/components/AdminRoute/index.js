@@ -6,13 +6,13 @@ function AdminRoute({ children, ...rest }) {
   const {userAuth, is_admin, is_seller} = useAuth();
   const location = useLocation();
 
-  if (!userAuth) {
-    return <Navigate to={PATH.ADMIN.LOGIN} state={{ from: location }} />;
-  }else{
-    if(!is_admin && !is_seller){
-        return <Navigate to={PATH.NOT_FOUND} state={{ from: location }} />;
-    }
-  }
+  // if (!userAuth) {
+  //   return <Navigate to={PATH.ADMIN.LOGIN} state={{ from: location }} />;
+  // }else{
+  //   if(!is_admin && !is_seller){
+  //       return <Navigate to={PATH.NOT_FOUND} state={{ from: location }} />;
+  //   }
+  // }
   return children;
 }
 

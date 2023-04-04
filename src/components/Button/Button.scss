@@ -58,4 +58,14 @@
   .children {
     padding: 10px;
   }
+
+  &.green {
+    background: #6fd96f;
+    .children {
+      color: $white;
+    }
+  }
+  &.green:hover {
+    background: #4c8a4c;
+  }
 }

@@ -5,7 +5,6 @@ import Input from "../../../../components/Input";
 import TableCommon from "../../../../components/TableCommon";
 import { Formik } from "formik";
 import "./ManagementShip.scss";
-import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
@@ -16,6 +15,7 @@ import {
   removeShip,
   uploadShip,
 } from "./ShipSlice";
+import TableAdminCommon from "../../../../components/TableAdminCommon";
 
 function ManagementShip(props) {
   const { t } = useTranslation();
@@ -247,11 +247,10 @@ function ManagementShip(props) {
               </Button>
             </div>
           </div>
-          <TableCommon
+          <TableAdminCommon
             cols={cols}
             rows={rows}
             oneButton={true}
-            labelHeader={t("action")}
             handleRemove={handleRemove}
             handleSort={handleSort}
             handleClick={handleClick}
