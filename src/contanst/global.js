@@ -29,13 +29,12 @@ const COLOR = {
 
 const GENDER = {
   MALE: "Nam",
-  FELMALE: "Nữ",
-  OTHER: "Khác",
+  FEMALE: "Nữ"
 };
 
 const OPTION_GENDER = [
   { value: 1, label: GENDER.MALE },
-  { value: 2, label: GENDER.FELMALE },
+  { value: 2, label: GENDER.FEMALE },
 ];
 
 const OPTION_SIZE = [

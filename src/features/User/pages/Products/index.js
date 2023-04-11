@@ -16,6 +16,7 @@ import Select from "react-select";
 import {
   COLOR,
   OPTIONS_COLOR,
+  OPTION_GENDER,
   OPTION_SIZE,
   OPTION_TYPE,
   SORT_OPTION,
@@ -43,6 +44,7 @@ function Products() {
     let color = [];
     let size = [];
     let filter = {};
+    let gender = [];
     OPTION_TYPE.forEach((item) => {
       category.push({ label: item.value, checked: false });
     });
@@ -59,6 +61,10 @@ function Products() {
       size.push({ label: item.label, checked: false });
     });
     filter.size = size;
+    OPTION_GENDER.forEach((item) => {
+      gender.push({ label: item.value, checked: false });
+    });
+    filter.gender = gender;
     return filter;
   }, [brandOption]);
 
@@ -70,11 +76,11 @@ function Products() {
     control: (styles) => ({
       ...styles,
       backgroundColor: COLOR.WHITE,
-      boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+      // boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
       width: "100%",
       borderRadius: "10px",
       paddingRight: "10px",
-      border: `none`,
+      border: `1px solid #95a5a6`,
       // boxShadow: "none",
       minHeight: 44,
       fontSize: "16px",
@@ -123,7 +129,7 @@ function Products() {
 
   const handleChangeSort = useCallback(
     (e) => {
-      let listCopy = [...listProduct];
+      let listCopy = [...products];
       setListProduct(
         listCopy.sort((a, b) => {
           return (a.price - b.price) * Number(e.value);
@@ -131,7 +137,7 @@ function Products() {
       );
       dispatch(setSort(Number(e.value)));
     },
-    [listProduct, dispatch]
+    [products, dispatch]
   );
 
   const handleFilter = useCallback(
@@ -177,11 +183,19 @@ function Products() {
             });
             tempFilter = filterType;
             break;
+          case "gender":
+            itemFilter[1].forEach((childItemFilter) => {
+              productFiterType = tempFilter.filter((productItem) => {
+                return productItem.gender === childItemFilter.label;
+              });
+              filterType = filterType.concat(productFiterType);
+            });
+            tempFilter = filterType;
+            break;
           default:
             break;
         }
       });
-
       setListProduct(
         tempFilter.sort((a, b) => {
           return (a.price - b.price) * sortFlag;
@@ -190,6 +204,7 @@ function Products() {
     },
     [products, sortFlag]
   );
+
   const handleChangeFilter = useCallback(
     (typeFilter, isChecked, label) => {
       getAllFilter[typeFilter]?.forEach((item, index) => {
@@ -214,14 +229,16 @@ function Products() {
         dispatch(setFilter(filterArr));
         handleFilter(filterArr);
       } else {
-        setListProduct(
-          [...products].sort((a, b) => {
-            return (a.price - b.price) * sortFlag;
-          })
-        );
+        dispatch(setFilter(filterArr));
+        setListProduct(products);
+        // setListProduct(
+        //   products.sort((a, b) => {
+        //     return (a.price - b.price) * sortFlag;
+        //   })
+        // );
       }
     },
-    [getAllFilter, products, handleFilter, sortFlag, dispatch]
+    [dispatch, getAllFilter, handleFilter, products]
   );
 
   const handleViewAdd = useCallback(() => {
@@ -299,7 +316,7 @@ function Products() {
   return (
     <div className="product-section">
       <div className="row">
-        <div className="col col-md-3 product-filter">
+        <div className="col col-md-3 col-xl-2 product-filter">
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>{t("category")}</Accordion.Header>
@@ -450,10 +467,49 @@ function Products() {
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>{t("gender")}</Accordion.Header>
+              <Accordion.Body>
+                {OPTION_GENDER.map((gender, index) => {
+                  return (
+                    <div className="accordion-child" key={index}>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        value={gender.value}
+                        onChange={(e) =>
+                          handleChangeFilter(
+                            "gender",
+                            e.target.checked,
+                            e.target.value
+                          )
+                        }
+                        defaultChecked={
+                          filterFlag &&
+                          Object.fromEntries(filterFlag)["gender"] &&
+                          Object.fromEntries(filterFlag)["gender"].find(
+                            (item) => {
+                              return (
+                                Number(item.label) === Number(gender.value)
+                              );
+                            }
+                          )
+                            ? true
+                            : false
+                        }
+                      />
+                      <label>{gender.label}</label>
+                    </div>
+                  );
+                })}
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
         </div>
-        <div className="col-md-9">
+        <div className="col-md-9 col-xl-10">
           <div className="row">
-            <div className="search-product col col-md-4">
+            <div className="search-product col col-md-4 col-xl-3">
               <input
                 type="text"
                 placeholder={t("search")}
@@ -464,8 +520,8 @@ function Products() {
                 <Icons.Search />
               </div>
             </div>
-            <div className="col col-md-4"></div>
-            <div className="sort-product col col-md-4">
+            <div className="col col-md-6"></div>
+            <div className="sort-product col col-xl-3">
               <Select
                 onChange={handleChangeSort}
                 options={SORT_OPTION}

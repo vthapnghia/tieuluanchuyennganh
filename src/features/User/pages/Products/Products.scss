@@ -3,6 +3,7 @@
 .product-section {
   background-color: $bg_color;
   padding: 30px 20px 30px 25px;
+  min-height: calc(100vh - 142px);
 
   .search-product {
     margin: 0 0 30px 0;
@@ -12,9 +13,9 @@
       padding: 1rem 3rem;
       font-size: 1rem;
       font-family: $font-family;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       border-radius: 10px !important;
-      border: 1px solid transparent;
+      border: 1px solid $main_color;
       outline: none;
     }
     .icon-search{
