@@ -89,7 +89,7 @@ function Navbars() {
         </div>
       ) : (
         <nav className="custom-navbar navbar navbar-expand-md navbar-dark">
-          <div className="container">
+          {/* <div className="container"> */}
             <Link className="navbar-brand" to="/">
               {/* {t("logo")}
               <span>.</span> */}
@@ -170,7 +170,7 @@ function Navbars() {
                 </li>
               </ul>
             </div>
-          </div>
+          {/* </div> */}
         </nav>
       )}
     </>

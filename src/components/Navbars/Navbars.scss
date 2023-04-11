@@ -1,15 +1,15 @@
 @import "../../assets/scss/variables";
 
 .custom-navbar {
-  background: $main_color !important;
-  padding: 20px !important;
+  background: $main_color;
+  padding: 20px 100px !important;
   height: 80px;
+  position: fixed!important;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  right: 0;
   .navbar-brand {
-    // font-size: 32px;
-    // font-weight: 600;
-    // > span {
-    //   opacity: 0.4;
-    // }
     img {
       height: 80px;
       width: auto;
@@ -188,7 +188,7 @@
   }
 
   @media screen and(max-width: 1000px) {
-    .nav-title{
+    .nav-title {
       margin-left: 36px;
     }
     .menu-response {

@@ -187,7 +187,7 @@ function TableCommon({
                     }}
                   >
                     <div className="button" onClick={handleRemove(row.id)}>
-                      <Icons.Remove />
+                    <Icons.Trash />
                     </div>
                   </div>
                 )}

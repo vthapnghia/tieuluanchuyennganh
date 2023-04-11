@@ -4,6 +4,7 @@ import "./Input.scss";
 import Icons from "../Icons";
 import ReactSelect from "react-select";
 import { COLOR } from "../../contanst/global";
+import { elements } from "chart.js";
 const Input = forwardRef(
   (
     {
@@ -118,7 +119,7 @@ const Input = forwardRef(
           }
         }
       },
-      [helpers, meta, handleIconQuantity, min, max, data]
+      [meta.value, min, helpers, handleIconQuantity, data, max]
     );
 
     const onChangeFile = (e) => {

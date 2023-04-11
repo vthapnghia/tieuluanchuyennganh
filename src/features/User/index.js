@@ -5,7 +5,10 @@ function User(props) {
   return (
     <>
       <Navbars />
-      <props.component />
+      <div class="container" style={{padding: "80px 0", minHeight: "calc(100vh - 62px)"}}>
+        <props.component/>
+      </div>
+      
       <Footer />
     </>
   );

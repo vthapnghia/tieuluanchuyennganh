@@ -9,7 +9,8 @@
     margin-bottom: 20px;
     img {
       height: 215px;
-      width: 356px;
+      width: 100%;
+      object-fit: cover;
       border-radius: 20px;
       transition: 0.3s all ease;
     }

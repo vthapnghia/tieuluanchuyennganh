@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import { Formik } from "formik";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Carousel } from "react-bootstrap";
@@ -36,6 +37,7 @@ function ProductDetail() {
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [buyNow, setBuyNow] = useState(false);
+  const [chooseImage, setChooseImage] = useState("");
 
   const handleSelect = useCallback((selectedIndex) => {
     setIndex(selectedIndex);
@@ -143,6 +145,10 @@ function ProductDetail() {
     }
   }, [size, quantityOfSize, t]);
 
+  const handleClickImage = (url, i) => {
+    setChooseImage(url);
+  };
+
   useEffect(() => {
     dispatch(getProductById(id));
   }, [id, dispatch]);
@@ -152,6 +158,11 @@ function ProductDetail() {
       setSizeArray(Object.entries(products?.size));
     }
   }, [products?.size]);
+
+  useEffect(() => {
+    setChooseImage(products?.product_image[0])
+  }, [products?.product_image])
+  
 
   return (
     <>
@@ -163,26 +174,26 @@ function ProductDetail() {
         innerRef={formikRef}
       >
         <div className="product-detail">
-          <div className="product p-5 d-flex justify-content-around">
-            <div className="img-slider">
-              <Carousel
-                activeIndex={index}
-                onSelect={handleSelect}
-                interval="2000"
-                slide
-              >
-                {products?.product_image.map((image, i) => (
-                  <Carousel.Item key={i}>
-                    <img
-                      className="d-block w-100"
-                      src={image}
-                      alt="First slide"
-                    />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+          <div className="product row">
+            <div className="img-slider col-md-6">
+              <img src={chooseImage} alt="image" className="image-display" />
+              <div className="image-product-list">
+                {products?.product_image.map((image, i) => {
+                  if (i !== 0) {
+                    <div style={{height: "100%", width: "10px"}}></div>
+                  }
+                  return <img
+                    key={i}
+                    id={`image-product-${i}`}
+                    src={image}
+                    alt="First slide"
+                    onClick={() => handleClickImage(image, i)}
+                  />;
+                })}
+                
+              </div>
             </div>
-            <div className="content-detail ml-2 w-50 d-flex flex-column">
+            <div className="content-detail col-md-6">
               {products?.discount > 0 && (
                 <div className="discount">
                   {" "}
@@ -210,7 +221,11 @@ function ProductDetail() {
                       className="price-discount"
                       style={{ color: "red", fontSize: "20px" }}
                     >
-                      {(products?.price * (1 - products?.discount / 100)).toFixed(2)} &#8363;
+                      {(
+                        products?.price *
+                        (1 - products?.discount / 100)
+                      ).toFixed(2)}{" "}
+                      &#8363;
                     </div>
                   </>
                 ) : (
@@ -296,7 +311,7 @@ function ProductDetail() {
             </div>
           </div>
           <div className="comment">
-            <div className="container">
+            {/* <div className="container"> */}
               <span className="rate-product">{t("rate_product")}</span>
               <div className="list-comment">
                 {rate?.map((rateItem, index) => {
@@ -352,7 +367,7 @@ function ProductDetail() {
                   );
                 })}
               </div>
-            </div>
+            {/* </div> */}
           </div>
           <ModalCommon
             show={show}
