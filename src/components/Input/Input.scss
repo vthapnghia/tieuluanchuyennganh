@@ -15,9 +15,9 @@
     padding: 1rem 3rem;
     font-size: 1rem;
     font-family: $font-family;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px !important;
-    border: 1px solid transparent;
+    border: 1px solid $main_color;
     outline: none;
   }
 
@@ -36,7 +36,7 @@
 
   .select-common:focus {
     box-shadow: none;
-    border: 1px solid transparent;
+    border: 1px solid $main_color;
   }
 
   .number-common {
@@ -55,7 +55,7 @@
   }
 
   .input-common:focus {
-    border: 1px solid transparent;
+    border: 1px solid $main_color;
   }
 
   .left-icon {
@@ -135,7 +135,7 @@
       min-height: 300px;
       height: auto;
       object-fit: cover;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       border-radius: 10px;
     }
     .label-img {
@@ -149,7 +149,7 @@
       cursor: pointer;
       margin: 0;
       text-align: center;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       display: block;
       height: 50px;
       &:hover {
@@ -177,6 +177,6 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 }

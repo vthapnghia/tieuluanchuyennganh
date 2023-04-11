@@ -1,14 +1,13 @@
 @import "/src/assets/scss/variables.scss";
 
 .profile {
-  background-color: $bg_color;
   .avatar {
     .input-group {
       img {
         border-radius: 100%;
         width: 200px;
         height: 200px;
-        border: 1px solid $gray_600;
+        border: 2px solid $gray_600;
       }
       .warning-icon-input {
         top: 90%;

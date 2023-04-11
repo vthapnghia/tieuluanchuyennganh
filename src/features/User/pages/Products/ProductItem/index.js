@@ -5,7 +5,7 @@ import "./ProductItem.scss";
 
 function ProductItem({ product }) {
   return (
-    <div className="col-12 col-md-4 col-lg-3 mb-5">
+    <div className="col-12 col-md-4 col-lg-3 col-xl-2 mb-5">
       <div className="product-item">
         {product.discount > 0 && (
           <div className="discount">
@@ -17,9 +17,9 @@ function ProductItem({ product }) {
           alt="product"
           className="img-fluid product-thumbnail"
         />
-        <h3 className="product-title">{product.name}</h3>
+        <div className="product-title">{product.name}</div>
         {product.discount > 0 ? (
-          <div className="d-flex flex-column align-items-center">
+          <div className="d-flex flex-column align-items-center mh-">
             <div className="product-price-initial">{product.price} &#8363;</div>
             <div className="product-price-discount">
               {(product.price * (1 - product.discount / 100)).toFixed(2)} &#8363;

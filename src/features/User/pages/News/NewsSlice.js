@@ -5,7 +5,6 @@ const getAllNews = createAsyncThunk(
   "GET_ALL_NEWS",
   async (param, { rejectWithValue }) => {
     try {
-      console.log("âfa");
       const res = await newsAPI.getAllNews();
       return res;
     } catch (error) {

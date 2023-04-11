@@ -31,12 +31,13 @@ function Cart() {
   const [intoMoney, setIntoMoney] = useState("");
 
   const handleIconQuantity = useCallback(
-    async (action, data) => {
-      data.quantity = action;
+    async (action, element) => {
+      let data = {product_id: element.product._id, size: element.size, quantity: action}
+
       await dispatch(editQuantity({ data, noLoading: true })).then((res) => {
         if (res.payload.status === 200) {
-          dispatch(arrayCheckBox(null));
-          dispatch(getAllCart());
+          // dispatch(arrayCheckBox(null));
+          // dispatch(getAllCart());
         }
       });
     },
@@ -93,7 +94,7 @@ function Cart() {
                 onClick={(e) => e.stopPropagation()}
                 max={element.product.size[element.size]}
                 handleIconQuantity={handleIconQuantity}
-                data={{ product_id: element.product._id, size: element.size }}
+                data={element}
               />
             ),
             align: "center",
@@ -179,7 +180,7 @@ function Cart() {
   );
 
   useEffect(() => {
-    dispatch(getAllCart())
+    dispatch(getAllCart());
   }, [dispatch]);
 
   useEffect(() => {
@@ -204,61 +205,59 @@ function Cart() {
         <>
           <div className="Cart">
             <div className="untree_co-section before-footer-section">
-              <div className="container">
-                {cart && cart.length > 0 ? (
-                  <>
-                    <div className="row">
-                      <TableCommon
-                        cols={cols}
-                        rows={rows}
-                        oneButton={true}
-                        labelHeader={t("remove")}
-                        handleRemove={handleRemove}
-                        handleClick={handleClick}
-                        checkAll
-                      />
-                    </div>
-                    <div className="row into-money">
-                      <span>{`${t("into_money")}: ${intoMoney}`}&#8363;</span>
-                    </div>
-                    <div className="row">
-                      <div className="btn-continue-shopping ">
-                        <div className="btn-group">
-                          <div>
-                            <Button
-                              className="primary"
-                              onClick={() =>
-                                navigate(PATH.PRODUCT.LIST_PRODUCT)
-                              }
-                            >
-                              {t("continue_shopping")}
-                            </Button>
-                          </div>
-                          <div>
-                            <Button
-                              className="btn primary"
-                              onClick={handlePay}
-                              disabled={!checkBox || checkBox?.length === 0}
-                            >
-                              {t("pay")}
-                            </Button>
-                          </div>
+              {/* <div className="container"> */}
+              {cart && cart.length > 0 ? (
+                <>
+                  <div className="row">
+                    <TableCommon
+                      cols={cols}
+                      rows={rows}
+                      oneButton={true}
+                      labelHeader={t("remove")}
+                      handleRemove={handleRemove}
+                      handleClick={handleClick}
+                      checkAll
+                    />
+                  </div>
+                  <div className="row into-money">
+                    <span>{`${t("into_money")}: ${intoMoney}`}&#8363;</span>
+                  </div>
+                  <div className="row">
+                    <div className="btn-continue-shopping ">
+                      <div className="btn-group">
+                        <div>
+                          <Button
+                            className="primary"
+                            onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+                          >
+                            {t("continue_shopping")}
+                          </Button>
+                        </div>
+                        <div>
+                          <Button
+                            className="btn primary"
+                            onClick={handlePay}
+                            disabled={!checkBox || checkBox?.length === 0}
+                          >
+                            {t("pay")}
+                          </Button>
                         </div>
                       </div>
                     </div>
-                  </>
-                ) : (
-                  <div className="no-product">
-                    <h2>{t("no_product_in_cart")}</h2>
-                    <Button
-                      className="primary"
-                      onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
-                    >
-                      {t("shopping")}
-                    </Button>
                   </div>
-                )}
-              </div>
+                </>
+              ) : (
+                <div className="no-product">
+                  <h2>{t("no_product_in_cart")}</h2>
+                  <Button
+                    className="primary"
+                    onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+                  >
+                    {t("shopping")}
+                  </Button>
+                </div>
+              )}
+              {/* </div> */}
             </div>
           </div>
           <ModalCommon

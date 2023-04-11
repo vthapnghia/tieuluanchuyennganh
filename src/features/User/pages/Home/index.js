@@ -40,7 +40,7 @@ function Home() {
   return (
     <div className="home-page">
       <div className="product-section">
-        <div className="container">
+        {/* <div className="container"> */}
           <div className="title-section">
             <span>{t("product").toLocaleUpperCase()}</span>
           </div>
@@ -57,10 +57,10 @@ function Home() {
               {t("add_view")}
             </Button>
           </div>
-        </div>
+        {/* </div> */}
       </div>
       <div className="choose-us-session">
-        <div className="container">
+        {/* <div className="container"> */}
           <div className="title-section">
             <span>{t("why-choose-us").toLocaleUpperCase()}</span>
           </div>
@@ -130,17 +130,17 @@ function Home() {
                 </div>
               </div>
             </div>
-
-            <div className="col-lg-5">
+            <div className="col-lg-2"></div>
+            <div className="col-lg-4">
               <div className="img-wrap">
                 <img src={shoe_bg} alt="wrap" className="img-fluid" />
               </div>
             </div>
           </div>
-        </div>
+        {/* </div> */}
       </div>
       <div className="blog-section">
-        <div className="container">
+        {/* <div className="container"> */}
           <div className="title-section">
             <span>{t("news").toLocaleUpperCase()}</span>
           </div>
@@ -157,7 +157,7 @@ function Home() {
               {t("add_view")}
             </Button>
           </div>
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );
