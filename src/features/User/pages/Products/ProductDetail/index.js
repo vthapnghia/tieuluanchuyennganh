@@ -266,7 +266,7 @@ function ProductDetail() {
                 <div>{getGender}</div>
               </div>
 
-              <div className="d-flex align-items-start w-100">
+              <div className="d-flex align-items-start mt-3 mb-3">
                 <div style={{ minWidth: "max-content", marginRight: "10px" }}>
                   <b className="label">{t("size")}&#58;</b>
                 </div>
@@ -284,7 +284,7 @@ function ProductDetail() {
                     );
                   })}
                   {message && (
-                    <div className="d-flex align-items-start warning-size">
+                    <div className="d-flex align-items-center warning-size">
                       <Icons.Exclamation />{" "}
                       <span className="tooltiptext">{message}</span>
                     </div>
@@ -292,17 +292,20 @@ function ProductDetail() {
                 </div>
               </div>
 
-              <div className="d-flex align-items-start w-50 mr-5">
+              <div className="d-flex align-items-start w-100 mt-3 mb-3">
                 <div style={{ minWidth: "max-content", marginRight: "20px" }}>
                   <b className="label">{t("quantity")}&#58;</b>
                 </div>
-                <Input
-                  name="quantity"
-                  type="number"
-                  quantity={true}
-                  max={quantityOfSize}
-                  disabled={size ? false : true}
-                />
+                <div style={{ width: "200px" }}>
+                  <Input
+                    name="quantity"
+                    type="number"
+                    quantity={true}
+                    max={quantityOfSize}
+                    disabled={size ? false : true}
+                    marginNone
+                  />
+                </div>
               </div>
               <div className="action">
                 <Button className="red add-cart" onClick={checkAddToCart}>
@@ -313,26 +316,6 @@ function ProductDetail() {
                 </Button>
               </div>
             </div>
-          </div>
-          <div className="similar">
-            <div className="similar-title">{t("similar")}</div>
-            {listSimilar && listSimilar.length > 0 ? (
-              <div className="similar-list">
-                {listSimilar?.map((element) => {
-                  return (
-                    <div className="product-similar">
-                      <img src={element.product_image[0]} alt="image" />
-                      <div className="product-similar-price">
-                        {element.price}&#8363;
-                      </div>
-                      <div className="product-similar-name">{element.name}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="no-similar">{t("no-similar")}</div>
-            )}
           </div>
           <div className="similar">
             <div className="similar-title">{t("similar")}</div>

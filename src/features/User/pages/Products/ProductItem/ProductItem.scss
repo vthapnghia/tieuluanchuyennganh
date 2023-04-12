@@ -87,35 +87,29 @@
   }
 
   .product-price-initial {
-    font-size: 12px;
-    font-weight: 800;
-    position: relative;
-    width: max-content;
-    &::before{
-      content: "";
-      display: inline-block;
-      width: calc(100% + 10px);
-      height: 2px;
-      background-color: $red;
-      position: absolute;
-      top: 50%;
-      left: -5px;
-      z-index: 1;
-    }
+    color: rgb(128, 128, 137);
+    text-decoration: line-through;
+    font-size: 14px;
+    line-height: 20px;
   }
 
-  .product-price-discount{
+  .product-price-discount {
     color: $red;
-    font-size: 18px;
-    font-weight: 800;
+    text-align: left;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
   }
 
-  .product-price{
+  .product-price {
     height: 45px;
     display: block;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
   }
 
-  .discount{
+  .discount {
     position: absolute;
     right: 5%;
     padding: 10px;

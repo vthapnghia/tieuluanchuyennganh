@@ -520,8 +520,8 @@ function Products() {
                 <Icons.Search />
               </div>
             </div>
-            <div className="col col-md-6"></div>
-            <div className="sort-product col col-xl-3">
+            <div className="col col-md-3 col-xl-5"></div>
+            <div className="sort-product col col-md-5 col-xl-4">
               <Select
                 onChange={handleChangeSort}
                 options={SORT_OPTION}

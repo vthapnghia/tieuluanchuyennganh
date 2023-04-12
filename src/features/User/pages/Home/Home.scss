@@ -1,19 +1,18 @@
 @import "/src//assets//scss/variables.scss";
 
 .home-page {
-
   .title-section {
     text-align: center;
-    font-size: 32px;
-    font-weight: 500;
+    font-size: 24px;
     margin-bottom: 40px;
+    font-weight: 500px;
     position: relative;
-    color: $main-color;
+    color: $black;
 
     &::before {
       content: "";
       height: 1px;
-      background: $main-color;
+      background: $black;
       display: inline-block;
       position: absolute;
       left: 0;
@@ -23,7 +22,7 @@
     &::after {
       content: "";
       height: 1px;
-      background: $main-color;
+      background: $black;
       display: inline-block;
       position: absolute;
       right: 0;
@@ -31,26 +30,6 @@
     }
   }
 
-  .before-footer-section {
-    padding: 7rem 0 12rem 0 !important;
-  }
-  .blog-section {
-    padding: 7rem 0 7rem 0;
-    .title-section {
-      &::before,
-      &::after {
-        width: 40%;
-      }
-    }
-    .view-add-news {
-      text-align: center;
-      margin-top: 40px;
-    }
-  }
-
-  .section-title {
-    color: $main-color;
-  }
   .product-section {
     padding: 7rem 0 0 0;
 
@@ -65,6 +44,35 @@
       text-align: center;
     }
   }
+  
+  .product-discount-section {
+    padding: 7rem 0 0 0;
+
+    .title-section {
+      &::before,
+      &::after {
+        width: 35%;
+      }
+    }
+
+    .view-add-product-discount {
+      text-align: center;
+    }
+  }
+
+  .blog-section {
+    padding: 7rem 0 7rem 0;
+    .title-section {
+      &::before,
+      &::after {
+        width: 40%;
+      }
+    }
+    .view-add-news {
+      text-align: center;
+      margin-top: 40px;
+    }
+  }
 
   .choose-us-session {
     padding: 7rem 0 0 0;
@@ -76,8 +84,8 @@
       }
     }
 
-    .img-wrap{
-      img{
+    .img-wrap {
+      img {
         border-radius: 10px;
       }
     }
