@@ -13,7 +13,7 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../contanst/global";
-import { shoe, shoe_bg } from "../../assets/img";
+import { avatar_default, shoe, shoe_bg } from "../../assets/img";
 
 function Navbars() {
   const { t } = useTranslation();
@@ -140,7 +140,7 @@ function Navbars() {
                           <img
                             className="user-img"
                             alt="img"
-                            src={userAuth.avatar || shoe}
+                            src={userAuth.avatar || avatar_default}
                           />
                         </>
                       }

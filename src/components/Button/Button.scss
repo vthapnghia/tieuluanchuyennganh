@@ -3,7 +3,8 @@
 .btn-common {
   font-family: $font-family;
   height: 50px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: 0px solid transparent;
+  border-radius: 4px;
   .icon {
     margin: 10px;
   }
@@ -30,16 +31,15 @@
   }
 
   &.outline {
-    background: transparent;
-    border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.3);
+    border-width: 1px;
+    border-color: #0d5cb6;
+    background: #fff;
     .children {
-      color: $white;
+      color: #0d5cb6;
     }
   }
   &.outline:hover {
-    border-color: $white;
-    color: $white;
+    opacity: 0.8;
   }
 
   &.dangerous {
@@ -67,5 +67,15 @@
   }
   &.green:hover {
     background: #4c8a4c;
+  }
+
+  &.red {
+    background: #FF3945;
+    .children {
+      color: $white;
+    }
+  }
+  &.red:hover {
+    opacity: 0.8;
   }
 }

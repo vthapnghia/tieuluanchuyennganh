@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
-import { getProductById } from "../../Products/ProductSlice";
+import { getProduct, getProductById } from "../../Products/ProductSlice";
 import "./ProductDetail.scss";
 import { useRef } from "react";
 import Icons from "../../../../../components/Icons";
@@ -18,6 +18,7 @@ import PATH from "../../../../../contanst/path";
 import { OPTION_GENDER } from "../../../../../contanst/global";
 import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
+import { avatar_default } from "../../../../../assets/img";
 
 function ProductDetail() {
   const { userAuth } = useAuth();
@@ -25,6 +26,7 @@ function ProductDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const products = useSelector((state) => state.product.productById?.product);
+  const listProducts = useSelector((state) => state.product.products?.product);
   const rate = useSelector((state) => state.product.productById?.ratings);
   const { t } = useTranslation();
   const [sizeArray, setSizeArray] = useState([]);
@@ -38,6 +40,7 @@ function ProductDetail() {
   const [modalTitle, setModalTitle] = useState("");
   const [buyNow, setBuyNow] = useState(false);
   const [chooseImage, setChooseImage] = useState("");
+  const [listSimilar, setListSimilar] = useState(listProducts);
 
   const handleSelect = useCallback((selectedIndex) => {
     setIndex(selectedIndex);
@@ -154,15 +157,31 @@ function ProductDetail() {
   }, [id, dispatch]);
 
   useEffect(() => {
-    if (products?.size) {
+    if (products) {
       setSizeArray(Object.entries(products?.size));
     }
-  }, [products?.size]);
+  }, [products, products?.size]);
 
   useEffect(() => {
-    setChooseImage(products?.product_image[0])
-  }, [products?.product_image])
-  
+    if (products) {
+      setChooseImage(products?.product_image[0]);
+    }
+  }, [products, products?.product_image]);
+
+  useEffect(() => {
+    if (products) {
+      dispatch(getProduct({ page: 1, pageSize: 100 }));
+    }
+  }, [dispatch, products]);
+
+  useEffect(() => {
+    if (products) {
+      let listTemp = listProducts?.filter((item) => {
+        return item.brand === products.brand && item._id !== products._id;
+      });
+      setListSimilar(listTemp);
+    }
+  }, [listProducts, products, products?._id, products?.brand]);
 
   return (
     <>
@@ -180,43 +199,28 @@ function ProductDetail() {
               <div className="image-product-list">
                 {products?.product_image.map((image, i) => {
                   if (i !== 0) {
-                    <div style={{height: "100%", width: "10px"}}></div>
+                    <div style={{ height: "100%", width: "10px" }}></div>;
                   }
-                  return <img
-                    key={i}
-                    id={`image-product-${i}`}
-                    src={image}
-                    alt="First slide"
-                    onClick={() => handleClickImage(image, i)}
-                  />;
+                  return (
+                    <img
+                      key={i}
+                      id={`image-product-${i}`}
+                      src={image}
+                      alt="First slide"
+                      onClick={() => handleClickImage(image, i)}
+                    />
+                  );
                 })}
-                
               </div>
             </div>
             <div className="content-detail col-md-6">
-              {products?.discount > 0 && (
-                <div className="discount">
-                  {" "}
-                  {t("discount_label", { param: products?.discount })}
-                </div>
-              )}
-              <h2>{products?.name}</h2>
-
-              <div className="d-flex align-items-center mt-3 mb-3">
-                <div
-                  style={{
-                    minWidth: "max-content",
-                    marginRight: "20px",
-                    fontSize: "20px",
-                  }}
-                >
-                  <b className="label">{t("price")}&#58;</b>
-                </div>
+              <div className=" brand">
+                {t("brand")}&#58; <a href="">{products?.brand}</a>
+              </div>
+              <div className="mb-3 product-name">{products?.name}</div>
+              <div className="d-flex align-items-center price">
                 {products?.discount !== 0 ? (
-                  <>
-                    <div className="price-initial">
-                      {products?.price} &#8363;
-                    </div>
+                  <div className="have-discount">
                     <div
                       className="price-discount"
                       style={{ color: "red", fontSize: "20px" }}
@@ -227,42 +231,42 @@ function ProductDetail() {
                       ).toFixed(2)}{" "}
                       &#8363;
                     </div>
-                  </>
+                    <div className="price-initial">
+                      <span>{products?.price} &#8363;</span>
+                      <div className="discount">
+                        {" "}
+                        {t("discount_label", { param: products?.discount })}
+                      </div>
+                    </div>
+                  </div>
                 ) : (
-                  <b style={{ color: "red", fontSize: "20px" }}>
-                    {products?.price} &#8363;
-                  </b>
+                  <div className="no-discount">
+                    <span>{products?.price} &#8363;</span>
+                  </div>
                 )}
               </div>
-              <div className="d-flex align-items-center mt-3 mb-3">
+              <div className="d-flex align-items-start mt-3 mb-3">
                 <div style={{ minWidth: "max-content", marginRight: "20px" }}>
                   <b className="label">{t("description")}&#58;</b>
                 </div>
                 <div>{products?.description}</div>
               </div>
 
-              <div className="d-flex align-items-center mt-3 mb-3">
-                <div style={{ minWidth: "max-content", marginRight: "20px" }}>
-                  <b className="label">{t("brand")}&#58;</b>
-                </div>
-                <div>{products?.brand}</div>
-              </div>
-
-              <div className="d-flex align-items-center mt-3 mb-3">
+              <div className="d-flex align-items-start mt-3 mb-3">
                 <div style={{ minWidth: "max-content", marginRight: "20px" }}>
                   <b className="label">{t("color")}&#58;</b>
                 </div>
                 <div>{products?.color}</div>
               </div>
 
-              <div className="d-flex align-items-center mt-3 mb-3">
+              <div className="d-flex align-items-start mt-3 mb-3">
                 <div style={{ minWidth: "max-content", marginRight: "20px" }}>
                   <b className="label">{t("gender")}&#58;</b>
                 </div>
                 <div>{getGender}</div>
               </div>
 
-              <div className="d-flex align-items-center w-100">
+              <div className="d-flex align-items-start w-100">
                 <div style={{ minWidth: "max-content", marginRight: "10px" }}>
                   <b className="label">{t("size")}&#58;</b>
                 </div>
@@ -280,7 +284,7 @@ function ProductDetail() {
                     );
                   })}
                   {message && (
-                    <div className="d-flex align-items-center warning-size">
+                    <div className="d-flex align-items-start warning-size">
                       <Icons.Exclamation />{" "}
                       <span className="tooltiptext">{message}</span>
                     </div>
@@ -288,7 +292,7 @@ function ProductDetail() {
                 </div>
               </div>
 
-              <div className="d-flex align-items-center w-50 mr-5">
+              <div className="d-flex align-items-start w-50 mr-5">
                 <div style={{ minWidth: "max-content", marginRight: "20px" }}>
                   <b className="label">{t("quantity")}&#58;</b>
                 </div>
@@ -301,72 +305,125 @@ function ProductDetail() {
                 />
               </div>
               <div className="action">
-                <Button className="primary add-cart" onClick={checkAddToCart}>
+                <Button className="red add-cart" onClick={checkAddToCart}>
                   {t("add_to_cart")}
                 </Button>
-                <Button className="primary buy-now" onClick={handlebuyNow}>
+                <Button className="outline buy-now" onClick={handlebuyNow}>
                   {t("buy_now")}
                 </Button>
               </div>
             </div>
           </div>
+          <div className="similar">
+            <div className="similar-title">{t("similar")}</div>
+            {listSimilar && listSimilar.length > 0 ? (
+              <div className="similar-list">
+                {listSimilar?.map((element) => {
+                  return (
+                    <div className="product-similar">
+                      <img src={element.product_image[0]} alt="image" />
+                      <div className="product-similar-price">
+                        {element.price}&#8363;
+                      </div>
+                      <div className="product-similar-name">{element.name}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="no-similar">{t("no-similar")}</div>
+            )}
+          </div>
+          <div className="similar">
+            <div className="similar-title">{t("similar")}</div>
+            {listSimilar && listSimilar.length > 0 ? (
+              <div className="similar-list">
+                {listSimilar?.map((element) => {
+                  return (
+                    <div className="product-similar">
+                      <img src={element.product_image[0]} alt="image" />
+                      <div className="product-similar-price">
+                        {element.price}&#8363;
+                      </div>
+                      <div className="product-similar-name">{element.name}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="no-similar">{t("no-similar")}</div>
+            )}
+          </div>
           <div className="comment">
             {/* <div className="container"> */}
-              <span className="rate-product">{t("rate_product")}</span>
+            <div className="rate-product">{t("rate_product")}</div>
+            {rate && rate.length > 0 ? (
               <div className="list-comment">
                 {rate?.map((rateItem, index) => {
                   return (
                     <div key={index} className="comment-item">
-                      <div className="header-comment">
-                        <div className="avatar-comment">
-                          <img src={rateItem.user.avatar} alt="img" />
+                      <div className="user-comment">
+                        <div className="avatar">
+                          <img
+                            src={rateItem.user.avatar || avatar_default}
+                            alt="img"
+                          />
                         </div>
-                        <div className="user-comment">
-                          <div className="user-name">
-                            <span>{rateItem.user.name}</span>
-                          </div>
+                        <div className="info">
+                          <div className="user-name">{rateItem.user.name}</div>
                           <div className="date-comment">
-                            <span>
-                              {moment(new Date(rateItem.created_at)).format(
-                                "DD-MM-YYYY"
-                              )}
-                            </span>
+                            {t("rate-at", {
+                              param: moment(
+                                new Date(rateItem.created_at)
+                              ).format("DD-MM-YYYY"),
+                            })}
                           </div>
                         </div>
                       </div>
-                      <div className="star-comment">
-                        <Icons.Star
-                          color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`}
-                        />
-                        <Icons.Star
-                          color={`${rateItem.rate >= 2 ? "#ffc700" : "#ccc"}`}
-                        />
-                        <Icons.Star
-                          color={`${rateItem.rate >= 3 ? "#ffc700" : "#ccc"}`}
-                        />
-                        <Icons.Star
-                          color={`${rateItem.rate >= 4 ? "#ffc700" : "#ccc"}`}
-                        />
-                        <Icons.Star
-                          color={`${rateItem.rate === 5 ? "#ffc700" : "#ccc"}`}
-                        />
-                      </div>
-                      <div className="text-commnet">
-                        <span>{rateItem.comment}</span>
-                      </div>
-                      <div className="list-img-commnet">
-                        {rateItem.image.map((itemImg, index) => {
-                          return (
-                            <div key={index} className="img-item">
-                              <img src={itemImg} alt="img" />
-                            </div>
-                          );
-                        })}
+                      <div className="content-comment">
+                        <div className="star-comment">
+                          <Icons.Star
+                            color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`}
+                          />
+                          <Icons.Star
+                            color={`${rateItem.rate >= 2 ? "#ffc700" : "#ccc"}`}
+                          />
+                          <Icons.Star
+                            color={`${rateItem.rate >= 3 ? "#ffc700" : "#ccc"}`}
+                          />
+                          <Icons.Star
+                            color={`${rateItem.rate >= 4 ? "#ffc700" : "#ccc"}`}
+                          />
+                          <Icons.Star
+                            color={`${
+                              rateItem.rate === 5 ? "#ffc700" : "#ccc"
+                            }`}
+                          />
+                        </div>
+                        <div className="made-purchase">
+                          <Icons.Check color="#00AC55" />
+                          <span>{t("made-purchase")}</span>
+                        </div>
+                        <div className="text-comment">
+                          <span>{rateItem.comment}</span>
+                        </div>
+                        <div className="list-img-comment">
+                          {rateItem.image.map((itemImg, index) => {
+                            return (
+                              <div key={index} className="img-item">
+                                <img src={itemImg} alt="img" />
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   );
                 })}
               </div>
+            ) : (
+              <div className="no-comment">{t("no-comment")}</div>
+            )}
             {/* </div> */}
           </div>
           <ModalCommon

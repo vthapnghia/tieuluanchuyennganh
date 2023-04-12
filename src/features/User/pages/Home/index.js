@@ -33,7 +33,7 @@ function Home() {
   }, [allNews]);
 
   useEffect(() => {
-    dispatch(getProduct({ page: 1, pageSize: 4 }));
+    dispatch(getProduct({ page: 1, pageSize: 6 }));
     dispatch(getAllNews());
   }, [dispatch]);
 

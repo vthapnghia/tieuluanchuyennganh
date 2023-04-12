@@ -7,11 +7,12 @@ function Button({
   text,
   children,
   disabled,
+  color,
   ...props
 }) {
   return (
     <button
-      className={`btn btn-common ${className} ${disabled ? "disabled" : ""} `}
+      className={`btn-common ${className} ${disabled ? "disabled" : ""} `}
       {...props}
       disabled={disabled}
     >

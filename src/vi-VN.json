@@ -167,6 +167,11 @@
   "choose_year": "Hãy chọn năm",
   "view": "Xem",
   "condition": "Giảm {{param}} cho hóa đơn từ {{min}}",
+  "similar": "Sản phẩm tương tự",
+  "no-similar": "Không có sản phẩm tương tự",
+  "no-comment": "Không có nhận xét về sản phẩm",
+  "made-purchase": "Đã mua hàng",
+  "rate-at": "Đánh giá vào {{param}}",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
