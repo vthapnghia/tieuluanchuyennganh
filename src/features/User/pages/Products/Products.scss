@@ -3,10 +3,14 @@
 .product-section {
   padding: 30px 0;
 
+  .row {
+    margin: 0;
+  }
+
   .search-product {
-    margin: 0 0 30px 0;
+    padding: 0;
     position: relative;
-    input{
+    input {
       width: 100%;
       padding: 1rem 3rem;
       font-size: 1rem;
@@ -16,32 +20,31 @@
       border: 1px solid $main_color;
       outline: none;
     }
-    .icon-search{
+    .icon-search {
       position: absolute;
       top: 50%;
-      transform: translate(0,-50%);
-      left: 30px;
+      transform: translate(0, -50%);
+      left: 20px;
       cursor: pointer;
-      svg{
+      svg {
         transition: all 0.2s;
       }
-      
-      &:hover{
-        svg{
+
+      &:hover {
+        svg {
           width: 20px;
           height: 20px;
         }
       }
     }
   }
-  .sort-product{
+  .sort-product {
     position: relative;
-    margin: 0 0 30px 0;
-    padding-right: 25px;
-    .icon-sort{
+    padding: 0;
+    .icon-sort {
       position: absolute;
       top: 50%;
-      transform: translate(0,-50%);
+      transform: translate(0, -50%);
       left: 30px;
     }
   }
@@ -51,9 +54,12 @@
   }
 
   .product-filter {
+    background: #fff;
+    height: max-content;
+    padding: 10px;
+    border-radius: 10px;
+
     .accordion {
-      // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-      // border-radius: 10px;
       margin-bottom: 10px;
       .accordion-item {
         .accordion-header {
@@ -82,6 +88,41 @@
               margin: 0 5px;
             }
           }
+        }
+      }
+    }
+  }
+
+  .search-and-filter {
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .list-product {
+    background: #fff;
+    padding: 12px 0;
+    margin-top: 10px;
+    border-radius: 10px;
+
+    .pagination {
+      float: right;
+      .page-item {
+        .page-link {
+          border-radius: 100%;
+          margin: 0 5px;
+          padding: 0;
+          width: 35px;
+          height: 35px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .active {
+        .page-link {
+         
         }
       }
     }

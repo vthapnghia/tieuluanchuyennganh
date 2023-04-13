@@ -8,7 +8,7 @@ import {
   getProduct,
   searchProduct,
   setFilter,
-  setPageNumber,
+  setPage,
   setSort,
 } from "./ProductSlice";
 import Icons from "../../../../components/Icons";
@@ -23,6 +23,7 @@ import {
 } from "../../../../contanst/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
 import Button from "../../../../components/Button";
+import ReactPaginate from "react-paginate";
 
 function Products() {
   const products = useSelector((state) => state.product.products?.product);
@@ -231,20 +232,10 @@ function Products() {
       } else {
         dispatch(setFilter(filterArr));
         setListProduct(products);
-        // setListProduct(
-        //   products.sort((a, b) => {
-        //     return (a.price - b.price) * sortFlag;
-        //   })
-        // );
       }
     },
     [dispatch, getAllFilter, handleFilter, products]
   );
-
-  const handleViewAdd = useCallback(() => {
-    const number = (pageNumber / 10 + 1) * 10;
-    dispatch(setPageNumber(number));
-  }, [dispatch, pageNumber]);
 
   const handleSearch = useCallback(() => {
     dispatch(searchProduct(ref.current.value));
@@ -258,6 +249,24 @@ function Products() {
     },
     [dispatch]
   );
+  const numberOfPage = useMemo(() => {
+    let mod = count % pageNumber;
+    let numOfPage = (count - mod) / pageNumber;
+    if (mod === 0) {
+      return numOfPage;
+    }
+    return numOfPage + 1;
+  }, [count, pageNumber]);
+
+  const handlePageClick = (event) => {
+    dispatch(
+      getProduct({ page: event.selected + 1, pageSize: pageNumber })
+    ).then((res) => {
+      if (res.payload.status === 200) {
+        dispatch(setPage(event.selected + 1));
+      }
+    });
+  };
 
   useEffect(() => {
     if (sortFlag !== 0) {
@@ -358,36 +367,37 @@ function Products() {
             <Accordion.Item eventKey="0">
               <Accordion.Header>{t("brand")}</Accordion.Header>
               <Accordion.Body>
-                {brandOption?.map((brandItem, index) => {
-                  return (
-                    <div className="accordion-child" key={index}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        value={brandItem.label}
-                        onChange={(e) =>
-                          handleChangeFilter(
-                            "brand",
-                            e.target.checked,
-                            e.target.value
-                          )
-                        }
-                        defaultChecked={
-                          filterFlag &&
-                          Object.fromEntries(filterFlag)["brand"] &&
-                          Object.fromEntries(filterFlag)["brand"].find(
-                            (item) => {
-                              return item.label === brandItem.label;
-                            }
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      <label>{brandItem.label}</label>
-                    </div>
-                  );
-                })}
+                {brandOption &&
+                  brandOption.map((brandItem, index) => {
+                    return (
+                      <div className="accordion-child" key={index}>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          value={brandItem.label}
+                          onChange={(e) =>
+                            handleChangeFilter(
+                              "brand",
+                              e.target.checked,
+                              e.target.value
+                            )
+                          }
+                          defaultChecked={
+                            filterFlag &&
+                            Object.fromEntries(filterFlag)["brand"] &&
+                            Object.fromEntries(filterFlag)["brand"].find(
+                              (item) => {
+                                return item.label === brandItem.label;
+                              }
+                            )
+                              ? true
+                              : false
+                          }
+                        />
+                        <label>{brandItem.label}</label>
+                      </div>
+                    );
+                  })}
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
@@ -508,7 +518,7 @@ function Products() {
           </Accordion>
         </div>
         <div className="col-md-9 col-xl-10">
-          <div className="row">
+          <div className="row search-and-filter">
             <div className="search-product col col-md-4 col-xl-3">
               <input
                 type="text"
@@ -541,17 +551,32 @@ function Products() {
             </div>
           </div>
           <div className="row list-product">
-            {listProduct?.map((product, index) => {
-              return <ProductItem key={index} product={product} />;
-            })}
+            {listProduct &&
+              listProduct.map((product, index) => {
+                return <ProductItem key={index} product={product} />;
+              })}
+            {count && count > pageNumber && (
+              <div className="d-flex justify-content-center">
+                <ReactPaginate
+                  breakLabel="..."
+                  nextLabel={<Icons.AnglesRight />}
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={5}
+                  previousLabel={<Icons.AnglesLeft />}
+                  pageCount={numberOfPage}
+                  containerClassName="pagination"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  activeClassName="active"
+                  previousClassName="page-item"
+                  nextClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextLinkClassName="page-link"
+                  forcePage={page - 1}
+                />
+              </div>
+            )}
           </div>
-          {listProduct?.length > 19 && count > listProduct?.length && (
-            <div className="button-load text-center">
-              <Button onClick={handleViewAdd} className="primary">
-                {t("add_view")}
-              </Button>
-            </div>
-          )}
         </div>
       </div>
     </div>

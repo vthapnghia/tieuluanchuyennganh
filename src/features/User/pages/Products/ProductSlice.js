@@ -69,7 +69,7 @@ const initialState = {
     productById: null,
     filterFlag: null,
     sortFlag: 0,
-    page: 0,
+    page: 1,
     pageNumber: 20,
 }
 const ProductSlice = createSlice({
@@ -82,8 +82,8 @@ const ProductSlice = createSlice({
         setSort: (state, action) => {
             state.sortFlag = action.payload;
         },
-        setPageNumber: (state, action) => {
-            state.pageNumber = action.payload;
+        setPage: (state, action) => {
+            state.page = action.payload;
         }
     },
     extraReducers: {
@@ -107,7 +107,7 @@ const ProductSlice = createSlice({
 });
 
 const {reducer} = ProductSlice;
-const {setFilter, setSort,setPageNumber} = ProductSlice.actions;
+const {setFilter, setSort,setPage} = ProductSlice.actions;
 export {
     getAllProduct, 
     getProductById, 
@@ -117,7 +117,7 @@ export {
     deleteProduct,
     setFilter,
     setSort,
-    setPageNumber,
+    setPage,
     searchProduct
 };
 export default reducer;

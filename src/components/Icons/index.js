@@ -708,6 +708,50 @@ const Certificate = (props) => {
     </svg>
   );
 };
+
+const ChevronUp = (props) => {
+  const { width = 14, height = 14, color = "currentcolor" } = props;
+  return (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      fill={color}
+      viewBox="0 0 512 512"
+    >
+      <path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+    </svg>
+  );
+};
+
+const AnglesRight = (props) => {
+  const { width = 14, height = 14, color = "currentcolor" } = props;
+  return (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      fill={color}
+      viewBox="0 0 512 512"
+    >
+      <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" />
+    </svg>
+  );
+};
+const AnglesLeft = (props) => {
+  const { width = 14, height = 14, color = "currentcolor" } = props;
+  return (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      fill={color}
+      viewBox="0 0 512 512"
+    >
+      <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" />
+    </svg>
+  );
+};
 const Icons = {
   User,
   Cart,
@@ -744,7 +788,10 @@ const Icons = {
   Ticked,
   Dots,
   Check,
-  Certificate
+  Certificate,
+  ChevronUp,
+  AnglesLeft,
+  AnglesRight
 };
 
 export default Icons;

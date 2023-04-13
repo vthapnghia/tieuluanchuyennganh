@@ -1,3 +1,4 @@
+import BackToTop from "../../components/BackToTop";
 import Footer from "../../components/Footer";
 import Navbars from "../../components/Navbars";
 
@@ -10,6 +11,7 @@ function User(props) {
       </div>
       
       <Footer />
+      <BackToTop/>
     </>
   );
 }
