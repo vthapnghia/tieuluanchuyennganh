@@ -12,6 +12,7 @@ function ModalCommon({
   labelButton,
   handleCloseModal,
   className,
+  size,
   ...props
 }) {
   return (
@@ -20,6 +21,7 @@ function ModalCommon({
       animation={true}
       className={`${className ? className : ""}`}
       onHide={handleCloseModal}
+      size={size}
     >
       <div className="modal-content">
         <h3>{modalTitle}</h3>

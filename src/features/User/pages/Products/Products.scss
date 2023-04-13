@@ -104,27 +104,5 @@
     padding: 12px 0;
     margin-top: 10px;
     border-radius: 10px;
-
-    .pagination {
-      float: right;
-      .page-item {
-        .page-link {
-          border-radius: 100%;
-          margin: 0 5px;
-          padding: 0;
-          width: 35px;
-          height: 35px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-
-      .active {
-        .page-link {
-         
-        }
-      }
-    }
   }
 }

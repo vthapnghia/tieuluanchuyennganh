@@ -6,7 +6,13 @@
 
   .button {
     cursor: pointer;
-    display: flex;
+    svg{
+      opacity: 0.6;
+    }
+
+    svg:hover{
+      opacity: 1;
+    }
   }
 
   .col-sort {

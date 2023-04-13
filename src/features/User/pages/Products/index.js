@@ -22,8 +22,7 @@ import {
   SORT_OPTION,
 } from "../../../../contanst/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
-import Button from "../../../../components/Button";
-import ReactPaginate from "react-paginate";
+import Pagination from "../../../../components/Pagination";
 
 function Products() {
   const products = useSelector((state) => state.product.products?.product);
@@ -249,14 +248,6 @@ function Products() {
     },
     [dispatch]
   );
-  const numberOfPage = useMemo(() => {
-    let mod = count % pageNumber;
-    let numOfPage = (count - mod) / pageNumber;
-    if (mod === 0) {
-      return numOfPage;
-    }
-    return numOfPage + 1;
-  }, [count, pageNumber]);
 
   const handlePageClick = (event) => {
     dispatch(
@@ -557,22 +548,11 @@ function Products() {
               })}
             {count && count > pageNumber && (
               <div className="d-flex justify-content-center">
-                <ReactPaginate
-                  breakLabel="..."
-                  nextLabel={<Icons.AnglesRight />}
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={5}
-                  previousLabel={<Icons.AnglesLeft />}
-                  pageCount={numberOfPage}
-                  containerClassName="pagination"
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  activeClassName="active"
-                  previousClassName="page-item"
-                  nextClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextLinkClassName="page-link"
-                  forcePage={page - 1}
+                <Pagination
+                  page={page}
+                  count={count}
+                  pageNumber={pageNumber}
+                  handlePageClick={handlePageClick}
                 />
               </div>
             )}

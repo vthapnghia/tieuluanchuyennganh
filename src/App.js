@@ -16,7 +16,7 @@ import AdminLogin from "./features/Authentication/page/AdminLogin";
 
 function App() {
   return (
-    <div className="app" style={{background: "#eff2f1"}}>
+    <div className="app" style={{ background: "#eff2f1" }}>
       <Routes>
         <Route path={PATH.LOGIN} element={<Login />} />
         <Route path={PATH.ADMIN.LOGIN} element={<AdminLogin />} />
@@ -28,14 +28,23 @@ function App() {
         />
         {routesAdmin.map((routeItem, index) => {
           return (
+            // <Route
+            //   key={index}
+            //   path={routeItem.path}
+            //   element={
+            //     <Suspense fallback={<></>}>
+            //       <AdminRoute>
+            //         <Admin component={routeItem.component} />
+            //       </AdminRoute>
+            //     </Suspense>
+            //   }
+            // />
             <Route
               key={index}
               path={routeItem.path}
               element={
                 <Suspense fallback={<></>}>
-                  <AdminRoute>
-                    <Admin component={routeItem.component} />
-                  </AdminRoute>
+                  <Admin component={routeItem.component} />
                 </Suspense>
               }
             />

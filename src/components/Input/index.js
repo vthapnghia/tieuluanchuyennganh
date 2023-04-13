@@ -45,11 +45,11 @@ const Input = forwardRef(
       control: (styles) => ({
         ...styles,
         backgroundColor: COLOR.WHITE,
-        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        // boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         width: "100%",
         borderRadius: "10px",
         paddingRight: "10px",
-        border: `none`,
+        border: `1px solid #95a5a6`,
         // boxShadow: "none",
         minHeight: 44,
         fontSize: "16px",

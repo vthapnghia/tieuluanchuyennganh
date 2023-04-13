@@ -70,7 +70,7 @@ const initialState = {
     filterFlag: null,
     sortFlag: 0,
     page: 1,
-    pageNumber: 20,
+    pageNumber: 5,
 }
 const ProductSlice = createSlice({
     name: 'product',

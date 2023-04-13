@@ -11,7 +11,6 @@ function TableAdminCommon({
   handleSort,
   handleClick,
 }) {
-
   const handleSortTable = useCallback(
     (type, index) => {
       const arrowUp = document.getElementById(`arrow-up-${index}`);
@@ -46,7 +45,7 @@ function TableAdminCommon({
                   <th>#</th>
                   {cols.map((col, index) => {
                     return (
-                      <th>
+                      <th key={index}>
                         {col.sort ? (
                           <div className="d-flex flex-row align-items-center justify-content-start">
                             <span>{col.label}</span>
@@ -76,31 +75,27 @@ function TableAdminCommon({
               <tbody>
                 {rows?.map((row, index) => {
                   return (
-                    <tr onClick={handleClick(row.id)}>
+                    <tr onClick={handleClick(row.id)} key={index}>
                       <th>{index + 1}</th>
-                      {row.columns.map((item) => {
-                        return <td>{item.label}</td>;
+                      {row.columns.map((item, j) => {
+                        return <td key={j}>{item.label}</td>;
                       })}
-                      <th>
-                        {oneButton && (
-                          <td
-                            className="col d-flex"
-                            style={{
-                              flex: "5%",
-                              textAlign: "center",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
+
+                      {oneButton && (
+                        <td
+                          className="col"
+                          style={{
+                            textAlign: "center"
+                          }}
+                        >
+                          <div
+                            className="button"
+                            onClick={handleRemove(row.id)}
                           >
-                            <div
-                              className="button"
-                              onClick={handleRemove(row.id)}
-                            >
-                              <Icons.Trash />
-                            </div>
-                          </td>
-                        )}
-                      </th>
+                            <Icons.Trash color="#FF3945" />
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
