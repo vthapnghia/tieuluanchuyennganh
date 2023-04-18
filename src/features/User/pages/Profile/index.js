@@ -13,7 +13,7 @@ import {
   updateUser,
 } from "../../../Authentication/authSlice";
 import ModalCommon from "../../../../components/ModalCommon";
-import { shoe } from "../../../../assets/img";
+import { avatar_default } from "../../../../assets/img";
 
 function Profile() {
   const formikRef = useRef(null);
@@ -44,7 +44,7 @@ function Profile() {
 
   const initialValues = useMemo(() => {
     return {
-      avatar: user?.avatar || shoe,
+      avatar: user?.avatar || avatar_default,
       name: user?.name || "",
       age: user?.age || "",
       gender: user?.gender || "",
@@ -112,57 +112,58 @@ function Profile() {
       onSubmit={handleUpdate}
     >
       <>
-        <div className="profile">
-          <div className="container pt-5 pb-5">
-            <div className="w-100 d-flex flex-column align-items-center">
-              <div className="avatar">
-                <Input
-                  name="avatar"
-                  type="file"
-                  textLabel="Tải ảnh lên"
-                  accept="image/*"
-                />
+        <div className="profile pt-5 pb-5 row">
+          <div className="col-md-5">
+            <div className="avatar">
+              <Input
+                name="avatar"
+                type="file"
+                textLabel="Tải ảnh lên"
+                accept="image/*"
+                marginNone
+              />
+            </div>
+          </div>
+
+          <div className="col-md-7 d-flex flex-column align-items-center">
+            <div className="form-info" style={{ width: "500px" }}>
+              <Input name="name" placeholder={t("full_name")} type="text" />
+              <div className="d-flex justify-content-between">
+                <div style={{ width: "calc(50% - 10px)" }}>
+                  <Input name="age" placeholder={t("age")} type="number" />
+                </div>
+                <div style={{ width: "20px" }}></div>
+                <div style={{ width: "calc(50% - 10px)" }}>
+                  <Input
+                    name="gender"
+                    placeholder={t("gender")}
+                    type="select"
+                    options={OPTION_GENDER}
+                  />
+                </div>
               </div>
 
-              <div className="form-info" style={{ width: "500px" }}>
-                <Input name="name" placeholder={t("full_name")} type="text" />
-                <div className="d-flex justify-content-between">
-                  <div style={{ width: "calc(50% - 10px)" }}>
-                    <Input name="age" placeholder={t("age")} type="number" />
-                  </div>
-                  <div style={{ width: "20px" }}></div>
-                  <div style={{ width: "calc(50% - 10px)" }}>
-                    <Input
-                      name="gender"
-                      placeholder={t("gender")}
-                      type="select"
-                      options={OPTION_GENDER}
-                    />
-                  </div>
-                </div>
-
-                <Input
-                  style={{ resize: "none" }}
-                  name="address"
-                  placeholder={t("address")}
-                  type="textarea"
-                />
-                <Input
-                  name="phone"
-                  placeholder={t("phone")}
-                  type="number"
-                  style={{ textAlign: "left" }}
-                />
-              </div>
-              <div className="form-group">
-                <div className="col-sm-12">
-                  <Button
-                    className="primary"
-                    onClick={() => formikRef.current.submitForm()}
-                  >
-                    {t("update_profile")}
-                  </Button>
-                </div>
+              <Input
+                style={{ resize: "none" }}
+                name="address"
+                placeholder={t("address")}
+                type="textarea"
+              />
+              <Input
+                name="phone"
+                placeholder={t("phone")}
+                type="number"
+                style={{ textAlign: "left" }}
+              />
+            </div>
+            <div className="form-group">
+              <div className="col-sm-12">
+                <Button
+                  className="primary"
+                  onClick={() => formikRef.current.submitForm()}
+                >
+                  {t("update_profile")}
+                </Button>
               </div>
             </div>
           </div>

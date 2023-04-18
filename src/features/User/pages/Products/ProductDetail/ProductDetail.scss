@@ -239,6 +239,8 @@
         align-items: center;
         padding: 20px 10px;
         width: 195px;
+        margin: 10px;
+        border-radius: 10px;
 
         &:hover {
           box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -254,7 +256,7 @@
           width: 100%;
           text-align: left;
           font-size: 16px;
-          line-height: 24px;
+          line-height: 30px;
           font-weight: 500;
           color: rgb(56, 56, 61);
           margin: 2px 0px 0px;
@@ -273,6 +275,7 @@
           text-overflow: ellipsis;
           overflow: hidden;
           word-break: break-word;
+          white-space: nowrap;
         }
       }
     }

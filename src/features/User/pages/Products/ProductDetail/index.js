@@ -195,7 +195,7 @@ function ProductDetail() {
         <div className="product-detail">
           <div className="product row">
             <div className="img-slider col-md-6">
-              <img src={chooseImage} alt="image" className="image-display" />
+              <img src={chooseImage} alt="product-image" className="image-display" />
               <div className="image-product-list">
                 {products?.product_image.map((image, i) => {
                   if (i !== 0) {
@@ -324,7 +324,7 @@ function ProductDetail() {
                 {listSimilar?.map((element) => {
                   return (
                     <div className="product-similar">
-                      <img src={element.product_image[0]} alt="image" />
+                      <img src={element.product_image[0]} alt="product-image" />
                       <div className="product-similar-price">
                         {element.price}&#8363;
                       </div>

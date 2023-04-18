@@ -1,0 +1,36 @@
+@import "/src/assets/scss/variables.scss";
+.account {
+  padding: 20px 0;
+
+  .account-navbar {
+    .name-component {
+      font-size: 19px;
+      line-height: 21px;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+  }
+
+  .account-sidebar {
+    .account-option {
+      .option {
+        height: 38px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+      }
+      .is-active {
+        background: rgb(192, 192, 196);
+      }
+    }
+  }
+
+  .account-component {
+    background: #fff;
+    border-radius: 10px;
+  }
+}

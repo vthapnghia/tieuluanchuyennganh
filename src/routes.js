@@ -11,17 +11,18 @@ const Home = lazy(() => import("./features/User/pages/Home"));
 const Products = lazy(() => import("./features/User/pages/Products"));
 const ProductDetail = lazy(() => import("./features/User/pages/Products/ProductDetail"));
 const Cart = lazy(() => import("./features/User/pages/Cart"));
-const Profile = lazy(() => import("./features/User/pages/Profile"));
+// const Profile = lazy(() => import("./features/User/pages/Profile"));
 const News = lazy(() => import("./features/User/pages/News"));
 const NewsDetail = lazy(() => import("./features/User/pages/News/NewsDetail"));
 const Order = lazy (() => import("./features/User/pages/Order"));
 const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
-const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
+// const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
 const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
 const ManagementOrder = lazy(() => import("./features/Admin/pages/ManagementOrder"));
 const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrder/OrderDetail"));
 const ManagementVoucher = lazy(() => import("./features/Admin/pages/ManagementVoucher"));
 const Revenue  = lazy(() => import("./features/Admin/pages/Revenue"));
+const UserCommon = lazy(() => import("./features/User/pages/Account"));
 
 const routesAdmin = [
   {
@@ -125,7 +126,7 @@ const routesUser = [
   {
     path: PATH.PROFILE,
     name: "Profile",
-    component: Profile,
+    component: UserCommon,
     isPrivate: true,
   },
   {
@@ -149,7 +150,7 @@ const routesUser = [
   {
     path: PATH.USER_ORDERS.BASE,
     name: "Order detail",
-    component: UserOrders,
+    component: UserCommon,
     isPrivate: true,
   },
   {
