@@ -156,7 +156,7 @@ const routesUser = [
   {
     path: PATH.USER_ORDERS.ORDER_DETAIL,
     name: "User orders",
-    component: OrdersDetail,
+    component: UserCommon,
     isPrivate: true,
   },
 ];

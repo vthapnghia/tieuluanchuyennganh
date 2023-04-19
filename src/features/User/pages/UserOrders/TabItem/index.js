@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PATH from "../../../../../contanst/path";
 import "./TabItem.scss";
 
-function TabItem({ orders }) {
+function TabItem({ orders, id, classTab }) {
   const navigate = useNavigate();
 
   const getHeaderByStatus = useCallback((orderStatus) => {
@@ -30,13 +30,13 @@ function TabItem({ orders }) {
 
   const handleClickOrderItem = useCallback(
     (id) => {
-      navigate(PATH.USER_ORDERS.ORDER_DETAIL, { state: { id: id } });
+      navigate(PATH.USER_ORDERS.ORDER_DETAIL.replace(":id", id));
     },
     [navigate]
   );
 
   return (
-    <div className="order-by-status">
+    <div id={id} className={`${classTab} order-by-status`}>
       {orders.map((orderItem, index) => {
         return (
           <div

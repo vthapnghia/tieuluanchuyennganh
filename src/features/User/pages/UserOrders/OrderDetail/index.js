@@ -1,8 +1,7 @@
 import { t } from "i18next";
-import moment from "moment";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Icons from "../../../../../components/Icons";
 import { getOrderById } from "../UserOrderSlice";
@@ -16,11 +15,15 @@ import {
   getRate,
   updateRate,
 } from "../../Products/ProductDetail/RateSlice";
+import { PAYMENT_OPTION } from "../../../../../contanst/global";
+import { getAllShip } from "../../../../Admin/pages/ManagementShip/ShipSlice";
+import moment from "moment";
 
 function OrderDetail(params) {
-  const location = useLocation();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const orderById = useSelector((state) => state.userOrder.orderById);
+  const ship = useSelector((state) => state.ship.allShip?.ships);
   const [idProduct, setIdProduct] = useState();
   const [idOrderDetail, setIdOrderDetail] = useState();
   const [rate, setRate] = useState(1);
@@ -31,6 +34,7 @@ function OrderDetail(params) {
   const [modalBodyMessage, setModalBodyMessage] = useState(null);
   const [modalBodyRate, setBodyModalRate] = useState(null);
   const [editFlag, setEditFlag] = useState(false);
+  const [methodShip, setMethodShip] = useState();
   const formikRef = useRef();
 
   const getHeaderByStatus = useCallback((orderStatus) => {
@@ -141,9 +145,9 @@ function OrderDetail(params) {
 
   const handleConfirm = useCallback(() => {
     setShowMessage(!showMessage);
-    dispatch(getOrderById(location.state.id));
+    dispatch(getOrderById(id));
     formikRef.current.resetForm();
-  }, [showMessage, dispatch, location.state.id]);
+  }, [showMessage, dispatch, id]);
 
   const borderColorRate = useMemo(() => {
     let borderColor = "#ccc";
@@ -204,17 +208,25 @@ function OrderDetail(params) {
 
   const handleConfirmEditRate = useCallback(() => {
     setShowRate(!showRate);
-    setEditFlag(!editFlag)
+    setEditFlag(!editFlag);
     setShow(!show);
   }, [showRate, show, editFlag]);
-  
-  useEffect(() => {
-    dispatch(getOrderById(location.state.id));
-  }, [dispatch, location.state.id]);
 
   useEffect(() => {
-    dispatch(getOrderById(location.state.id));
-  }, [dispatch, location.state.id]);
+    dispatch(getAllShip());
+    dispatch(getOrderById(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (orderById) {
+      const findShip = ship.find(
+        (item) => item._id === orderById.order.ship_id
+      );
+      if (findShip) {
+        setMethodShip(findShip);
+      }
+    }
+  }, [orderById, orderById?.order.ship_id, ship]);
 
   return (
     <Formik
@@ -237,198 +249,244 @@ function OrderDetail(params) {
       onSubmit={handleSubmitRate}
     >
       <div className="user-order-detail">
-        <div className="container">
-          <div className="header">
-            <div>{`${t("status")}: ${getHeaderByStatus(
-              orderById?.order.status
-            )}`}</div>
-            <div>{`${t("date_order", {
-              param: moment(new Date(orderById?.order.created_at)).format(
-                "DD-MM-YYYY"
-              ),
-            })}`}</div>
-          </div>
-          <div className="address-receiver">
-            <span>{`${t("address_receiver")}: `}</span>
-            <span>{`${orderById?.order.receiver_name}, ${orderById?.order.receiver_phone}, ${orderById?.order.location}`}</span>
-          </div>
-          <div className="total-order">
-            <span>{`${t("total_order")}: `}</span>
-            <span>{orderById?.order.total}&#8363;</span>
-          </div>
-          <div className="status">
-            <div className="status-item">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: `${
-                    orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              >
-                <Icons.Receipt
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}
-                />
-              </div>
-              <div
-                className="status-line"
-                style={{
-                  background: `${
-                    orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              ></div>
-              <div
-                className="status-label"
-                style={{
-                  color: `${orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}`,
-                }}
-              >
-                {t("in_order")}
-              </div>
+        <div className="status">
+          <div className="status-item">
+            <div
+              className="status-icon"
+              style={{
+                borderColor: `${
+                  orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                }`,
+              }}
+            >
+              <Icons.Receipt
+                height="40"
+                width="40"
+                color={orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}
+              />
             </div>
-            <div className="status-item">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: `${
-                    orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              >
-                <Icons.TruckFull
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}
-                />
-              </div>
-              <div
-                className="status-line"
-                style={{
-                  background: `${
-                    orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              ></div>
-              <div
-                className="status-label"
-                style={{
-                  color: `${orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}`,
-                }}
-              >
-                {t("in_ship")}
-              </div>
-            </div>
-            <div className="status-item">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: `${
-                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              >
-                <Icons.BoxOpen
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}
-                />
-              </div>
-              <div
-                className="status-line"
-                style={{
-                  background: `${
-                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              ></div>
-              <div
-                className="status-label"
-                style={{
-                  color: `${orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}`,
-                }}
-              >
-                {t("complete")}
-              </div>
-            </div>
-            <div className="status-item status-item-end">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: borderColorRate,
-                }}
-              >
-                <Icons.Star height="40" width="40" color={borderColorRate} />
-              </div>
-              <div
-                className="status-label"
-                style={{
-                  color: borderColorRate,
-                }}
-              >
-                {t("rate")}
-              </div>
+            <div
+              className="status-line"
+              style={{
+                background: `${
+                  orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                }`,
+              }}
+            ></div>
+            <div
+              className="status-label"
+              style={{
+                color: `${orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}`,
+              }}
+            >
+              {t("in_order")}
             </div>
           </div>
-          <div className="order-product">
-            {orderById?.orderDetail.map((itemDetail, index) => {
-              return (
-                <div className="row product-item" key={index}>
-                  <div className="col col-md-2 img-product">
-                    <img src={itemDetail.product.product_image[0]} alt="img" />
-                  </div>
-                  <div className="col col-md-5name-product">
-                    <span>{itemDetail.product.name}</span>
-                  </div>
-                  <div
-                    className={`col ${
-                      orderById?.order.status === 3 && itemDetail.status === 1
-                        ? "col-md-1"
-                        : "col-md-2"
-                    } "quantity"`}
-                  >
-                    <span>{itemDetail.quantity}</span>
-                  </div>
-                  <div className="col col-md-2 total">
-                    <span>
-                      {totalItemProduct(
-                        itemDetail.quantity,
-                        itemDetail.product.price,
-                        itemDetail.product.discount
-                      )}
-                      &#8363;
-                    </span>
-                  </div>
-                  {orderById?.order.status === 3 && itemDetail.status === 1 && (
-                    <div
-                      className="col col-md-2 btn-rate"
-                      onClick={() =>
-                        handleClickProduct(
-                          itemDetail.product._id,
-                          itemDetail.id
-                        )
-                      }
-                    >
-                      <span>{t("rate")}</span>
-                    </div>
-                  )}
+          <div className="status-item">
+            <div
+              className="status-icon"
+              style={{
+                borderColor: `${
+                  orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                }`,
+              }}
+            >
+              <Icons.TruckFull
+                height="40"
+                width="40"
+                color={orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}
+              />
+            </div>
+            <div
+              className="status-line"
+              style={{
+                background: `${
+                  orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                }`,
+              }}
+            ></div>
+            <div
+              className="status-label"
+              style={{
+                color: `${orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}`,
+              }}
+            >
+              {t("in_ship")}
+            </div>
+          </div>
+          <div className="status-item">
+            <div
+              className="status-icon"
+              style={{
+                borderColor: `${
+                  orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                }`,
+              }}
+            >
+              <Icons.BoxOpen
+                height="40"
+                width="40"
+                color={orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}
+              />
+            </div>
+            <div
+              className="status-line"
+              style={{
+                background: `${
+                  orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                }`,
+              }}
+            ></div>
+            <div
+              className="status-label"
+              style={{
+                color: `${orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}`,
+              }}
+            >
+              {t("complete")}
+            </div>
+          </div>
+          <div className="status-item status-item-end">
+            <div
+              className="status-icon"
+              style={{
+                borderColor: borderColorRate,
+              }}
+            >
+              <Icons.Star height="40" width="40" color={borderColorRate} />
+            </div>
+            <div
+              className="status-label"
+              style={{
+                color: borderColorRate,
+              }}
+            >
+              {t("rate")}
+            </div>
+          </div>
+        </div>
+        <div className="info-detail">
+          <div className="address">
+            <div className="title">{t("address_user_receive")}</div>
+            <div className="content">
+              <span className="name">{orderById?.order.receiver_name}</span>
+              <span>
+                {t("address_receive", { param: orderById?.order.location })}
+              </span>
+              <span>
+                {t("phone_receive", { param: orderById?.order.receiver_phone })}
+              </span>
+            </div>
+          </div>
+          <div className="shipment">
+            <div className="title">{t("method_ship")}</div>
+            <div className="content">
+              <span className="name">{methodShip?.type}</span>
+              <span className="description">
+                {t("delivery_at", {
+                  param: moment(orderById?.order.created_at)
+                    .add(5, "days")
+                    .format("DD-MM-YYYY"),
+                })}
+              </span>
+              <span className="price">
+                {t("ship_fee", { param: methodShip?.price })}
+              </span>
+            </div>
+          </div>
+          <div className="payment">
+            <div className="title">{t("method_pay")}</div>
+            <div className="content">
+              <span>
+                {orderById?.order.payment_method === 1
+                  ? t("pay_cash")
+                  : t("pay_banking")}
+              </span>
+              {orderById?.order.payment_method === 1 && (
+                <span className="pay-success">{t("pay_success")}</span>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="order-product">
+          <table>
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Giảm giá</th>
+                <th>Tạm tính</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+                {orderById?.orderDetail.map((itemDetail, index) => {
+                  return (
+                    <tr className=" product-item-order" key={index}>
+                      <td className="img-product">
+                        <img
+                          src={itemDetail.product.product_image[0]}
+                          alt="img"
+                        />
+                      </td>
+                      <td className="name-product">
+                        <span>{itemDetail.product.name}</span>
+                      </td>
+                      <td
+                        className={`col ${
+                          orderById?.order.status === 3 &&
+                          itemDetail.status === 1
+                            ? "col-md-1"
+                            : "col-md-2"
+                        } "quantity"`}
+                      >
+                        <span>{itemDetail.quantity}</span>
+                      </td>
+                      <td className="col col-md-2 total">
+                        <span>
+                          {totalItemProduct(
+                            itemDetail.quantity,
+                            itemDetail.product.price,
+                            itemDetail.product.discount
+                          )}
+                          &#8363;
+                        </span>
+                      </td>
+                      {orderById?.order.status === 3 &&
+                        itemDetail.status === 1 && (
+                          <div
+                            className="col col-md-2 btn-rate"
+                            onClick={() =>
+                              handleClickProduct(
+                                itemDetail.product._id,
+                                itemDetail.id
+                              )
+                            }
+                          >
+                            <span>{t("rate")}</span>
+                          </div>
+                        )}
 
-                  {orderById?.order.status === 3 && itemDetail.status === 2 && (
-                    <div
-                      className="col col-md-2 btn-rate"
-                      onClick={() =>
-                        handleViewRate(itemDetail.id, itemDetail.product._id)
-                      }
-                    >
-                      <span>{t("view_rate")}</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                      {orderById?.order.status === 3 &&
+                        itemDetail.status === 2 && (
+                          <div
+                            className="col col-md-2 btn-rate"
+                            onClick={() =>
+                              handleViewRate(
+                                itemDetail.id,
+                                itemDetail.product._id
+                              )
+                            }
+                          >
+                            <span>{t("view_rate")}</span>
+                          </div>
+                        )}
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
         <ModalCommon
           className="modal-rate"

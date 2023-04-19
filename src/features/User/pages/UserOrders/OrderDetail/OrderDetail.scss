@@ -1,14 +1,64 @@
 @import "/src/assets/scss/variables.scss";
 
 .user-order-detail {
-  min-height: 100vh;
-  padding-top: 50px;
-  .header {
-    padding: 10px 20px;
+  border-radius: 4px;
+
+  .info-detail {
     display: flex;
     justify-content: space-between;
-    font-size: 16px;
-    font-weight: 600;
+    margin-bottom: 10px;
+
+    .address,
+    .shipment,
+    .payment {
+      width: 32%;
+      .title {
+        margin: 10px 0 5px;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: rgb(36, 36, 36);
+      }
+      .content {
+        background: #fff;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        height: 150px;
+        overflow-y: auto;
+        span{
+          margin: 5px 0px 0px
+        }
+      }
+    }
+
+    .address {
+      .name {
+        text-transform: uppercase;
+        color: rgb(36, 36, 36);
+        font-weight: bold;
+      }
+    }
+
+    .shipment{
+      .content{
+        .name{
+          color: rgb(255, 183, 0);
+          font-weight: 700;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .payment{
+      .content{
+        .pay-success{
+          color: rgb(253, 162, 35);
+          font-style: italic;
+          font-weight: 300;
+        }
+      }
+    }
   }
 
   .status {
@@ -17,8 +67,9 @@
     flex-direction: row;
     width: 100%;
     height: 150px;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
     .status-item {
       display: flex;
       align-items: center;
@@ -53,29 +104,15 @@
     }
   }
 
-  .address-receiver,
-  .total-order {
-    padding: 10px 20px;
-    span:first-child {
-      font-size: 16px;
-      font-weight: 600;
-    }
-    span:last-child {
-      font-size: 16px;
-    }
-  }
-
   .order-product {
-    padding: 20px 50px;
-    .product-item {
+    .product-item-order {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin: 0;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       background-color: #fff;
-      border-radius: 10px;
+      border-radius: 4px;
       padding: 10px;
       margin-bottom: 20px;
       .img-product {

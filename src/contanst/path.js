@@ -16,7 +16,7 @@ const PATH = {
   ORDER: "/order",
   USER_ORDERS: {
     BASE: "/user-order",
-    ORDER_DETAIL: "/order-detail",
+    ORDER_DETAIL: "/order-detail/:id",
   },
   NEWS: {
     LIST_NEWS: "/news",
