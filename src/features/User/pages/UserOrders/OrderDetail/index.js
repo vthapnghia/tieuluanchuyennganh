@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Icons from "../../../../../components/Icons";
 import { getOrderById } from "../UserOrderSlice";
@@ -15,9 +15,11 @@ import {
   getRate,
   updateRate,
 } from "../../Products/ProductDetail/RateSlice";
-import { PAYMENT_OPTION } from "../../../../../contanst/global";
 import { getAllShip } from "../../../../Admin/pages/ManagementShip/ShipSlice";
 import moment from "moment";
+import PATH from "../../../../../contanst/path";
+import Button from "../../../../../components/Button";
+import { currencyFormatting } from "../../../../../contanst/common";
 
 function OrderDetail(params) {
   const { id } = useParams();
@@ -36,6 +38,7 @@ function OrderDetail(params) {
   const [editFlag, setEditFlag] = useState(false);
   const [methodShip, setMethodShip] = useState();
   const formikRef = useRef();
+  const navigate = useNavigate();
 
   const getHeaderByStatus = useCallback((orderStatus) => {
     let status = "";
@@ -58,7 +61,8 @@ function OrderDetail(params) {
   }, []);
 
   const handleClickProduct = useCallback(
-    (idProduct, idOrderDetail) => {
+    (e, idProduct, idOrderDetail) => {
+      e.stopPropagation();
       setIdProduct(idProduct);
       setIdOrderDetail(idOrderDetail);
       setShow(!show);
@@ -211,6 +215,16 @@ function OrderDetail(params) {
     setEditFlag(!editFlag);
     setShow(!show);
   }, [showRate, show, editFlag]);
+
+  const handelPriceTemporary = useMemo(() => {
+    let total = 0;
+    if (orderById?.orderDetail.length > 0) {
+      orderById.orderDetail.forEach((item) => {
+        total = total + item.quantity * item.product.price;
+      });
+    }
+    return total;
+  }, [orderById?.orderDetail]);
 
   useEffect(() => {
     dispatch(getAllShip());
@@ -390,7 +404,7 @@ function OrderDetail(params) {
                 })}
               </span>
               <span className="price">
-                {t("ship_fee", { param: methodShip?.price })}
+                {t("ship_fee", { param: currencyFormatting(methodShip?.price) })}
               </span>
             </div>
           </div>
@@ -409,84 +423,145 @@ function OrderDetail(params) {
           </div>
         </div>
         <div className="order-product">
-          <table>
-            <thead>
-              <tr>
-                <th>Sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Giảm giá</th>
-                <th>Tạm tính</th>
-              </tr>
-            </thead>
-            <tbody>
-             
-                {orderById?.orderDetail.map((itemDetail, index) => {
-                  return (
-                    <tr className=" product-item-order" key={index}>
-                      <td className="img-product">
-                        <img
-                          src={itemDetail.product.product_image[0]}
-                          alt="img"
-                        />
-                      </td>
-                      <td className="name-product">
-                        <span>{itemDetail.product.name}</span>
-                      </td>
-                      <td
-                        className={`col ${
-                          orderById?.order.status === 3 &&
-                          itemDetail.status === 1
-                            ? "col-md-1"
-                            : "col-md-2"
-                        } "quantity"`}
-                      >
-                        <span>{itemDetail.quantity}</span>
-                      </td>
-                      <td className="col col-md-2 total">
-                        <span>
-                          {totalItemProduct(
+          <div className="header row">
+            <div className="col-md-5 text-center">{t("product")}</div>
+            <div className="col-md-2 text-center">{t("price")}</div>
+            <div className="col-md-1 text-center">{t("quantity")}</div>
+            <div className="col-md-2 text-center">{t("discount")}</div>
+            <div className="col-md-2 text-center">{t("temporary_fee")}</div>
+          </div>
+          {orderById?.orderDetail.length > 0 &&
+            orderById.orderDetail.map((itemDetail, index) => {
+              return (
+                <div
+                  className="row m-0 order-item"
+                  onClick={() =>
+                    navigate(
+                      PATH.PRODUCT.DETAIL_PRODUCT.replace(
+                        ":id",
+                        itemDetail.product._id
+                      )
+                    )
+                  }
+                  key={index}
+                >
+                  <div className="row product-item-order">
+                    <div className="col col-md-5 d-flex align-items-center justify-content-between">
+                      <img
+                        src={itemDetail.product.product_image[0]}
+                        alt="img"
+                        className="img-product"
+                      />
+                      <div className="name-product">
+                        {itemDetail.product.name}
+                      </div>
+                    </div>
+                    <div className="col col-md-2 price text-center">
+                      {currencyFormatting(itemDetail.product.price)}
+                    </div>
+                    <div className="col col-md-1 quantity text-center">
+                      {itemDetail.quantity}
+                    </div>
+                    <div className="col col-md-2 discount text-center">
+                      <span>
+                        {itemDetail.product.price *
+                          (itemDetail.product.discount / 100)}
+                        &#8363;
+                      </span>
+                    </div>
+                    <div className="col col-md-2 total-temporary text-center">
+                      <span>
+                        {currencyFormatting(
+                          totalItemProduct(
                             itemDetail.quantity,
                             itemDetail.product.price,
                             itemDetail.product.discount
-                          )}
-                          &#8363;
-                        </span>
-                      </td>
-                      {orderById?.order.status === 3 &&
-                        itemDetail.status === 1 && (
-                          <div
-                            className="col col-md-2 btn-rate"
-                            onClick={() =>
+                          )
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className="row m-0"
+                    style={{ borderBottom: "1px solid #f2f2f2", display:"inline-block" }}
+                  >
+                    {/* orderById?.order.status === 3 &&
+                      itemDetail.status === 1 && */}
+                    {true && (
+                      <>
+                        <div className="btn-rate">
+                          <Button
+                            className="outline"
+                            onClick={(e) =>
                               handleClickProduct(
+                                e,
                                 itemDetail.product._id,
                                 itemDetail.id
                               )
                             }
                           >
-                            <span>{t("rate")}</span>
-                          </div>
-                        )}
-
-                      {orderById?.order.status === 3 &&
-                        itemDetail.status === 2 && (
-                          <div
-                            className="col col-md-2 btn-rate"
-                            onClick={() =>
-                              handleViewRate(
-                                itemDetail.id,
-                                itemDetail.product._id
+                            {t("rate")}
+                          </Button>
+                          <Button
+                            className="outline"
+                            onClick={(e) =>
+                              handleClickProduct(
+                                e,
+                                itemDetail.product._id,
+                                itemDetail.id
                               )
                             }
                           >
-                            <span>{t("view_rate")}</span>
-                          </div>
-                        )}
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                            {t("rate")}
+                          </Button>
+                        </div>
+                        
+                      </>
+                    )}
+
+                    {orderById?.order.status === 3 &&
+                      itemDetail.status === 2 && (
+                        <div
+                          className="col col-md-2 btn-rate"
+                          onClick={() =>
+                            handleViewRate(
+                              itemDetail.id,
+                              itemDetail.product._id
+                            )
+                          }
+                        >
+                          <span>{t("view_rate")}</span>
+                        </div>
+                      )}
+                  </div>
+                </div>
+              );
+            })}
+          <div className="pay-money">
+            <div className="price-temporary row">
+              <span className="col-md-10">
+                {t("fee_temporary", { param: "" })}
+              </span>
+              <span className="col-md-2">
+                {currencyFormatting(handelPriceTemporary)}
+              </span>
+            </div>
+            <div className="price-ship row">
+              <span className="col-md-10">{t("ship_fee", { param: "" })}</span>
+              <span className="col-md-2">
+                {currencyFormatting(methodShip?.price ? methodShip.price : 0)}
+              </span>
+            </div>
+            <div className="price-total row">
+              <span className="col-md-10">{t("total", { param: "" })}</span>
+              <span className="col-md-2">
+                {currencyFormatting(
+                  handelPriceTemporary +
+                    (methodShip?.price ? methodShip.price : 0)
+                )}
+              </span>
+            </div>
+          </div>
         </div>
         <ModalCommon
           className="modal-rate"

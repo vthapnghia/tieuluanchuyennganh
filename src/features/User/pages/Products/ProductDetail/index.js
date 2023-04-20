@@ -321,9 +321,9 @@ function ProductDetail() {
             <div className="similar-title">{t("similar")}</div>
             {listSimilar && listSimilar.length > 0 ? (
               <div className="similar-list">
-                {listSimilar?.map((element) => {
+                {listSimilar?.map((element, index) => {
                   return (
-                    <div className="product-similar">
+                    <div className="product-similar" key={index}>
                       <img src={element.product_image[0]} alt="product-image" />
                       <div className="product-similar-price">
                         {element.price}&#8363;

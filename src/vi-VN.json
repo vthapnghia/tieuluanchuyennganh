@@ -19,7 +19,7 @@
   "product": "Sản phẩm",
   "price": "Giá",
   "quantity": "Số lượng",
-  "total": "Tổng: {{param}}", 
+  "total": "Tổng cộng: {{param}}", 
   "remove": "Xóa",
   "cart_totals": "Tổng giỏ hàng",
   "pay": "Thanh toán",
@@ -187,6 +187,7 @@
   "pay_banking": "Thanh toán online",
   "pay_success": "Thanh toán thành công",
   "delivery_at": " Giao vào {{param}}",
+  "fee_temporary": "Tạm tính: {{param}}",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

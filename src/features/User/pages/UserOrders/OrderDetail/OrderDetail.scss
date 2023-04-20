@@ -26,8 +26,8 @@
         padding: 10px;
         height: 150px;
         overflow-y: auto;
-        span{
-          margin: 5px 0px 0px
+        span {
+          margin: 5px 0px 0px;
         }
       }
     }
@@ -40,9 +40,9 @@
       }
     }
 
-    .shipment{
-      .content{
-        .name{
+    .shipment {
+      .content {
+        .name {
           color: rgb(255, 183, 0);
           font-weight: 700;
           font-size: 16px;
@@ -50,9 +50,9 @@
       }
     }
 
-    .payment{
-      .content{
-        .pay-success{
+    .payment {
+      .content {
+        .pay-success {
           color: rgb(253, 162, 35);
           font-style: italic;
           font-weight: 300;
@@ -105,36 +105,70 @@
   }
 
   .order-product {
-    .product-item-order {
-      width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+
+    .header {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
       margin: 0;
-      background-color: #fff;
-      border-radius: 4px;
-      padding: 10px;
-      margin-bottom: 20px;
-      .img-product {
-        img {
-          width: 100px;
-          height: 100px;
-          border-radius: 10px;
+      padding: 20px 10px;
+      color: rgb(120, 120, 120);
+      font-size: 15px;
+      font-weight: 400;
+      border-bottom: 1px solid #f2f2f2;
+    }
+
+    .order-item {
+      &:hover {
+        background-color: rgb(246, 252, 255);
+        cursor: pointer;
+      }
+      .product-item-order {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0;
+        border-radius: 4px;
+        padding: 20px 10px;
+
+        .img-product {
+          width: 80px;
+          height: 80px;
+          border-radius: 4px;
+        }
+      }
+      .btn-rate {
+        width: max-content;
+        float: right;
+        button{
+          height: 32px;
+          margin: 0 10px 10px;
+        }
+      }
+    }
+
+    .pay-money {
+      padding: 20px 10px;
+      margin: 0;
+      div {
+        padding: 5px 20px;
+        span:first-child {
+          color: rgb(120, 120, 120);
+          font-size: 14px;
+          text-align: right;
+        }
+        span:last-child {
+          color: rgb(36, 36, 36);
+          font-size: 14px;
+          text-align: right;
         }
       }
 
-      .btn-rate {
-        background: $main-color;
-        padding: 10px 0;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &:hover {
-          background: $main-color-hover;
-          color: $white;
+      .price-total {
+        span:last-child {
+          color: rgb(255, 59, 39);
+          font-size: 18px;
         }
       }
     }
