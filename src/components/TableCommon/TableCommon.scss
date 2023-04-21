@@ -3,21 +3,19 @@
   .table {
     .responsive-table {
       padding-left: 0;
-      padding: 20px;
       li {
-        border-radius: 10px;
-        padding: 25px 30px;
+        border-radius: 4px;
+        padding: 8px 10px;
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
       }
       .table-header {
-        background-color: $main_color;
+        background-color: #fff;
         font-size: 14px;
-        text-transform: uppercase;
         letter-spacing: 0.03em;
-        color: $white;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        color: rgb(36, 36, 36);
+        font-weight: 400;
 
         .col-sort {
           display: flex;
@@ -60,15 +58,9 @@
       }
       .table-row {
         background-color: $white;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
         .col {
           .button {
-            // border: 1px solid $gray;
-            // border-radius: 10px;
-            // padding: 5px;
-            // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            // background-color: $gray;
             cursor: pointer;
             &:hover {
               svg {

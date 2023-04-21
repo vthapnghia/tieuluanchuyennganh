@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../../contanst/path";
 import "./TabItem.scss";
+import { currencyFormatting } from "../../../../../contanst/common";
 
 function TabItem({ orders, id, classTab }) {
   const navigate = useNavigate();
@@ -68,19 +69,18 @@ function TabItem({ orders, id, classTab }) {
                   </div>
                   <div className="col col-md-2 product-price-total">
                     <span>
-                      {totalItemProduct(
+                      {currencyFormatting(totalItemProduct(
                         itemDetail.quantity,
                         itemDetail.product.price,
                         itemDetail.product.discount
-                      )}
-                      &#8363;
+                      ))}
                     </span>
                   </div>
                 </div>
               );
             })}
             <div className="footer">
-              {`${t("into_money")}: ${orderItem.orderTotal}`}&#8363;
+              {`${t("into_money")}: ${currencyFormatting(orderItem.orderTotal)}`}
             </div>
           </div>
         );

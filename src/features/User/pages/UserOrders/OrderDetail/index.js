@@ -226,6 +226,25 @@ function OrderDetail(params) {
     return total;
   }, [orderById?.orderDetail]);
 
+  const handleRepurchase = useCallback(
+    (e, order) => {
+      e.stopPropagation();
+      const product = [
+        `${order.product._id}_${order.size}_${order.quantity}_${
+          order.product.price * (1 - order.product.discount / 100)
+        }`,
+      ];
+      const intoMoney =
+        order.product.price *
+        (1 - order.product.discount / 100) *
+        order.quantity;
+      navigate(PATH.ORDER, {
+        state: { intoMoney: intoMoney, product: product, fastBuy: true },
+      });
+    },
+    [navigate]
+  );
+
   useEffect(() => {
     dispatch(getAllShip());
     dispatch(getOrderById(id));
@@ -404,7 +423,9 @@ function OrderDetail(params) {
                 })}
               </span>
               <span className="price">
-                {t("ship_fee", { param: currencyFormatting(methodShip?.price) })}
+                {t("ship_fee", {
+                  param: currencyFormatting(methodShip?.price),
+                })}
               </span>
             </div>
           </div>
@@ -464,9 +485,8 @@ function OrderDetail(params) {
                     </div>
                     <div className="col col-md-2 discount text-center">
                       <span>
-                        {itemDetail.product.price *
-                          (itemDetail.product.discount / 100)}
-                        &#8363;
+                        {currencyFormatting(itemDetail.product.price *
+                          (itemDetail.product.discount / 100))}
                       </span>
                     </div>
                     <div className="col col-md-2 total-temporary text-center">
@@ -483,7 +503,10 @@ function OrderDetail(params) {
                   </div>
                   <div
                     className="row m-0"
-                    style={{ borderBottom: "1px solid #f2f2f2", display:"inline-block" }}
+                    style={{
+                      borderBottom: "1px solid #f2f2f2",
+                      display: "inline-block",
+                    }}
                   >
                     {/* orderById?.order.status === 3 &&
                       itemDetail.status === 1 && */}
@@ -504,18 +527,11 @@ function OrderDetail(params) {
                           </Button>
                           <Button
                             className="outline"
-                            onClick={(e) =>
-                              handleClickProduct(
-                                e,
-                                itemDetail.product._id,
-                                itemDetail.id
-                              )
-                            }
+                            onClick={(e) => handleRepurchase(e, itemDetail)}
                           >
-                            {t("rate")}
+                            {t("repurchase")}
                           </Button>
                         </div>
-                        
                       </>
                     )}
 

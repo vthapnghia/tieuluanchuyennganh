@@ -17,6 +17,7 @@ import ModalCommon from "../../../../components/ModalCommon";
 import PATH from "../../../../contanst/path";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
+import { currencyFormatting } from "../../../../contanst/common";
 
 function Order(props) {
   const { state } = useLocation();
@@ -118,11 +119,11 @@ function Order(props) {
         element.classList.toggle("online");
 
         const items = product.map((productItem) => {
-          const producSplit = productItem.split("_");
+          const productSplit = productItem.split("_");
           return {
-            product_id: producSplit[0],
-            size: producSplit[1],
-            quantity: producSplit[2],
+            product_id: productSplit[0],
+            size: productSplit[1],
+            quantity: productSplit[2],
           };
         });
 
@@ -162,15 +163,19 @@ function Order(props) {
   }, [showFail]);
 
   const handleChangePromotion = useCallback((e) => {
-    setIsChecked(e.target.id) ;
-  }, [])
+    setIsChecked(e.target.id);
+  }, []);
 
   const modalBody = useMemo(() => {
     const voucherFiter = voucher?.filter((voucherItem) => {
       const dateFrom = new Date(voucherItem.use_date_from);
       const datoTo = new Date(voucherItem.use_date_to);
       const currentDate = new Date();
-      return voucherItem.amount > 0 && datoTo - currentDate > 0 && currentDate - dateFrom > 0;
+      return (
+        voucherItem.amount > 0 &&
+        datoTo - currentDate > 0 &&
+        currentDate - dateFrom > 0
+      );
     });
     if (!voucherFiter || voucherFiter.length === 0) {
       return t("no_voucher");
@@ -188,10 +193,14 @@ function Order(props) {
             value={item.discount_price}
             disabled={intoMoney < item.min_order}
             onChange={handleChangePromotion}
-            defaultChecked= {isChecked === item._id}
+            defaultChecked={isChecked === item._id}
           />
           <label htmlFor={item._id} style={{ marginLeft: "10px" }}>
-            {t("condition", {param: item.discount_price, min: item.min_order})}</label>
+            {t("condition", {
+              param: item.discount_price,
+              min: item.min_order,
+            })}
+          </label>
         </div>
       );
     });
@@ -301,18 +310,20 @@ function Order(props) {
                       {checkedVoucher ? (
                         <div className="voucher">
                           <span className="into-money-old">
-                            {intoMoney}&#8363;
+                            {currencyFormatting(intoMoney)}
                           </span>
-                          <span>{intoMoney - checkedVoucher}&#8363;</span>
+                          <span>
+                            {currencyFormatting(intoMoney - checkedVoucher)}
+                          </span>
                         </div>
                       ) : (
-                        <span>{intoMoney}&#8363;</span>
+                        <span>{currencyFormatting(intoMoney)}</span>
                       )}
                     </div>
                   </div>
 
                   <div className="ship_fee">
-                    {t("ship_fee", { param: feeShip })}&#8363;
+                    {t("ship_fee", { param: currencyFormatting(feeShip) })}
                   </div>
                 </div>
                 <div className="voucher-option">
@@ -326,8 +337,7 @@ function Order(props) {
                 </div>
                 <div className="form-footer">
                   <div className="label-total">
-                    {t("total", {param: total})}
-                    &#8363;
+                    {t("total", { param: currencyFormatting(total) })}
                   </div>
                   <div className="btn-order offline" id="btn-order">
                     <div className="pay-online">

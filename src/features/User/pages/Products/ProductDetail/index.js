@@ -19,6 +19,7 @@ import { OPTION_GENDER } from "../../../../../contanst/global";
 import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
 import { avatar_default } from "../../../../../assets/img";
+import { currencyFormatting } from "../../../../../contanst/common";
 
 function ProductDetail() {
   const { userAuth } = useAuth();
@@ -65,6 +66,7 @@ function ProductDetail() {
             products.price * (1 - products.discount / 100)
           }`,
         ];
+        console.log(product);
         navigate(PATH.ORDER, {
           state: { intoMoney: intoMoney, product: product, fastBuy: true },
         });
@@ -118,7 +120,7 @@ function ProductDetail() {
     return gender.label;
   }, [products?.gender]);
 
-  const handlebuyNow = useCallback(() => {
+  const handleBuyNow = useCallback(() => {
     if (!userAuth) {
       navigate(PATH.LOGIN);
     } else {
@@ -225,14 +227,12 @@ function ProductDetail() {
                       className="price-discount"
                       style={{ color: "red", fontSize: "20px" }}
                     >
-                      {(
-                        products?.price *
-                        (1 - products?.discount / 100)
-                      ).toFixed(2)}{" "}
-                      &#8363;
+                      {currencyFormatting(
+                        (products?.price * (1 - products?.discount / 100)
+                      ).toFixed(2))}
                     </div>
                     <div className="price-initial">
-                      <span>{products?.price} &#8363;</span>
+                      <span>{currencyFormatting(products?.price)}</span>
                       <div className="discount">
                         {" "}
                         {t("discount_label", { param: products?.discount })}
@@ -241,7 +241,7 @@ function ProductDetail() {
                   </div>
                 ) : (
                   <div className="no-discount">
-                    <span>{products?.price} &#8363;</span>
+                    <span>{currencyFormatting(products?.price)}</span>
                   </div>
                 )}
               </div>
@@ -311,7 +311,7 @@ function ProductDetail() {
                 <Button className="red add-cart" onClick={checkAddToCart}>
                   {t("add_to_cart")}
                 </Button>
-                <Button className="outline buy-now" onClick={handlebuyNow}>
+                <Button className="outline buy-now" onClick={handleBuyNow}>
                   {t("buy_now")}
                 </Button>
               </div>
@@ -323,10 +323,10 @@ function ProductDetail() {
               <div className="similar-list">
                 {listSimilar?.map((element, index) => {
                   return (
-                    <div className="product-similar" key={index}>
+                    <div className="product-similar" key={index} onClick={() => navigate(PATH.PRODUCT.DETAIL_PRODUCT.replace(":id", element._id))}>
                       <img src={element.product_image[0]} alt="product-image" />
                       <div className="product-similar-price">
-                        {element.price}&#8363;
+                        {currencyFormatting(element.price)}
                       </div>
                       <div className="product-similar-name">{element.name}</div>
                     </div>

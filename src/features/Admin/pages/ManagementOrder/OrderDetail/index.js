@@ -13,6 +13,7 @@ import {
 import { getAllShip } from "../../ManagementShip/ShipSlice";
 import ModalCommon from "../../../../../components/ModalCommon";
 import "./OrderDetail.scss";
+import { currencyFormatting } from "../../../../../contanst/common";
 
 function OrderDetail(params) {
   const param = useParams();
@@ -127,7 +128,7 @@ function OrderDetail(params) {
           </div>
           <div className="total-order">
             <span>{`${t("total_order")}: `}</span>
-            <span>{orderById?.order.total}&#8363;</span>
+            <span>{currencyFormatting(orderById?.order.total)}</span>
           </div>
           {(orderById?.order.status === 1 || orderById?.order.status === 2) && (
             <div className="update-status">
@@ -163,12 +164,11 @@ function OrderDetail(params) {
                 </div>
                 <div className="col col-md-2 total">
                   <span>
-                    {totalItemProduct(
+                    {currencyFormatting(totalItemProduct(
                       itemDetail.quantity,
                       itemDetail.product.price,
                       itemDetail.product.discount
-                    )}
-                    &#8363;
+                    ))}
                   </span>
                 </div>
               </div>

@@ -2,6 +2,7 @@ import { t } from "i18next";
 import { Link } from "react-router-dom";
 import PATH from "../../../../../contanst/path";
 import "./ProductItem.scss";
+import { currencyFormatting } from "../../../../../contanst/common";
 
 function ProductItem({ product }) {
   return (
@@ -20,13 +21,12 @@ function ProductItem({ product }) {
         <div className="product-title">{product.name}</div>
         {product.discount > 0 ? (
           <div className="d-flex flex-column align-items-center mh-">
-            {/* <div className="product-price-initial">{product.price} &#8363;</div> */}
             <div className="product-price-discount">
-              {(product.price * (1 - product.discount / 100)).toFixed(2)} &#8363;
+              {currencyFormatting((product.price * (1 - product.discount / 100)).toFixed(2))}
             </div>
           </div>
         ) : (
-          <div className="product-price">{product.price} &#8363;</div>
+          <div className="product-price">{currencyFormatting(product.price)}</div>
         )}
 
         <Link

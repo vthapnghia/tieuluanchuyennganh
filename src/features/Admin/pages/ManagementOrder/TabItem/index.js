@@ -7,6 +7,7 @@ import { PAYMENT_OPTION } from "../../../../../contanst/global";
 import PATH from "../../../../../contanst/path";
 import { getAllShip } from "../../ManagementShip/ShipSlice";
 import "./TabItem.scss";
+import { currencyFormatting } from "../../../../../contanst/common";
 
 function TabItem({ orders }) {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ function TabItem({ orders }) {
               </div>
             </div>
             <div className="footer">
-              {`${t("into_money")}: ${orderItem.total}`}&#8363;
+              {`${t("into_money")}: ${currencyFormatting(orderItem.total)}`}
             </div>
           </div>
         );
