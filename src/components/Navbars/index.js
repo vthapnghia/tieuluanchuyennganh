@@ -59,7 +59,7 @@ function Navbars() {
 
   return (
     <>
-      {false ? (
+      {is_admin || is_seller ? (
         <div className="custom-navbar-admin">
           <div className="menu-response" onClick={handleMenu}>
             <Icons.Menu color="black" />
@@ -89,10 +89,7 @@ function Navbars() {
         </div>
       ) : (
         <nav className="custom-navbar navbar navbar-expand-md navbar-dark">
-          {/* <div className="container"> */}
             <Link className="navbar-brand" to="/">
-              {/* {t("logo")}
-              <span>.</span> */}
               <img src={shoe_bg} alt="img" />
             </Link>
 
@@ -108,11 +105,6 @@ function Navbars() {
                     {t("product")}
                   </Link>
                 </li>
-                {/* <li>
-                  <Link className="nav-link" to="/">
-                    {t("about_us")}
-                  </Link>
-                </li> */}
                 <li>
                   <Link className="nav-link" to={PATH.NEWS.LIST_NEWS}>
                   {t("news")}
@@ -170,7 +162,6 @@ function Navbars() {
                 </li>
               </ul>
             </div>
-          {/* </div> */}
         </nav>
       )}
     </>

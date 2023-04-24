@@ -127,7 +127,7 @@ function TableCommon({
           )}
           {rows &&
             rows.length &&
-            rows.map((row) => (
+            rows.map((row, index) => (
               <li
                 key={row.id}
                 className="table-row align-items-center"

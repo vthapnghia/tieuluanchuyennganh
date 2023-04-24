@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import moment from "moment";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Button from "../../../../../components/Button";
@@ -24,6 +24,7 @@ function OrderDetail(params) {
   const [show, setShow] = useState(false);
   const [modalTitle, setModalTitle] = useState(null);
   const [modalBody, setModalBody] = useState(null);
+  const [methodShip, setMethodShip] = useState();
 
   const getHeaderByStatus = useCallback((orderStatus) => {
     let status = "";
@@ -68,7 +69,7 @@ function OrderDetail(params) {
     return;
   }, []);
 
-  const handleConfirm = useCallback(async() => {
+  const handleConfirm = useCallback(async () => {
     setShow(!show);
     await dispatch(updateOrderById(param.id)).then((res) => {
       if (res.payload.status === 200) {
@@ -87,6 +88,16 @@ function OrderDetail(params) {
     dispatch(getOrderById(param.id));
   }, [showMessage, dispatch, param.id]);
 
+  const handelPriceTemporary = useMemo(() => {
+    let total = 0;
+    if (orderById?.orderDetail.length > 0) {
+      orderById?.orderDetail.forEach((item) => {
+        total = total + item.quantity * item.product.price;
+      });
+    }
+    return total;
+  }, [orderById?.orderDetail]);
+
   useEffect(() => {
     dispatch(getAllShip());
   }, [dispatch]);
@@ -98,101 +109,183 @@ function OrderDetail(params) {
     };
   }, [dispatch, param.id]);
 
-  return !orderById ? (
-    <></>
-  ) : (
-    <div className="admin-order-detail">
-      <div className="container">
-        <div className="header">
-          <div>{`${t("status")}: ${getHeaderByStatus(
-            orderById?.order.status
-          )}`}</div>
-          <div>{`${t("date_order", {
-            param: moment(new Date(orderById?.order.created_at)).format(
-              "DD-MM-YYYY"
-            ),
-          })}`}</div>
-        </div>
-        <div className="body">
-          <div className="address-receiver">
-            <span>{`${t("address_receiver")}: `}</span>
-            <span>{`${orderById?.order.receiver_name}, ${orderById?.order.receiver_phone}, ${orderById?.order.location}`}</span>
-          </div>
-          <div className="method-ship">
-            <span>{`${t("type_ship")}: `}</span>
-            <span>{getMethodShip(orderById?.order.ship_id)}</span>
-          </div>
-          <div className="method-pay">
-            <span>{`${t("payment_method")}: `}</span>
-            <span>{getMethodPay(orderById?.order.payment_method)}</span>
-          </div>
-          <div className="total-order">
-            <span>{`${t("total_order")}: `}</span>
-            <span>{currencyFormatting(orderById?.order.total)}</span>
-          </div>
-          {(orderById?.order.status === 1 || orderById?.order.status === 2) && (
-            <div className="update-status">
-              <Button className="primary" onClick={() => setShow(!show)}>
-                {orderById?.order.status === 1 ? t("shipping") : t("complete")}
-              </Button>
-            </div>
-          )}
-        </div>
+  useEffect(() => {
+    if (orderById && ship) {
+      const findShip = ship.find(
+        (item) => item._id === orderById?.order.ship_id
+      );
+      if (findShip) {
+        setMethodShip(findShip);
+        console.log(findShip);
+      }
+    }
+  }, [orderById, orderById?.order.ship_id, ship]);
 
-        <div className="order-product">
-          <div className="title-product">
-            <div className="col col-md-2 img-title">{t("image")}</div>
-            <div className="col col-md-4 name-title">{t("name_product")}</div>
-            <div className="col col-md-2 size-title">{t("size")}</div>
-            <div className="col col-md-2 quantity-title">{t("quantity")}</div>
-            <div className="col col-md-2 total-title">{t("title_total")}</div>
+  return useMemo(
+    () => (
+      <div className="admin-order-detail">
+        <div className="header">{`${t("status")}: ${getHeaderByStatus(
+          orderById?.order.status
+        )}`}</div>
+        <div className="info-detail">
+          <div className="address">
+            <div className="title">{t("address_user_receive")}</div>
+            <div className="content">
+              <span className="name">{orderById?.order.receiver_name}</span>
+              <span>
+                {t("address_receive", { param: orderById?.order.location })}
+              </span>
+              <span>
+                {t("phone_receive", { param: orderById?.order.receiver_phone })}
+              </span>
+            </div>
           </div>
-          {orderById?.orderDetail.map((itemDetail, index) => {
-            return (
-              <div className="row product-item" key={index}>
-                <div className="col col-md-2 img-product">
-                  <img src={itemDetail.product.product_image[0]} alt="img" />
-                </div>
-                <div className="col col-md-4 name-product">
-                  <span>{itemDetail.product.name}</span>
-                </div>
-                <div className="col col-md-2 size-product">
-                  <span>{itemDetail.size}</span>
-                </div>
-                <div className="col col-md-2 quantity">
-                  <span>{itemDetail.quantity}</span>
-                </div>
-                <div className="col col-md-2 total">
-                  <span>
-                    {currencyFormatting(totalItemProduct(
-                      itemDetail.quantity,
-                      itemDetail.product.price,
-                      itemDetail.product.discount
-                    ))}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          <div className="shipment">
+            <div className="title">{t("method_ship")}</div>
+            <div className="content">
+              <span className="name">{methodShip?.type}</span>
+              <span className="description">
+                {t("delivery_at", {
+                  param: moment(orderById?.order.created_at)
+                    .add(5, "days")
+                    .format("DD-MM-YYYY"),
+                })}
+              </span>
+              <span className="price">
+                {`${t("ship_fee" )}: ${currencyFormatting(methodShip?.price)}`}
+              </span>
+            </div>
+          </div>
+          <div className="payment">
+            <div className="title">{t("method_pay")}</div>
+            <div className="content">
+              <span>
+                {orderById?.order.payment_method === 1
+                  ? t("pay_cash")
+                  : t("pay_banking")}
+              </span>
+              {orderById?.order.payment_method === 1 && (
+                <span className="pay-success">{t("pay_success")}</span>
+              )}
+            </div>
+          </div>
         </div>
+        <div className="order-product">
+          <div className="header row">
+            <div className="col-md-5 text-center">{t("product")}</div>
+            <div className="col-md-2 text-center">{t("price")}</div>
+            <div className="col-md-1 text-center">{t("quantity")}</div>
+            <div className="col-md-2 text-center">{t("discount")}</div>
+            <div className="col-md-2 text-center">{t("temporary_fee")}</div>
+          </div>
+          {orderById?.orderDetail.length > 0 &&
+            orderById?.orderDetail.map((itemDetail, index) => {
+              return (
+                <div className="row m-0 order-item" key={index}>
+                  <div className="row product-item-order">
+                    <div className="col col-md-5 d-flex align-items-center justify-content-between">
+                      <img
+                        src={itemDetail.product.product_image[0]}
+                        alt="img"
+                        className="img-product"
+                      />
+                      <div className="name-product">
+                        {itemDetail.product.name}
+                      </div>
+                    </div>
+                    <div className="col col-md-2 price text-center">
+                      {currencyFormatting(itemDetail.product.price)}
+                    </div>
+                    <div className="col col-md-1 quantity text-center">
+                      {itemDetail.quantity}
+                    </div>
+                    <div className="col col-md-2 discount text-center">
+                      <span>
+                        {currencyFormatting(
+                          itemDetail.product.price *
+                            (itemDetail.product.discount / 100)
+                        )}
+                      </span>
+                    </div>
+                    <div className="col col-md-2 total-temporary text-center">
+                      <span>
+                        {currencyFormatting(
+                          totalItemProduct(
+                            itemDetail.quantity,
+                            itemDetail.product.price,
+                            itemDetail.product.discount
+                          )
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          <div className="pay-money">
+            <div className="price-temporary row">
+              <span className="col-md-10">
+                {t("fee_temporary", { param: "" })}
+              </span>
+              <span className="col-md-2">
+                {currencyFormatting(handelPriceTemporary)}
+              </span>
+            </div>
+            <div className="price-ship row">
+              <span className="col-md-10">{t("ship_fee", { param: "" })}</span>
+              <span className="col-md-2">
+                {currencyFormatting(methodShip?.price ? methodShip?.price : 0)}
+              </span>
+            </div>
+            <div className="price-total row">
+              <span className="col-md-10">{t("total", { param: "" })}</span>
+              <span className="col-md-2">
+                {currencyFormatting(
+                  handelPriceTemporary +
+                    (methodShip?.price ? methodShip?.price : 0)
+                )}
+              </span>
+            </div>
+          </div>
+        </div>
+        <ModalCommon
+          show={showMessage}
+          modalTitle={modalTitle}
+          modalBody={modalBody}
+          handleConfirm={handleConfirmMessage}
+          handleCloseModal={() => setShowMessage(!showMessage)}
+          isButton
+        />
+        <ModalCommon
+          show={show}
+          modalTitle={t("update_order")}
+          modalBody={t("update_order_confirm")}
+          handleConfirm={handleConfirm}
+          handleCloseModal={() => setShow(!show)}
+          isButton
+        />
       </div>
-      <ModalCommon
-        show={showMessage}
-        modalTitle={modalTitle}
-        modalBody={modalBody}
-        handleConfirm={handleConfirmMessage}
-        handleCloseModal={() => setShowMessage(!showMessage)}
-        isButton
-      />
-      <ModalCommon
-        show={show}
-        modalTitle={t("update_order")}
-        modalBody={t("update_order_confirm")}
-        handleConfirm={handleConfirm}
-        handleCloseModal={() => setShow(!show)}
-        isButton
-      />
-    </div>
+    ),
+    [
+      getHeaderByStatus,
+      handelPriceTemporary,
+      handleConfirm,
+      handleConfirmMessage,
+      methodShip?.price,
+      methodShip?.type,
+      modalBody,
+      modalTitle,
+      orderById?.order.created_at,
+      orderById?.order.location,
+      orderById?.order.payment_method,
+      orderById?.order.receiver_name,
+      orderById?.order.receiver_phone,
+      orderById?.order.status,
+      orderById?.orderDetail,
+      show,
+      showMessage,
+      totalItemProduct,
+    ]
   );
 }
 

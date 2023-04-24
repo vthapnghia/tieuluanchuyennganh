@@ -1,210 +1,36 @@
-import { Formik } from "formik";
-import { t } from "i18next";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
-import PayPal from "./PayPal";
-import { PAYMENT_OPTION } from "../../../../contanst/global";
-import { getAllShip } from "../../../Admin/pages/ManagementShip/ShipSlice";
-import "./Order.scss";
-import { getUser } from "../../../Authentication/authSlice";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { createOrder } from "./OrderSlice";
+import { useDispatch, useSelector } from "react-redux";
 import ModalCommon from "../../../../components/ModalCommon";
-import PATH from "../../../../contanst/path";
+import { currencyFormatting } from "../../../../contanst/common";
+import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
-import { currencyFormatting } from "../../../../contanst/common";
+import { PAYMENT_OPTION } from "../../../../contanst/global";
+import { getAllShip } from "../../../Admin/pages/ManagementShip/ShipSlice";
+import { createOrder } from "../Order/OrderSlice";
+import "./Order.scss";
+import PATH from "../../../../contanst/path";
 
-function Order(props) {
-  const { state } = useLocation();
-  const { product, intoMoney } = state;
-  const dispatch = useDispatch();
+function Order() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const ship = useSelector((state) => state.ship.allShip?.ships);
+  const dispatch = useDispatch();
   const voucher = useSelector((state) => state.voucher.allVoucher?.promotions);
-  const formikRef = useRef();
+  const ship = useSelector((state) => state.ship.allShip?.ships);
+  const { state } = useLocation();
+  const checkBox = useSelector((state) => state.cart?.checkBox);
   const user = useSelector((state) => state.auth.user);
-  const [feeShip, setFeeShip] = useState(0);
-  const [shipId, setShipId] = useState(null);
-  const [payMethod, setPayMethod] = useState(null);
-  const [req, setReq] = useState({});
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showFail, setShowFail] = useState(false);
+  const [feeTemporary, setFeeTemporary] = useState(0);
   const [showVoucher, setShowVoucher] = useState(false);
   const [checkedVoucher, setCheckedVoucher] = useState(null);
-  const [total, setTotal] = useState(null);
-  const optionShip = ship?.map((element) => {
-    return { value: element._id, label: element.type };
-  });
-  const [isChecked, setIsChecked] = useState(null);
-
-  const initialValues = useMemo(() => {
-    return {
-      name: user?.name || "",
-      phone: user?.phone || "",
-      address: user?.address || "",
-      type_ship: ship ? ship[0]?._id : "",
-      payment_method: 1,
-    };
-  }, [user, ship]);
-
-  const validationSchema = useMemo(() => {
-    return {
-      name: Yup.string().required(t("MS_01", { param: t("full_name") })),
-      phone: Yup.string().required(t("MS_01", { param: t("phone") })),
-      address: Yup.string().required(t("MS_01", { param: t("address") })),
-      type_ship: Yup.string().required(t("MS_01", { param: t("type_ship") })),
-      payment_method: Yup.string().required(
-        t("MS_01", { param: t("payment_method") })
-      ),
-    };
-  }, []);
-
-  const handleOrder = useCallback(
-    (values) => {
-      const items = product.map((productItem) => {
-        const producSplit = productItem.split("_");
-        return {
-          product_id: producSplit[0],
-          size: producSplit[1],
-          quantity: producSplit[2],
-        };
-      });
-
-      const data = {
-        items: items,
-        total: total,
-        ship_id: shipId,
-        payment_method: Number(payMethod),
-        location: values.address,
-        receiver_name: values.name,
-        receiver_phone: values.phone,
-        is_fast_buy: state?.fastBuy || false,
-      };
-      dispatch(createOrder(data)).then((res) => {
-        if (res.payload.status === 200) {
-          setShowSuccess(!showSuccess);
-        } else {
-          setShowFail(!showFail);
-        }
-      });
-    },
-    [
-      product,
-      payMethod,
-      shipId,
-      dispatch,
-      showSuccess,
-      showFail,
-      state?.fastBuy,
-      total,
-    ]
-  );
-
-  const handleOnChangePayMethod = useCallback(
-    (method) => {
-      const element = document.getElementById("btn-order");
-      setPayMethod(method);
-      if (method === 1) {
-        const online = document.getElementsByClassName("online");
-        online && element.classList.remove("online");
-        element.classList.add("offline");
-      } else {
-        const offline = document.getElementsByClassName("offline");
-        offline && element.classList.toggle("offline");
-        element.classList.toggle("online");
-
-        const items = product.map((productItem) => {
-          const productSplit = productItem.split("_");
-          return {
-            product_id: productSplit[0],
-            size: productSplit[1],
-            quantity: productSplit[2],
-          };
-        });
-
-        const values = formikRef.current?.values;
-
-        setReq({
-          items: items,
-          total: feeShip + intoMoney,
-          ship_id: values?.type_ship,
-          payment_method: Number(values?.payment_method),
-          location: values?.address,
-          receiver_name: values?.name,
-          receiver_phone: values?.phone,
-          is_fast_buy: state?.fastBuy || false,
-        });
-      }
-    },
-    [feeShip, intoMoney, product, state?.fastBuy]
-  );
-
-  const handleOnChangeTypeShip = useCallback(
-    (id) => {
-      const findShip = ship.find((item) => item._id === id);
-      setShipId(findShip._id);
-      setFeeShip(findShip.price);
-    },
-    [ship]
-  );
-
-  const handleConfirmSuccess = useCallback(() => {
-    setShowSuccess(!showSuccess);
-    navigate(PATH.USER_ORDERS.BASE);
-  }, [showSuccess, navigate]);
-
-  const handleConfirmFail = useCallback(() => {
-    setShowFail(!showFail);
-  }, [showFail]);
-
-  const handleChangePromotion = useCallback((e) => {
-    setIsChecked(e.target.id);
-  }, []);
-
-  const modalBody = useMemo(() => {
-    const voucherFiter = voucher?.filter((voucherItem) => {
-      const dateFrom = new Date(voucherItem.use_date_from);
-      const datoTo = new Date(voucherItem.use_date_to);
-      const currentDate = new Date();
-      return (
-        voucherItem.amount > 0 &&
-        datoTo - currentDate > 0 &&
-        currentDate - dateFrom > 0
-      );
-    });
-    if (!voucherFiter || voucherFiter.length === 0) {
-      return t("no_voucher");
-    }
-    return voucherFiter.map((item, index) => {
-      return (
-        <div
-          key={index}
-          style={{ padding: "10px 0", display: "flex", alignItems: "center" }}
-        >
-          <input
-            type="radio"
-            name="radio"
-            id={item._id}
-            value={item.discount_price}
-            disabled={intoMoney < item.min_order}
-            onChange={handleChangePromotion}
-            defaultChecked={isChecked === item._id}
-          />
-          <label htmlFor={item._id} style={{ marginLeft: "10px" }}>
-            {t("condition", {
-              param: item.discount_price,
-              min: item.min_order,
-            })}
-          </label>
-        </div>
-      );
-    });
-  }, [intoMoney, voucher, handleChangePromotion, isChecked]);
+  const [isChecked, setIsChecked] = useState(state.isChecked);
+  const [methodPay, setMethodPay] = useState(1);
+  const [methodDelivery, setMethodDelivery] = useState();
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFail, setShowFail] = useState(false);
 
   const chooseVoucher = useCallback(() => {
     setShowVoucher(!showVoucher);
@@ -226,151 +52,280 @@ function Order(props) {
     [showVoucher]
   );
 
+  const handleChangePromotion = useCallback((e) => {
+    setIsChecked(e.target.id);
+  }, []);
+
+  const modalBodyVoucher = useMemo(() => {
+    const voucherFilter = voucher?.filter((voucherItem) => {
+      const dateFrom = new Date(voucherItem.use_date_from);
+      const datoTo = new Date(voucherItem.use_date_to);
+      const currentDate = new Date();
+      return (
+        voucherItem.amount > 0 &&
+        datoTo - currentDate > 0 &&
+        currentDate - dateFrom > 0
+      );
+    });
+    if (!voucherFilter || voucherFilter.length === 0) {
+      return t("no_voucher");
+    }
+    return voucherFilter.map((item, index) => {
+      return (
+        <div
+          key={index}
+          style={{ padding: "10px 0", display: "flex", alignItems: "center" }}
+        >
+          <input
+            type="radio"
+            name="radio"
+            id={item._id}
+            value={item.discount_price}
+            disabled={feeTemporary < item.min_order}
+            onChange={handleChangePromotion}
+            defaultChecked={isChecked === item._id}
+          />
+          <label htmlFor={item._id} style={{ marginLeft: "10px" }}>
+            {t("condition", {
+              param: item.discount_price,
+              min: item.min_order,
+            })}
+          </label>
+        </div>
+      );
+    });
+  }, [voucher, t, feeTemporary, handleChangePromotion, isChecked]);
+
+  const handleChangeOptionPay = useCallback((value) => {
+    setMethodPay(value);
+  }, []);
+
+  const handleChangeOptionDelivery = useCallback((value) => {
+    setMethodDelivery(value);
+  }, []);
+
+  const handlePayment = useCallback(() => {
+    console.log(state.listPurchase);
+    const products = state.listPurchase.map((item) => {
+      return {
+        product_id: item.product._id,
+        size: item.size,
+        quantity: item.quantity,
+      };
+    });
+    const data = {
+      items: products,
+      total: feeTemporary + checkedVoucher + methodDelivery?.price,
+      ship_id: methodDelivery?._id,
+      payment_method: methodPay,
+      location: user.address,
+      receiver_name: user.name,
+      receiver_phone: user.phone,
+      is_fast_buy: state?.fastBuy || false,
+    };
+    dispatch(createOrder(data)).then((res) => {
+      if (res.payload.status === 200) {
+        setShowSuccess(!showSuccess);
+      } else {
+        setShowFail(!showFail);
+      }
+    });
+  }, [
+    checkedVoucher,
+    dispatch,
+    feeTemporary,
+    methodDelivery?._id,
+    methodDelivery?.price,
+    methodPay,
+    showFail,
+    showSuccess,
+    state?.fastBuy,
+    state.listPurchase,
+    user.address,
+    user.name,
+    user.phone,
+  ]);
+
+  const handleConfirmSuccess = useCallback(() => {
+    setShowSuccess(!showSuccess);
+    navigate(PATH.USER_ORDERS.BASE);
+  }, [showSuccess, navigate]);
+
+  const handleConfirmFail = useCallback(() => {
+    setShowFail(!showFail);
+  }, [showFail]);
+
   useEffect(() => {
-    dispatch(getAllShip());
     dispatch(getUser());
+    dispatch(getAllShip());
     dispatch(getAllVoucher());
   }, [dispatch]);
 
   useEffect(() => {
     if (ship) {
-      setFeeShip(ship[0]?.price);
-      setShipId(ship[0]?._id);
+      setMethodDelivery(ship[0]);
     }
   }, [ship]);
 
   useEffect(() => {
-    if (checkedVoucher) {
-      setTotal(intoMoney + feeShip - checkedVoucher);
-    } else {
-      setTotal(intoMoney + feeShip);
-    }
-  }, [intoMoney, feeShip, checkedVoucher]);
+    let total = 0;
+    state.listPurchase.forEach((element) => {
+      const price = element.product.price;
+      const quantity = element.quantity;
+      total = total + price * quantity;
+    });
+    setFeeTemporary(total);
+  }, [checkBox, state.listPurchase]);
 
-  return (
-    <Formik
-      initialValues={initialValues}
-      enableReinitialize
-      validationSchema={Yup.object(validationSchema)}
-      innerRef={formikRef}
-      onSubmit={handleOrder}
-    >
+  return useMemo(
+    () => (
       <>
-        <div className="pay">
-          <div className="container">
-            <div className="row d-flex justify-content-between">
-              <div className="col col-sm-12 col-md-6 form-input">
-                <div className="input">
-                  <Input name="name" placeholder={t("full_name")} type="text" />
-                </div>
-                <div className="input">
-                  <Input
-                    name="phone"
-                    placeholder={t("phone")}
-                    type="number"
-                    style={{ textAlign: "left" }}
-                  />
-                </div>
-                <div className="input">
-                  <Input
-                    name="address"
-                    placeholder={t("address")}
-                    type="textarea"
-                  />
-                </div>
-                <div className="input">
-                  <Input
-                    name="type_ship"
-                    placeholder={t("type_ship")}
-                    type="select"
-                    options={optionShip}
-                    align="left"
-                    handleOnChange={handleOnChangeTypeShip}
-                  />
-                </div>
-                <div className="input">
-                  <Input
-                    name="payment_method"
-                    placeholder={t("payment_method")}
-                    type="select"
-                    options={PAYMENT_OPTION}
-                    align="left"
-                    handleOnChange={handleOnChangePayMethod}
-                  />
-                </div>
-              </div>
-              <div className="col col-sm-12 col-md-5 form-pay">
-                <div className="form-header">
-                  {t("order_n", { param: product.length })}
-                </div>
-                <div className="form-body">
-                  <div className="voucher">
-                    <div className="temporary_fee">
-                      <span>{`${t("temporary_fee")}:`}&#160;</span>
-                      {checkedVoucher ? (
-                        <div className="voucher">
-                          <span className="into-money-old">
-                            {currencyFormatting(intoMoney)}
-                          </span>
-                          <span>
-                            {currencyFormatting(intoMoney - checkedVoucher)}
-                          </span>
-                        </div>
-                      ) : (
-                        <span>{currencyFormatting(intoMoney)}</span>
-                      )}
+        <div className="Order row">
+          <div className="list-purchase col-md-6">
+            {state.listPurchase.map((item, index) => {
+              return (
+                <div key={index}>
+                  <div className="purchase">
+                    <img src={item.product.product_image[0]} alt="" />
+                    <div className="info">
+                      <span className="name">{item.product.name}</span>
+                      <div className="d-flex justify-content-between">
+                        <span className="quantity">SL: {item.quantity}</span>
+                        <span className="total">
+                          {currencyFormatting(
+                            item.quantity *
+                              (item.product.price *
+                                (1 - item.product.discount / 100))
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="ship_fee">
-                    {t("ship_fee", { param: currencyFormatting(feeShip) })}
-                  </div>
                 </div>
-                <div className="voucher-option">
-                  <div className="icon-voucher">
-                    <Icons.Ticked color="#fb3a3a" />
-                  </div>
-                  <span>{t("voucher")}</span>
-                  <span onClick={chooseVoucher}>{`(${t(
-                    "choose_voucher"
-                  )})`}</span>
-                </div>
-                <div className="form-footer">
-                  <div className="label-total">
-                    {t("total", { param: currencyFormatting(total) })}
-                  </div>
-                  <div className="btn-order offline" id="btn-order">
-                    <div className="pay-online">
-                      <PayPalScriptProvider
-                        options={{
-                          "client-id": "test",
-                          components: "buttons",
-                          currency: "USD",
-                        }}
-                      >
-                        <PayPal
-                          currency="USD"
-                          showSpinner={false}
-                          amount={(total / 23000).toFixed(2)}
-                          req={req}
-                        />
-                      </PayPalScriptProvider>
-                    </div>
-                    <Button
-                      className="primary pay-offline"
-                      onClick={() => formikRef.current.submitForm()}
+              );
+            })}
+          </div>
+          <div className="choose-method col-md-3">
+            <div className="method-pay">
+              <span className="header">{t("payment_method")}</span>
+              <div className="option">
+                {PAYMENT_OPTION.map((item) => {
+                  return (
+                    <div
+                      key={item.value}
+                      className="d-flex align-items-center"
+                      style={{ height: "64px" }}
                     >
-                      {t("order_v")}
-                    </Button>
-                  </div>
+                      <input
+                        type="radio"
+                        name="payment"
+                        id={`option-${item.value}`}
+                        defaultChecked={item.value === 1}
+                        onChange={() => handleChangeOptionPay(item.value)}
+                      />
+                      <span className="radio-fake"></span>
+                      <label className="label" htmlFor={`option-${item.value}`}>
+                        {item.label}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="method-delivery">
+              <span className="header">{t("medthod_delivery")}</span>
+              <div className="option">
+                {ship?.map((item, index) => {
+                  return (
+                    <div
+                      key={item._id}
+                      className="d-flex align-items-center"
+                      style={{ height: "64px" }}
+                    >
+                      <input
+                        type="radio"
+                        name="delivery"
+                        id={`option-${item._id}`}
+                        defaultChecked={index === 0}
+                        onChange={() => handleChangeOptionDelivery(item)}
+                      />
+                      <span className="radio-fake"></span>
+                      <label className="label" htmlFor={`option-${item._id}`}>
+                        {item.type}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="info-purchase col-md-3">
+            <div className="customer-info">
+              <div className="header">{t("delivery_to")}</div>
+              <div className="name-and-phone">
+                <span className="name">{user?.name}</span>
+                <i></i>
+                <span className="phone">{user?.phone}</span>
+              </div>
+              <div className="address">{user?.address}</div>
+            </div>
+            <div className="discount">
+              <div className="header">{t("voucher")}</div>
+              <div className="choose-coupon" onClick={chooseVoucher}>
+                <Icons.Ticked color="#0B74E5" />
+                <span>{t("choose_voucher")}</span>
+              </div>
+            </div>
+            <div className="fee">
+              <div className="fee-category">
+                <div className="fee-temporary">
+                  <span>{t("fee_temporary")}</span>
+                  <span>{currencyFormatting(feeTemporary)}</span>
+                </div>
+                <div className="fee-discount">
+                  <span>{t("discount")}</span>
+                  <span>
+                    {checkedVoucher
+                      ? -currencyFormatting(checkedVoucher)
+                      : currencyFormatting()}
+                  </span>
+                </div>
+                <div className="fee-delivery">
+                  <span>{t("ship_fee")}</span>
+                  <span>{currencyFormatting(methodDelivery?.price)}</span>
                 </div>
               </div>
+              <div className="fee-total">
+                <span>{t("total")}</span>
+                {checkBox && checkBox.length > 0 && (
+                  <span className="total">
+                    {currencyFormatting(
+                      feeTemporary -
+                        checkedVoucher +
+                        (methodDelivery?.price || 0)
+                    )}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="order">
+              <Button className="red w-100" onClick={handlePayment}>
+                {t("order")}
+              </Button>
             </div>
           </div>
         </div>
         <ModalCommon
+          show={showVoucher}
+          modalTitle={t("voucher")}
+          modalBody={modalBodyVoucher}
+          handleConfirm={handleConfirmVoucher}
+          handleCloseModal={() => setShowVoucher(!showVoucher)}
+          isButton
+        />
+        <ModalCommon
           show={showSuccess}
-          modalTitle={t("action_success", { param: t("order_v") })}
+          modalTitle={t("action_success", { param: t("order") })}
           modalBody={null}
           handleConfirm={handleConfirmSuccess}
           handleCloseModal={() => setShowSuccess(!showSuccess)}
@@ -378,23 +333,37 @@ function Order(props) {
         />
         <ModalCommon
           show={showFail}
-          modalTitle={t("action_fail", { param: t("order_v") })}
+          modalTitle={t("action_fail", { param: t("order") })}
           modalBody={t("try_again")}
           handleConfirm={handleConfirmFail}
           handleCloseModal={() => setShowFail(!showFail)}
           isButton
         />
-        <ModalCommon
-          show={showVoucher}
-          modalTitle={t("voucher")}
-          modalBody={modalBody}
-          handleConfirm={handleConfirmVoucher}
-          handleCloseModal={() => setShowVoucher(!showVoucher)}
-          isButton
-        />
       </>
-    </Formik>
+    ),
+    [
+      checkBox,
+      checkedVoucher,
+      chooseVoucher,
+      feeTemporary,
+      handleChangeOptionDelivery,
+      handleChangeOptionPay,
+      handleConfirmFail,
+      handleConfirmSuccess,
+      handleConfirmVoucher,
+      handlePayment,
+      methodDelivery?.price,
+      modalBodyVoucher,
+      ship,
+      showFail,
+      showSuccess,
+      showVoucher,
+      state.listPurchase,
+      t,
+      user?.address,
+      user?.name,
+      user?.phone,
+    ]
   );
 }
-
 export default Order;

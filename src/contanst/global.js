@@ -25,6 +25,7 @@ const COLOR = {
   GRAY_2: "#757575",
   BG_INPUT: "#efefef",
   GOOGLE_COLOR: "#db4437",
+  RED: 'red'
 };
 
 const GENDER = {

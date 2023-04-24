@@ -1,38 +1,30 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Formik } from "formik";
 import "./Cart.scss";
-import Input from "../../../../components/Input";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PATH from "../../../../contanst/path";
 import Button from "../../../../components/Button";
 import TableCommon from "../../../../components/TableCommon";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  arrayCheckBox,
   editQuantity,
   getAllCart,
   removeToCart,
+  updateCart,
 } from "./cartSlice";
 import ModalCommon from "../../../../components/ModalCommon";
 import { currencyFormatting } from "../../../../contanst/common";
 import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
-import { elements } from "chart.js";
-import { PAYMENT_OPTION } from "../../../../contanst/global";
-import { getAllShip } from "../../../Admin/pages/ManagementShip/ShipSlice";
-import { createOrder } from "../Order/OrderSlice";
+import { COLOR } from "../../../../contanst/global";
 
 function Cart() {
-  const formikRef = useRef();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart?.cart);
   const voucher = useSelector((state) => state.voucher.allVoucher?.promotions);
-  const ship = useSelector((state) => state.ship.allShip?.ships);
-  const { state } = useLocation();
   const [idRow, setIdRow] = useState(0);
   const [show, setShow] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -44,10 +36,8 @@ function Cart() {
   const [showVoucher, setShowVoucher] = useState(false);
   const [checkedVoucher, setCheckedVoucher] = useState(null);
   const [isChecked, setIsChecked] = useState(null);
-  const [pay, setPay] = useState(false);
-  const [listPurchase, setListPurchase] = useState([]);
-  const [methodPay, setMethodPay] = useState(1);
-  const [methodDelivery, setMethodDelivery] = useState();
+  const [minusDisabled, setMinusDisabled] = useState(false);
+  const [plusDisabled, setPlusDisabled] = useState(false);
 
   const handleIconQuantity = useCallback(
     async (action, element) => {
@@ -59,22 +49,65 @@ function Cart() {
 
       await dispatch(editQuantity({ data, noLoading: true })).then((res) => {
         if (res.payload.status === 200) {
-          // dispatch(arrayCheckBox(null));
-          // dispatch(getAllCart());
+          const tag = document.getElementById(
+            `quantity_${element.product._id}_${element.size}`
+          );
+          if (tag) {
+            let value = Number(tag.value) + Number(action);
+            tag.value = value;
+            let newCart = cart.map((item) => {
+              if (item.product._id === element.product._id) {
+                return { ...item, quantity: value };
+              }
+              return item;
+            });
+            dispatch(updateCart(newCart));
+          }
         }
       });
+      console.log(cart);
     },
-    [dispatch]
+    [cart, dispatch]
   );
 
-  const cols = [
-    // { label: t("image"), align: "center", width: "10%" },
-    { label: t("product"), align: "center", width: "25%" },
-    { label: t("price"), align: "center", width: "15%" },
-    { label: t("size"), align: "center", width: "10%" },
-    { label: t("quantity"), align: "center", width: "12%" },
-    { label: t("title_total"), align: "center", width: "15%" },
-  ];
+  const handleRemove = useCallback(
+    (id) => (e) => {
+      e.stopPropagation();
+      setIdRow(id);
+      setShow(!show);
+    },
+    [show]
+  );
+
+  const handleQuantity = useCallback(
+    (e, option, element) => {
+      e.stopPropagation();
+      if (option === -1) {
+        if (element.quantity - 1 >= 1) {
+          handleIconQuantity(-1, element);
+        } else {
+          setIdRow(`${element.product._id}_${element.size}`);
+          setShow(!show);
+        }
+      } else {
+        if (element.quantity + 1 <= element.product.size[element.size]) {
+          handleIconQuantity(1, element);
+        }
+      }
+    },
+    [handleIconQuantity, show]
+  );
+
+  const cols = useMemo(
+    () => [
+      { label: t("product"), align: "center", width: "25%" },
+      { label: t("price"), align: "center", width: "15%" },
+      { label: t("size"), align: "center", width: "10%" },
+      { label: t("quantity"), align: "center", width: "12%" },
+      { label: t("title_total"), align: "center", width: "15%" },
+    ],
+    [t]
+  );
 
   const rows = useMemo(() => {
     let productInCart = [];
@@ -84,7 +117,6 @@ function Cart() {
         id: `${element.product._id}_${element.size}_${element.quantity}_${
           element.product.price * (1 - element.product.discount / 100)
         }`,
-        product: element,
         columns: [
           {
             label: (
@@ -116,16 +148,23 @@ function Cart() {
           { label: element.size, align: "center", width: "10%" },
           {
             label: (
-              <Input
-                name={`quantity_${element.product._id}_${element.size}`}
-                type="number"
-                quantity={true}
-                readonly
-                onClick={(e) => e.stopPropagation()}
-                max={element.product.size[element.size]}
-                handleIconQuantity={handleIconQuantity}
-                data={element}
-              />
+              <div className="d-flex quantity">
+                <button className="minus" onClick={(e) => handleQuantity(e, -1, element)}>
+                  <Icons.Minus color={minusDisabled ? COLOR.GRAY : ""} />
+                </button>
+                <div onClick={(e) => e.stopPropagation()}>
+                  <input
+                    id={`quantity_${element.product._id}_${element.size}`}
+                    type="text"
+                    disabled
+                    value={element.quantity}
+                    className="w-100 text-center"
+                  />
+                </div>
+                <button className="plus" onClick={(e) => handleQuantity(e, 1, element)}>
+                  <Icons.Plus color={plusDisabled ? COLOR.GRAY : ""} />
+                </button>
+              </div>
             ),
             align: "center",
             width: "12%",
@@ -144,20 +183,7 @@ function Cart() {
     });
 
     return productInCart;
-  }, [cart, handleIconQuantity]);
-
-  const handelOnSubmit = (values) => {
-    console.log(values);
-  };
-
-  const handleRemove = useCallback(
-    (id) => (e) => {
-      e.stopPropagation();
-      setIdRow(id);
-      setShow(!show);
-    },
-    [show]
-  );
+  }, [cart, handleQuantity, minusDisabled, plusDisabled]);
 
   const handleClick = useCallback(
     (idRow) => () => {
@@ -188,18 +214,6 @@ function Cart() {
     dispatch(getAllCart());
   }, [showMessage, dispatch]);
 
-  const initialValues = useMemo(() => {
-    let initArray = [];
-    cart?.forEach((cartItem) => {
-      initArray.push([
-        `quantity_${cartItem.product._id}_${cartItem.size}`,
-        cartItem.quantity,
-      ]);
-    });
-    const init = Object.fromEntries(initArray);
-    return init;
-  }, [cart]);
-
   const chooseVoucher = useCallback(() => {
     setShowVoucher(!showVoucher);
   }, [showVoucher]);
@@ -225,7 +239,7 @@ function Cart() {
   }, []);
 
   const modalBodyVoucher = useMemo(() => {
-    const voucherFiter = voucher?.filter((voucherItem) => {
+    const voucherFilter = voucher?.filter((voucherItem) => {
       const dateFrom = new Date(voucherItem.use_date_from);
       const datoTo = new Date(voucherItem.use_date_to);
       const currentDate = new Date();
@@ -235,13 +249,13 @@ function Cart() {
         currentDate - dateFrom > 0
       );
     });
-    if (!voucherFiter || voucherFiter.length === 0) {
+    if (!voucherFilter || voucherFilter.length === 0) {
       return t("no_voucher");
     }
-    return voucherFiter.map((item, index) => {
+    return voucherFilter.map((item) => {
       return (
         <div
-          key={index}
+          key={item._id}
           style={{ padding: "10px 0", display: "flex", alignItems: "center" }}
         >
           <input
@@ -265,7 +279,6 @@ function Cart() {
   }, [voucher, t, feeTemporary, handleChangePromotion, isChecked]);
 
   const handlePurchase = useCallback(() => {
-    setPay(true);
     let purchase = [];
     checkBox.forEach((item) => {
       let findProduct = cart?.find((element) => {
@@ -275,60 +288,14 @@ function Cart() {
         purchase.push(findProduct);
       }
     });
-    setListPurchase(purchase);
-  }, [cart, checkBox]);
-
-  const handleChangeOptionPay = useCallback((value) => {
-    setMethodPay(value);
-  }, []);
-
-  const handleChangeOptionDelivery = useCallback((value) => {
-    setMethodDelivery(value);
-  }, []);
-
-  const handlePayment = useCallback(() => {
-    console.log(listPurchase);
-    const items = listPurchase.map((item) => {
-      return {
-        product_id: item.product._id,
-        size: item.size,
-        quantity: item.quantity,
-      };
+    navigate(PATH.ORDER, {
+      state: { listPurchase: purchase, fastBuy: false, isChecked: isChecked },
     });
-    const data = {
-      items: items,
-      total: feeTemporary + checkedVoucher + methodDelivery.price,
-      ship_id: methodDelivery._id,
-      payment_method: methodPay,
-      location: user.address,
-      receiver_name: user.name,
-      receiver_phone: user.phone,
-      is_fast_buy: state?.fastBuy || false,
-    };
-    dispatch(createOrder(data)).then((res) => {
-      // if (res.payload.status === 200) {
-      //   setShowSuccess(!showSuccess);
-      // } else {
-      //   setShowFail(!showFail);
-      // }
-    });
-  }, [
-    checkedVoucher,
-    dispatch,
-    feeTemporary,
-    listPurchase,
-    methodDelivery,
-    methodPay,
-    state?.fastBuy,
-    user.address,
-    user.name,
-    user.phone,
-  ]);
+  }, [cart, checkBox, isChecked, navigate]);
 
   useEffect(() => {
     dispatch(getAllCart());
     dispatch(getUser());
-    dispatch(getAllShip());
     dispatch(getAllVoucher());
   }, [dispatch]);
 
@@ -343,248 +310,118 @@ function Cart() {
     setFeeTemporary(total);
   }, [checkBox]);
 
-  useEffect(() => {
-    if (ship) {
-      setMethodDelivery(ship[0]);
-    }
-  }, [ship]);
-
   return useMemo(
     () => (
       <>
-        <Formik
-          initialValues={initialValues}
-          enableReinitialize
-          onSubmit={handelOnSubmit}
-          innerRef={formikRef}
-        >
-          <>
-            <div className="Cart row">
-              {cart && cart.length > 0 ? (
-                <>
-                  {!pay ? (
-                    <div className="product col-md-9">
-                      <div className="row">
-                        <TableCommon
-                          cols={cols}
-                          rows={rows}
-                          oneButton={true}
-                          labelHeader={t("remove")}
-                          handleRemove={handleRemove}
-                          handleClick={handleClick}
-                          checkAll
-                        />
-                      </div>
+        <div className="Cart row">
+          {cart && cart.length > 0 ? (
+            <>
+              <div className="product col-md-9">
+                <div className="row">
+                  <TableCommon
+                    cols={cols}
+                    rows={rows}
+                    oneButton={true}
+                    labelHeader={t("remove")}
+                    handleRemove={handleRemove}
+                    handleClick={handleClick}
+                    checkAll
+                  />
+                </div>
+              </div>
+
+              <div className="info-purchase col-md-3">
+                <div className="customer-info">
+                  <div className="header">{t("delivery_to")}</div>
+                  <div className="name-and-phone">
+                    <span className="name">{user?.name}</span>
+                    <i></i>
+                    <span className="phone">{user?.phone}</span>
+                  </div>
+                  <div className="address">{user?.address}</div>
+                </div>
+                <div className="discount">
+                  <div className="header">{t("voucher")}</div>
+                  <div className="choose-coupon" onClick={chooseVoucher}>
+                    <Icons.Ticked color="#0B74E5" />
+                    <span>{t("choose_voucher")}</span>
+                  </div>
+                </div>
+                <div className="fee">
+                  <div className="fee-category">
+                    <div className="fee-temporary">
+                      <span>{t("fee_temporary")}</span>
+                      <span>{currencyFormatting(feeTemporary)}</span>
                     </div>
-                  ) : (
-                    <>
-                      <div className="list-purchase col-md-6">
-                        {listPurchase.map((item, index) => {
-                          return (
-                            <div key={index}>
-                              <div className="purchase">
-                                <img
-                                  src={item.product.product_image[0]}
-                                  alt=""
-                                />
-                                <div className="info">
-                                  <span className="name">
-                                    {item.product.name}
-                                  </span>
-                                  <div className="d-flex justify-content-between">
-                                    <span className="quantity">
-                                      SL: {item.quantity}
-                                    </span>
-                                    <span className="total">
-                                      {currencyFormatting(
-                                        item.quantity *
-                                          (item.product.price *
-                                            (1 - item.product.discount / 100))
-                                      )}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <div className="choose-method col-md-3">
-                        <div className="method-pay">
-                          <span className="header">{t("payment_method")}</span>
-                          <div className="option">
-                            {PAYMENT_OPTION.map((item) => {
-                              return (
-                                <div
-                                  key={item.value}
-                                  className="d-flex align-items-center"
-                                  style={{ height: "64px" }}
-                                >
-                                  <input
-                                    type="radio"
-                                    name="payment"
-                                    id={`option-${item.value}`}
-                                    defaultChecked={item.value === 1}
-                                    onChange={() =>
-                                      handleChangeOptionPay(item.value)
-                                    }
-                                  />
-                                  <span className="radio-fake"></span>
-                                  <label
-                                    className="label"
-                                    htmlFor={`option-${item.value}`}
-                                  >
-                                    {item.label}
-                                  </label>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                        <div className="method-delivery">
-                          <span className="header">
-                            {t("medthod_delivery")}
-                          </span>
-                          <div className="option">
-                            {ship.map((item, index) => {
-                              return (
-                                <div
-                                  key={item._id}
-                                  className="d-flex align-items-center"
-                                  style={{ height: "64px" }}
-                                >
-                                  <input
-                                    type="radio"
-                                    name="delivery"
-                                    id={`option-${item._id}`}
-                                    defaultChecked={index === 0}
-                                    onChange={() =>
-                                      handleChangeOptionDelivery(item)
-                                    }
-                                  />
-                                  <span className="radio-fake"></span>
-                                  <label
-                                    className="label"
-                                    htmlFor={`option-${item._id}`}
-                                  >
-                                    {item.type}
-                                  </label>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  <div className="info-purchase col-md-3">
-                    <div className="customer-info">
-                      <div className="header">{t("delivery_to")}</div>
-                      <div className="name-and-phone">
-                        <span className="name">{user?.name}</span>
-                        <i></i>
-                        <span className="phone">{user?.phone}</span>
-                      </div>
-                      <div className="address">{user?.address}</div>
-                    </div>
-                    <div className="discount">
-                      <div className="header">{t("voucher")}</div>
-                      <div className="choose-coupon" onClick={chooseVoucher}>
-                        <Icons.Ticked color="#0B74E5" />
-                        <span>{t("choose_voucher")}</span>
-                      </div>
-                    </div>
-                    <div className="fee">
-                      <div className="fee-category">
-                        <div className="fee-temporary">
-                          <span>{t("fee_temporary")}</span>
-                          <span>{currencyFormatting(feeTemporary)}</span>
-                        </div>
-                        <div className="fee-discount">
-                          <span>{t("discount")}</span>
-                          <span>
-                            {checkedVoucher
-                              ? -currencyFormatting(checkedVoucher)
-                              : currencyFormatting()}
-                          </span>
-                        </div>
-                        {pay && (
-                          <div className="fee-delivery">
-                            <span>{t("ship_fee")}</span>
-                            <span>
-                              {currencyFormatting(methodDelivery?.price)}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="fee-total">
-                        <span>{t("total")}</span>
-                        {checkBox && checkBox.length > 0 ? (
-                          <span className="total">
-                            {currencyFormatting(feeTemporary - checkedVoucher + (methodDelivery?.price || 0))}
-                          </span>
-                        ) : (
-                          <span className="please-choose">
-                            {t("please_choose_product")}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="order">
-                      {!pay ? (
-                        <Button
-                          className="red w-100"
-                          onClick={handlePurchase}
-                          disabled={!checkBox || checkBox?.length === 0}
-                        >
-                          {t("purchase")}
-                        </Button>
-                      ) : (
-                        <Button className="red w-100" onClick={handlePayment}>
-                          {t("payment")}
-                        </Button>
-                      )}
+                    <div className="fee-discount">
+                      <span>{t("discount")}</span>
+                      <span>
+                        {checkedVoucher
+                          ? -currencyFormatting(checkedVoucher)
+                          : currencyFormatting()}
+                      </span>
                     </div>
                   </div>
-                </>
-              ) : (
-                <div className="no-product">
-                  <h2>{t("no_product_in_cart")}</h2>
+                  <div className="fee-total">
+                    <span>{t("total")}</span>
+                    {checkBox && checkBox.length > 0 ? (
+                      <span className="total">
+                        {currencyFormatting(feeTemporary - checkedVoucher)}
+                      </span>
+                    ) : (
+                      <span className="please-choose">
+                        {t("please_choose_product")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="order">
                   <Button
-                    className="primary"
-                    onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+                    className="red w-100"
+                    onClick={handlePurchase}
+                    disabled={!checkBox || checkBox?.length === 0}
                   >
-                    {t("shopping")}
+                    {t("purchase")}
                   </Button>
                 </div>
-              )}
+              </div>
+            </>
+          ) : (
+            <div className="no-product">
+              <h2>{t("no_product_in_cart")}</h2>
+              <Button
+                className="primary"
+                onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+              >
+                {t("shopping")}
+              </Button>
             </div>
-            <ModalCommon
-              show={show}
-              modalTitle={t("confirm_remove", { param: t("product") })}
-              modalBody={t("messge_confirm_remove")}
-              handleConfirm={handleClose}
-              handleCloseModal={() => setShow(!show)}
-              isButton
-            />
-            <ModalCommon
-              show={showMessage}
-              modalTitle={modalTitle}
-              modalBody={modalBody}
-              handleConfirm={handleCloseMessage}
-              handleCloseModal={() => setShowMessage(!showMessage)}
-              isButton
-            />
-            <ModalCommon
-              show={showVoucher}
-              modalTitle={t("voucher")}
-              modalBody={modalBodyVoucher}
-              handleConfirm={handleConfirmVoucher}
-              handleCloseModal={() => setShowVoucher(!showVoucher)}
-              isButton
-            />
-          </>
-        </Formik>
+          )}
+        </div>
+        <ModalCommon
+          show={show}
+          modalTitle={t("confirm_remove", { param: t("product") })}
+          modalBody={t("messge_confirm_remove")}
+          handleConfirm={handleClose}
+          handleCloseModal={() => setShow(!show)}
+          isButton
+        />
+        <ModalCommon
+          show={showMessage}
+          modalTitle={modalTitle}
+          modalBody={modalBody}
+          handleConfirm={handleCloseMessage}
+          handleCloseModal={() => setShowMessage(!showMessage)}
+          isButton
+        />
+        <ModalCommon
+          show={showVoucher}
+          modalTitle={t("voucher")}
+          modalBody={modalBodyVoucher}
+          handleConfirm={handleConfirmVoucher}
+          handleCloseModal={() => setShowVoucher(!showVoucher)}
+          isButton
+        />
       </>
     ),
     [
@@ -594,23 +431,17 @@ function Cart() {
       chooseVoucher,
       cols,
       feeTemporary,
-      handleChangeOptionPay,
       handleClick,
       handleClose,
       handleCloseMessage,
       handleConfirmVoucher,
-      handlePayment,
       handlePurchase,
       handleRemove,
-      initialValues,
-      listPurchase,
       modalBody,
       modalBodyVoucher,
       modalTitle,
       navigate,
-      pay,
       rows,
-      ship,
       show,
       showMessage,
       showVoucher,

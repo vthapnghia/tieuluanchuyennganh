@@ -17,6 +17,7 @@ import {
   updateVoucher,
 } from "./voucherSlice";
 import moment from "moment";
+import { empty } from "../../../../assets/img";
 
 function ManagementVoucher(params) {
   const dispatch = useDispatch();
@@ -35,17 +36,18 @@ function ManagementVoucher(params) {
     (state) => state.voucher.voucherById?.promotion
   );
   const ref = useRef();
+  const [tab, setTab] = useState(0);
 
-  const voucherBystatus = useCallback(
+  const voucherByStatus = useCallback(
     (status) => {
       if (status === 0) {
         return allVoucher;
       } else {
         if (status === 1) {
           const voucherFiter = allVoucher?.filter((voucherItem) => {
-            const dateFrom = new Date(voucherItem.use_date_from);
-            const datoTo = new Date(voucherItem.use_date_to);
-            const currentDate = new Date();
+            const dateFrom = new Date(voucherItem.use_date_from).getDate();
+            const datoTo = new Date(voucherItem.use_date_to).getDate();
+            const currentDate = new Date().getDate();
             return (
               voucherItem.amount > 0 &&
               datoTo - currentDate > 0 &&
@@ -55,11 +57,10 @@ function ManagementVoucher(params) {
           return voucherFiter;
         } else {
           const voucherFiter = allVoucher?.filter((voucherItem) => {
-            const dateFrom = new Date(voucherItem.use_date_from);
-            const datoTo = new Date(voucherItem.use_date_to);
-            const currentDate = new Date();
-            return (voucherItem.amount =
-              0 || datoTo - currentDate <= 0 || currentDate - dateFrom <= 0);
+            const dateFrom = new Date(voucherItem.use_date_from).getDate();
+            const datoTo = new Date(voucherItem.use_date_to).getDate();
+            const currentDate = new Date().getDate();
+            return (voucherItem.amount === 0 || datoTo - currentDate <= 0 || currentDate - dateFrom <= 0);
           });
           return voucherFiter;
         }
@@ -263,8 +264,12 @@ function ManagementVoucher(params) {
         code: voucherById?.code,
         min_order: voucherById?.min_order,
         discount_price: voucherById?.discount_price,
-        use_date_from: moment(new Date(voucherById?.use_date_from)).format("YYYY-MM-DD") ,
-        use_date_to: moment(new Date(voucherById?.use_date_to)).format("YYYY-MM-DD") ,
+        use_date_from: moment(new Date(voucherById?.use_date_from)).format(
+          "YYYY-MM-DD"
+        ),
+        use_date_to: moment(new Date(voucherById?.use_date_to)).format(
+          "YYYY-MM-DD"
+        ),
         amount: voucherById?.amount,
       };
     }
@@ -286,86 +291,167 @@ function ManagementVoucher(params) {
     id,
   ]);
 
+  const handleClickTab = useCallback(
+    (index) => {
+      const elementTabClick = document.getElementById(`tab-${index}`);
+      const elementTabCurrent = document.getElementById(`tab-${tab}`);
+      if (elementTabClick && elementTabCurrent) {
+        elementTabClick.classList.add("is-active");
+        elementTabCurrent.classList.remove("is-active");
+        setTab(index);
+      }
+    },
+    [tab]
+  );
+
   useEffect(() => {
     dispatch(getAllVoucher());
   }, [dispatch]);
 
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={Yup.object({
-        code: Yup.string().required(t("MS_01", { param: t("code") })),
-        min_order: Yup.string().required(t("MS_01", { param: t("code") })),
-        discount_price: Yup.string().required(t("MS_01", { param: t("code") })),
-        use_date_from: Yup.string().required(t("MS_01", { param: t("code") })),
-        use_date_to: Yup.string().required(t("MS_01", { param: t("code") })),
-        amount: Yup.string().required(t("MS_01", { param: t("code") })),
-      })}
-      enableReinitialize
-      innerRef={formikRef}
-      onSubmit={handleAddVoucher}
-    >
-      <div id="management-voucher">
-        <div className="btn-add-voucher">
-          <Button className="primary" onClick={handleBtnAddVoucher}>
-            {t("add_voucher")}
-          </Button>
+  return useMemo(
+    () => (
+      <Formik
+        initialValues={initialValues}
+        validationSchema={Yup.object({
+          code: Yup.string().required(t("MS_01", { param: t("code") })),
+          min_order: Yup.string().required(t("MS_01", { param: t("code") })),
+          discount_price: Yup.string().required(
+            t("MS_01", { param: t("code") })
+          ),
+          use_date_from: Yup.string().required(
+            t("MS_01", { param: t("code") })
+          ),
+          use_date_to: Yup.string().required(t("MS_01", { param: t("code") })),
+          amount: Yup.string().required(t("MS_01", { param: t("code") })),
+        })}
+        enableReinitialize
+        innerRef={formikRef}
+        onSubmit={handleAddVoucher}
+      >
+        <div id="management-voucher">
+          <div className="btn-add-voucher">
+            <Button className="primary" onClick={handleBtnAddVoucher}>
+              {t("add_voucher")}
+            </Button>
+          </div>
+          <div className="tab-header row">
+            <div
+              className="tab-header-item col-md-4 text-center is-active"
+              id="tab-0"
+              onClick={() => handleClickTab(0)}
+            >
+              {t("all")}
+            </div>
+            <div
+              className="tab-header-item col-md-4 text-center"
+              id="tab-1"
+              onClick={() => handleClickTab(1)}
+            >
+              {t("is_still")}
+            </div>
+            <div
+              className="tab-header-item col-md-4 text-center"
+              id="tab-2"
+              onClick={() => handleClickTab(2)}
+            >
+              {t("no_longer")}
+            </div>
+          </div>
+          {allVoucher && allVoucher.length > 0 && (
+            <div className="tab-content">
+              {voucherByStatus(0) && voucherByStatus(0).length > 0 ? (
+                <TabVoucher
+                  vouchers={voucherByStatus(0)}
+                  handleClick={handleClick}
+                  className={`${tab !== 0 ? "no-active" : ""} tab-item`}
+                />
+              ) : (
+                <div className={tab !== 0 ? "no-active" : "no-order"}>
+                  <img src={empty} alt="empty" />
+                  <span>{t("no_order")}</span>
+                </div>
+              )}
+              {voucherByStatus(1) && voucherByStatus(1).length > 0 ? (
+                <TabVoucher
+                  vouchers={voucherByStatus(0)}
+                  handleClick={handleClick}
+                  className={`${tab !== 1 ? "no-active" : ""} tab-item`}
+                />
+              ) : (
+                <div className={tab !== 1 ? "no-active" : "no-order"}>
+                  <img src={empty} alt="empty" />
+                  <span>{t("no_order")}</span>
+                </div>
+              )}
+              {voucherByStatus(2) && voucherByStatus(2).length > 0 ? (
+                <TabVoucher
+                  vouchers={voucherByStatus(0)}
+                  handleClick={handleClick}
+                  className={`${tab !== 2 ? "no-active" : ""} tab-item`}
+                />
+              ) : (
+                <div className={tab !== 2 ? "no-active" : "no-order"}>
+                  <img src={empty} alt="empty" />
+                  <span>{t("no_order")}</span>
+                </div>
+              )}
+            </div>
+          )}
+          <ModalCommon
+            className="modal-voucher"
+            show={show}
+            modalTitle={modalTitle}
+            modalBody={modalBody}
+            isButton
+            handleConfirm={handleConfirm}
+            handleCloseModal={handleCloseModal}
+          />
+          <ModalCommon
+            show={showMessage}
+            modalTitle={modalTitleMessage}
+            modalBody={modalBodyMessage}
+            isButton
+            handleConfirm={handleConfirmMessage}
+            handleCloseModal={handleCloseModalMessage}
+          />
+
+          <ModalCommon
+            className="modal-voucher"
+            show={showView}
+            modalTitle={t("voucher")}
+            modalBody={modalBodyView}
+            isButton
+            handleConfirm={handleConfirmView}
+            handleCloseModal={handleCloseModalView}
+            labelButton={t("update")}
+          />
         </div>
-
-        <Tabs
-          defaultActiveKey="voucher-all"
-          id="uncontrolled-tab-example"
-          className="mb-3"
-        >
-          <Tab eventKey="voucher-all" title={t("all")}>
-            <TabVoucher
-              vouchers={voucherBystatus(0)}
-              handleClick={handleClick}
-            />
-          </Tab>
-          <Tab eventKey="is_still" title={t("is_still")}>
-            <TabVoucher
-              vouchers={voucherBystatus(0)}
-              handleClick={handleClick}
-            />
-          </Tab>
-          <Tab eventKey="no_longer" title={t("no_longer")}>
-            <TabVoucher
-              vouchers={voucherBystatus(0)}
-              handleClick={handleClick}
-            />
-          </Tab>
-        </Tabs>
-        <ModalCommon
-          className="modal-voucher"
-          show={show}
-          modalTitle={modalTitle}
-          modalBody={modalBody}
-          isButton
-          handleConfirm={handleConfirm}
-          handleCloseModal={handleCloseModal}
-        />
-        <ModalCommon
-          show={showMessage}
-          modalTitle={modalTitleMessage}
-          modalBody={modalBodyMessage}
-          isButton
-          handleConfirm={handleConfirmMessage}
-          handleCloseModal={handleCloseModalMessage}
-        />
-
-        <ModalCommon
-          className="modal-voucher"
-          show={showView}
-          modalTitle={t("voucher")}
-          modalBody={modalBodyView}
-          isButton
-          handleConfirm={handleConfirmView}
-          handleCloseModal={handleCloseModalView}
-          labelButton={t("update")}
-        />
-      </div>
-    </Formik>
+      </Formik>
+    ),
+    [
+      allVoucher,
+      handleAddVoucher,
+      handleBtnAddVoucher,
+      handleClick,
+      handleClickTab,
+      handleCloseModal,
+      handleCloseModalMessage,
+      handleCloseModalView,
+      handleConfirm,
+      handleConfirmMessage,
+      handleConfirmView,
+      initialValues,
+      modalBody,
+      modalBodyMessage,
+      modalBodyView,
+      modalTitle,
+      modalTitleMessage,
+      show,
+      showMessage,
+      showView,
+      tab,
+      voucherByStatus,
+    ]
   );
 }
 

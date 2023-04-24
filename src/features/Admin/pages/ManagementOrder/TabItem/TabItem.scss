@@ -1,8 +1,14 @@
 .order-by-status-admin {
   .order-item {
     margin: 20px 0;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 10px;
+    background-color: #fff;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgb(246, 252, 255);
+      cursor: pointer;
+    }
+
     .header {
       padding: 10px 20px;
       border-bottom: 1px solid #ccc;
@@ -18,7 +24,7 @@
       .method-ship,
       .method-pay {
         padding: 5px 0;
-        span:first-child{
+        span:first-child {
           font-size: 16px;
           font-weight: 600;
         }

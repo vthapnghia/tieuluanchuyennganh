@@ -1,7 +1,10 @@
 @import "/src/assets/scss/variables.scss";
 
 #revenue {
-  min-height: 100vh;
+  height: 100vh;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 20px;
   .option {
     position: relative;
     display: flex;
@@ -13,6 +16,7 @@
       justify-content: center;
       cursor: pointer;
       font-weight: 500;
+      z-index: 2;
     }
 
     .bg-active {
@@ -20,10 +24,10 @@
       width: 150px;
       left: 0;
       transition: 1s;
-      background-color: $main-color;
+      background-color: $primary-color;
       height: 40px;
-      z-index: -1;
-      border-radius: 20px;
+      z-index: 1;
+      border-radius: 4px;
     }
   }
 

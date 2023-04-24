@@ -6,7 +6,7 @@ import ModalCommon from "../../../../../components/ModalCommon";
 import TableAdminCommon from "../../../../../components/TableAdminCommon";
 import { deleteVoucher, getAllVoucher } from "../voucherSlice";
 
-function TabVoucher({ vouchers, handleClick }) {
+function TabVoucher({ vouchers, handleClick, className }) {
   const [listVoucher, setListVoucher] = useState(vouchers);
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
@@ -99,9 +99,12 @@ function TabVoucher({ vouchers, handleClick }) {
     });
   }, [showMessage, id, dispatch, show]);
 
-  const voucherItemClick = useCallback((id) => (e) => {
-    handleClick(e,id);
-  }, [handleClick]);
+  const voucherItemClick = useCallback(
+    (id) => (e) => {
+      handleClick(e, id);
+    },
+    [handleClick]
+  );
 
   useEffect(() => {
     if (vouchers && vouchers.length > 0) {
@@ -110,8 +113,8 @@ function TabVoucher({ vouchers, handleClick }) {
   }, [vouchers]);
 
   return (
-    <div id="voucher-by-status">
-      {vouchers && vouchers.length > 0 ? (
+    <div id="voucher-by-status" className={className}>
+      {vouchers && vouchers.length > 0 && (
         <TableAdminCommon
           cols={cols}
           rows={rows}
@@ -120,8 +123,6 @@ function TabVoucher({ vouchers, handleClick }) {
           handleSort={handleSort}
           handleClick={voucherItemClick}
         />
-      ) : (
-        <></>
       )}
 
       <ModalCommon

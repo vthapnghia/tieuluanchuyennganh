@@ -2,7 +2,6 @@
 .admin {
   min-height: 100vh;
   overflow: hidden;
-  background: $main_color;
   display: flex;
   flex-direction: row;
   .content-page {
@@ -12,6 +11,7 @@
     margin-left: 280px;
     .child-component {
       padding: 20px;
+      margin-top: 80px;
     }
   }
   @media screen and(max-width:1000px) {

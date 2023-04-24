@@ -43,10 +43,6 @@ function ProductDetail() {
   const [chooseImage, setChooseImage] = useState("");
   const [listSimilar, setListSimilar] = useState(listProducts);
 
-  const handleSelect = useCallback((selectedIndex) => {
-    setIndex(selectedIndex);
-  }, []);
-
   const handleSize = useCallback((item) => {
     setMessage(null);
     setQuanlityOfSize(item[1]);
@@ -58,17 +54,15 @@ function ProductDetail() {
       const data = { ...values };
       data.product_id = id;
       data.size = Number(size);
+
       if (buyNow) {
-        const intoMoney =
-          products?.price * (1 - products?.discount / 100) * values.quantity;
-        const product = [
-          `${id}_${size}_${values.quantity}_${
-            products.price * (1 - products.discount / 100)
-          }`,
-        ];
-        console.log(product);
+        const purchase = {
+          product: products,
+          quantity: data.quantity,
+          size: data.size
+        }
         navigate(PATH.ORDER, {
-          state: { intoMoney: intoMoney, product: product, fastBuy: true },
+          state: {listPurchase: [purchase], fastBuy: true },
         });
       } else {
         await dispatch(addToCart(data)).then((res) => {
@@ -84,17 +78,7 @@ function ProductDetail() {
         });
       }
     },
-    [
-      size,
-      id,
-      dispatch,
-      show,
-      t,
-      buyNow,
-      products?.price,
-      products?.discount,
-      navigate,
-    ]
+    [id, size, buyNow, navigate, products, dispatch, t, show]
   );
 
   const checkAddToCart = useCallback(() => {
@@ -338,7 +322,6 @@ function ProductDetail() {
             )}
           </div>
           <div className="comment">
-            {/* <div className="container"> */}
             <div className="rate-product">{t("rate_product")}</div>
             {rate && rate.length > 0 ? (
               <div className="list-comment">
@@ -388,7 +371,7 @@ function ProductDetail() {
                           <span>{t("made-purchase")}</span>
                         </div>
                         <div className="text-comment">
-                          <span>{rateItem.comment}</span>
+                          <span>{rateItem?.comment}</span>
                         </div>
                         <div className="list-img-comment">
                           {rateItem.image.map((itemImg, index) => {
@@ -407,7 +390,6 @@ function ProductDetail() {
             ) : (
               <div className="no-comment">{t("no-comment")}</div>
             )}
-            {/* </div> */}
           </div>
           <ModalCommon
             show={show}

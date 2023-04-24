@@ -9,7 +9,7 @@ import { getAllShip } from "../../ManagementShip/ShipSlice";
 import "./TabItem.scss";
 import { currencyFormatting } from "../../../../../contanst/common";
 
-function TabItem({ orders }) {
+function TabItem({ orders, classTab }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ship = useSelector((state) => state.ship.allShip?.ships);
@@ -68,7 +68,7 @@ function TabItem({ orders }) {
   }, [dispatch]);
 
   return (
-    <div className="order-by-status-admin">
+    <div className={`${classTab} order-by-status-admin`}>
       {orders?.map((orderItem, index) => {
         return (
           <div

@@ -1,18 +1,49 @@
 @import "/src/assets/scss/variables.scss";
 
 .management-order {
-  min-height: 100vh;
-  padding: 50px 0;
-  .nav-tabs {
+  .tab-header {
+    background-color: #fff;
+    border-radius: 4px;
+    width: 100%;
+    margin: 0;
+
+    .tab-header-item {
+      padding: 10px 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .is-active {
+      color: rgb(13, 92, 182);
+      border-bottom: 2px solid rgb(13, 92, 182);
+    }
+  }
+
+  .tab-content {
     display: flex;
-    .nav-item {
-      flex-grow: 1;
-      button {
-        width: 100%;
-        font-size: 20px;
-        font-weight: 500;
-        color: $black;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+    border-radius: 4px;
+    .tab-item {
+      width: 100%;
+    }
+    .no-order {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: #fff;
+      border-radius: 4px;
+
+      img {
+        width: 300px;
+        height: 300px;
       }
+    }
+
+    .no-active {
+      display: none;
     }
   }
 }

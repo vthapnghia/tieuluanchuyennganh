@@ -1,101 +1,227 @@
 @import "/src/assets/scss//variables.scss";
 
-.pay {
-  .form-pay {
-    margin: 16px 0;
-    .form-header {
-      font-size: 24px;
-      font-weight: 600;
-    }
-    .form-body {
-      border-top: 1px solid rgba(175, 175, 175, 0.34);
-      border-bottom: 1px solid rgba(175, 175, 175, 0.34);
-      padding: 15px 0;
-      .temporary_fee,
-      .ship_fee {
+.Order {
+  padding: 20px 0;
+  .list-purchase {
+    .purchase {
+      display: flex;
+      background: #fff;
+      border-radius: 4px;
+      padding: 16px;
+      align-items: center;
+      margin-bottom: 10px;
+      img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 8px;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
         font-size: 14px;
-        color: #717171;
-        padding: 10px 0 5px 0;
+        line-height: 20px;
+        color: rgb(128, 128, 137);
+        .quantity {
+          margin-bottom: 4px;
+        }
+
+        .total {
+          color: rgb(56, 56, 61);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .choose-method {
+    .method-pay,
+    .method-delivery {
+      background: #fff;
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 10px;
+      .header {
+        color: rgb(56, 56, 61);
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 24px;
+        margin: 0px;
       }
 
-      .temporary_fee {
+      .option {
         display: flex;
+        flex-direction: column;
+        height: 64px;
+        text-align: center;
 
-        .voucher {
+        .radio-fake {
+          width: 18px;
+          height: 18px;
+          border: 1px solid rgb(196, 196, 207);
+          border-radius: 50%;
+          margin-right: 8px;
+          position: relative;
+          z-index: 1;
+          color: rgb(120, 120, 120);
+
+          &::before {
+            content: "";
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            background-color: rgb(11, 116, 229);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease 0s;
+          }
+        }
+
+        input[type="radio"]:checked + .radio-fake::before {
+          transform: scale(1);
+        }
+
+        input[type="radio"]:checked + .radio-fake {
+          border-color: rgb(11, 116, 229);
+        }
+
+        input[type="radio"] {
+          position: absolute;
+          height: 18px;
+          width: 18px;
+          opacity: 0;
+          z-index: 3;
+          cursor: pointer;
+        }
+
+        .label {
+          cursor: pointer;
+          font-size: 14px;
+          color: rgb(56, 56, 61);
+        }
+      }
+    }
+  }
+
+  .info-purchase {
+    .customer-info {
+      background: #fff;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      padding: 16px;
+      .header {
+        color: rgb(128, 128, 137);
+        font-weight: normal;
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .name-and-phone {
+        margin-bottom: 2px;
+        font-weight: 600;
+        align-items: center;
+        display: flex;
+        font-size: 14px;
+
+        span {
+          word-break: break-word;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .phone {
+          flex-shrink: 0;
+          width: 91px;
+        }
+
+        i {
+          display: block;
+          width: 1px;
+          height: 20px;
+          background-color: rgb(235, 235, 240);
+          margin: 0px 8px;
+        }
+      }
+
+      .address {
+        color: rgb(128, 128, 137);
+        font-weight: normal;
+        line-height: 24px;
+        font-size: 14px;
+      }
+    }
+
+    .discount {
+      background: #fff;
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 12px;
+      .header {
+        color: rgb(36, 36, 36);
+        margin: 0px;
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 20px;
+        margin-bottom: 16px;
+      }
+
+      .choose-coupon {
+        display: flex;
+        align-items: center;
+        color: rgb(11, 116, 229);
+        font-size: 13px;
+        line-height: 20px;
+        cursor: pointer;
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .fee {
+      background: #fff;
+      border-radius: 4px;
+      margin-bottom: 12px;
+
+      .fee-category {
+        padding: 17px 20px;
+        border-bottom: 1px solid rgb(244, 244, 244);
+
+        .fee-temporary,
+        .fee-discount,
+        .fee-delivery {
           display: flex;
-
-          .into-money-old {
-            position: relative;
-            margin-right: 10px;
-            &::before {
-              content: "";
-              width: 100%;
-              height: 1px;
-              background-color: #717171;
-              position: absolute;
-              top: 50%;
-            }
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          span:first-child {
+            font-weight: 300;
+            color: rgb(51, 51, 51);
           }
         }
       }
-    }
-    .voucher-option{
-      display: flex;
-      .icon-voucher {
-        margin-right: 10px;
-      }
-      span:last-child {
-        cursor: pointer;
-      }
-      span:last-child:hover {
-        color: #fb3a3a;
-      }
-    }
 
-    .form-footer {
-      float: right;
-      .label-total {
-        font-size: 20px;
-        font-weight: 600;
-        padding: 16px 0;
-      }
-      .btn-order {
-        float: right;
-        position: relative;
-        overflow-x: hidden;
-        width: 210px;
-        height: 300px;
-        padding: 5px;
-        &::-webkit-scrollbar {
-          width: 0 !important;
-          display: none;
+      .fee-total {
+        padding: 17px 20px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin: 0px;
+        span:first-child {
+          font-weight: 300;
+          color: rgb(51, 51, 51);
         }
-        .pay-online {
-          position: absolute;
-          transition: all 1s;
-        }
-        .pay-offline {
-          position: absolute;
-          transition: all 1s;
-          width: 100%;
-          box-shadow: none;
-        }
-      }
-      .offline {
-        .pay-online {
-          right: -210px;
-        }
-        .pay-offline {
-          left: 0px;
-        }
-      }
 
-      .online {
-        .pay-online {
-          right: 5px;
-        }
-        .pay-offline {
-          left: -210px;
+        .please-choose {
+          color: rgb(254, 56, 52);
+          font-size: 15px;
+          font-weight: 400;
+          text-align: right;
         }
       }
     }

@@ -40,22 +40,6 @@ function OrderDetail(params) {
   const formikRef = useRef();
   const navigate = useNavigate();
 
-  const getHeaderByStatus = useCallback((orderStatus) => {
-    let status = "";
-    switch (orderStatus) {
-      case 1:
-        status = t("in_order");
-        break;
-      case 2:
-        status = t("in_ship");
-        break;
-      default:
-        status = t("complete");
-        break;
-    }
-    return status;
-  }, []);
-
   const totalItemProduct = useCallback((quantity, price, discount) => {
     return quantity * (price * (1 - discount / 100));
   }, []);
@@ -229,17 +213,8 @@ function OrderDetail(params) {
   const handleRepurchase = useCallback(
     (e, order) => {
       e.stopPropagation();
-      const product = [
-        `${order.product._id}_${order.size}_${order.quantity}_${
-          order.product.price * (1 - order.product.discount / 100)
-        }`,
-      ];
-      const intoMoney =
-        order.product.price *
-        (1 - order.product.discount / 100) *
-        order.quantity;
       navigate(PATH.ORDER, {
-        state: { intoMoney: intoMoney, product: product, fastBuy: true },
+        state: { listPurchase: [order], fastBuy: true },
       });
     },
     [navigate]
@@ -251,7 +226,7 @@ function OrderDetail(params) {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (orderById) {
+    if (orderById && ship) {
       const findShip = ship.find(
         (item) => item._id === orderById.order.ship_id
       );
@@ -423,9 +398,7 @@ function OrderDetail(params) {
                 })}
               </span>
               <span className="price">
-                {t("ship_fee", {
-                  param: currencyFormatting(methodShip?.price),
-                })}
+                {`${t("ship_fee")}: ${currencyFormatting(methodShip?.price)}`}
               </span>
             </div>
           </div>
@@ -485,8 +458,10 @@ function OrderDetail(params) {
                     </div>
                     <div className="col col-md-2 discount text-center">
                       <span>
-                        {currencyFormatting(itemDetail.product.price *
-                          (itemDetail.product.discount / 100))}
+                        {currencyFormatting(
+                          itemDetail.product.price *
+                            (itemDetail.product.discount / 100)
+                        )}
                       </span>
                     </div>
                     <div className="col col-md-2 total-temporary text-center">
@@ -508,46 +483,55 @@ function OrderDetail(params) {
                       display: "inline-block",
                     }}
                   >
-                    {/* orderById?.order.status === 3 &&
-                      itemDetail.status === 1 && */}
-                    {true && (
-                      <>
-                        <div className="btn-rate">
-                          <Button
-                            className="outline"
-                            onClick={(e) =>
-                              handleClickProduct(
-                                e,
-                                itemDetail.product._id,
-                                itemDetail.id
-                              )
-                            }
-                          >
-                            {t("rate")}
-                          </Button>
-                          <Button
-                            className="outline"
-                            onClick={(e) => handleRepurchase(e, itemDetail)}
-                          >
-                            {t("repurchase")}
-                          </Button>
-                        </div>
-                      </>
-                    )}
+                    {orderById?.order.status === 3 &&
+                      itemDetail.status === 1 && (
+                        <>
+                          <div className="btn-rate">
+                            <Button
+                              className="outline"
+                              onClick={(e) =>
+                                handleClickProduct(
+                                  e,
+                                  itemDetail.product._id,
+                                  itemDetail.id
+                                )
+                              }
+                            >
+                              {t("rate")}
+                            </Button>
+                            <Button
+                              className="outline"
+                              onClick={(e) => handleRepurchase(e, itemDetail)}
+                            >
+                              {t("repurchase")}
+                            </Button>
+                          </div>
+                        </>
+                      )}
 
                     {orderById?.order.status === 3 &&
                       itemDetail.status === 2 && (
-                        <div
-                          className="col col-md-2 btn-rate"
-                          onClick={() =>
-                            handleViewRate(
-                              itemDetail.id,
-                              itemDetail.product._id
-                            )
-                          }
-                        >
-                          <span>{t("view_rate")}</span>
-                        </div>
+                        <>
+                          <div className="btn-rate">
+                            <Button
+                              className="outline"
+                              onClick={(e) =>
+                                handleViewRate(
+                                  itemDetail.id,
+                                  itemDetail.product._id
+                                )
+                              }
+                            >
+                              {t("view_rate")}
+                            </Button>
+                            <Button
+                              className="outline"
+                              onClick={(e) => handleRepurchase(e, itemDetail)}
+                            >
+                              {t("repurchase")}
+                            </Button>
+                          </div>
+                        </>
                       )}
                   </div>
                 </div>

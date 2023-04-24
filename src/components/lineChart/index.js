@@ -44,8 +44,8 @@ function LineChart({ labelsChart, dataChart }) {
         {
           label: "Doanh thu",
           data: dataChart,
-          borderColor: COLOR.PRIMARY,
-          backgroundColor: COLOR.PRIMARY,
+          borderColor: COLOR.RED,
+          backgroundColor: COLOR.RED,
         },
       ],
     };
