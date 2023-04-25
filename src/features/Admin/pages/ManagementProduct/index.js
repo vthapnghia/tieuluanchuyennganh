@@ -35,7 +35,7 @@ function ManagementProduct() {
   const pageNumber = useSelector((state) => state.product.pageNumber);
   const page = useSelector((state) => state.product.page);
   const [listProduct, setListProduct] = useState(product);
-  const [idProduct, setIdProduct] = useState();
+  const [idProduct, setIdProduct] = useState(null);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [modalTitleAdd, setModalTitleAdd] = useState("");
@@ -96,6 +96,7 @@ function ManagementProduct() {
 
   const handleCloseModalAdd = useCallback(
     (event) => {
+      setIdProduct(null);
       formikRef.current.resetForm();
       setShowModalAdd(!showModalAdd);
     },
@@ -127,7 +128,7 @@ function ManagementProduct() {
       setIdProduct(id);
       setShowModalAdd(!showModalAdd);
     },
-    [showModalAdd]
+    [dispatch, showModalAdd]
   );
 
   const handleOnkeyDown = useCallback(
@@ -213,12 +214,11 @@ function ManagementProduct() {
         color,
         ...rest
       } = values;
-      console.log(values);
       const formData = new FormData();
       const size = await JSON.stringify(rest);
       const files = Object.values(image);
-      files.forEach((elmennt) => {
-        formData.append("image", elmennt);
+      files.forEach((element) => {
+        formData.append("image", element);
       });
       formData.append("name", name);
       formData.append("brand", brand);
@@ -232,6 +232,13 @@ function ManagementProduct() {
       if (!idProduct) {
         await dispatch(addProduct(formData)).then((res) => {
           if (res.payload?.status === 201) {
+            setModalTitle(t("action_success", { param: t("add_product") }));
+            setModalBody(null);
+            setShowMessage(!showMessage);
+          } else {
+            setModalTitle(t("action_fail", { param: t("add_product") }));
+            setModalBody(t("try_again"));
+            setShowMessage(!showMessage);
           }
         });
       } else {
@@ -241,16 +248,18 @@ function ManagementProduct() {
           if (res.payload?.status === 200) {
             setModalTitle(t("action_success", { param: t("update_product") }));
             setModalBody(null);
-            setShowModal(!showModal);
+            setShowMessage(!showMessage);
           } else {
             setModalTitle(t("action_fail", { param: t("update_product") }));
             setModalBody(t("try_again"));
-            setShowModal(!showModal);
+            setShowMessage(!showMessage);
           }
         });
       }
+      setIdProduct(null);
+      formikRef.current.resetForm();
     },
-    [dispatch, idProduct, showModal, t]
+    [dispatch, idProduct, showMessage, t]
   );
 
   const validationSchema = useMemo(() => {
@@ -282,6 +291,11 @@ function ManagementProduct() {
     setModalTitleAdd(t("add_product"));
     setShowModalAdd(!showModalAdd);
   }, [showModalAdd, t]);
+
+  const handleConfirmModalAdd = useCallback(() => {
+    setShowModalAdd(!showModalAdd);
+    formikRef.current.submitForm();
+  }, [showModalAdd]);
 
   useEffect(() => {
     dispatch(getProduct({ page: page, pageSize: pageNumber }));
@@ -344,8 +358,12 @@ function ManagementProduct() {
             <ModalCommon
               show={showModalAdd}
               modalTitle={modalTitleAdd}
-              modalBody={<ProductDetailAdmin />}
-              handleConfirm={() => formikRef.current.submitForm()}
+              modalBody={
+                <ProductDetailAdmin
+                  productImages={idProduct ? productById?.product_image : null}
+                />
+              }
+              handleConfirm={handleConfirmModalAdd}
               handleCloseModal={handleCloseModalAdd}
               isButton
               size="lg"
@@ -378,6 +396,7 @@ function ManagementProduct() {
       handleCloseMessage,
       handleCloseModal,
       handleCloseModalAdd,
+      handleConfirmModalAdd,
       handleOnkeyDown,
       handlePageClick,
       handleRemove,
@@ -385,12 +404,14 @@ function ManagementProduct() {
       handleSearch,
       handleShowModalAdd,
       handleSort,
+      idProduct,
       initialValues,
       modalBody,
       modalTitle,
       modalTitleAdd,
       page,
       pageNumber,
+      productById?.product_image,
       rows,
       showMessage,
       showModal,

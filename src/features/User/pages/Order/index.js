@@ -21,7 +21,6 @@ function Order() {
   const voucher = useSelector((state) => state.voucher.allVoucher?.promotions);
   const ship = useSelector((state) => state.ship.allShip?.ships);
   const { state } = useLocation();
-  const checkBox = useSelector((state) => state.cart?.checkBox);
   const user = useSelector((state) => state.auth.user);
   const [feeTemporary, setFeeTemporary] = useState(0);
   const [showVoucher, setShowVoucher] = useState(false);
@@ -118,9 +117,9 @@ function Order() {
       total: feeTemporary + checkedVoucher + methodDelivery?.price,
       ship_id: methodDelivery?._id,
       payment_method: methodPay,
-      location: user.address,
-      receiver_name: user.name,
-      receiver_phone: user.phone,
+      location: user?.address,
+      receiver_name: user?.name,
+      receiver_phone: user?.phone,
       is_fast_buy: state?.fastBuy || false,
     };
     dispatch(createOrder(data)).then((res) => {
@@ -140,10 +139,10 @@ function Order() {
     showFail,
     showSuccess,
     state?.fastBuy,
-    state.listPurchase,
-    user.address,
-    user.name,
-    user.phone,
+    state?.listPurchase,
+    user?.address,
+    user?.name,
+    user?.phone,
   ]);
 
   const handleConfirmSuccess = useCallback(() => {
@@ -168,6 +167,13 @@ function Order() {
   }, [ship]);
 
   useEffect(() => {
+    let findVoucher = voucher.find((item) => item._id === isChecked);
+    if (findVoucher) {
+      setCheckedVoucher(findVoucher.discount_price);
+    }
+  }, [isChecked, voucher]);
+
+  useEffect(() => {
     let total = 0;
     state.listPurchase.forEach((element) => {
       const price = element.product.price;
@@ -175,7 +181,7 @@ function Order() {
       total = total + price * quantity;
     });
     setFeeTemporary(total);
-  }, [checkBox, state.listPurchase]);
+  }, [state.listPurchase]);
 
   return useMemo(
     () => (
@@ -284,11 +290,7 @@ function Order() {
                 </div>
                 <div className="fee-discount">
                   <span>{t("discount")}</span>
-                  <span>
-                    {checkedVoucher
-                      ? -currencyFormatting(checkedVoucher)
-                      : currencyFormatting()}
-                  </span>
+                  <span>{currencyFormatting(-checkedVoucher)}</span>
                 </div>
                 <div className="fee-delivery">
                   <span>{t("ship_fee")}</span>
@@ -297,15 +299,12 @@ function Order() {
               </div>
               <div className="fee-total">
                 <span>{t("total")}</span>
-                {checkBox && checkBox.length > 0 && (
-                  <span className="total">
-                    {currencyFormatting(
-                      feeTemporary -
-                        checkedVoucher +
-                        (methodDelivery?.price || 0)
-                    )}
-                  </span>
-                )}
+
+                <span className="total">
+                  {currencyFormatting(
+                    feeTemporary - checkedVoucher + (methodDelivery?.price || 0)
+                  )}
+                </span>
               </div>
             </div>
             <div className="order">
@@ -342,7 +341,6 @@ function Order() {
       </>
     ),
     [
-      checkBox,
       checkedVoucher,
       chooseVoucher,
       feeTemporary,

@@ -44,25 +44,22 @@ function ManagementVoucher(params) {
         return allVoucher;
       } else {
         if (status === 1) {
-          const voucherFiter = allVoucher?.filter((voucherItem) => {
-            const dateFrom = new Date(voucherItem.use_date_from).getDate();
-            const datoTo = new Date(voucherItem.use_date_to).getDate();
-            const currentDate = new Date().getDate();
+          const voucherFilter = allVoucher?.filter((voucherItem) => {
+            const datoTo = new Date(voucherItem.use_date_to).getTime();
+            const currentDate = new Date().getTime();
             return (
               voucherItem.amount > 0 &&
-              datoTo - currentDate > 0 &&
-              currentDate - dateFrom > 0
+              datoTo - currentDate >= 0
             );
           });
-          return voucherFiter;
+          return voucherFilter;
         } else {
-          const voucherFiter = allVoucher?.filter((voucherItem) => {
-            const dateFrom = new Date(voucherItem.use_date_from).getDate();
-            const datoTo = new Date(voucherItem.use_date_to).getDate();
-            const currentDate = new Date().getDate();
-            return (voucherItem.amount === 0 || datoTo - currentDate <= 0 || currentDate - dateFrom <= 0);
+          const voucherFilter = allVoucher?.filter((voucherItem) => {
+            const datoTo = new Date(voucherItem.use_date_to).getTime();
+            const currentDate = new Date().getTime();
+            return (voucherItem.amount === 0 || datoTo - currentDate < 0);
           });
-          return voucherFiter;
+          return voucherFilter;
         }
       }
     },
@@ -373,7 +370,7 @@ function ManagementVoucher(params) {
               )}
               {voucherByStatus(1) && voucherByStatus(1).length > 0 ? (
                 <TabVoucher
-                  vouchers={voucherByStatus(0)}
+                  vouchers={voucherByStatus(1)}
                   handleClick={handleClick}
                   className={`${tab !== 1 ? "no-active" : ""} tab-item`}
                 />
@@ -385,7 +382,7 @@ function ManagementVoucher(params) {
               )}
               {voucherByStatus(2) && voucherByStatus(2).length > 0 ? (
                 <TabVoucher
-                  vouchers={voucherByStatus(0)}
+                  vouchers={voucherByStatus(2)}
                   handleClick={handleClick}
                   className={`${tab !== 2 ? "no-active" : ""} tab-item`}
                 />

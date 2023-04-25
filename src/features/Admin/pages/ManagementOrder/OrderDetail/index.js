@@ -116,7 +116,6 @@ function OrderDetail(params) {
       );
       if (findShip) {
         setMethodShip(findShip);
-        console.log(findShip);
       }
     }
   }, [orderById, orderById?.order.ship_id, ship]);

@@ -356,9 +356,7 @@ function Cart() {
                     <div className="fee-discount">
                       <span>{t("discount")}</span>
                       <span>
-                        {checkedVoucher
-                          ? -currencyFormatting(checkedVoucher)
-                          : currencyFormatting()}
+                        {currencyFormatting(-checkedVoucher)}
                       </span>
                     </div>
                   </div>

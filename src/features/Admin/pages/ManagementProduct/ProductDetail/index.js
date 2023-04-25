@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../../../components/Input";
 import {
@@ -8,11 +8,13 @@ import {
   OPTION_SIZE,
   OPTION_TYPE,
 } from "../../../../../contanst/global";
+import { getAllBrand } from "../../ManagementBrand/BrandSlice";
 import "./ProductDetail.scss";
 
 function ProductDetailAdmin(props) {
   const { productImages } = props;
   const brand = useSelector((state) => state.brand.allBrand?.brands);
+  const dispatch = useDispatch();
 
   const brandOption = useMemo(() => {
     return brand?.map((brandItem) => {
@@ -20,6 +22,9 @@ function ProductDetailAdmin(props) {
     });
   }, [brand]);
 
+  useEffect(() => {
+    dispatch(getAllBrand());
+  }, [dispatch]);
   return (
     <div className="product-detail-admin">
       <div className="row d-flex justify-content-center">

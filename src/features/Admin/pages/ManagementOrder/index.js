@@ -44,9 +44,6 @@ function ManagementOrder() {
     dispatch(getAllOrderAdmin());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log(tab);
-  }, [tab])
   return useMemo(
     () => (
       <div className="management-order">
