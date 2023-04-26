@@ -10,7 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { useMemo } from "react";
-import { COLOR } from "../../contanst/global";
+import { COLOR } from "../../constants/global";
 
 ChartJS.register(
   CategoryScale,

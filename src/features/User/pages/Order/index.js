@@ -4,15 +4,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import ModalCommon from "../../../../components/ModalCommon";
-import { currencyFormatting } from "../../../../contanst/common";
+import { currencyFormatting } from "../../../../constants/common";
 import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
-import { PAYMENT_OPTION } from "../../../../contanst/global";
+import { PAYMENT_OPTION } from "../../../../constants/global";
 import { getAllShip } from "../../../Admin/pages/ManagementShip/ShipSlice";
 import { createOrder } from "../Order/OrderSlice";
 import "./Order.scss";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import PayPal from "./PayPal";
 
 function Order() {
   const { t } = useTranslation();
@@ -30,6 +32,7 @@ function Order() {
   const [methodDelivery, setMethodDelivery] = useState();
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
+  const [req, setReq] = useState({});
 
   const chooseVoucher = useCallback(() => {
     setShowVoucher(!showVoucher);
@@ -95,16 +98,48 @@ function Order() {
     });
   }, [voucher, t, feeTemporary, handleChangePromotion, isChecked]);
 
-  const handleChangeOptionPay = useCallback((value) => {
-    setMethodPay(value);
-  }, []);
+  const handleChangeOptionPay = useCallback(
+    (value) => {
+      const element = document.getElementById("btn-order");
+      setMethodPay(value);
+      if (value === 1) {
+        const online = document.getElementsByClassName("online");
+        online && element.classList.remove("online");
+        element.classList.add("offline");
+      } else {
+        const offline = document.getElementsByClassName("offline");
+        offline && element.classList.toggle("offline");
+        element.classList.toggle("online");
+
+        const items = state.listPurchase.map((productItem) => {
+          console.log(productItem);
+          return {
+            product_id: productItem.product_id,
+            size: productItem.size,
+            quantity: productItem.quantity,
+          };
+        });
+
+        // setReq({
+        //   items: items,
+        //   total: feeShip + intoMoney,
+        //   ship_id: values?.type_ship,
+        //   payment_method: Number(values?.payment_method),
+        //   location: values?.address,
+        //   receiver_name: values?.name,
+        //   receiver_phone: values?.phone,
+        //   is_fast_buy: state?.fastBuy || false,
+        // });
+      }
+    },
+    [state.listPurchase]
+  );
 
   const handleChangeOptionDelivery = useCallback((value) => {
     setMethodDelivery(value);
   }, []);
 
   const handlePayment = useCallback(() => {
-    console.log(state.listPurchase);
     const products = state.listPurchase.map((item) => {
       return {
         product_id: item.product._id,
@@ -167,9 +202,11 @@ function Order() {
   }, [ship]);
 
   useEffect(() => {
-    let findVoucher = voucher.find((item) => item._id === isChecked);
-    if (findVoucher) {
-      setCheckedVoucher(findVoucher.discount_price);
+    if (voucher && voucher.length > 0) {
+      let findVoucher = voucher.find((item) => item._id === isChecked);
+      if (findVoucher) {
+        setCheckedVoucher(findVoucher.discount_price);
+      }
     }
   }, [isChecked, voucher]);
 
@@ -307,8 +344,28 @@ function Order() {
                 </span>
               </div>
             </div>
-            <div className="order">
-              <Button className="red w-100" onClick={handlePayment}>
+            <div className="payment offline" id="btn-order">
+              <div className="pay-online">
+                <PayPalScriptProvider
+                  options={{
+                    "client-id": "test",
+                    components: "buttons",
+                    currency: "USD",
+                  }}
+                >
+                  <PayPal
+                    currency="USD"
+                    showSpinner={false}
+                    amount={(
+                      feeTemporary -
+                      checkedVoucher +
+                      (methodDelivery?.price || 0) / 23000
+                    ).toFixed(2)}
+                    req={req}
+                  />
+                </PayPalScriptProvider>
+              </div>
+              <Button className="red w-100 pay-offline" onClick={handlePayment}>
                 {t("order")}
               </Button>
             </div>
@@ -352,6 +409,7 @@ function Order() {
       handlePayment,
       methodDelivery?.price,
       modalBodyVoucher,
+      req,
       ship,
       showFail,
       showSuccess,

@@ -17,9 +17,9 @@ import {
 } from "../../Products/ProductDetail/RateSlice";
 import { getAllShip } from "../../../../Admin/pages/ManagementShip/ShipSlice";
 import moment from "moment";
-import PATH from "../../../../../contanst/path";
+import PATH from "../../../../../constants/path";
 import Button from "../../../../../components/Button";
-import { currencyFormatting } from "../../../../../contanst/common";
+import { currencyFormatting } from "../../../../../constants/common";
 
 function OrderDetail(params) {
   const { id } = useParams();

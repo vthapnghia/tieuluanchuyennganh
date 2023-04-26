@@ -2,9 +2,9 @@ import { t } from "i18next";
 import moment from "moment/moment";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../../../../contanst/path";
+import PATH from "../../../../../constants/path";
 import "./TabItem.scss";
-import { currencyFormatting } from "../../../../../contanst/common";
+import { currencyFormatting } from "../../../../../constants/common";
 
 function TabItem({ orders, id, classTab }) {
   const navigate = useNavigate();

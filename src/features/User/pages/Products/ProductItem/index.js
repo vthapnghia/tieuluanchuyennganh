@@ -1,8 +1,8 @@
 import { t } from "i18next";
 import { Link } from "react-router-dom";
-import PATH from "../../../../../contanst/path";
+import PATH from "../../../../../constants/path";
 import "./ProductItem.scss";
-import { currencyFormatting } from "../../../../../contanst/common";
+import { currencyFormatting } from "../../../../../constants/common";
 
 function ProductItem({ product }) {
   return (

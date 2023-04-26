@@ -8,7 +8,7 @@ import { shoe } from "../../../../assets/img";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import ModalCommon from "../../../../components/ModalCommon";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import { verifyRegister } from "../../authSlice";
 import "./VerifyRegister.scss";
 

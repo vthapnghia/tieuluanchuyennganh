@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { shoe_bg } from "../../../../../assets/img";
-import PATH from "../../../../../contanst/path";
+import PATH from "../../../../../constants/path";
 import "./NewsItem.scss";
 
 function NewsItem({ newsItem }) {

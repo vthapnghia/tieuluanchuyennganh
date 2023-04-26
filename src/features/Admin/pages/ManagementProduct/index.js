@@ -5,7 +5,7 @@ import "./ManagementProduct.scss";
 import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
@@ -21,7 +21,7 @@ import TableAdminCommon from "../../../../components/TableAdminCommon";
 import Pagination from "../../../../components/Pagination";
 import ProductDetailAdmin from "./ProductDetail";
 import { Formik } from "formik";
-import { OPTION_SIZE } from "../../../../contanst/global";
+import { OPTION_SIZE } from "../../../../constants/global";
 import * as Yup from "yup";
 
 function ManagementProduct() {

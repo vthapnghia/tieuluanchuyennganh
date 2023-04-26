@@ -8,9 +8,11 @@ import { shoe_bg } from "../../../../assets/img";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import ModalCommon from "../../../../components/ModalCommon";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import { adminLogin } from "../../authSlice";
 import "./AdminLogin.scss";
+import Icons from "../../../../components/Icons";
+import { COLOR } from "../../../../constants/global";
 
 function AdminLogin(params) {
   const formikRef = useRef();
@@ -59,13 +61,19 @@ function AdminLogin(params) {
             <span>{t("login")}</span>
           </div>
           <div className="input">
-            <Input name="email" placeholder={t("email")} type="text" />
+            <Input
+              name="email"
+              placeholder={t("email")}
+              type="text"
+              leftIcon={<Icons.Email color={COLOR.GRAY_2} />}
+            />
           </div>
           <div className="input">
             <Input
               name="password"
               placeholder={t("password")}
               type="password"
+              leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
             />
           </div>
           <Link to={PATH.RESET_PASSWORD.BASE} className="forgot-password">

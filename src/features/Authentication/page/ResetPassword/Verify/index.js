@@ -8,9 +8,11 @@ import { shoe } from "../../../../../assets/img";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
 import ModalCommon from "../../../../../components/ModalCommon";
-import PATH from "../../../../../contanst/path";
+import PATH from "../../../../../constants/path";
 import { resetPasswordVerify } from "../../../authSlice";
 import "./Verify.scss";
+import Icons from "../../../../../components/Icons";
+import { COLOR } from "../../../../../constants/global";
 
 function Verify(params) {
   const formikRef = useRef();
@@ -99,19 +101,35 @@ function Verify(params) {
           </Link>
           <h2>{t("reset_password")}</h2>
           <div className="input">
-            <Input name="email" placeholder={t("email")} type="text" />
+            <Input
+              name="email"
+              placeholder={t("email")}
+              type="text"
+              leftIcon={<Icons.Email color={COLOR.GRAY_2} />}
+            />
           </div>
           <div className="input">
-            <Input name="secret" placeholder={t("code_verify")} type="text" />
+            <Input
+              name="secret"
+              placeholder={t("code_verify")}
+              type="text"
+              leftIcon={<Icons.Certificate color={COLOR.GRAY_2} />}
+            />
           </div>
           <div className="input">
-            <Input name="password" placeholder={t("password")} type="text" />
+            <Input
+              name="password"
+              placeholder={t("password")}
+              type="password"
+              leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
+            />
           </div>
           <div className="input">
             <Input
               name="passwordRepeat"
               placeholder={t("confirm_password")}
               type="password"
+              leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
             />
           </div>
           <div className="btn-confirm">

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
-} from "../../../../contanst/global";
+} from "../../../../constants/global";
 import { shoe } from "../../../../assets/img";
 import { useAuth } from "../../../../until/hooks";
 

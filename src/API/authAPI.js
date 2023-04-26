@@ -1,4 +1,4 @@
-import API_URL from "../contanst/api";
+import API_URL from "../constants/api";
 import { doRequest } from "../until/common";
 
 const authAPI = {

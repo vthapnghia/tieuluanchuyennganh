@@ -1,5 +1,5 @@
 import axiosClient from "../axiosClient";
-import { KEY_STORAGE } from "../contanst/global";
+import { KEY_STORAGE } from "../constants/global";
 import { hideLoading, showLoading } from "../loading";
 
 const isAuthenticated = () => {
@@ -61,9 +61,9 @@ const doRequest = async (
 
 const getDayOfMonth = (month, year) => {
   const dayOfMonth = new Date(year, month, 0).getDate();
-  let arrDayOfMonth = []
+  let arrDayOfMonth = [];
   for (let index = 1; index <= dayOfMonth; index++) {
-    arrDayOfMonth.push(index)
+    arrDayOfMonth.push(index);
   }
   return arrDayOfMonth;
 };
@@ -75,3 +75,4 @@ export {
   doRequest,
   getDayOfMonth,
 };
+

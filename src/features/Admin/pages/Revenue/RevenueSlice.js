@@ -45,6 +45,5 @@ const revenueSlice = createSlice({
   },
 });
 
-const { reducer } = revenueSlice;
 export { getRevenueByMonth, getRevenueByYear };
-export default reducer;
+export default revenueSlice.reducer;

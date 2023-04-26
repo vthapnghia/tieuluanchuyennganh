@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { KEY_STORAGE } from "../contanst/global";
+import { KEY_STORAGE } from "../constants/global";
 import { getJsonObject } from "./common";
 
 const useAuth = () => {

@@ -9,12 +9,12 @@ import { useRef } from "react";
 import Icons from "../../../../../components/Icons";
 import { addToCart, getAllCart } from "../../Cart/cartSlice";
 import { useAuth } from "../../../../../until/hooks";
-import PATH from "../../../../../contanst/path";
-import { COLOR, OPTION_GENDER } from "../../../../../contanst/global";
+import PATH from "../../../../../constants/path";
+import { COLOR, OPTION_GENDER } from "../../../../../constants/global";
 import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
 import { avatar_default } from "../../../../../assets/img";
-import { currencyFormatting } from "../../../../../contanst/common";
+import { currencyFormatting } from "../../../../../constants/common";
 
 function ProductDetail() {
   const { userAuth } = useAuth();

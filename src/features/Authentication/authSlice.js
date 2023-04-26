@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authAPI from "../../API/authAPI";
-import { KEY_STORAGE } from "../../contanst/global";
+import { KEY_STORAGE } from "../../constants/global";
 import { storeJsonObject } from "../../until/common";
 
 const login = createAsyncThunk("LOGIN", async (param, { rejectWithValue }) => {

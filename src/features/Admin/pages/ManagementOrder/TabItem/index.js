@@ -3,11 +3,11 @@ import moment from "moment/moment";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PAYMENT_OPTION } from "../../../../../contanst/global";
-import PATH from "../../../../../contanst/path";
+import { PAYMENT_OPTION } from "../../../../../constants/global";
+import PATH from "../../../../../constants/path";
 import { getAllShip } from "../../ManagementShip/ShipSlice";
 import "./TabItem.scss";
-import { currencyFormatting } from "../../../../../contanst/common";
+import { currencyFormatting } from "../../../../../constants/common";
 
 function TabItem({ orders, classTab }) {
   const navigate = useNavigate();

@@ -9,7 +9,7 @@ import {
   CURRENT_DATE,
   OPTIONS_MONTH,
   OPTIONS_YEAR,
-} from "../../../../../contanst/global";
+} from "../../../../../constants/global";
 import { getRevenueByYear } from "../RevenueSlice";
 import "./RevenueByYear.scss";
 

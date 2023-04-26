@@ -16,9 +16,27 @@
     font-size: 1rem;
     font-family: $font-family;
     // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 10px !important;
+    border-radius: 4px !important;
     border: 1px solid $main_color;
     outline: none;
+  }
+
+  .ic-edit {
+    position: absolute;
+    right: -4px;
+    bottom: -10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .input-err-password {
+    padding: 1rem 4rem 1rem 3rem;
   }
 
   .textarea-common {
@@ -66,6 +84,11 @@
   .right-icon {
     top: 50%;
     right: 1rem;
+    transition: all 0.5s ease;
+  }
+
+  .ic-error {
+    right: 3em;
   }
 
   .left-icon,

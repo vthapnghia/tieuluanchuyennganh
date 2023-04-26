@@ -5,7 +5,7 @@ import { createOrder } from "../OrderSlice";
 import ModalCommon from "../../../../../components/ModalCommon";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../../../../contanst/path";
+import PATH from "../../../../../constants/path";
 
 const style = { layout: "vertical" };
 

@@ -2,17 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import ProductItem from "./ProductItem";
-import "./Products.scss";
-import {
-  getProduct,
-  searchProduct,
-  setFilter,
-  setPage,
-  setSort,
-} from "./ProductSlice";
-import Icons from "../../../../components/Icons";
 import Select from "react-select";
+import Icons from "../../../../components/Icons";
+import Pagination from "../../../../components/Pagination";
 import {
   COLOR,
   OPTIONS_COLOR,
@@ -20,9 +12,17 @@ import {
   OPTION_SIZE,
   OPTION_TYPE,
   SORT_OPTION,
-} from "../../../../contanst/global";
+} from "../../../../constants/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
-import Pagination from "../../../../components/Pagination";
+import ProductItem from "./ProductItem";
+import {
+  getProduct,
+  searchProduct,
+  setFilter,
+  setPage,
+  setSort,
+} from "./ProductSlice";
+import "./Products.scss";
 
 function Products() {
   const products = useSelector((state) => state.product.products?.product);

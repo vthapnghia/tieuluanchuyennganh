@@ -7,7 +7,7 @@ import {
   OPTION_GENDER,
   OPTION_SIZE,
   OPTION_TYPE,
-} from "../../../../../contanst/global";
+} from "../../../../../constants/global";
 import { getAllBrand } from "../../ManagementBrand/BrandSlice";
 import "./ProductDetail.scss";
 

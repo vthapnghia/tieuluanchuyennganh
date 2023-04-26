@@ -6,7 +6,7 @@ import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import "./Profile.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { OPTION_GENDER } from "../../../../contanst/global";
+import { OPTION_GENDER } from "../../../../constants/global";
 import {
   firstLogin,
   getUser,
@@ -112,20 +112,19 @@ function Profile() {
       onSubmit={handleUpdate}
     >
       <>
-        <div className="profile pt-5 pb-5 row">
-          <div className="col-md-5">
+        <div className="profile row">
+          <div className="bg-left col-md-4">
             <div className="avatar">
               <Input
                 name="avatar"
                 type="file"
-                textLabel="Tải ảnh lên"
                 accept="image/*"
                 marginNone
+                icon={true}
               />
             </div>
           </div>
-
-          <div className="col-md-7 d-flex flex-column align-items-center">
+          <div className="bg-right col-md-8">
             <div className="form-info" style={{ width: "500px" }}>
               <Input name="name" placeholder={t("full_name")} type="text" />
               <div className="d-flex justify-content-between">

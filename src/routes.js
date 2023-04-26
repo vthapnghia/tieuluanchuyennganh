@@ -1,4 +1,4 @@
-import PATH from "./contanst/path";
+import PATH from "./constants/path";
 import { lazy } from "react";
 
 const ManagementProduct = lazy(() => import("./features/Admin/pages/ManagementProduct"));

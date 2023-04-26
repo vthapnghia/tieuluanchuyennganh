@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./Cart.scss";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import Button from "../../../../components/Button";
 import TableCommon from "../../../../components/TableCommon";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,11 +13,11 @@ import {
   updateCart,
 } from "./cartSlice";
 import ModalCommon from "../../../../components/ModalCommon";
-import { currencyFormatting } from "../../../../contanst/common";
+import { currencyFormatting } from "../../../../constants/common";
 import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
-import { COLOR } from "../../../../contanst/global";
+import { COLOR } from "../../../../constants/global";
 
 function Cart() {
   const { t } = useTranslation();
@@ -149,7 +149,10 @@ function Cart() {
           {
             label: (
               <div className="d-flex quantity">
-                <button className="minus" onClick={(e) => handleQuantity(e, -1, element)}>
+                <button
+                  className="minus"
+                  onClick={(e) => handleQuantity(e, -1, element)}
+                >
                   <Icons.Minus color={minusDisabled ? COLOR.GRAY : ""} />
                 </button>
                 <div onClick={(e) => e.stopPropagation()}>
@@ -161,7 +164,10 @@ function Cart() {
                     className="w-100 text-center"
                   />
                 </div>
-                <button className="plus" onClick={(e) => handleQuantity(e, 1, element)}>
+                <button
+                  className="plus"
+                  onClick={(e) => handleQuantity(e, 1, element)}
+                >
                   <Icons.Plus color={plusDisabled ? COLOR.GRAY : ""} />
                 </button>
               </div>
@@ -197,6 +203,7 @@ function Cart() {
     setShow(!show);
     const id_product = idRow.split("_")[0];
     const size = idRow.split("_")[1];
+    setIdRow(id_product);
     await dispatch(removeToCart({ id: id_product, size: size })).then((res) => {
       if (res.payload.status === 200) {
         setModalTitle(t("action_success", { param: t("delete_product") }));
@@ -211,8 +218,9 @@ function Cart() {
 
   const handleCloseMessage = useCallback(() => {
     setShowMessage(!showMessage);
-    dispatch(getAllCart());
-  }, [showMessage, dispatch]);
+    let cartTemp = cart.filter((item) => item.product._id !== idRow);
+    dispatch(updateCart(cartTemp));
+  }, [showMessage, cart, dispatch, idRow]);
 
   const chooseVoucher = useCallback(() => {
     setShowVoucher(!showVoucher);
@@ -355,9 +363,7 @@ function Cart() {
                     </div>
                     <div className="fee-discount">
                       <span>{t("discount")}</span>
-                      <span>
-                        {currencyFormatting(-checkedVoucher)}
-                      </span>
+                      <span>{currencyFormatting(-checkedVoucher)}</span>
                     </div>
                   </div>
                   <div className="fee-total">

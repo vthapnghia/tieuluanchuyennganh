@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useAuth } from "../../until/hooks";
 import Button from "../Button";
 import "./NotFound.scss";
-import PATH from "../../contanst/path";
+import PATH from "../../constants/path";
 
 function NotFound() {
   const { t } = useTranslation();

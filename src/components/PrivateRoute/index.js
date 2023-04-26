@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import PATH from "../../contanst/path";
+import PATH from "../../constants/path";
 import { useAuth } from "../../until/hooks";
 
 function PrivateRoute({ children, isPrivate, ...rest }) {

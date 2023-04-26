@@ -1,19 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import PATH from "../../contanst/path";
+import PATH from "../../constants/path";
 import Icons from "../Icons";
 import "./Navbars.scss";
 import { DropdownButton } from "react-bootstrap";
 import { useMemo, useCallback, useEffect } from "react";
 import { useAuth } from "../../until/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/Authentication/authSlice";
 import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
 import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
-} from "../../contanst/global";
+} from "../../constants/global";
 import { avatar_default, shoe, shoe_bg } from "../../assets/img";
+import { logout } from "../../features/Authentication/authSlice";
 
 function Navbars() {
   const { t } = useTranslation();

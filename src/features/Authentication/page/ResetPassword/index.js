@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import ModalCommon from "../../../../components/ModalCommon";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import { getCodeResetPass } from "../../authSlice";
 import "./ResetPassword.scss";
 import { shoe_bg } from "../../../../assets/img";

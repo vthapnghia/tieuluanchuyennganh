@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import Profile from "../Profile";
 import UserOrders from "../UserOrders";
 import "./Account.scss";

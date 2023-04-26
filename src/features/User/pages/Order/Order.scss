@@ -2,6 +2,7 @@
 
 .Order {
   padding: 20px 0;
+  min-height: 50vh;
   .list-purchase {
     .purchase {
       display: flex;
@@ -223,6 +224,45 @@
           font-weight: 400;
           text-align: right;
         }
+      }
+    }
+
+    .payment {
+      position: relative;
+      overflow-x: hidden;
+      width: 100%;
+      height: 250px;
+      &::-webkit-scrollbar {
+        width: 0 !important;
+        display: none;
+      }
+      .pay-online {
+        position: absolute;
+        transition: all 1s;
+        width: 100%;
+      }
+      .pay-offline {
+        position: absolute;
+        transition: all 1s;
+      }
+    }
+    .offline {
+      .pay-online {
+        right: -100%;
+        opacity: 0;
+      }
+      .pay-offline {
+        left: 0px;
+      }
+    }
+
+    .online {
+      .pay-online {
+        right: 0;
+      }
+      .pay-offline {
+        left: -100%;
+        opacity: 0;
       }
     }
   }

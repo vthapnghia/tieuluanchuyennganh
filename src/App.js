@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import PATH from "./contanst/path";
+import PATH from "./constants/path";
 import Login from "./features/Authentication/page/Login/index";
 import User from "./features/User";
 import NotFound from "./components/NotFound";

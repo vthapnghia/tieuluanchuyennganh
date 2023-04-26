@@ -3,13 +3,14 @@ import { Form, useField, useFormikContext } from "formik";
 import "./Input.scss";
 import Icons from "../Icons";
 import ReactSelect from "react-select";
-import { COLOR } from "../../contanst/global";
-
+import { COLOR } from "../../constants/global";
 
 const Input = forwardRef(
   (
     {
+      icon,
       leftIcon,
+      rightIcon,
       style,
       type,
       disabled,
@@ -37,6 +38,7 @@ const Input = forwardRef(
     const [plusDisabled, setPlusDisabled] = useState(false);
     const [temp, setTemp] = useState(field.value ?? "");
     const { setFieldValue } = useFormikContext();
+    const [viewPassword, setViewPassword] = useState(false);
 
     const colourDefaultStyles = {
       container: (styles) => ({
@@ -46,12 +48,10 @@ const Input = forwardRef(
       control: (styles) => ({
         ...styles,
         backgroundColor: COLOR.WHITE,
-        // boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         width: "100%",
-        borderRadius: "10px",
+        borderRadius: "4px",
         paddingRight: "10px",
         border: `1px solid #95a5a6`,
-        // boxShadow: "none",
         minHeight: 44,
         fontSize: "16px",
         transition: "none",
@@ -185,6 +185,7 @@ const Input = forwardRef(
             <b>{label}</b>
           </label>
         )}
+        {leftIcon && <span className="left-icon">{leftIcon}</span>}
         {type === "textarea" ? (
           <textarea
             {...props}
@@ -197,21 +198,38 @@ const Input = forwardRef(
           />
         ) : type === "text" || type === "password" ? (
           <>
-            {/* {leftIcon && <span className="left-icon" onClick={handleOnClickLeftIcon(temp)}>{leftIcon}</span>} */}
             <input
               {...props}
               {...field}
               className={`input-common ${
-                meta.error && meta.touched ? "has-error" : ""
+                meta.error && meta.touched
+                  ? type === "password"
+                    ? "input-err-password"
+                    : "has-error"
+                  : ""
               } ${props.className ? props.className : ""}`}
               style={style}
               disabled={disabled}
-              type={type}
+              type={type === "text" ? type : viewPassword ? "text" : type}
             />
+            {type === "password" && (
+              <span
+                className={`right-icon ${
+                  meta.error && meta.touched && "ic-error"
+                }`}
+                onClick={() => setViewPassword(!viewPassword)}
+              >
+                {viewPassword ? (
+                  <Icons.Eye color={COLOR.GRAY_2} />
+                ) : (
+                  <Icons.EyeSlash color={COLOR.GRAY_2} />
+                )}
+              </span>
+            )}
           </>
         ) : type === "number" ? (
           <>
-            {quantity && !disabled &&(
+            {quantity && !disabled && (
               <span className="minus left-icon" onClick={handleQuanlity(-1)}>
                 <Icons.Minus
                   color={misnusDisabled ? COLOR.GRAY : "currentcolor"}
@@ -230,7 +248,7 @@ const Input = forwardRef(
               readOnly={readonly}
               onKeyDown={onKeyDown}
             />
-            {quantity && !disabled &&(
+            {quantity && !disabled && (
               <span className="plus right-icon" onClick={handleQuanlity(1)}>
                 <Icons.Plus
                   color={plusDisabled ? COLOR.GRAY : "currentcolor"}
@@ -294,9 +312,16 @@ const Input = forwardRef(
                 style={style}
                 hidden
               />
-              <label htmlFor="file" className="label-img">
-                {textLabel}
-              </label>
+              {textLabel && (
+                <label htmlFor="file" className="label-img">
+                  {textLabel}
+                </label>
+              )}
+              {icon && (
+                <label htmlFor="file" className="ic-edit">
+                  <Icons.Edit />
+                </label>
+              )}
             </div>
           )
         ) : type === "select" ? (

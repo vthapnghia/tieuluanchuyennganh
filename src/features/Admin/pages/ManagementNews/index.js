@@ -4,7 +4,7 @@ import Button from "../../../../components/Button";
 import { Formik } from "formik";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import "./ManagementNews.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNews, getAllNews } from "../../../User/pages/News/NewsSlice";

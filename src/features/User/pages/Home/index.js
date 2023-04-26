@@ -6,7 +6,7 @@ import ProductItem from "../../pages/Products/ProductItem";
 import { getProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
 import "./Home.scss";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import { shoe_bg } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
 import { getAllNews } from "../News/NewsSlice";

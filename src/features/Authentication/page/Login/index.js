@@ -5,12 +5,12 @@ import Input from "./../../../../components/Input/index";
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import Icons from "../../../../components/Icons";
-import { COLOR } from "../../../../contanst/global";
+import { COLOR } from "../../../../constants/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login, loginGoogle, register } from "../../authSlice";
 import Button from "./../../../../components/Button/index";
-import PATH from "../../../../contanst/path";
+import PATH from "../../../../constants/path";
 import { useGoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import ModalCommon from "../../../../components/ModalCommon";
@@ -125,7 +125,7 @@ function Login() {
     [dispatch, navigate, isSignIn, showModal, t]
   );
 
-  const onSuccess = async(data) => {
+  const onSuccess = async (data) => {
     await dispatch(loginGoogle({ google_id: data.googleId })).then((res) => {
       if (res.payload.status === 200) {
         const response = res.payload?.data;
