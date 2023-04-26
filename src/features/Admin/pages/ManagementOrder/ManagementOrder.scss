@@ -1,11 +1,51 @@
 @import "/src/assets/scss/variables.scss";
 
 .management-order {
+  .action {
+    border-radius: 4px;
+    margin: 0;
+    display: flex;
+    .filter-date {
+      width: 215px;
+      height: 40px;
+      border: $main_color;
+      border-radius: 4px;
+      margin-right: 20px;
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
+    .search {
+      position: relative;
+      width: max-content;
+      padding: 0;
+      input {
+        width: 215px;
+        height: 40px;
+        border: $main_color;
+        padding: 5px 15px 5px 30px;
+        border-radius: 4px;
+
+        &:focus-visible {
+          outline: none;
+        }
+      }
+
+      svg {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translate(0,-50%);
+      }
+    }
+  }
+
   .tab-header {
     background-color: #fff;
     border-radius: 4px;
     width: 100%;
-    margin: 0;
+    margin: 0 0 10px;
 
     .tab-header-item {
       padding: 10px 0;

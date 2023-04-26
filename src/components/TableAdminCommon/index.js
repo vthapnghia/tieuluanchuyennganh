@@ -55,7 +55,7 @@ function TableAdminCommon({
                                 id={`arrow-up-${index}`}
                                 className="arrow-up"
                               ></div>
-                              <div className="arrow-beetwen"></div>
+                              <div className="arrow-between"></div>
                               <div
                                 onClick={() => handleSortTable(-1, index)}
                                 id={`arrow-down-${index}`}
@@ -69,13 +69,13 @@ function TableAdminCommon({
                       </th>
                     );
                   })}
-                  <th style={{ textAlign: "center" }}>{t("remove")}</th>
+                  {oneButton && <th style={{ textAlign: "center" }}>{t("remove")}</th>}
                 </tr>
               </thead>
               <tbody>
                 {rows?.map((row, index) => {
                   return (
-                    <tr onClick={handleClick(row.id)} key={index}>
+                    <tr onClick={() => handleClick(row.id)} key={index}>
                       <th>{index + 1}</th>
                       {row.columns.map((item, j) => {
                         return <td key={j}>{item.label}</td>;

@@ -46,19 +46,6 @@ function OrderDetail(params) {
     return quantity * (price * (1 - discount / 100));
   }, []);
 
-  const getMethodShip = useCallback(
-    (id) => {
-      const shipName = ship?.find((itemShip) => {
-        return itemShip._id === id;
-      });
-      if (shipName) {
-        return shipName.type;
-      }
-      return;
-    },
-    [ship]
-  );
-
   const getMethodPay = useCallback((id) => {
     const payName = PAYMENT_OPTION.find((itemPay) => {
       return itemPay.value === id;
@@ -151,18 +138,14 @@ function OrderDetail(params) {
                 })}
               </span>
               <span className="price">
-                {`${t("ship_fee" )}: ${currencyFormatting(methodShip?.price)}`}
+                {`${t("ship_fee")}: ${currencyFormatting(methodShip?.price)}`}
               </span>
             </div>
           </div>
           <div className="payment">
             <div className="title">{t("method_pay")}</div>
             <div className="content">
-              <span>
-                {orderById?.order.payment_method === 1
-                  ? t("pay_cash")
-                  : t("pay_banking")}
-              </span>
+              <span>{getMethodPay(orderById?.order.payment_method)}</span>
               {orderById?.order.payment_method === 1 && (
                 <span className="pay-success">{t("pay_success")}</span>
               )}
@@ -267,6 +250,7 @@ function OrderDetail(params) {
     ),
     [
       getHeaderByStatus,
+      getMethodPay,
       handelPriceTemporary,
       handleConfirm,
       handleConfirmMessage,

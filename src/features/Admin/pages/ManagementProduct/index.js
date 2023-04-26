@@ -123,7 +123,7 @@ function ManagementProduct() {
   );
 
   const handleClick = useCallback(
-    (id) => () => {
+    (id) => {
       dispatch(getProductById(id));
       setIdProduct(id);
       setShowModalAdd(!showModalAdd);

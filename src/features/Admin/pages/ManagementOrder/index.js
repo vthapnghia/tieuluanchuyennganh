@@ -1,10 +1,18 @@
-import { t } from "i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrderAdmin } from "./OrderAdminSlice";
-import TabItem from "./TabItem";
 import "./ManagementOrder.scss";
 import { empty } from "../../../../assets/img";
+import moment from "moment";
+import TableAdminCommon from "../../../../components/TableAdminCommon";
+import { getAllShip } from "../ManagementShip/ShipSlice";
+import { currencyFormatting } from "../../../../constants/common";
+import { COLOR, PAYMENT_OPTION } from "../../../../constants/global";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../../../constants/path";
+import { hideLoading, showLoading } from "../../../../loading";
+import Icons from "../../../../components/Icons";
 
 function ManagementOrder() {
   const dispatch = useDispatch();
@@ -12,37 +20,187 @@ function ManagementOrder() {
     (state) => state.orderAdmin.allOrderAdmin?.orders
   );
   const [tab, setTab] = useState(0);
-
-  const orderByStatus = useCallback(
-    (status) => {
-      switch (status) {
-        case 0:
-          return allOrder;
-        default:
-          return allOrder?.filter((itemOrder) => {
-            return itemOrder.status === status;
-          });
-      }
-    },
-    [allOrder]
-  );
+  const [orders, setOrders] = useState([]);
+  const ship = useSelector((state) => state.ship.allShip?.ships);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [date, setDate] = useState("");
 
   const handleClickTab = useCallback(
     (index) => {
-      const elementTabClick = document.getElementById(`tab-${index}`);
-      const elementTabCurrent = document.getElementById(`tab-${tab}`);
-      if (elementTabClick && elementTabCurrent) {
-        elementTabClick.classList.add("is-active");
-        elementTabCurrent.classList.remove("is-active");
-        setTab(index);
+      if (index !== tab) {
+        const elementTabClick = document.getElementById(`tab-${index}`);
+        const elementTabCurrent = document.getElementById(`tab-${tab}`);
+        if (elementTabClick && elementTabCurrent) {
+          elementTabClick.classList.add("is-active");
+          elementTabCurrent.classList.remove("is-active");
+          setTab(index);
+          let list = allOrder.filter((item) => {
+            let itemDate = moment(new Date(item.created_at)).format(
+              "YYYY-MM-DD"
+            );
+            const checkDate = date ? date === itemDate : true;
+            if (index === 0) {
+              return true && checkDate;
+            } else {
+              return item.status === index && checkDate;
+            }
+          });
+          setOrders(list);
+        }
       }
     },
-    [tab]
+    [allOrder, date, tab]
+  );
+
+  const handleOnChangeFilter = useCallback(
+    (e) => {
+      if (allOrder) {
+        setDate(e?.target?.value);
+        let list = allOrder?.filter((item) => {
+          let itemDate = moment(new Date(item.created_at)).format("YYYY-MM-DD");
+          const checkTab = tab === 0 ? true : item.status === tab;
+          return e?.target?.value === itemDate && checkTab;
+        });
+        setOrders(list);
+      }
+    },
+    [allOrder, tab]
+  );
+
+  const handleClickOrderItem = useCallback(
+    (id) => {
+      navigate(PATH.ADMIN.ORDER.ORDER_DETAIL.replace(":id", id));
+    },
+    [navigate]
+  );
+
+  const getMethodShip = useCallback(
+    (id) => {
+      const shipName = ship?.find((itemShip) => {
+        return itemShip._id === id;
+      });
+      if (shipName) {
+        return shipName.type;
+      }
+      return;
+    },
+    [ship]
+  );
+
+  const getMethodPay = useCallback((id) => {
+    const payName = PAYMENT_OPTION.find((itemPay) => {
+      return itemPay.value === id;
+    });
+    if (payName) {
+      return payName.label;
+    }
+    return;
+  }, []);
+
+  const rows = useMemo(() => {
+    return orders?.map((order) => {
+      return {
+        id: order._id,
+        columns: [
+          { label: order.receiver_name, align: "center", width: "20%" },
+          { label: order.location, align: "center", width: "20%" },
+          {
+            label: moment(new Date(order.created_at)).format("DD-MM-YYYY"),
+            align: "center",
+            width: "10%",
+          },
+          {
+            label: getMethodShip(order.ship_id),
+            align: "center",
+            width: "20%",
+          },
+          {
+            label: getMethodPay(order.payment_method),
+            align: "center",
+            width: "20%",
+          },
+          {
+            label: currencyFormatting(order.total),
+            align: "center",
+            width: "10%",
+          },
+        ],
+      };
+    });
+  }, [getMethodPay, getMethodShip, orders]);
+
+  const cols = useMemo(
+    () => [
+      { label: t("user_receiver"), align: "center", width: "20%", sort: true },
+      {
+        label: t("address_receiver"),
+        align: "center",
+        width: "10%",
+      },
+      { label: t("date_order", { param: "" }), align: "center", width: "20%" },
+      { label: t("type_ship"), align: "center", width: "20%" },
+      { label: t("payment_method"), align: "center", width: "20%" },
+      { label: t("into_money"), align: "center", width: "10%" },
+    ],
+    [t]
+  );
+
+  const handleSort = useCallback(
+    (type, index) => {
+      const list = [...orders];
+      setOrders(
+        list.sort((a, b) => {
+          if (type === 1) {
+            if (a.receiver_name.toLowerCase() > b.receiver_name.toLowerCase())
+              return 1;
+            if (a.receiver_name.toLowerCase() < b.receiver_name.toLowerCase())
+              return -1;
+          } else {
+            if (a.receiver_name.toLowerCase() < b.receiver_name.toLowerCase())
+              return 1;
+            if (a.receiver_name.toLowerCase() > b.receiver_name.toLowerCase())
+              return -1;
+          }
+          return 0;
+        })
+      );
+    },
+    [orders]
+  );
+
+  const handleOnChangeSearch = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        console.log(e.target.value);
+        if (e.target.value !== "") {
+          let list = orders?.filter((item) => {
+            return item.receiver_name.includes(e.target.value);
+          });
+          setOrders(list);
+        } else {
+          setOrders(allOrder);
+        }
+      }
+    },
+    [allOrder, orders]
   );
 
   useEffect(() => {
-    dispatch(getAllOrderAdmin());
+    let callAPi = async () => {
+      showLoading();
+      await dispatch(getAllOrderAdmin());
+      await dispatch(getAllShip());
+      hideLoading();
+    };
+    callAPi();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (allOrder) {
+      setOrders(allOrder);
+    }
+  }, [allOrder]);
 
   return useMemo(
     () => (
@@ -77,57 +235,47 @@ function ManagementOrder() {
             {t("complete")}
           </div>
         </div>
-        {allOrder && allOrder.length > 0 && (
-          <div className="tab-content">
-            {orderByStatus(0) && orderByStatus(0).length > 0 ? (
-              <TabItem
-                orders={orderByStatus(0)}
-                classTab={`${tab !== 0 ? "no-active" : ""} tab-item`}
-              />
-            ) : (
-              <div className={tab !== 0 ? "no-active" : "no-order"}>
-                <img src={empty} alt="empty" />
-                <span>{t("no_order")}</span>
-              </div>
-            )}
-            {orderByStatus(1) && orderByStatus(1).length > 0 ? (
-              <TabItem
-                orders={orderByStatus(1)}
-                classTab={`${tab !== 1 ? "no-active" : ""} tab-item`}
-              />
-            ) : (
-              <div className={tab !== 1 ? "no-active" : "no-order"}>
-                <img src={empty} alt="empty" />
-                <span>{t("no_order")}</span>
-              </div>
-            )}
-            {orderByStatus(2) && orderByStatus(2).length > 0 ? (
-              <TabItem
-                orders={orderByStatus(2)}
-                classTab={`${tab !== 2 ? "no-active" : ""} tab-item`}
-              />
-            ) : (
-              <div className={tab !== 2 ? "no-active" : "no-order"}>
-                <img src={empty} alt="empty" />
-                <span>{t("no_order")}</span>
-              </div>
-            )}
-            {orderByStatus(3) && orderByStatus(3).length > 0 ? (
-              <TabItem
-                orders={orderByStatus(3)}
-                classTab={`${tab !== 3 ? "no-active" : ""} tab-item`}
-              />
-            ) : (
-              <div className={tab !== 3 ? "no-active" : "no-order"}>
-                <img src={empty} alt="empty" />
-                <span>{t("no_order")}</span>
-              </div>
-            )}
+        <div className="action row">
+          <input
+            className="filter-date"
+            type="date"
+            onChange={handleOnChangeFilter}
+          ></input>
+
+          <div className="search">
+            <input type="text" onKeyDown={handleOnChangeSearch}></input>
+            <Icons.Search color={COLOR.GRAY_2} />
           </div>
-        )}
+        </div>
+
+        <div className="tab-content">
+          {orders.length > 0 ? (
+            <TableAdminCommon
+              cols={cols}
+              rows={rows}
+              handleSort={handleSort}
+              handleClick={handleClickOrderItem}
+            />
+          ) : (
+            <div className="no-order">
+              <img src={empty} alt="empty" />
+              <span>{t("no_order")}</span>
+            </div>
+          )}
+        </div>
       </div>
     ),
-    [allOrder, handleClickTab, orderByStatus, tab]
+    [
+      t,
+      handleOnChangeFilter,
+      handleOnChangeSearch,
+      orders.length,
+      cols,
+      rows,
+      handleSort,
+      handleClickOrderItem,
+      handleClickTab,
+    ]
   );
 }
 

@@ -120,7 +120,7 @@
   "no_product_in_order": "Chưa có đơn hàng nào",
   "status": "Trạng thái",
   "in_order": "Đã đặt hàng",
-  "date_order": "Ngày đặt hàng: {{param}}",
+  "date_order": "Ngày đặt hàng {{param}}",
   "user_receiver": "Người nhận",
   "rate": "Đánh giá",
   "address_receiver": "Địa chỉ nhận hàng",
