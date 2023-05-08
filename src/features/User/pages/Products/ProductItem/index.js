@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { Link } from "react-router-dom";
 import PATH from "../../../../../constants/path";
 import "./ProductItem.scss";
-import { currencyFormatting } from "../../../../../constants/common";
+import { currencyFormatting } from "../../../../../until/common";
 
 function ProductItem({ product }) {
   return (

@@ -4,8 +4,6 @@ import Button from "../../../../components/Button";
 import "./ManagementProduct.scss";
 import Icons from "../../../../components/Icons";
 import ModalCommon from "../../../../components/ModalCommon";
-import { useNavigate } from "react-router-dom";
-import PATH from "../../../../constants/path";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
@@ -21,8 +19,10 @@ import TableAdminCommon from "../../../../components/TableAdminCommon";
 import Pagination from "../../../../components/Pagination";
 import ProductDetailAdmin from "./ProductDetail";
 import { Formik } from "formik";
-import { OPTION_SIZE } from "../../../../constants/global";
+import { COLOR, OPTION_SIZE } from "../../../../constants/global";
 import * as Yup from "yup";
+import ReactSelect from "react-select";
+import { getAllBrand } from "../ManagementBrand/BrandSlice";
 
 function ManagementProduct() {
   const { t } = useTranslation();
@@ -34,22 +34,81 @@ function ManagementProduct() {
   const count = useSelector((state) => state.product.products?.count);
   const pageNumber = useSelector((state) => state.product.pageNumber);
   const page = useSelector((state) => state.product.page);
-  const [listProduct, setListProduct] = useState(product);
+  const [listProduct, setListProduct] = useState([]);
   const [idProduct, setIdProduct] = useState(null);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [modalTitleAdd, setModalTitleAdd] = useState("");
-  const ref = useRef();
   const formikRef = useRef();
   const productById = useSelector(
     (state) => state.product.productById?.product
   );
+  const brand = useSelector((state) => state.brand.allBrand?.brands);
+  const [optionsBrand, setOptionsBrand] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const colorDefaultStyles = useMemo(() => {
+    return {
+      container: (styles) => ({
+        ...styles,
+        height: "40px",
+      }),
+      control: (styles) => ({
+        ...styles,
+        backgroundColor: COLOR.WHITE,
+        width: "100%",
+        borderRadius: "4px",
+        padding: "0 0 0 15px ",
+        border: `none`,
+        fontSize: "16px",
+        transition: "none",
+        height: "100%",
+        textAlign: "left",
+      }),
+      valueContainer: (styles) => ({
+        ...styles,
+        padding: "0",
+      }),
+      option: (styles, { isFocused }) => {
+        return {
+          ...styles,
+          backgroundColor: isFocused ? COLOR.PRIMARY : COLOR.WHITE,
+          color: isFocused ? COLOR.WHITE : COLOR.BLACK,
+          ":active": {
+            ...styles[":active"],
+            backgroundColor: COLOR.PRIMARY,
+          },
+          ":hover": {
+            ...styles[":hover"],
+            color: COLOR.WHITE,
+          },
+          display: "inline-block",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        };
+      },
+      menuPortal: (base) => ({
+        ...base,
+        zIndex: 9999,
+        border: "10px",
+      }),
+      menu: (styles) => ({
+        ...styles,
+        width: "100%",
+        position: "absolute",
+      }),
+      singleValue: (styles) => ({
+        ...styles,
+        color: COLOR.BLACK,
+      }),
+    };
+  }, []);
 
   const cols = useMemo(
     () => [
       { label: t("name_product"), align: "center", width: "20%" },
-      { label: t("brand"), align: "center", width: "20%", sort: true },
-      { label: t("price"), align: "center", width: "20%" },
+      { label: t("brand"), align: "center", width: "20%" },
+      { label: t("price"), align: "center", width: "20%", sort: true },
     ],
     [t]
   );
@@ -104,18 +163,11 @@ function ManagementProduct() {
   );
 
   const handleSort = useCallback(
-    (type, index) => {
+    (type) => {
       const list = [...product];
       setListProduct(
         list.sort((a, b) => {
-          if (type === 1) {
-            if (a.brand > b.brand) return 1;
-            if (a.brand < b.brand) return -1;
-          } else {
-            if (a.brand < b.brand) return 1;
-            if (a.brand > b.brand) return -1;
-          }
-          return 0;
+          return a.price - b.price * type;
         })
       );
     },
@@ -134,15 +186,18 @@ function ManagementProduct() {
   const handleOnkeyDown = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        dispatch(searchProduct(ref.current.value));
+        if (e.target.value !== "") {
+          const productFilter = listProduct.filter((item) => {
+            return item.name.includes(e.target.value);
+          });
+          setListProduct(productFilter);
+        } else {
+          setListProduct(product);
+        }
       }
     },
-    [dispatch]
+    [listProduct, product]
   );
-
-  const handleSearch = useCallback(() => {
-    dispatch(searchProduct(ref.current.value));
-  }, [dispatch]);
 
   const handlePageClick = useCallback(
     (event) => {
@@ -297,13 +352,38 @@ function ManagementProduct() {
     formikRef.current.submitForm();
   }, [showModalAdd]);
 
+  const handleChangeSelect = useCallback(
+    (e) => {
+      const productFilter = product.filter(
+        (item) => item.brand === e.value && item.name.includes(search)
+      );
+      setListProduct(productFilter);
+    },
+    [product, search]
+  );
+
   useEffect(() => {
     dispatch(getProduct({ page: page, pageSize: pageNumber }));
   }, [dispatch, page, pageNumber]);
 
   useEffect(() => {
-    setListProduct(product);
+    if (product && product.length > 0) {
+      setListProduct(product);
+    }
   }, [product]);
+
+  useEffect(() => {
+    dispatch(getAllBrand());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (brand) {
+      const brandMap = brand.map((item) => {
+        return { value: item.name, label: item.name };
+      });
+      setOptionsBrand(brandMap);
+    }
+  }, [brand, dispatch, optionsBrand.length]);
 
   return useMemo(
     () => (
@@ -317,17 +397,38 @@ function ManagementProduct() {
         >
           <>
             <div className="manager-product">
-              <div className="manager-action d-flex align-items-center justify-content-between">
+              <div className="manager-action d-flex">
                 <div className="input-search-product">
                   <input
                     type="text"
                     placeholder={t("search")}
-                    ref={ref}
                     onKeyDown={handleOnkeyDown}
                   ></input>
-                  <div className="icon-search" onClick={handleSearch}>
-                    <Icons.Search />
-                  </div>
+                  <Icons.Search color={COLOR.GRAY_2} />
+                </div>
+                <div className="brand-filter">
+                  <ReactSelect
+                    onChange={handleChangeSelect}
+                    type="select"
+                    options={optionsBrand}
+                    styles={colorDefaultStyles}
+                    isSearchable={false}
+                    components={{
+                      // DropdownIndicator: () => null,
+                      IndicatorSeparator: () => null,
+                    }}
+                    menuPortalTarget={document.body}
+                    placement="auto"
+                    placeholder={t("filter_brand")}
+                  />
+                </div>
+                <div className="btn-view-all">
+                  <Button
+                    className="green"
+                    onClick={() => setListProduct(product)}
+                  >
+                    {t("view_all")}
+                  </Button>
                 </div>
                 <div className="btn-add-product">
                   <Button className="green" onClick={handleShowModalAdd}>
@@ -390,8 +491,10 @@ function ManagementProduct() {
       </>
     ),
     [
+      colorDefaultStyles,
       cols,
       count,
+      handleChangeSelect,
       handleClick,
       handleCloseMessage,
       handleCloseModal,
@@ -401,7 +504,6 @@ function ManagementProduct() {
       handlePageClick,
       handleRemove,
       handleSave,
-      handleSearch,
       handleShowModalAdd,
       handleSort,
       idProduct,
@@ -409,8 +511,10 @@ function ManagementProduct() {
       modalBody,
       modalTitle,
       modalTitleAdd,
+      optionsBrand,
       page,
       pageNumber,
+      product,
       productById?.product_image,
       rows,
       showMessage,

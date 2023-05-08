@@ -28,32 +28,33 @@ function NewDetail() {
       formData.append("thumbnail", values.thumbnail);
       formData.append("title", values.title);
       formData.append("content", values.content);
-      if (!id) {
-        await dispatch(addNews(formData)).then((res) => {
-          if (res.payload.status === 201) {
-            setModalTitle(t("action_success", { param: t("add_news") }));
-            setShowModal(!showModal);
-          } else {
-            setModalTitle(t("action_fail", { param: t("add_news") }));
-            setModalBody(t("try_again"));
-            setShowModal(!showModal);
-          }
-        });
-      } else {
-        await dispatch(uploadNews({ formData: formData, id: id })).then(
-          (res) => {
-            console.log(res);
-            if (res.payload.status === 200) {
-              setModalTitle(t("action_success", { param: t("update_news") }));
-              setShowModal(!showModal);
-            } else {
-              setModalTitle(t("action_fail", { param: t("update_news") }));
-              setModalBody(t("try_again"));
-              setShowModal(!showModal);
-            }
-          }
-        );
-      }
+      console.log(values.thumbnail);
+      // if (!id) {
+      //   await dispatch(addNews(formData)).then((res) => {
+      //     if (res.payload.status === 201) {
+      //       setModalTitle(t("action_success", { param: t("add_news") }));
+      //       setShowModal(!showModal);
+      //     } else {
+      //       setModalTitle(t("action_fail", { param: t("add_news") }));
+      //       setModalBody(t("try_again"));
+      //       setShowModal(!showModal);
+      //     }
+      //   });
+      // } else {
+      //   await dispatch(uploadNews({ formData: formData, id: id })).then(
+      //     (res) => {
+      //       console.log(res);
+      //       if (res.payload.status === 200) {
+      //         setModalTitle(t("action_success", { param: t("update_news") }));
+      //         setShowModal(!showModal);
+      //       } else {
+      //         setModalTitle(t("action_fail", { param: t("update_news") }));
+      //         setModalBody(t("try_again"));
+      //         setShowModal(!showModal);
+      //       }
+      //     }
+      //   );
+      // }
     },
     [dispatch, id, showModal]
   );
@@ -72,6 +73,7 @@ function NewDetail() {
       content: "",
     };
   }, [id, news]);
+
   const handleClose = useCallback(() => {
     setShowModal(!showModal);
     if (id) {

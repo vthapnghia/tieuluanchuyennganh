@@ -14,7 +14,7 @@ import { COLOR, OPTION_GENDER } from "../../../../../constants/global";
 import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
 import { avatar_default } from "../../../../../assets/img";
-import { currencyFormatting } from "../../../../../constants/common";
+import { currencyFormatting } from "../../../../../until/common";
 
 function ProductDetail() {
   const { userAuth } = useAuth();

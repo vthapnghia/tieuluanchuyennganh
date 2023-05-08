@@ -5,9 +5,13 @@
     display: flex;
     justify-content: space-between;
     justify-content: center;
+
     .button {
       display: flex;
       align-items: center;
+      .btn-common{
+        height: 40px;
+      }
     }
   }
 }

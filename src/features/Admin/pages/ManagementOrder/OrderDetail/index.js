@@ -3,7 +3,6 @@ import moment from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Button from "../../../../../components/Button";
 import { PAYMENT_OPTION } from "../../../../../constants/global";
 import {
   getOrderById,
@@ -13,7 +12,7 @@ import {
 import { getAllShip } from "../../ManagementShip/ShipSlice";
 import ModalCommon from "../../../../../components/ModalCommon";
 import "./OrderDetail.scss";
-import { currencyFormatting } from "../../../../../constants/common";
+import { currencyFormatting } from "../../../../../until/common";
 
 function OrderDetail(params) {
   const param = useParams();

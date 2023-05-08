@@ -29,6 +29,7 @@ const Input = forwardRef(
       data,
       handleOnChange,
       accept,
+      height,
       ...props
     },
     ref
@@ -43,7 +44,7 @@ const Input = forwardRef(
     const colourDefaultStyles = {
       container: (styles) => ({
         ...styles,
-        height: "58px",
+        height: height ? height : "58px",
       }),
       control: (styles) => ({
         ...styles,
@@ -52,11 +53,11 @@ const Input = forwardRef(
         borderRadius: "4px",
         paddingRight: "10px",
         border: `1px solid #95a5a6`,
-        minHeight: 44,
+        // minHeight: 44,
         fontSize: "16px",
         transition: "none",
         height: "100%",
-        padding: "1rem 3rem",
+        padding: height ? "0 2rem" :"1rem 2rem",
         textAlign: align ? align : "center",
       }),
       valueContainer: (styles) => ({

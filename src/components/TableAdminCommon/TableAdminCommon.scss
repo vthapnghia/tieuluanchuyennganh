@@ -1,16 +1,18 @@
 @import "/src/assets/scss/variables.scss";
 .table-admin {
-  tr:hover {
-    background: #ccc;
+  tbody {
+    tr:hover {
+      background: #ccc;
+    }
   }
 
   .button {
     cursor: pointer;
-    svg{
+    svg {
       opacity: 0.6;
     }
 
-    svg:hover{
+    svg:hover {
       opacity: 1;
     }
   }

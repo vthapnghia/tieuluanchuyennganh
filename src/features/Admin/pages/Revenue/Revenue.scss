@@ -5,6 +5,33 @@
   background-color: #fff;
   border-radius: 4px;
   padding: 20px;
+
+  .display-total {
+    height: 100px;
+    margin: 0 0 20px;
+    .month-current,
+    .year-current {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+
+      span{
+        color: $black;
+        font-weight: 600;
+        font-size: 20px;
+      }
+
+      .total-month, .total-year{
+        margin: auto;
+        color: $red;
+        font-weight: 500;
+        font-size: 16px;
+      }
+    }
+  }
+
   .option {
     position: relative;
     display: flex;
@@ -50,7 +77,7 @@
     }
     .revenue-month {
       left: 50%;
-      top:50%;
+      top: 50%;
       transform: translate(-50%, -50%);
       opacity: 1;
     }

@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import ModalCommon from "../../../../components/ModalCommon";
-import { currencyFormatting } from "../../../../constants/common";
 import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
@@ -15,6 +14,7 @@ import "./Order.scss";
 import PATH from "../../../../constants/path";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PayPal from "./PayPal";
+import { currencyFormatting } from "../../../../until/common";
 
 function Order() {
   const { t } = useTranslation();

@@ -25,6 +25,7 @@ function ProductDetailAdmin(props) {
   useEffect(() => {
     dispatch(getAllBrand());
   }, [dispatch]);
+  
   return (
     <div className="product-detail-admin">
       <div className="row d-flex justify-content-center">

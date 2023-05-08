@@ -2,38 +2,48 @@
 
 .manager-product {
   .manager-action {
-    background: $white;
-    padding: 20px 16px;
-    border-radius: 10px;
+    // padding: 20px 16px;
+    // border-radius: 10px;
     margin-bottom: 10px;
 
     .input-search-product {
       position: relative;
       input {
-        width: 100%;
-        padding: 1rem 3rem;
-        font-size: 1rem;
-        font-family: $font-family;
-        border-radius: 10px !important;
-        border: 1px solid $main_color;
-        outline: none;
+        width: 215px;
+        height: 40px;
+        border: $main_color;
+        padding: 5px 15px 5px 30px;
+        border-radius: 4px;
+        margin-right: 20px;
+
+        &:focus-visible {
+          outline: none;
+        }
       }
-      .icon-search {
+
+      svg {
         position: absolute;
+        left: 10px;
         top: 50%;
         transform: translate(0, -50%);
-        left: 20px;
-        cursor: pointer;
-        svg {
-          transition: all 0.2s;
-        }
+      }
+    }
 
-        &:hover {
-          svg {
-            width: 20px;
-            height: 20px;
-          }
-        }
+    .brand-filter {
+      width: 235px;
+      margin-right: 20px;
+    }
+
+    .btn-view-all {
+      margin-right: 20px;
+      .btn-common {
+        height: 40px;
+      }
+    }
+
+    .btn-add-product {
+      .btn-common {
+        height: 40px;
       }
     }
   }

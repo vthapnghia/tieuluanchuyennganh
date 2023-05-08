@@ -71,10 +71,10 @@ function RevenueByMonth(params) {
       <div id="chart-month">
         <div className="row option">
           <div className="col col-md-4 col-sm-12 input">
-            <Input name="month" type="select" options={OPTIONS_MONTH} />
+            <Input name="month" type="select" options={OPTIONS_MONTH} height="40px"/>
           </div>
           <div className="col col-md-4 col-sm-12 input">
-            <Input name="year" type="select" options={OPTIONS_YEAR} />
+            <Input name="year" type="select" options={OPTIONS_YEAR} height="40px"/>
           </div>
           <div className="col col-md-4 col-sm-12 button">
             <Button

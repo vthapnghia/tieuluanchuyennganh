@@ -150,6 +150,13 @@ const removeVietnameseAccents = (str) => {
   return result;
 };
 
+const currencyFormatting = (price = 0) => {
+  return parseInt(price).toLocaleString("vi", {
+    style: "currency",
+    currency: "VND",
+  });
+};
+
 export {
   isAuthenticated,
   storeJsonObject,
@@ -157,4 +164,5 @@ export {
   doRequest,
   getDayOfMonth,
   removeVietnameseAccents,
+  currencyFormatting
 };

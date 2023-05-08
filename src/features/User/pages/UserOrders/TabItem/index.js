@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../../constants/path";
 import "./TabItem.scss";
-import { currencyFormatting } from "../../../../../constants/common";
+import { currencyFormatting } from "../../../../../until/common";
 
 function TabItem({ orders, id, classTab }) {
   const navigate = useNavigate();

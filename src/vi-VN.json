@@ -192,6 +192,10 @@
   "please_choose_product": "Vui lòng chọn sản phẩm",
   "purchase": "Mua hàng",
   "medthod_delivery": "Phương thức giao hàng",
+  "view_all": "Xem tất cả",
+  "filter_brand": "Lọc theo thương hiệu",
+  "total_month": "Tổng doanh thu tháng",
+  "total_year": "Tổng doanh thu năm",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

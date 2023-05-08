@@ -6,13 +6,15 @@ import { empty } from "../../../../assets/img";
 import moment from "moment";
 import TableAdminCommon from "../../../../components/TableAdminCommon";
 import { getAllShip } from "../ManagementShip/ShipSlice";
-import { currencyFormatting } from "../../../../constants/common";
 import { COLOR, PAYMENT_OPTION } from "../../../../constants/global";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../constants/path";
 import { hideLoading, showLoading } from "../../../../loading";
 import Icons from "../../../../components/Icons";
+import Pagination from "../../../../components/Pagination";
+import Button from "../../../../components/Button";
+import { currencyFormatting } from "../../../../until/common";
 
 function ManagementOrder() {
   const dispatch = useDispatch();
@@ -22,9 +24,13 @@ function ManagementOrder() {
   const [tab, setTab] = useState(0);
   const [orders, setOrders] = useState([]);
   const ship = useSelector((state) => state.ship.allShip?.ships);
+  const count = useSelector((state) => state.ship.allShip?.count);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [date, setDate] = useState("");
+  const [search, setSearch] = useState("");
+  const pageNumber = useSelector((state) => state.product.pageNumber);
+  const page = useSelector((state) => state.product.page);
 
   const handleClickTab = useCallback(
     (index) => {
@@ -41,16 +47,20 @@ function ManagementOrder() {
             );
             const checkDate = date ? date === itemDate : true;
             if (index === 0) {
-              return true && checkDate;
+              return true && checkDate && item.receiver_name.includes(search);
             } else {
-              return item.status === index && checkDate;
+              return (
+                item.status === index &&
+                checkDate &&
+                item.receiver_name.includes(search)
+              );
             }
           });
           setOrders(list);
         }
       }
     },
-    [allOrder, date, tab]
+    [allOrder, date, search, tab]
   );
 
   const handleOnChangeFilter = useCallback(
@@ -172,19 +182,26 @@ function ManagementOrder() {
   const handleOnChangeSearch = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        console.log(e.target.value);
         if (e.target.value !== "") {
           let list = orders?.filter((item) => {
-            return item.receiver_name.includes(e.target.value);
+            if (item.receiver_name) {
+              return item.receiver_name.includes(e.target.value);
+            } else {
+              return false;
+            }
           });
           setOrders(list);
         } else {
           setOrders(allOrder);
         }
+        setSearch(e.target.value);
       }
     },
     [allOrder, orders]
   );
+
+  const handlePageClick = useCallback((event) => {
+  }, []);
 
   useEffect(() => {
     let callAPi = async () => {
@@ -243,8 +260,14 @@ function ManagementOrder() {
           ></input>
 
           <div className="search">
-            <input type="text" onKeyDown={handleOnChangeSearch}></input>
+            <input type="text" onKeyDown={handleOnChangeSearch} placeholder={t("search")}></input>
             <Icons.Search color={COLOR.GRAY_2} />
+          </div>
+
+          <div className="btn-all">
+            <Button className="green" onClick={() => setOrders(allOrder)}>
+              {t("view_all")}
+            </Button>
           </div>
         </div>
 
@@ -262,6 +285,16 @@ function ManagementOrder() {
               <span>{t("no_order")}</span>
             </div>
           )}
+          {count && count > pageNumber && (
+            <div className="d-flex justify-content-end">
+              <Pagination
+                page={page}
+                count={count}
+                pageNumber={pageNumber}
+                handlePageClick={handlePageClick}
+              />
+            </div>
+          )}
         </div>
       </div>
     ),
@@ -274,7 +307,12 @@ function ManagementOrder() {
       rows,
       handleSort,
       handleClickOrderItem,
+      count,
+      pageNumber,
+      page,
+      handlePageClick,
       handleClickTab,
+      allOrder,
     ]
   );
 }

@@ -19,7 +19,7 @@ import { getAllShip } from "../../../../Admin/pages/ManagementShip/ShipSlice";
 import moment from "moment";
 import PATH from "../../../../../constants/path";
 import Button from "../../../../../components/Button";
-import { currencyFormatting } from "../../../../../constants/common";
+import { currencyFormatting } from "../../../../../until/common";
 
 function OrderDetail(params) {
   const { id } = useParams();
