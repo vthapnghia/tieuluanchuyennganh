@@ -11,7 +11,6 @@ import {
   getAllProduct,
   getProduct,
   getProductById,
-  searchProduct,
   setPage,
   uploadProduct,
 } from "../../../User/pages/Products/ProductSlice";

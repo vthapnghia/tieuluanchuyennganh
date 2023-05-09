@@ -28,23 +28,14 @@ function App() {
         />
         {routesAdmin.map((routeItem, index) => {
           return (
-            // <Route
-            //   key={index}
-            //   path={routeItem.path}
-            //   element={
-            //     <Suspense fallback={<></>}>
-            //       <AdminRoute>
-            //         <Admin component={routeItem.component} />
-            //       </AdminRoute>
-            //     </Suspense>
-            //   }
-            // />
             <Route
               key={index}
               path={routeItem.path}
               element={
                 <Suspense fallback={<></>}>
-                  <Admin component={routeItem.component} />
+                  <AdminRoute>
+                    <Admin component={routeItem.component} />
+                  </AdminRoute>
                 </Suspense>
               }
             />

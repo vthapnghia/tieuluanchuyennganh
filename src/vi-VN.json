@@ -196,6 +196,7 @@
   "filter_brand": "Lọc theo thương hiệu",
   "total_month": "Tổng doanh thu tháng",
   "total_year": "Tổng doanh thu năm",
+  "post_new": "Đăng bản tin",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

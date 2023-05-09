@@ -45,7 +45,7 @@ function Home() {
         </div>
         <div className="row">
           {products?.map((itemProduct, index) => {
-            return <ProductItem key={index} product={itemProduct} />;
+            return <ProductItem key={itemProduct._id} product={itemProduct} />;
           })}
         </div>
         <div className="view-add-product">
@@ -63,10 +63,10 @@ function Home() {
         </div>
         <div className="row">
           {products?.map((itemProduct, index) => {
-            if (itemProduct.discount === 0) {
-              return <></>;
+            if (itemProduct.discount !== 0) {
+              return <ProductItem key={index} product={itemProduct} />;
             }
-            return <ProductItem key={index} product={itemProduct} />;
+            return null;
           })}
         </div>
         <div className="view-add-product-discount">
@@ -85,7 +85,8 @@ function Home() {
         <div className="row justify-content-between">
           <div className="col-lg-6">
             <p>
-              Niềm vui của bạn cũng là niềm vui của chúng tôi nếu bạn mua hàng...
+              Niềm vui của bạn cũng là niềm vui của chúng tôi nếu bạn mua
+              hàng...
             </p>
 
             <div className="row my-5">
@@ -152,14 +153,11 @@ function Home() {
         </div>
         <div className="row">
           {listNews?.map((newsItem, index) => {
-            return <NewsItem key={index} newsItem={newsItem} />;
+            return <NewsItem key={newsItem._id} newsItem={newsItem} />;
           })}
         </div>
         <div className="view-add-news">
-          <Button
-            className="red"
-            onClick={() => navigate(PATH.NEWS.LIST_NEWS)}
-          >
+          <Button className="red" onClick={() => navigate(PATH.NEWS.LIST_NEWS)}>
             {t("add_view")}
           </Button>
         </div>

@@ -42,6 +42,9 @@ function Navbars() {
     if (pathBySidebar) {
       title = pathBySidebar.name;
     }
+    if (pathname.includes(PATH.ADMIN.ORDER.ORDER_DETAIL.replace(":id", ""))) {
+      title = "Chi tiết đơn hàng";
+    }
     return title;
   }, [pathname, t]);
 
@@ -89,79 +92,76 @@ function Navbars() {
         </div>
       ) : (
         <nav className="custom-navbar navbar navbar-expand-md navbar-dark">
-            <Link className="navbar-brand" to="/">
-              <img src={shoe_bg} alt="img" />
-            </Link>
+          <Link className="navbar-brand" to="/">
+            <img src={shoe_bg} alt="img" />
+          </Link>
 
-            <div className="collapse navbar-collapse" id="navbarsFurni">
-              <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                <li>
-                  <Link className="nav-link" to={PATH.HOME}>
-                    {t("home")}
-                  </Link>
-                </li>
-                <li>
-                  <Link className="nav-link" to={PATH.PRODUCT.LIST_PRODUCT}>
-                    {t("product")}
-                  </Link>
-                </li>
-                <li>
-                  <Link className="nav-link" to={PATH.NEWS.LIST_NEWS}>
+          <div className="collapse navbar-collapse" id="navbarsFurni">
+            <ul className="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+              <li>
+                <Link className="nav-link" to={PATH.HOME}>
+                  {t("home")}
+                </Link>
+              </li>
+              <li>
+                <Link className="nav-link" to={PATH.PRODUCT.LIST_PRODUCT}>
+                  {t("product")}
+                </Link>
+              </li>
+              <li>
+                <Link className="nav-link" to={PATH.NEWS.LIST_NEWS}>
                   {t("news")}
-                  </Link>
-                </li>
-              </ul>
+                </Link>
+              </li>
+            </ul>
 
-              <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li>
-                  <Link className="nav-link" to={PATH.CART}>
-                    <Icons.Cart />
-                    {count > 0 ? (
-                      <span className="quantity-cart">{count}</span>
-                    ) : (
-                      <></>
-                    )}
-                  </Link>
-                </li>
-                <li>
-                  {userAuth ? (
-                    <DropdownButton
-                      id="dropdown-basic-button"
-                      title={
-                        <>
-                          <img
-                            className="user-img"
-                            alt="img"
-                            src={userAuth.avatar || avatar_default}
-                          />
-                        </>
-                      }
-                    >
-                      <Link className="dropdown-item" to={PATH.PROFILE}>
-                        {t("profile")}
-                      </Link>
-                      <Link
-                        className="dropdown-item"
-                        to={PATH.USER_ORDERS.BASE}
-                      >
-                        {t("my_order")}
-                      </Link>
-                      <span
-                        className="dropdown-item"
-                        style={{ cursor: "pointer" }}
-                        onClick={handleLogout}
-                      >
-                        {t("logout")}
-                      </span>
-                    </DropdownButton>
+            <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+              <li>
+                <Link className="nav-link" to={PATH.CART}>
+                  <Icons.Cart />
+                  {count > 0 ? (
+                    <span className="quantity-cart">{count}</span>
                   ) : (
-                    <Link className="nav-link icon-user" to={PATH.LOGIN}>
-                      <Icons.User />
-                    </Link>
+                    <></>
                   )}
-                </li>
-              </ul>
-            </div>
+                </Link>
+              </li>
+              <li>
+                {userAuth ? (
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    title={
+                      <>
+                        <img
+                          className="user-img"
+                          alt="img"
+                          src={userAuth.avatar || avatar_default}
+                        />
+                      </>
+                    }
+                  >
+                    <Link className="dropdown-item" to={PATH.PROFILE}>
+                      {t("profile")}
+                    </Link>
+                    <Link className="dropdown-item" to={PATH.USER_ORDERS.BASE}>
+                      {t("my_order")}
+                    </Link>
+                    <span
+                      className="dropdown-item"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleLogout}
+                    >
+                      {t("logout")}
+                    </span>
+                  </DropdownButton>
+                ) : (
+                  <Link className="nav-link icon-user" to={PATH.LOGIN}>
+                    <Icons.User />
+                  </Link>
+                )}
+              </li>
+            </ul>
+          </div>
         </nav>
       )}
     </>

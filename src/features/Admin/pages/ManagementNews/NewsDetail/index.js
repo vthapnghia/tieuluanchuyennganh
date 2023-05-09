@@ -1,157 +1,151 @@
-import { Formik } from "formik";
-import { t } from "i18next";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import ReactQuill from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
 import Button from "../../../../../components/Button";
-import Input from "../../../../../components/Input";
-import ModalCommon from "../../../../../components/ModalCommon";
-import {
-  addNews,
-  getNewsById,
-  uploadNews,
-} from "../../../../User/pages/News/NewsSlice";
+import { useTranslation } from "react-i18next";
 import "./NewsDetail.scss";
+import { Formik } from "formik";
+import Input from "../../../../../components/Input";
+import * as Yup from "yup";
+import Icons from "../../../../../components/Icons";
 
-function NewDetail() {
-  const formikRef = useRef();
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const news = useSelector((state) => state.news.newsById?.news);
-  const [showModal, setShowModal] = useState(false);
-  const [modalBody, setModalBody] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
+ReactQuill.Quill.register("modules/imageResize", ImageResize);
 
-  const handleSave = useCallback(
-    async (values) => {
-      const formData = new FormData();
-      formData.append("thumbnail", values.thumbnail);
-      formData.append("title", values.title);
-      formData.append("content", values.content);
-      console.log(values.thumbnail);
-      // if (!id) {
-      //   await dispatch(addNews(formData)).then((res) => {
-      //     if (res.payload.status === 201) {
-      //       setModalTitle(t("action_success", { param: t("add_news") }));
-      //       setShowModal(!showModal);
-      //     } else {
-      //       setModalTitle(t("action_fail", { param: t("add_news") }));
-      //       setModalBody(t("try_again"));
-      //       setShowModal(!showModal);
-      //     }
-      //   });
-      // } else {
-      //   await dispatch(uploadNews({ formData: formData, id: id })).then(
-      //     (res) => {
-      //       console.log(res);
-      //       if (res.payload.status === 200) {
-      //         setModalTitle(t("action_success", { param: t("update_news") }));
-      //         setShowModal(!showModal);
-      //       } else {
-      //         setModalTitle(t("action_fail", { param: t("update_news") }));
-      //         setModalBody(t("try_again"));
-      //         setShowModal(!showModal);
-      //       }
-      //     }
-      //   );
-      // }
+const TextEditor = () => {
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
+  const [textErr, setTextErr] = useState("");
+  const [titleErr, setTitleErr] = useState("");
+  const { t } = useTranslation();
+  const quillRef = useRef();
+  const titleRef = useRef();
+
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [
+        { align: "" },
+        { align: "center" },
+        { align: "right" },
+        { align: "justify" },
+      ],
+      ["image"],
+
+      ["clean"],
+    ],
+    clipboard: {
+      matchVisual: false,
     },
-    [dispatch, id, showModal]
-  );
+    imageResize: {
+      parchment: ReactQuill.Quill.import("parchment"),
+      modules: ["Resize", "DisplaySize", "Toolbar"],
+    },
+  };
 
-  const initialValues = useMemo(() => {
-    if (id) {
-      return {
-        thumbnail: news?.thumbnail,
-        title: news?.title,
-        content: news?.content,
-      };
+  const post = () => {
+    let postHtml = quillRef.current.value;
+    let titleElement = titleRef.current.value;
+    if (!postHtml) {
+      setTextErr(t("MS_01", {param: ""}));
     }
-    return {
-      thumbnail: "",
-      title: "",
-      content: "",
-    };
-  }, [id, news]);
 
-  const handleClose = useCallback(() => {
-    setShowModal(!showModal);
-    if (id) {
-      dispatch(getNewsById(id));
+    if (!titleElement) {
+      setTitleErr(t("MS_01", {param: ""}));
     }
-  }, [showModal, id, dispatch]);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getNewsById(id));
+    if (postHtml && titleElement) {
+      let arrBase64 = [];
+      while (postHtml.indexOf('<img src="data:image') >= 0) {
+        const postHtmlCopy = postHtml.substring(
+          postHtml.indexOf('<img src="data:image') + 10,
+          postHtml.lastIndexOf('"')
+        );
+        const index1 = postHtml.indexOf("data:image");
+        const index2 = postHtmlCopy.indexOf('"') + index1;
+        const find = postHtml.substring(index1, index2);
+
+        postHtml = postHtml.replace(find, "local:3000");
+        arrBase64.push(find);
+      }
+      console.log(arrBase64);
     }
-  }, [id, dispatch]);
+  };
 
+  const handleTitleFocus = () => {
+    setTitleErr("");
+  };
+
+  const handleTitleBlur = (e) => {
+    if (titleRef.current.value === "") {
+      setTitleErr(t("MS_01", {param: ""}));
+    }
+  };
+
+  const handleTextFocus = () => {
+    setTextErr("");
+  };
+
+  const handleTextBlur = (e) => {
+    if (quillRef.current.value === "") {
+      setTextErr(t("MS_01", {param: ""}));
+    }
+  };
   return (
-    <Formik
-      initialValues={initialValues}
-      enableReinitialize
-      onSubmit={handleSave}
-      innerRef={formikRef}
-    >
-      <>
-        <div className="news-detail-admin">
-          <div className="container">
-            <div className="row">
-              <div className="col col-md-6 col-sm-12 ">
-                <div className="multiple-img">
-                  <div id="images">
-                    {/* {id && (
-                      <figure>
-                        <img src={news?.thumbnail} alt="img" />
-                      </figure>
-                    )} */}
-                  </div>
-                  <Input
-                    name="thumbnail"
-                    type="file"
-                    className="img-upload"
-                    textLabel={t("upload_img")}
-                    // multiple
-                  />
-                </div>
-              </div>
-              <div className="col col-md-6 col-sm-12">
-                <div className="input">
-                  <Input name="title" placeholder={t("title")} type="text" />
-                </div>
-                <div className="input">
-                  <Input
-                    name="content"
-                    placeholder={t("content")}
-                    type="textarea"
-                    style={{ minHeight: "225px" }}
-                  />
-                </div>
-
-                <div className="btn-upload">
-                  <Button
-                    className="primary float-end"
-                    onClick={() => formikRef.current.submitForm()}
-                  >
-                    {t("save")}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <ModalCommon
-          show={showModal}
-          modalTitle={modalTitle}
-          modalBody={modalBody}
-          handleConfirm={handleClose}
-          handleCloseModal={() => setShowModal(!showModal)}
-          isButton
+    <div className="news-detail-admin ql-editor">
+      <div className="title-post">
+        <input
+          type="text"
+          ref={titleRef}
+          onFocus={handleTitleFocus}
+          onBlur={handleTitleBlur}
+          placeholder="Nhập tiêu đề bài viết..."
+        ></input>
+        {titleErr && (
+          <span className="warning-icon-input">
+            <Icons.Exclamation />
+            <span className="tooltiptext">{titleErr}</span>
+          </span>
+        )}
+      </div>
+      {/* <div dangerouslySetInnerHTML={{ __html: text }}></div> */}
+      <div className="text-editor">
+        <ReactQuill
+          value={text}
+          ref={quillRef}
+          modules={modules}
+          formats={TextEditor.formats}
+          placeholder="Nhập nội dung bài viết..."
+          onFocus={handleTextFocus}
+          onBlur={handleTextBlur}
         />
-      </>
-    </Formik>
-  );
-}
+        {textErr && (
+          <span className="warning-icon-input">
+            <Icons.Exclamation />
+            <span className="tooltiptext">{textErr}</span>
+          </span>
+        )}
+      </div>
 
-export default NewDetail;
+      <div className="btn-post">
+        <Button onClick={post} className="green">
+          {t("post_new")}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+TextEditor.formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "image",
+  "align",
+];
+
+export default TextEditor;
