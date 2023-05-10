@@ -15,117 +15,88 @@ import {
 } from "../../../../constants/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
 import ProductItem from "./ProductItem";
-import {
-  getProduct,
-  searchProduct,
-  setFilter,
-  setPage,
-  setSort,
-} from "./ProductSlice";
+import { getProduct, searchProduct } from "./ProductSlice";
 import "./Products.scss";
+import { empty } from "../../../../assets/img";
 
 function Products() {
+  const { t } = useTranslation();
   const products = useSelector((state) => state.product.products?.product);
   const count = useSelector((state) => state.product.products?.count);
   const brand = useSelector((state) => state.brand.allBrand?.brands);
-  const filterFlag = useSelector((state) => state.product.filterFlag);
-  const sortFlag = useSelector((state) => state.product.sortFlag);
-  const pageNumber = useSelector((state) => state.product.pageNumber);
-  const page = useSelector((state) => state.product.page);
-  const { t } = useTranslation();
-  const [listProduct, setListProduct] = useState(products);
-  const dispatch = useDispatch();
   const [brandOption, setBrandOption] = useState([]);
+  const [listProduct, setListProduct] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(5);
+  const [param, setParam] = useState({
+    type: [],
+    brand: [],
+    color: [],
+    size: [],
+    gender: [],
+  });
+  const dispatch = useDispatch();
   const ref = useRef();
 
-  const getAllFilter = useMemo(() => {
-    let category = [];
-    let brand = [];
-    let color = [];
-    let size = [];
-    let filter = {};
-    let gender = [];
-    OPTION_TYPE.forEach((item) => {
-      category.push({ label: item.value, checked: false });
-    });
-    filter.type = category;
-    brandOption?.forEach((item) => {
-      brand.push({ label: item.label, checked: false });
-    });
-    filter.brand = brand;
-    OPTIONS_COLOR.forEach((item) => {
-      color.push({ label: item.label, checked: false });
-    });
-    filter.color = color;
-    OPTION_SIZE.forEach((item) => {
-      size.push({ label: item.label, checked: false });
-    });
-    filter.size = size;
-    OPTION_GENDER.forEach((item) => {
-      gender.push({ label: item.value, checked: false });
-    });
-    filter.gender = gender;
-    return filter;
-  }, [brandOption]);
-
-  const defaultStyles = {
-    container: (styles) => ({
-      ...styles,
-      height: "58px",
-    }),
-    control: (styles) => ({
-      ...styles,
-      backgroundColor: COLOR.WHITE,
-      // boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-      width: "100%",
-      borderRadius: "10px",
-      paddingRight: "10px",
-      border: `1px solid #95a5a6`,
-      // boxShadow: "none",
-      minHeight: 44,
-      fontSize: "16px",
-      transition: "none",
-      height: "100%",
-      padding: "1rem 3rem",
-      textAlign: "left",
-    }),
-    valueContainer: (styles) => ({
-      ...styles,
-      padding: "0",
-    }),
-    option: (styles, { isFocused }) => {
-      return {
+  const defaultStyles = useMemo(
+    () => ({
+      container: (styles) => ({
         ...styles,
-        backgroundColor: isFocused ? COLOR.PRIMARY : COLOR.WHITE,
-        color: isFocused ? COLOR.WHITE : COLOR.BLACK,
-        ":active": {
-          ...styles[":active"],
-          backgroundColor: COLOR.PRIMARY,
-        },
-        ":hover": {
-          ...styles[":hover"],
-          color: COLOR.WHITE,
-        },
-        display: "inline-block",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-      };
-    },
-    menuPortal: (base) => ({
-      ...base,
-      zIndex: 9999,
-      border: "10px",
+        height: "58px",
+      }),
+      control: (styles) => ({
+        ...styles,
+        backgroundColor: COLOR.WHITE,
+        width: "100%",
+        borderRadius: "10px",
+        paddingRight: "10px",
+        border: `1px solid #95a5a6`,
+        minHeight: 44,
+        fontSize: "16px",
+        transition: "none",
+        height: "100%",
+        padding: "1rem 3rem",
+        textAlign: "left",
+      }),
+      valueContainer: (styles) => ({
+        ...styles,
+        padding: "0",
+      }),
+      option: (styles, { isFocused }) => {
+        return {
+          ...styles,
+          backgroundColor: isFocused ? COLOR.PRIMARY : COLOR.WHITE,
+          color: isFocused ? COLOR.WHITE : COLOR.BLACK,
+          ":active": {
+            ...styles[":active"],
+            backgroundColor: COLOR.PRIMARY,
+          },
+          ":hover": {
+            ...styles[":hover"],
+            color: COLOR.WHITE,
+          },
+          display: "inline-block",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        };
+      },
+      menuPortal: (base) => ({
+        ...base,
+        zIndex: 9999,
+        border: "10px",
+      }),
+      menu: (styles) => ({
+        ...styles,
+        width: "100%",
+        position: "absolute",
+      }),
+      singleValue: (styles) => ({
+        ...styles,
+        color: COLOR.BLACK,
+      }),
     }),
-    menu: (styles) => ({
-      ...styles,
-      width: "100%",
-      position: "absolute",
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: COLOR.BLACK,
-    }),
-  };
+    []
+  );
 
   const handleChangeSort = useCallback(
     (e) => {
@@ -135,105 +106,23 @@ function Products() {
           return (a.price - b.price) * Number(e.value);
         })
       );
-      dispatch(setSort(Number(e.value)));
     },
-    [products, dispatch]
-  );
-
-  const handleFilter = useCallback(
-    (arrFilter) => {
-      let tempFilter = [...products];
-      arrFilter.forEach((itemFilter) => {
-        let filterType = [];
-        let productFiterType = [];
-        switch (itemFilter[0]) {
-          case "type":
-            itemFilter[1].forEach((childItemFilter) => {
-              productFiterType = tempFilter.filter((productItem) => {
-                return productItem.type === childItemFilter.label;
-              });
-              filterType = filterType.concat(productFiterType);
-            });
-            tempFilter = filterType;
-            break;
-          case "brand":
-            itemFilter[1].forEach((childItemFilter) => {
-              productFiterType = tempFilter.filter((productItem) => {
-                return productItem.brand === childItemFilter.label;
-              });
-              filterType = filterType.concat(productFiterType);
-            });
-            tempFilter = filterType;
-            break;
-          case "color":
-            itemFilter[1].forEach((childItemFilter) => {
-              productFiterType = tempFilter.filter((productItem) => {
-                return productItem.color === childItemFilter.label;
-              });
-              filterType = filterType.concat(productFiterType);
-            });
-            tempFilter = filterType;
-            break;
-          case "size":
-            itemFilter[1].forEach((childItemFilter) => {
-              productFiterType = tempFilter.filter((productItem) => {
-                return productItem.size[childItemFilter.label] > 0;
-              });
-              filterType = filterType.concat(productFiterType);
-            });
-            tempFilter = filterType;
-            break;
-          case "gender":
-            itemFilter[1].forEach((childItemFilter) => {
-              productFiterType = tempFilter.filter((productItem) => {
-                return productItem.gender === childItemFilter.label;
-              });
-              filterType = filterType.concat(productFiterType);
-            });
-            tempFilter = filterType;
-            break;
-          default:
-            break;
-        }
-      });
-      setListProduct(
-        tempFilter.sort((a, b) => {
-          return (a.price - b.price) * sortFlag;
-        })
-      );
-    },
-    [products, sortFlag]
+    [products]
   );
 
   const handleChangeFilter = useCallback(
-    (typeFilter, isChecked, label) => {
-      getAllFilter[typeFilter]?.forEach((item, index) => {
-        if (Number(item.label) === Number(label) || item.label === label) {
-          getAllFilter[typeFilter][index] = {
-            ...item,
-            checked: isChecked,
-          };
-        }
-      });
-      let filterCopy = {};
-      for (var key in getAllFilter) {
-        const filterItem = getAllFilter[key].filter((item) => {
-          return item.checked === true;
-        });
-        if (filterItem && filterItem.length > 0) {
-          filterCopy = { ...filterCopy, [key]: filterItem };
-        }
-      }
-      const filterArr = Object.entries(filterCopy);
-      if (filterArr && filterArr.length > 0) {
-        dispatch(setFilter(filterArr));
-        handleFilter(filterArr);
+    async (typeFilter, isChecked, label) => {
+      let paramCopy = { ...param };
+      if (isChecked) {
+        paramCopy[typeFilter].push(label);
       } else {
-        dispatch(setFilter(filterArr));
-        setListProduct(products);
+        paramCopy[typeFilter] = paramCopy[typeFilter].filter(
+          (element) => element !== label
+        );
       }
+      setParam(paramCopy);
     },
-    [dispatch, getAllFilter, handleFilter, products]
+    [param]
   );
 
   const handleSearch = useCallback(() => {
@@ -249,60 +138,18 @@ function Products() {
     [dispatch]
   );
 
-  const handlePageClick = (event) => {
-    dispatch(
-      getProduct({ page: event.selected + 1, pageSize: pageNumber })
-    ).then((res) => {
-      if (res.payload.status === 200) {
-        dispatch(setPage(event.selected + 1));
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (sortFlag !== 0) {
-      const productTemp = [...products];
-      setListProduct(
-        productTemp.sort((a, b) => {
-          return (a.price - b.price) * sortFlag;
-        })
-      );
-    } else {
-      if (products && products.length > 0) {
-        setListProduct(products);
-      }
-    }
-  }, [products, sortFlag]);
-
-  useEffect(() => {
-    if (filterFlag && filterFlag.length > 0) {
-      const filterFlagEntries = Object.fromEntries(filterFlag);
-      for (let key in filterFlagEntries) {
-        filterFlagEntries[key].forEach((itemFilterFlag) => {
-          getAllFilter[key]?.forEach((item, index) => {
-            if (
-              Number(item.label) === Number(itemFilterFlag.label) ||
-              item.label === itemFilterFlag.label
-            ) {
-              getAllFilter[key][index] = {
-                ...item,
-                checked: itemFilterFlag.checked,
-              };
-            }
-          });
-        });
-      }
-      handleFilter(filterFlag);
-    }
-  }, [filterFlag, handleFilter, getAllFilter]);
+  const handleChangePageNumber = useCallback((value) => {
+    setPageNumber(value);
+    setPage(1);
+  }, []);
 
   useEffect(() => {
     dispatch(getAllBrand());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getProduct({ page: page, pageSize: pageNumber }));
-  }, [dispatch, pageNumber, page]);
+    dispatch(getProduct({ page: page, pageSize: pageNumber, ...param }));
+  }, [dispatch, pageNumber, page, param]);
 
   useEffect(() => {
     if (brand && brand.length > 0) {
@@ -313,253 +160,220 @@ function Products() {
     }
   }, [brand]);
 
-  return (
-    <div className="product-section">
-      <div className="row">
-        <div className="col col-md-3 col-xl-2 product-filter">
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>{t("category")}</Accordion.Header>
-              <Accordion.Body>
-                {OPTION_TYPE.map((typeItem, index) => {
-                  return (
-                    <div className="accordion-child" key={index}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        value={typeItem.value}
-                        onChange={(e) =>
-                          handleChangeFilter(
-                            "type",
-                            e.target.checked,
-                            e.target.value
-                          )
-                        }
-                        defaultChecked={
-                          filterFlag &&
-                          Object.fromEntries(filterFlag)["type"] &&
-                          Object.fromEntries(filterFlag)["type"].find(
-                            (item) => {
-                              return item.label === typeItem.value;
-                            }
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      <label>{typeItem.label}</label>
-                    </div>
-                  );
-                })}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>{t("brand")}</Accordion.Header>
-              <Accordion.Body>
-                {brandOption &&
-                  brandOption.map((brandItem, index) => {
+  useEffect(() => {
+    setListProduct(products);
+  }, [products]);
+
+  return useMemo(
+    () => (
+      <div className="product-section">
+        <div className="row">
+          <div className="col col-md-3 col-xl-2 product-filter">
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>{t("category")}</Accordion.Header>
+                <Accordion.Body>
+                  {OPTION_TYPE.map((typeItem, index) => {
                     return (
                       <div className="accordion-child" key={index}>
                         <input
                           type="checkbox"
                           className="checkbox"
-                          value={brandItem.label}
+                          value={typeItem.value}
                           onChange={(e) =>
                             handleChangeFilter(
-                              "brand",
+                              "type",
                               e.target.checked,
                               e.target.value
                             )
                           }
-                          defaultChecked={
-                            filterFlag &&
-                            Object.fromEntries(filterFlag)["brand"] &&
-                            Object.fromEntries(filterFlag)["brand"].find(
-                              (item) => {
-                                return item.label === brandItem.label;
-                              }
-                            )
-                              ? true
-                              : false
-                          }
                         />
-                        <label>{brandItem.label}</label>
+                        <label>{typeItem.label}</label>
                       </div>
                     );
                   })}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>{t("color")}</Accordion.Header>
-              <Accordion.Body>
-                {OPTIONS_COLOR.map((colorItem, index) => {
-                  return (
-                    <div className="accordion-child" key={index}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        value={colorItem.label}
-                        onChange={(e) =>
-                          handleChangeFilter(
-                            "color",
-                            e.target.checked,
-                            e.target.value
-                          )
-                        }
-                        defaultChecked={
-                          filterFlag &&
-                          Object.fromEntries(filterFlag)["color"] &&
-                          Object.fromEntries(filterFlag)["color"].find(
-                            (item) => {
-                              return item.label === colorItem.label;
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>{t("brand")}</Accordion.Header>
+                <Accordion.Body>
+                  {brandOption &&
+                    brandOption.map((brandItem, index) => {
+                      return (
+                        <div className="accordion-child" key={index}>
+                          <input
+                            type="checkbox"
+                            className="checkbox"
+                            value={brandItem.label}
+                            onChange={(e) =>
+                              handleChangeFilter(
+                                "brand",
+                                e.target.checked,
+                                e.target.value
+                              )
                             }
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      <label>{colorItem.label}</label>
-                    </div>
-                  );
-                })}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>{t("size")}</Accordion.Header>
-              <Accordion.Body>
-                {OPTION_SIZE.map((sizeItem, index) => {
-                  return (
-                    <div className="accordion-child" key={index}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        value={sizeItem.value}
-                        onChange={(e) =>
-                          handleChangeFilter(
-                            "size",
-                            e.target.checked,
-                            e.target.value
-                          )
-                        }
-                        defaultChecked={
-                          filterFlag &&
-                          Object.fromEntries(filterFlag)["size"] &&
-                          Object.fromEntries(filterFlag)["size"].find(
-                            (item) => {
-                              return (
-                                Number(item.label) === Number(sizeItem.value)
-                              );
-                            }
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      <label>{sizeItem.label}</label>
-                    </div>
-                  );
-                })}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>{t("gender")}</Accordion.Header>
-              <Accordion.Body>
-                {OPTION_GENDER.map((gender, index) => {
-                  return (
-                    <div className="accordion-child" key={index}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        value={gender.value}
-                        onChange={(e) =>
-                          handleChangeFilter(
-                            "gender",
-                            e.target.checked,
-                            e.target.value
-                          )
-                        }
-                        defaultChecked={
-                          filterFlag &&
-                          Object.fromEntries(filterFlag)["gender"] &&
-                          Object.fromEntries(filterFlag)["gender"].find(
-                            (item) => {
-                              return (
-                                Number(item.label) === Number(gender.value)
-                              );
-                            }
-                          )
-                            ? true
-                            : false
-                        }
-                      />
-                      <label>{gender.label}</label>
-                    </div>
-                  );
-                })}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </div>
-        <div className="col-md-9 col-xl-10">
-          <div className="row search-and-filter">
-            <div className="search-product col col-md-4 col-xl-3">
-              <input
-                type="text"
-                placeholder={t("search")}
-                ref={ref}
-                onKeyDown={handleOnkeyDown}
-              ></input>
-              <div className="icon-search" onClick={handleSearch}>
-                <Icons.Search />
-              </div>
-            </div>
-            <div className="col col-md-3 col-xl-5"></div>
-            <div className="sort-product col col-md-5 col-xl-4">
-              <Select
-                onChange={handleChangeSort}
-                options={SORT_OPTION}
-                placeholder={t("sort_by")}
-                // value={sortFlag}
-                components={{
-                  DropdownIndicator: () => null,
-                  IndicatorSeparator: () => null,
-                }}
-                isSearchable={false}
-                styles={defaultStyles}
-                controlShouldRenderValue
-              />
-              <div className="icon-sort">
-                <Icons.Sort />
-              </div>
-            </div>
+                          />
+                          <label>{brandItem.label}</label>
+                        </div>
+                      );
+                    })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>{t("color")}</Accordion.Header>
+                <Accordion.Body>
+                  {OPTIONS_COLOR.map((colorItem, index) => {
+                    return (
+                      <div className="accordion-child" key={index}>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          value={colorItem.label}
+                          onChange={(e) =>
+                            handleChangeFilter(
+                              "color",
+                              e.target.checked,
+                              e.target.value
+                            )
+                          }
+                        />
+                        <label>{colorItem.label}</label>
+                      </div>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>{t("size")}</Accordion.Header>
+                <Accordion.Body>
+                  {OPTION_SIZE.map((sizeItem, index) => {
+                    return (
+                      <div className="accordion-child" key={index}>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          value={sizeItem.value}
+                          onChange={(e) =>
+                            handleChangeFilter(
+                              "size",
+                              e.target.checked,
+                              e.target.value
+                            )
+                          }
+                        />
+                        <label>{sizeItem.label}</label>
+                      </div>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>{t("gender")}</Accordion.Header>
+                <Accordion.Body>
+                  {OPTION_GENDER.map((gender, index) => {
+                    return (
+                      <div className="accordion-child" key={index}>
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          value={gender.value}
+                          onChange={(e) =>
+                            handleChangeFilter(
+                              "gender",
+                              e.target.checked,
+                              e.target.value
+                            )
+                          }
+                        />
+                        <label>{gender.label}</label>
+                      </div>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
           </div>
-          <div className="row list-product">
-            {listProduct &&
-              listProduct.map((product, index) => {
-                return <ProductItem key={index} product={product} />;
-              })}
-            {count && count > pageNumber && (
+          <div className="col-md-9 col-xl-10">
+            <div className="row search-and-filter">
+              <div className="search-product col col-md-4 col-xl-3">
+                <input
+                  type="text"
+                  placeholder={t("search")}
+                  ref={ref}
+                  onKeyDown={handleOnkeyDown}
+                ></input>
+                <div className="icon-search" onClick={handleSearch}>
+                  <Icons.Search />
+                </div>
+              </div>
+              <div className="col col-md-3 col-xl-5"></div>
+              <div className="sort-product col col-md-5 col-xl-4">
+                <Select
+                  onChange={handleChangeSort}
+                  options={SORT_OPTION}
+                  placeholder={t("sort_by")}
+                  // value={sortFlag}
+                  components={{
+                    DropdownIndicator: () => null,
+                    IndicatorSeparator: () => null,
+                  }}
+                  isSearchable={false}
+                  styles={defaultStyles}
+                  controlShouldRenderValue
+                />
+                <div className="icon-sort">
+                  <Icons.Sort />
+                </div>
+              </div>
+            </div>
+            <div className="row list-product">
+              {listProduct && listProduct.length > 0 ? (
+                listProduct.map((product, index) => {
+                  return <ProductItem key={index} product={product} />;
+                })
+              ) : (
+                <div className="no-product d-flex justify-content-center">
+                  <img src={empty} alt="no-product"></img>
+                </div>
+              )}
               <div className="d-flex justify-content-center">
                 <Pagination
                   page={page}
                   count={count}
                   pageNumber={pageNumber}
-                  handlePageClick={handlePageClick}
+                  handlePageClick={(e) => setPage(e.selected + 1)}
+                  handleChangePageNumber={(value) =>
+                    handleChangePageNumber(value)
+                  }
                 />
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    ),
+    [
+      brandOption,
+      count,
+      defaultStyles,
+      handleChangeFilter,
+      handleChangePageNumber,
+      handleChangeSort,
+      handleOnkeyDown,
+      handleSearch,
+      listProduct,
+      page,
+      pageNumber,
+      t,
+    ]
   );
 }
 

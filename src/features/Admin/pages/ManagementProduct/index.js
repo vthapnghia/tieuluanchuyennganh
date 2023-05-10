@@ -11,7 +11,8 @@ import {
   getAllProduct,
   getProduct,
   getProductById,
-  setPage,
+  searchProduct,
+  setProduct,
   uploadProduct,
 } from "../../../User/pages/Products/ProductSlice";
 import TableAdminCommon from "../../../../components/TableAdminCommon";
@@ -22,6 +23,7 @@ import { COLOR, OPTION_SIZE } from "../../../../constants/global";
 import * as Yup from "yup";
 import ReactSelect from "react-select";
 import { getAllBrand } from "../ManagementBrand/BrandSlice";
+import { currencyFormatting } from "../../../../until/common";
 
 function ManagementProduct() {
   const { t } = useTranslation();
@@ -31,9 +33,6 @@ function ManagementProduct() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.products?.product);
   const count = useSelector((state) => state.product.products?.count);
-  const pageNumber = useSelector((state) => state.product.pageNumber);
-  const page = useSelector((state) => state.product.page);
-  const [listProduct, setListProduct] = useState([]);
   const [idProduct, setIdProduct] = useState(null);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
@@ -44,7 +43,9 @@ function ManagementProduct() {
   );
   const brand = useSelector((state) => state.brand.allBrand?.brands);
   const [optionsBrand, setOptionsBrand] = useState([]);
-  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(2);
+  const [param, setParam] = useState();
 
   const colorDefaultStyles = useMemo(() => {
     return {
@@ -113,17 +114,21 @@ function ManagementProduct() {
   );
 
   const rows = useMemo(() => {
-    return listProduct?.map((productItem) => {
+    return product?.map((productItem) => {
       return {
         id: productItem._id,
         columns: [
           { label: productItem.name, align: "center", width: "20%" },
           { label: productItem.brand, align: "center", width: "20%" },
-          { label: productItem.price, align: "center", width: "20%" },
+          {
+            label: currencyFormatting(productItem.price),
+            align: "center",
+            width: "20%",
+          },
         ],
       };
     });
-  }, [listProduct]);
+  }, [product]);
 
   const handleRemove = useCallback(
     (id) => (e) => {
@@ -163,16 +168,19 @@ function ManagementProduct() {
 
   const handleSort = useCallback(
     (type) => {
-      const list = [...product];
-      setListProduct(
-        list.sort((a, b) => {
-          return a.price - b.price * type;
-        })
-      );
-    },
-    [product]
-  );
+      let list = [...product];
+      
+      if (list && list.length > 0) {
+        list?.sort((a, b) => {
+          return (a?.price - b?.price) * type;
+        });
+      }
 
+      dispatch(setProduct(list));
+    },
+    [dispatch, product]
+  );
+console.log("asdfasdf",product);
   const handleClick = useCallback(
     (id) => {
       dispatch(getProductById(id));
@@ -185,30 +193,10 @@ function ManagementProduct() {
   const handleOnkeyDown = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        if (e.target.value !== "") {
-          const productFilter = listProduct.filter((item) => {
-            return item.name.includes(e.target.value);
-          });
-          setListProduct(productFilter);
-        } else {
-          setListProduct(product);
-        }
+        dispatch(searchProduct(e.target.value));
       }
     },
-    [listProduct, product]
-  );
-
-  const handlePageClick = useCallback(
-    (event) => {
-      dispatch(
-        getProduct({ page: event.selected + 1, pageSize: pageNumber })
-      ).then((res) => {
-        if (res.payload.status === 200) {
-          dispatch(setPage(event.selected + 1));
-        }
-      });
-    },
-    [dispatch, pageNumber]
+    [dispatch]
   );
 
   const initialValues = useMemo(() => {
@@ -217,7 +205,7 @@ function ManagementProduct() {
       init.image = productById?.product_image;
       init.name = productById?.name;
       init.description = productById?.description;
-      init.price = productById?.price;
+      init.price = currencyFormatting(productById?.price);
       init.brand = productById?.brand;
       init.gender = productById?.gender;
       init.discount = productById?.discount;
@@ -351,25 +339,14 @@ function ManagementProduct() {
     formikRef.current.submitForm();
   }, [showModalAdd]);
 
-  const handleChangeSelect = useCallback(
-    (e) => {
-      const productFilter = product.filter(
-        (item) => item.brand === e.value && item.name.includes(search)
-      );
-      setListProduct(productFilter);
-    },
-    [product, search]
-  );
+  const handleChangePageNumber = useCallback((value) => {
+    setPageNumber(value);
+    setPage(1);
+  }, []);
 
   useEffect(() => {
-    dispatch(getProduct({ page: page, pageSize: pageNumber }));
-  }, [dispatch, page, pageNumber]);
-
-  useEffect(() => {
-    if (product && product.length > 0) {
-      setListProduct(product);
-    }
-  }, [product]);
+    dispatch(getProduct({ page: page, pageSize: pageNumber, ...param }));
+  }, [dispatch, page, pageNumber, param]);
 
   useEffect(() => {
     dispatch(getAllBrand());
@@ -407,13 +384,12 @@ function ManagementProduct() {
                 </div>
                 <div className="brand-filter">
                   <ReactSelect
-                    onChange={handleChangeSelect}
+                    onChange={(e) => setParam({ brand: [e.value] })}
                     type="select"
                     options={optionsBrand}
                     styles={colorDefaultStyles}
                     isSearchable={false}
                     components={{
-                      // DropdownIndicator: () => null,
                       IndicatorSeparator: () => null,
                     }}
                     menuPortalTarget={document.body}
@@ -422,10 +398,7 @@ function ManagementProduct() {
                   />
                 </div>
                 <div className="btn-view-all">
-                  <Button
-                    className="green"
-                    onClick={() => setListProduct(product)}
-                  >
+                  <Button className="green" onClick={() => setParam(null)}>
                     {t("view_all")}
                   </Button>
                 </div>
@@ -443,16 +416,18 @@ function ManagementProduct() {
                 handleSort={handleSort}
                 handleClick={handleClick}
               />
-              {count && count > pageNumber && (
-                <div className="d-flex justify-content-end">
-                  <Pagination
-                    page={page}
-                    count={count}
-                    pageNumber={pageNumber}
-                    handlePageClick={handlePageClick}
-                  />
-                </div>
-              )}
+
+              <div className="d-flex justify-content-end">
+                <Pagination
+                  page={page}
+                  count={count || product?.length}
+                  pageNumber={pageNumber}
+                  handlePageClick={(e) => setPage(e.selected + 1)}
+                  handleChangePageNumber={(value) =>
+                    handleChangePageNumber(value)
+                  }
+                />
+              </div>
             </div>
 
             <ModalCommon
@@ -493,14 +468,13 @@ function ManagementProduct() {
       colorDefaultStyles,
       cols,
       count,
-      handleChangeSelect,
+      handleChangePageNumber,
       handleClick,
       handleCloseMessage,
       handleCloseModal,
       handleCloseModalAdd,
       handleConfirmModalAdd,
       handleOnkeyDown,
-      handlePageClick,
       handleRemove,
       handleSave,
       handleShowModalAdd,

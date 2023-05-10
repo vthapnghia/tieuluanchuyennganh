@@ -7,25 +7,50 @@ const productAPI = {
     return doRequest("get", url);
   },
   getProduct: (data) => {
-    const {page, pageSize} = data;
-    const url = API_URL.PRODUCT.ALL_PRODUCT.concat(`?page=${page}&pageSize=${pageSize}`);
+    const {
+      page,
+      pageSize,
+      type = [],
+      gender = [],
+      size = [],
+      brand = [],
+      color = [],
+    } = data;
+
+    let brandCopy = brand.map(item => `"${item}"` )
+
+    let colorCopy = color.map(item => `"${item}"`)
+
+    const url = API_URL.PRODUCT.ALL_PRODUCT.concat(
+      `?page=${page}&pageSize=${pageSize}${
+        type.length > 0 ? `&type=[${type}]` : ""
+      }${gender.length > 0 ? `&gender=[${gender}]` : ""}${
+        size.length > 0 ? `&size=[${size}]` : ""
+      }${brand.length > 0 ? `&brand=[${brandCopy}]` : ""}${
+        color.length > 0 ? `&color=[${colorCopy}]` : ""
+      }`
+    );
     return doRequest("get", url);
   },
+
   getProductById: (data) => {
     const url = API_URL.PRODUCT.PRODUCT_BY_ID.replace(":id", data);
-    return doRequest("get", url,);
+    return doRequest("get", url);
   },
+
   addProduct: (data) => {
     const url = API_URL.PRODUCT.ADD_PRODUCT;
-    return doRequest("post", url, {data: data, isUploadImg: true});
+    return doRequest("post", url, { data: data, isUploadImg: true });
   },
+
   uploadProduct: (data) => {
-    const {formData, id} = data
-    const url = API_URL.PRODUCT.UPDATE_PRODUCT.replace(":id", id);;
-    return doRequest("put", url, {data: formData, isUploadImg: true});
+    const { formData, id } = data;
+    const url = API_URL.PRODUCT.UPDATE_PRODUCT.replace(":id", id);
+    return doRequest("put", url, { data: formData, isUploadImg: true });
   },
+
   deleteProduct: (data) => {
-    const url = API_URL.PRODUCT.DELETE_PRODUCT.replace(":id", data);;
+    const url = API_URL.PRODUCT.DELETE_PRODUCT.replace(":id", data);
     return doRequest("delete", url);
   },
   searchProduct: (data) => {

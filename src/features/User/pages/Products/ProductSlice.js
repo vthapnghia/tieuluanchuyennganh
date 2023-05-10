@@ -1,123 +1,133 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import productAPI from "../../../../API/productAPI";
 
-const getAllProduct = createAsyncThunk("GET_ALL_PRODUCT", async (data, {rejectWithValue}) => {
+const getAllProduct = createAsyncThunk(
+  "GET_ALL_PRODUCT",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.getALlProduct();
-        return res;
+      const res = await productAPI.getALlProduct();
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
-const getProduct = createAsyncThunk("GET_PRODUCT", async (data, {rejectWithValue}) => {
+const getProduct = createAsyncThunk(
+  "GET_PRODUCT",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.getProduct(data);
-        return res;
+      const res = await productAPI.getProduct(data);
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
-const getProductById = createAsyncThunk("GET_PRODUCT_BY_ID", async (data, {rejectWithValue}) => {
+const getProductById = createAsyncThunk(
+  "GET_PRODUCT_BY_ID",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.getProductById(data);
-        return res;
+      const res = await productAPI.getProductById(data);
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
-const addProduct = createAsyncThunk("AĐ_PRODUCT", async (data, {rejectWithValue}) => {
+const addProduct = createAsyncThunk(
+  "AĐ_PRODUCT",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.addProduct(data);
-        return res;
+      const res = await productAPI.addProduct(data);
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
-const uploadProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithValue}) => {
+const uploadProduct = createAsyncThunk(
+  "ADD_PRODUCT",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.uploadProduct(data);
-        return res;
+      const res = await productAPI.uploadProduct(data);
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
-const searchProduct = createAsyncThunk("SEARCH_PRODUCT", async (data, {rejectWithValue}) => {
+const searchProduct = createAsyncThunk(
+  "SEARCH_PRODUCT",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.searchProduct(data);
-        return res;
+      const res = await productAPI.searchProduct(data);
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
-const deleteProduct = createAsyncThunk("ADD_PRODUCT", async (data, {rejectWithValue}) => {
+const deleteProduct = createAsyncThunk(
+  "ADD_PRODUCT",
+  async (data, { rejectWithValue }) => {
     try {
-        const res = await productAPI.deleteProduct(data);
-        return res;
+      const res = await productAPI.deleteProduct(data);
+      return res;
     } catch (error) {
-        rejectWithValue(error);
+      rejectWithValue(error);
     }
-});
+  }
+);
 
 const initialState = {
-    products: null,
-    productById: null,
-    filterFlag: null,
-    sortFlag: 0,
-    page: 1,
-    pageNumber: 5,
-}
+  products: null,
+  productById: null,
+};
 const ProductSlice = createSlice({
-    name: 'product',
-    initialState,
-    reducers: {
-        setFilter: (state, action) => {
-            state.filterFlag = action.payload;
-        },
-        setSort: (state, action) => {
-            state.sortFlag = action.payload;
-        },
-        setPage: (state, action) => {
-            state.page = action.payload;
-        }
+  name: "product",
+  initialState,
+  reducers: {
+    setProduct: (state, action) => {
+        console.log(action.payload);
+      state.products = action.payload;
     },
-    extraReducers: {
-        [getAllProduct.fulfilled]: (state, action) =>{
-            const res = action.payload?.data;
-            state.products = res;
-        },
-        [getProduct.fulfilled]: (state, action) =>{
-            const res = action.payload?.data;
-            state.products = res;
-        },
-        [getProductById.fulfilled]: (state, action) => {
-            const res = action.payload?.data;
-            state.productById = res;
-        },
-        [searchProduct.fulfilled]: (state, action) => {
-            const res = action.payload?.data;
-            state.products = res;
-        },
-    }
+  },
+  extraReducers: {
+    [getAllProduct.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.products = res;
+    },
+    [getProduct.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.products = res;
+    },
+    [getProductById.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.productById = res;
+    },
+    [searchProduct.fulfilled]: (state, action) => {
+      const res = action.payload?.data;
+      state.products = res;
+    },
+  },
 });
 
-const {reducer} = ProductSlice;
-const {setFilter, setSort,setPage} = ProductSlice.actions;
+const { reducer } = ProductSlice;
+const {setProduct} = ProductSlice.actions;
 export {
-    getAllProduct, 
-    getProductById, 
-    getProduct,
-    addProduct, 
-    uploadProduct, 
-    deleteProduct,
-    setFilter,
-    setSort,
-    setPage,
-    searchProduct
+  getAllProduct,
+  getProductById,
+  getProduct,
+  addProduct,
+  uploadProduct,
+  deleteProduct,
+  searchProduct,
+  setProduct
 };
 export default reducer;
