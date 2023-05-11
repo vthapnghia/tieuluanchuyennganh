@@ -46,14 +46,13 @@ function ManagementOrder() {
               "YYYY-MM-DD"
             );
             const checkDate = date ? date === itemDate : true;
+            const checkSearch = search
+              ? item.receiver_name.includes(search)
+              : true;
             if (index === 0) {
-              return true && checkDate && item.receiver_name.includes(search);
+              return true && checkDate && checkSearch;
             } else {
-              return (
-                item.status === index &&
-                checkDate &&
-                item.receiver_name.includes(search)
-              );
+              return item.status === index && checkDate && checkSearch;
             }
           });
           setOrders(list);
@@ -200,8 +199,7 @@ function ManagementOrder() {
     [allOrder, orders]
   );
 
-  const handlePageClick = useCallback((event) => {
-  }, []);
+  const handlePageClick = useCallback((event) => {}, []);
 
   useEffect(() => {
     let callAPi = async () => {
@@ -260,7 +258,11 @@ function ManagementOrder() {
           ></input>
 
           <div className="search">
-            <input type="text" onKeyDown={handleOnChangeSearch} placeholder={t("search")}></input>
+            <input
+              type="text"
+              onKeyDown={handleOnChangeSearch}
+              placeholder={t("search")}
+            ></input>
             <Icons.Search color={COLOR.GRAY_2} />
           </div>
 

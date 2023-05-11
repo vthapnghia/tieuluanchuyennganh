@@ -20,6 +20,7 @@
       }
       .content {
         background: #fff;
+        border: 1px solid #ddd;
         border-radius: 4px;
         display: flex;
         flex-direction: column;
@@ -62,6 +63,7 @@
   }
 
   .status {
+    border: 1px solid #ddd;
     padding: 20px 50px;
     display: flex;
     flex-direction: row;
@@ -107,6 +109,7 @@
   .order-product {
     background-color: #fff;
     border-radius: 4px;
+    border: 1px solid #ddd;
 
     .header {
       display: flex;

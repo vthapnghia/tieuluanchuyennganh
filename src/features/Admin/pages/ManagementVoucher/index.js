@@ -180,7 +180,7 @@ function ManagementVoucher(params) {
   }, [showMessage, dispatch]);
 
   const handleClick = useCallback(
-    async (e, id) => {
+    async (id) => {
       await dispatch(getVoucherById(id)).then((res) => {
         if (res.payload.status === 200) {
           setId(id);

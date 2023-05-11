@@ -197,6 +197,8 @@
   "total_month": "Tổng doanh thu tháng",
   "total_year": "Tổng doanh thu năm",
   "post_new": "Đăng bản tin",
+  "update_new": "Cập nhập",
+  "news_other": "Tin khác",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",

@@ -100,8 +100,8 @@ function TabVoucher({ vouchers, handleClick, className }) {
   }, [showMessage, id, dispatch, show]);
 
   const voucherItemClick = useCallback(
-    (id) => (e) => {
-      handleClick(e, id);
+    (id) => {
+      handleClick(id);
     },
     [handleClick]
   );

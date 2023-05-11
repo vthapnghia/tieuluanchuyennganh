@@ -21,7 +21,6 @@ function NewsItem({ newsItem }) {
           <h3>
             <div>{newsItem.title}</div>
           </h3>
-          <div className="content">{newsItem.content}</div>
         </div>
       </div>
     </div>

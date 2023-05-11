@@ -5,14 +5,9 @@ import React, {
   useRef,
   useState,
 } from "react";
-import ReactQuill from "react-quill";
-import ImageResize from "quill-image-resize-module-react";
 import Button from "../../../../../components/Button";
 import { useTranslation } from "react-i18next";
 import "./NewsDetail.scss";
-import { Formik } from "formik";
-import Input from "../../../../../components/Input";
-import * as Yup from "yup";
 import Icons from "../../../../../components/Icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,81 +17,50 @@ import {
 } from "../../../../User/pages/News/NewsSlice";
 import ModalCommon from "../../../../../components/ModalCommon";
 import { useParams } from "react-router";
-
-ReactQuill.Quill.register("modules/imageResize", ImageResize);
+import "jodit/build/jodit.min.css";
+import JoditEditor from "jodit-react";
 
 const TextEditor = () => {
-  const [text, setText] = useState("");
-  const [textErr, setTextErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalBody, setModalBody] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+  const [temp, setTemp] = useState();
+  const [thumbnail, setThumbnail] = useState();
   const { t } = useTranslation();
-  const quillRef = useRef();
+  const ref = useRef();
   const titleRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
   const news = useSelector((state) => state.news.newsById?.news);
 
-  const modules = useMemo(() => {
-    return {
-      toolbar: [
-        [{ header: "1" }, { header: "2" }],
-        ["bold", "italic", "underline", "strike"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [
-          { align: "" },
-          { align: "center" },
-          { align: "right" },
-          { align: "justify" },
-        ],
-        ["image"],
-
-        ["clean"],
-      ],
-      clipboard: {
-        matchVisual: false,
-      },
-      imageResize: {
-        parchment: ReactQuill.Quill.import("parchment"),
-        modules: ["Resize", "DisplaySize", "Toolbar"],
-      },
-    };
-  }, []);
-  const base64ToBlob = (base64, type) => {
-    const byteString = atob(base64);
-    const buffer = new ArrayBuffer(byteString.length);
-    const data = new Uint8Array(buffer);
-    for (let i = 0; i < byteString.length; i++) {
-      data[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([data.buffer], { type });
-  };
+  const config = useMemo(
+    () => ({
+      buttons:
+        "bold,italic,underline,strikethrough,|,superscript,subscript,|,fontsize,brush,paragraph,|,image,file,link,|,align,undo,redo",
+      spellcheck: true,
+      toolbarSticky: true,
+      showCharsCounter: true,
+      showWordsCounter: true,
+      countCharacters: true,
+      countWords: true,
+      readonly: false,
+    }),
+    []
+  );
 
   const post = useCallback(async () => {
-    let postHtml = quillRef.current.value;
+    let postHtml = ref.current.value;
     let titleElement = titleRef.current.value;
-    if (!postHtml) {
-      setTextErr(t("MS_01", { param: "" }));
-    }
-
     if (!titleElement) {
       setTitleErr(t("MS_01", { param: "" }));
     }
 
     if (postHtml && titleElement) {
       const formData = new FormData();
-      formData.append("thumbnail", "");
+      formData.append("thumbnail", thumbnail);
       formData.append("title", titleElement);
       formData.append("content", postHtml);
-      const regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
-      let match;
-      while ((match = regex.exec(postHtml))) {
-        const [, format, base64] = match;
-        const blob = base64ToBlob(base64, `image/${format}`);
-        formData.append("images", blob, `image-${Date.now()}.${format}`);
-      }
 
       if (!id) {
         await dispatch(addNews(formData)).then((res) => {
@@ -124,7 +88,7 @@ const TextEditor = () => {
         );
       }
     }
-  }, [dispatch, id, showModal, t]);
+  }, [dispatch, id, showModal, t, thumbnail]);
 
   const handleTitleFocus = () => {
     setTitleErr("");
@@ -139,25 +103,23 @@ const TextEditor = () => {
     [t]
   );
 
-  const handleTextFocus = () => {
-    setTextErr("");
-  };
-
-  const handleTextBlur = useCallback(
-    (e) => {
-      if (quillRef.current.value === "") {
-        setTextErr(t("MS_01", { param: "" }));
-      }
-    },
-    [t]
-  );
-
   const handleClose = useCallback(() => {
     setShowModal(!showModal);
     if (id) {
       dispatch(getNewsById(id));
     }
   }, [showModal, id, dispatch]);
+
+  const onChangeImage = useCallback((e) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      if (fileReader.readyState === 2) {
+        setTemp(fileReader.result);
+      }
+    };
+    fileReader.readAsDataURL(e.target.files[0]);
+    setThumbnail(e.target.files[0]);
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -168,43 +130,55 @@ const TextEditor = () => {
   return useMemo(
     () => (
       <div className="news-detail-admin ql-editor">
-        <div className="title-post">
-          <input
-            type="text"
-            ref={titleRef}
-            onFocus={handleTitleFocus}
-            onBlur={handleTitleBlur}
-            placeholder="Nhập tiêu đề bài viết..."
-          ></input>
-          {titleErr && (
-            <span className="warning-icon-input">
-              <Icons.Exclamation />
-              <span className="tooltiptext">{titleErr}</span>
-            </span>
-          )}
+        <div className="d-flex flex-column">
+          <div className="title-post">
+            <input
+              type="text"
+              ref={titleRef}
+              onFocus={handleTitleFocus}
+              onBlur={handleTitleBlur}
+              placeholder="Nhập tiêu đề bài viết..."
+              value={news?.title ? news?.title : ""}
+            ></input>
+            {titleErr && (
+              <span className="warning-icon-input">
+                <Icons.Exclamation />
+                <span className="tooltiptext">{titleErr}</span>
+              </span>
+            )}
+          </div>
+          <div className="main-image">
+            <input
+              type="file"
+              id="img-main"
+              hidden
+              accept="image/*"
+              onChange={onChangeImage}
+            />
+            <label htmlFor="img-main">Chọn ảnh đại diện</label>
+            <img
+              src={news?.thumbnail ? news?.thumbnail : temp}
+              alt="img"
+              width={100}
+              height={100}
+              onLoad={(event) => (event.target.style.display = "inline-block")}
+            />
+          </div>
         </div>
-        {/* <div dangerouslySetInnerHTML={{ __html: text }}></div> */}
+
         <div className="text-editor">
-          <ReactQuill
-            value={text}
-            ref={quillRef}
-            modules={modules}
-            formats={TextEditor.formats}
-            placeholder="Nhập nội dung bài viết..."
-            onFocus={handleTextFocus}
-            onBlur={handleTextBlur}
+          <JoditEditor
+            ref={ref}
+            value={news?.content}
+            config={config}
+            tabIndex={1}
+            className="jodit-editor"
           />
-          {textErr && (
-            <span className="warning-icon-input">
-              <Icons.Exclamation />
-              <span className="tooltiptext">{textErr}</span>
-            </span>
-          )}
         </div>
 
         <div className="btn-post">
           <Button onClick={post} className="green">
-            {t("post_new")}
+            {id ? t("update_new") : t("post_new")}
           </Button>
         </div>
 
@@ -219,31 +193,23 @@ const TextEditor = () => {
       </div>
     ),
     [
+      config,
       handleClose,
-      handleTextBlur,
       handleTitleBlur,
+      id,
       modalBody,
       modalTitle,
-      modules,
+      news?.content,
+      news?.thumbnail,
+      news?.title,
+      onChangeImage,
       post,
       showModal,
       t,
-      text,
-      textErr,
+      temp,
       titleErr,
     ]
   );
 };
-
-TextEditor.formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "list",
-  "image",
-  "align",
-];
 
 export default TextEditor;

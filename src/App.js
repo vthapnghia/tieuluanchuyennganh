@@ -16,7 +16,7 @@ import AdminLogin from "./features/Authentication/page/AdminLogin";
 
 function App() {
   return (
-    <div className="app" style={{ background: "#eff2f1" }}>
+    <div className="app" style={{ background: "white" }}>
       <Routes>
         <Route path={PATH.LOGIN} element={<Login />} />
         <Route path={PATH.ADMIN.LOGIN} element={<AdminLogin />} />

@@ -62,11 +62,30 @@
       }
     }
   }
+
+  .main-image{
+    margin-bottom: 20px;
+
+    label{
+      display: inline-block;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    img{
+      margin-left: 20px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+  }
+
   .text-editor {
     position: relative;
     .warning-icon-input {
       position: absolute;
-      top: 72%;
+      top: 54%;
       right: 50px;
       transform: translateY(-50%);
 

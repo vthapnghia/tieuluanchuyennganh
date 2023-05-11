@@ -1,16 +1,17 @@
-@import './assets/scss/variables.scss';
+@import "./assets/scss/variables.scss";
 @import "~bootstrap/scss/bootstrap";
-@import "~/node_modules/react-quill/dist/quill.snow.css";
+@import "jodit/build/jodit.min.css";
+// @import 'jodit-react/jodit-react.css';
 
 body {
-  font-family: $font-family!important;
+  font-family: $font-family !important;
   font-weight: 400;
   line-height: 28px;
   color: $body_color;
-  font-size: 14px!important;
-  &::-webkit-scrollbar { 
-	width: 0 !important;
-	display: none; 
+  font-size: 14px !important;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
   }
 }
 
@@ -28,41 +29,39 @@ a {
   }
 }
 
-
 // .untree_co-section {
 // 	padding: 7rem 0;
 // }
 
 .section-title {
-	color: $dark;
+  color: $dark;
 }
 
 .feature {
-	margin-bottom: 30px;
-	.icon {
-		display: inline-block;
-		position: relative;
-		margin-bottom: 20px;
+  margin-bottom: 30px;
+  .icon {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 20px;
 
-		&:before {
-			content: "";
-			width: 33px;
-			height: 33px;
-			position: absolute;
-			background: rgba($main_color, .2);
-			border-radius: 50%;
-			right: -8px;
-			bottom: 0;
-		}
-
-	}
-	h3 {
-		font-size: 14px;
-		color: $dark;
-	}
-	p {
-		font-size: 14px;
-		line-height: 22px;
-		color: $body_color;
-	}
+    &:before {
+      content: "";
+      width: 33px;
+      height: 33px;
+      position: absolute;
+      background: rgba($main_color, 0.2);
+      border-radius: 50%;
+      right: -8px;
+      bottom: 0;
+    }
+  }
+  h3 {
+    font-size: 14px;
+    color: $dark;
+  }
+  p {
+    font-size: 14px;
+    line-height: 22px;
+    color: $body_color;
+  }
 }

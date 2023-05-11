@@ -6,7 +6,7 @@ function User(props) {
   return (
     <>
       <Navbars />
-      <div className="container" style={{padding: "80px 0", minHeight: "calc(100vh - 62px)"}}>
+      <div className="container" style={{padding: "80px 0 0", minHeight: "calc(100vh - 62px)"}}>
         <props.component/>
       </div>
       

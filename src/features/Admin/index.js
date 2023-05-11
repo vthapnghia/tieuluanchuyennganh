@@ -4,7 +4,7 @@ import Navbars from "./../../components/Navbars/index";
 
 function Admin(props) {
   return (
-    <div className="admin">
+    <div className="admin" style={{ background: "#eff2f1" }}>
       <SideBar />
       <div className="content-page">
         <Navbars />
