@@ -15,21 +15,32 @@ const productAPI = {
       size = [],
       brand = [],
       color = [],
+      search = "",
     } = data;
 
-    let brandCopy = brand.map(item => `"${item}"` )
+    let brandCopy = brand.map((item) => `"${item}"`);
 
-    let colorCopy = color.map(item => `"${item}"`)
+    let colorCopy = color.map((item) => `"${item}"`);
 
-    const url = API_URL.PRODUCT.ALL_PRODUCT.concat(
-      `?page=${page}&pageSize=${pageSize}${
-        type.length > 0 ? `&type=[${type}]` : ""
-      }${gender.length > 0 ? `&gender=[${gender}]` : ""}${
-        size.length > 0 ? `&size=[${size}]` : ""
-      }${brand.length > 0 ? `&brand=[${brandCopy}]` : ""}${
-        color.length > 0 ? `&color=[${colorCopy}]` : ""
-      }`
-    );
+    let url = API_URL.PRODUCT.ALL_PRODUCT;
+    if (
+      type.length === 0 &&
+      gender.length === 0 &&
+      size.length === 0 &&
+      brand.length === 0 &&
+      color.length === 0
+    ) {
+      url = `${url}${search && `?search=${search}`}`;
+    } else {
+      url = `?page=${page}&pageSize=${pageSize}${
+        type.length > 0 && `&type=[${type}]`
+      }${gender.length > 0 && `&gender=[${gender}]`}${
+        size.length > 0 && `&size=[${size}]`
+      }${brand.length > 0 && `&brand=[${brandCopy}]`}${
+        color.length > 0 && `&color=[${colorCopy}]`
+      }${search && `?search=${search}`}`;
+    }
+
     return doRequest("get", url);
   },
 

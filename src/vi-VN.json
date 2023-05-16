@@ -199,6 +199,9 @@
   "post_new": "Đăng bản tin",
   "update_new": "Cập nhập",
   "news_other": "Tin khác",
+  "to": "đến",
+  "filter": "Lọc",
+  "chat_shoe": "Shoe chat",
 
   "MS_01": "Vui lòng nhập {{param}}",
   "MS_02": "Vui lòng nhập nhiểu hơn {{param}} ký tự",
@@ -208,5 +211,7 @@
   "MS_06": "Vui lòng nhập {{param}} tối thiểu là {{min}}",
   "MS_07": "Vui lòng nhập {{param}} tối đa là {{max}}",
   "MS_08": "Vui lòng đúng {{param}}",
-  "MS_09": "Vui lòng chọn {{param}}"
+  "MS_09": "Vui lòng chọn {{param}}",
+  "MS_10": "Vui lòng chọn sau ngày {{param}}",
+  "MS_11": "Vui lòng chọn trước ngày {{param}}"
 }

@@ -1,0 +1,110 @@
+.chat {
+  .icon-chat {
+    transition: all 0.5s ease;
+    svg {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .hide-icon {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .display-icon {
+    width: 50px;
+    height: 50px;
+    opacity: 1;
+  }
+
+  .form-message {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.5s ease;
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      height: 40px;
+      align-items: center;
+      position: relative;
+      padding: 20px;
+      font-weight: 600;
+      font-size: 16px;
+
+      .icon-close-form {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        font-size: 16px;
+
+        &:hover {
+          color: red;
+        }
+      }
+    }
+    .form-message-content{
+        padding: 10px;
+        height: 100%;
+    }
+    .form-message-input {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid #ddd;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .input {
+        width: 100%;
+        margin-right: 10px;
+        position: relative;
+
+        .icon-image {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          top: 50%;
+          left: 10px;
+          transform: translate(0, -50%);
+        }
+        input {
+          width: 100%;
+          height: 36px;
+          border-radius: 4px;
+          padding: 0 10px 0 34px;
+          border: 1px solid #ddd;
+
+          &:focus-visible {
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  .display-form {
+    height: 400px;
+    width: 300px;
+    opacity: 1;
+  }
+
+  .hide-form {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    visibility: none;
+  }
+}

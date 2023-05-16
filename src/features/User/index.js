@@ -1,4 +1,5 @@
 import BackToTop from "../../components/BackToTop";
+import Chat from "../../components/Chat";
 import Footer from "../../components/Footer";
 import Navbars from "../../components/Navbars";
 
@@ -12,6 +13,7 @@ function User(props) {
       
       <Footer />
       <BackToTop/>
+      <Chat/>
     </>
   );
 }

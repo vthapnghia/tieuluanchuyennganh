@@ -11,7 +11,6 @@ import {
   getAllProduct,
   getProduct,
   getProductById,
-  searchProduct,
   setProduct,
   uploadProduct,
 } from "../../../User/pages/Products/ProductSlice";
@@ -154,8 +153,8 @@ function ManagementProduct() {
 
   const handleCloseMessage = useCallback(() => {
     setShowMessage(!showMessage);
-    dispatch(getAllProduct());
-  }, [showMessage, dispatch]);
+    dispatch(getAllProduct({param}));
+  }, [showMessage, dispatch, param]);
 
   const handleCloseModalAdd = useCallback(
     (event) => {
@@ -169,18 +168,16 @@ function ManagementProduct() {
   const handleSort = useCallback(
     (type) => {
       let list = [...product];
-      
       if (list && list.length > 0) {
         list?.sort((a, b) => {
           return (a?.price - b?.price) * type;
         });
       }
-
       dispatch(setProduct(list));
     },
     [dispatch, product]
   );
-console.log("asdfasdf",product);
+
   const handleClick = useCallback(
     (id) => {
       dispatch(getProductById(id));
@@ -193,10 +190,10 @@ console.log("asdfasdf",product);
   const handleOnkeyDown = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        dispatch(searchProduct(e.target.value));
+        setParam({ ...param, search: e.target.value });
       }
     },
-    [dispatch]
+    [param]
   );
 
   const initialValues = useMemo(() => {
@@ -384,7 +381,7 @@ console.log("asdfasdf",product);
                 </div>
                 <div className="brand-filter">
                   <ReactSelect
-                    onChange={(e) => setParam({ brand: [e.value] })}
+                    onChange={(e) => setParam({ ...param, brand: [e.value] })}
                     type="select"
                     options={optionsBrand}
                     styles={colorDefaultStyles}
@@ -398,7 +395,7 @@ console.log("asdfasdf",product);
                   />
                 </div>
                 <div className="btn-view-all">
-                  <Button className="green" onClick={() => setParam(null)}>
+                  <Button className="green" onClick={() => setParam({})}>
                     {t("view_all")}
                   </Button>
                 </div>
@@ -487,7 +484,8 @@ console.log("asdfasdf",product);
       optionsBrand,
       page,
       pageNumber,
-      product,
+      param,
+      product?.length,
       productById?.product_image,
       rows,
       showMessage,

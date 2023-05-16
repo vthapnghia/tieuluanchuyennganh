@@ -5,12 +5,10 @@ import "./ManagementOrder.scss";
 import { empty } from "../../../../assets/img";
 import moment from "moment";
 import TableAdminCommon from "../../../../components/TableAdminCommon";
-import { getAllShip } from "../ManagementShip/ShipSlice";
 import { COLOR, PAYMENT_OPTION } from "../../../../constants/global";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../constants/path";
-import { hideLoading, showLoading } from "../../../../loading";
 import Icons from "../../../../components/Icons";
 import Pagination from "../../../../components/Pagination";
 import Button from "../../../../components/Button";
@@ -27,8 +25,11 @@ function ManagementOrder() {
   const count = useSelector((state) => state.ship.allShip?.count);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [date, setDate] = useState("");
-  const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState();
+  const [toDate, setToDate] = useState();
+  const [errFromDate, setErrFromDate] = useState();
+  const [errToDate, setErrToDate] = useState();
+  const [param, setParam] = useState({});
   const pageNumber = useSelector((state) => state.product.pageNumber);
   const page = useSelector((state) => state.product.page);
 
@@ -42,36 +43,10 @@ function ManagementOrder() {
           elementTabCurrent.classList.remove("is-active");
           setTab(index);
           let list = allOrder.filter((item) => {
-            let itemDate = moment(new Date(item.created_at)).format(
-              "YYYY-MM-DD"
-            );
-            const checkDate = date ? date === itemDate : true;
-            const checkSearch = search
-              ? item.receiver_name.includes(search)
-              : true;
-            if (index === 0) {
-              return true && checkDate && checkSearch;
-            } else {
-              return item.status === index && checkDate && checkSearch;
-            }
+            return item.status === index;
           });
           setOrders(list);
         }
-      }
-    },
-    [allOrder, date, search, tab]
-  );
-
-  const handleOnChangeFilter = useCallback(
-    (e) => {
-      if (allOrder) {
-        setDate(e?.target?.value);
-        let list = allOrder?.filter((item) => {
-          let itemDate = moment(new Date(item.created_at)).format("YYYY-MM-DD");
-          const checkTab = tab === 0 ? true : item.status === tab;
-          return e?.target?.value === itemDate && checkTab;
-        });
-        setOrders(list);
       }
     },
     [allOrder, tab]
@@ -181,35 +156,81 @@ function ManagementOrder() {
   const handleOnChangeSearch = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        if (e.target.value !== "") {
-          let list = orders?.filter((item) => {
-            if (item.receiver_name) {
-              return item.receiver_name.includes(e.target.value);
-            } else {
-              return false;
-            }
-          });
-          setOrders(list);
-        } else {
-          setOrders(allOrder);
-        }
-        setSearch(e.target.value);
+        setParam({ ...param, search: e.target.value });
       }
     },
-    [allOrder, orders]
+    [param]
   );
 
   const handlePageClick = useCallback((event) => {}, []);
 
+  const handleFilter = useCallback(() => {
+    const from = new Date(fromDate).getTime();
+    const to = new Date(toDate).getTime();
+    if (!fromDate) {
+      setErrFromDate(t("MS_09", { param: "" }));
+    }
+    if (!toDate) {
+      setErrToDate(t("MS_09", { param: "" }));
+    }
+    if (to - from < 0 && fromDate) {
+      setErrToDate(t("MS_10", { param: fromDate }));
+    }
+    if (from - to > 0 && toDate) {
+      setErrFromDate(t("MS_11", { param: toDate }));
+    }
+    if (fromDate && toDate && to - from > 0 && from - to < 0) {
+      setParam({
+        ...param,
+        dateFrom: moment(new Date(from)).format("YYYY/MM/DD"),
+        dateTo: moment(new Date(toDate)).format("YYYY/MM/DD"),
+      });
+      setErrFromDate("");
+      setErrToDate("");
+    }
+  }, [fromDate, param, t, toDate]);
+
+  const handleChangeFrom = useCallback((e) => {
+    setErrFromDate(null);
+    setFromDate(e.target.value);
+  }, []);
+
+  const handleChangeTo = useCallback((e) => {
+    setErrToDate(null);
+    setToDate(e.target.value);
+  }, []);
+
+  const handleTitleBlurFrom = useCallback(
+    (e) => {
+      if (!e.target.value) {
+        setErrFromDate(t("MS_09", { param: "" }));
+      }
+      const from = new Date(e.target.value).getTime();
+      const to = new Date(toDate).getTime();
+      if (from - to > 0 && toDate) {
+        setErrFromDate(t("MS_11", { param: toDate }));
+      }
+    },
+    [t, toDate]
+  );
+
+  const handleTitleBlurTo = useCallback(
+    (e) => {
+      if (e.target.value === "") {
+        setErrToDate(t("MS_09", { param: "" }));
+      }
+      const from = new Date(fromDate).getTime();
+      const to = new Date(e.target.value).getTime();
+      if (to - from < 0 && fromDate) {
+        setErrToDate(t("MS_10", { param: fromDate }));
+      }
+    },
+    [fromDate, t]
+  );
+
   useEffect(() => {
-    let callAPi = async () => {
-      showLoading();
-      await dispatch(getAllOrderAdmin());
-      await dispatch(getAllShip());
-      hideLoading();
-    };
-    callAPi();
-  }, [dispatch]);
+    dispatch(getAllOrderAdmin({ ...param }));
+  }, [dispatch, param]);
 
   useEffect(() => {
     if (allOrder) {
@@ -251,25 +272,55 @@ function ManagementOrder() {
           </div>
         </div>
         <div className="action row">
-          <input
-            className="filter-date"
-            type="date"
-            onChange={handleOnChangeFilter}
-          ></input>
+          <div className="action-filter">
+            <div className="from-date">
+              <input
+                className="filter-date"
+                type="date"
+                onChange={handleChangeFrom}
+                onFocus={() => setErrFromDate(null)}
+                onBlur={handleTitleBlurFrom}
+              ></input>
+              {errFromDate && (
+                <span className="warning-icon-input">
+                  <Icons.Exclamation />
+                  <span className="tooltiptext">{errFromDate}</span>
+                </span>
+              )}
+            </div>
+            <div style={{ margin: "0 20px" }}>{t("to")}</div>
+            <div className="to-date">
+              <input
+                className="filter-date"
+                type="date"
+                onChange={handleChangeTo}
+                onFocus={() => setErrToDate(null)}
+                onBlur={handleTitleBlurTo}
+              ></input>
+              {errToDate && (
+                <span className="warning-icon-input">
+                  <Icons.Exclamation />
+                  <span className="tooltiptext">{errToDate}</span>
+                </span>
+              )}
+            </div>
 
-          <div className="search">
+            <Button className="green" onClick={handleFilter}>
+              {t("filter")}
+            </Button>
+
+            <Button className="green" onClick={() => setParam({})}>
+              {t("view_all")}
+            </Button>
+          </div>
+
+          <div className="action-search">
             <input
               type="text"
               onKeyDown={handleOnChangeSearch}
               placeholder={t("search")}
             ></input>
             <Icons.Search color={COLOR.GRAY_2} />
-          </div>
-
-          <div className="btn-all">
-            <Button className="green" onClick={() => setOrders(allOrder)}>
-              {t("view_all")}
-            </Button>
           </div>
         </div>
 
@@ -302,7 +353,13 @@ function ManagementOrder() {
     ),
     [
       t,
-      handleOnChangeFilter,
+      handleChangeFrom,
+      handleTitleBlurFrom,
+      errFromDate,
+      handleChangeTo,
+      handleTitleBlurTo,
+      errToDate,
+      handleFilter,
       handleOnChangeSearch,
       orders.length,
       cols,
@@ -314,7 +371,6 @@ function ManagementOrder() {
       page,
       handlePageClick,
       handleClickTab,
-      allOrder,
     ]
   );
 }

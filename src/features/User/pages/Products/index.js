@@ -14,10 +14,12 @@ import {
   SORT_OPTION,
 } from "../../../../constants/global";
 import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
-import ProductItem from "./ProductItem";
 import { getProduct, searchProduct } from "./ProductSlice";
 import "./Products.scss";
 import { empty } from "../../../../assets/img";
+import { currencyFormatting } from "../../../../until/common";
+import PATH from "../../../../constants/path";
+import { Link } from "react-router-dom";
 
 function Products() {
   const { t } = useTranslation();
@@ -132,10 +134,10 @@ function Products() {
   const handleOnkeyDown = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        dispatch(searchProduct(ref.current.value));
+        setParam({ ...param, search: e.target.value });
       }
     },
-    [dispatch]
+    [param]
   );
 
   const handleChangePageNumber = useCallback((value) => {
@@ -336,8 +338,53 @@ function Products() {
             </div>
             <div className="row list-product">
               {listProduct && listProduct.length > 0 ? (
-                listProduct.map((product, index) => {
-                  return <ProductItem key={index} product={product} />;
+                listProduct.map((product) => {
+                  return (
+                    <div
+                      key={product._id}
+                      className="col-12 col-md-6 col-lg-4 col-xl-3 mb-5"
+                    >
+                      <div className="product-item ">
+                        {product.discount > 0 && (
+                          <div className="discount">
+                            {t("discount_label", { param: product.discount })}
+                          </div>
+                        )}
+                        <img
+                          src={product.product_image[0]}
+                          alt="product"
+                          className="img-fluid product-thumbnail"
+                        />
+                        <div className="product-title">{product.name}</div>
+                        {product.discount > 0 ? (
+                          <div className="d-flex flex-column align-items-center mh-">
+                            <div className="product-price-discount">
+                              {currencyFormatting(
+                                (
+                                  product.price *
+                                  (1 - product.discount / 100)
+                                ).toFixed(2)
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="product-price">
+                            {currencyFormatting(product.price)}
+                          </div>
+                        )}
+
+                        <Link
+                          className="icon-cross"
+                          to={PATH.PRODUCT.DETAIL_PRODUCT.replace(
+                            ":id",
+                            product._id
+                          )}
+                        >
+                          <p>{t("product_detail")}</p>
+                        </Link>
+                      </div>
+                    </div>
+                  );
                 })
               ) : (
                 <div className="no-product d-flex justify-content-center">
