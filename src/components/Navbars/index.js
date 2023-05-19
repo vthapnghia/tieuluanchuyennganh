@@ -7,7 +7,7 @@ import { DropdownButton } from "react-bootstrap";
 import { useMemo, useCallback, useEffect } from "react";
 import { useAuth } from "../../until/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCart } from "../../features/User/pages/Cart/cartSlice";
+import { getAllCart, removeCart } from "../../features/User/pages/Cart/cartSlice";
 import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
@@ -49,8 +49,11 @@ function Navbars() {
   }, [pathname, t]);
 
   const handleLogout = useCallback(() => {
-    dispatch(logout()).then((res) => {
+  
+    dispatch(logout()).then((res) => {  
+      localStorage.clear();
       navigate(PATH.HOME);
+      dispatch(removeCart())
     });
   }, [dispatch, navigate]);
 
@@ -58,6 +61,7 @@ function Navbars() {
     if (userAuth && !is_admin && !is_seller) {
       dispatch(getAllCart());
     }
+
   }, [dispatch, userAuth, is_admin, is_seller]);
 
   return (

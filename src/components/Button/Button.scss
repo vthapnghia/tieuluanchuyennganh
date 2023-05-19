@@ -78,4 +78,11 @@
   &.red:hover {
     opacity: 0.8;
   }
+
+  &.common {
+    background: #f1f3f1;
+    .children {
+      color: $black;
+    }
+  }
 }

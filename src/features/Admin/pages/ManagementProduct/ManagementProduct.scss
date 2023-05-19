@@ -44,6 +44,11 @@
     .btn-add-product {
       .btn-common {
         height: 40px;
+        background-color: #2f7aeb;
+
+        &:hover{
+          background-color: #0650c0;
+        }
       }
     }
   }

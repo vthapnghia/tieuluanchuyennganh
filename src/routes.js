@@ -17,11 +17,12 @@ const NewsDetail = lazy(() => import("./features/User/pages/News/NewsDetail"));
 const Order = lazy (() => import("./features/User/pages/Order"));
 const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
 // const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
-const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
+// const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
 const ManagementOrder = lazy(() => import("./features/Admin/pages/ManagementOrder"));
 const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrder/OrderDetail"));
 const ManagementVoucher = lazy(() => import("./features/Admin/pages/ManagementVoucher"));
 const Revenue  = lazy(() => import("./features/Admin/pages/Revenue"));
+const Chat  = lazy(() => import("./features/Admin/pages/ManagementChat"));
 const UserCommon = lazy(() => import("./features/User/pages/Account"));
 
 const routesAdmin = [
@@ -89,6 +90,11 @@ const routesAdmin = [
     path: PATH.ADMIN.REVENUE,
     name: "Revenue",
     component: Revenue,
+  },
+  {
+    path: PATH.ADMIN.CHAT,
+    name: "Chat",
+    component: Chat,
   },
 ];
 

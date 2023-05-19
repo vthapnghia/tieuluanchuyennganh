@@ -344,7 +344,7 @@ function Products() {
                       key={product._id}
                       className="col-12 col-md-6 col-lg-4 col-xl-3 mb-5"
                     >
-                      <div className="product-item ">
+                      <div className="item">
                         {product.discount > 0 && (
                           <div className="discount">
                             {t("discount_label", { param: product.discount })}

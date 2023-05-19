@@ -35,7 +35,16 @@
       border-radius: 8px;
       text-align: center;
       line-height: 40px;
-      div {
+      position: relative;
+      div:first-child {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        display: flex;
+        align-items: center;
+        transform: translate(0, -50%);
+      }
+      div:last-child {
         text-decoration: none;
         font-family: $font-family;
         color: $white;

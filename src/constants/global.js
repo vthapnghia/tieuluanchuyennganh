@@ -1,3 +1,4 @@
+import Icons from "../components/Icons";
 import PATH from "./path";
 
 const KEY_STORAGE = {
@@ -73,13 +74,14 @@ const SORT_OPTION = [
 ];
 
 const SIDEBAR_PATH_SELLER = [
-  { path: PATH.ADMIN.PRODUCTS.BASE, name: "Quản lý sản phẩm" },
-  { path: PATH.ADMIN.BRAND.BASE, name: "Quản lý nhãn hiệu" },
-  { path: PATH.ADMIN.NEWS.BASE, name: "Quản lý bài viết" },
-  { path: PATH.ADMIN.SHIP.BASE, name: "Quản lý vận chuyển" },
-  { path: PATH.ADMIN.ORDER.BASE, name: "Quản lý đơn hàng" },
-  { path: PATH.ADMIN.VOUCHER.BASE, name: "Quản lý khuyến mãi" },
-  { path: PATH.ADMIN.REVENUE, name: "Doanh thu" },
+  { path: PATH.ADMIN.PRODUCTS.BASE, name: "Quản lý sản phẩm" ,icon: <Icons.Product height="22" width="22" color="#f13232"/>, color:"#f13232" },
+  { path: PATH.ADMIN.BRAND.BASE, name: "Quản lý nhãn hiệu" ,icon: <Icons.Tags height="22" width="22" color="#bf53ee"/>, color:"#bf53ee"},
+  { path: PATH.ADMIN.NEWS.BASE, name: "Quản lý bài viết" ,icon: <Icons.News height="22" width="22" color="#5450ee"/>, color:"#5450ee"},
+  { path: PATH.ADMIN.SHIP.BASE, name: "Quản lý vận chuyển" ,icon: <Icons.TruckFast height="22" width="30" color="#93c4ee"/>, color:"#93c4ee"},
+  { path: PATH.ADMIN.ORDER.BASE, name: "Quản lý đơn hàng" ,icon: <Icons.BoxOpen height="22" width="22" color="#41a8ee"/>, color:"#41a8ee"},
+  { path: PATH.ADMIN.VOUCHER.BASE, name: "Quản lý khuyến mãi" ,icon: <Icons.Receipt height="22" width="22" color="#87ec4c"/>, color:"#87ec4c"},
+  { path: PATH.ADMIN.REVENUE, name: "Doanh thu" ,icon: <Icons.Chart height="22" width="22" color="#cae549"/>, color:"#cae549"},
+  { path: PATH.ADMIN.CHAT, name: "Chat" ,icon: <Icons.Messenger height="22" width="22" color="#dfa541"/>, color:"#dfa541"},
 ];
 
 const SIDEBAR_PATH_ADMIN = [

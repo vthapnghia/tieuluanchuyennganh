@@ -57,6 +57,11 @@ const CartSlice = createSlice({
     },
     updateCart: (state, action) => {
       state.cart = action.payload;
+    },
+    removeCart: (state, action) => {
+      state.cart = null;
+      state.count = null;
+      state.checkBox = null;
     }
   },
   extraReducers: {
@@ -68,6 +73,6 @@ const CartSlice = createSlice({
 });
 
 const { reducer } = CartSlice;
-const { arrayCheckBox, updateCart } = CartSlice.actions;
-export { getAllCart, addToCart, removeToCart, editQuantity, arrayCheckBox, updateCart };
+const { arrayCheckBox, updateCart, removeCart } = CartSlice.actions;
+export { getAllCart, addToCart, removeToCart, editQuantity, arrayCheckBox, updateCart, removeCart };
 export default reducer;

@@ -42,7 +42,8 @@ function SideBar(params) {
           ? SIDEBAR_PATH_SELLER.map((item, index) => {
               return (
                 <div className="action-item" key={index}>
-                  <div onClick={() => handleMenu(item.path)}>{item.name}</div>
+                  <div>{item.icon}</div>
+                  <div onClick={() => handleMenu(item.path)} >{item.name}</div>
                 </div>
               );
             })

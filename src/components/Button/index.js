@@ -15,6 +15,7 @@ function Button({
       className={`btn-common ${className} ${disabled ? "disabled" : ""} `}
       {...props}
       disabled={disabled}
+      style={{background: color}}
     >
       {leftIcon && <span className="icon left-icon">{leftIcon}</span>}
       <span className="children" style={{fontWeight: '600'}}>{children}</span>
