@@ -10,7 +10,7 @@ import {
   OPTIONS_MONTH,
   OPTIONS_YEAR,
 } from "../../../../../constants/global";
-import { getRevenueByYear } from "../RevenueSlice";
+import { getRevenueByYear, removeStateRevenue } from "../RevenueSlice";
 import "./RevenueByYear.scss";
 
 function RevenueByYear(params) {
@@ -33,13 +33,13 @@ function RevenueByYear(params) {
   }, []);
 
   useEffect(() => {
-    let month = 0
+    let month = 0;
     const currentYear = CURRENT_DATE.getFullYear();
     let dataChart = [];
-    if(currentYear === year){
-        month = CURRENT_DATE.getMonth() + 1;
-    }else{
-        month = 12;
+    if (currentYear === year) {
+      month = CURRENT_DATE.getMonth() + 1;
+    } else {
+      month = 12;
     }
     for (let index = 1; index <= month; index++) {
       const data = revenueByYear?.find((itemReveneu) => {
@@ -56,6 +56,10 @@ function RevenueByYear(params) {
 
   useEffect(() => {
     dispatch(getRevenueByYear(year));
+
+    return () => {
+      dispatch(removeStateRevenue());
+    };
   }, [dispatch, year]);
 
   return (
@@ -68,7 +72,12 @@ function RevenueByYear(params) {
       <div id="chart-year">
         <div className="row option">
           <div className="col col-md-4 col-sm-12 input">
-            <Input name="year" type="select" options={OPTIONS_YEAR} height="40px"/>
+            <Input
+              name="year"
+              type="select"
+              options={OPTIONS_YEAR}
+              height="40px"
+            />
           </div>
           <div className="col col-md-4 col-sm-12 button">
             <Button

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrderAdmin } from "./OrderAdminSlice";
+import { getAllOrderAdmin, removeStateOrderAdmin } from "./OrderAdminSlice";
 import "./ManagementOrder.scss";
 import { empty } from "../../../../assets/img";
 import moment from "moment";
@@ -230,6 +230,10 @@ function ManagementOrder() {
 
   useEffect(() => {
     dispatch(getAllOrderAdmin({ ...param }));
+
+    return () => {
+      dispatch(removeStateOrderAdmin());
+    };
   }, [dispatch, param]);
 
   useEffect(() => {

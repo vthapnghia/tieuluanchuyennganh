@@ -9,13 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   editQuantity,
   getAllCart,
+  removeCart,
   removeToCart,
   updateCart,
 } from "./cartSlice";
 import ModalCommon from "../../../../components/ModalCommon";
 import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
-import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
+import { getAllVoucher, removeStateVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
 import { COLOR } from "../../../../constants/global";
 import { currencyFormatting } from "../../../../until/common";
 
@@ -305,6 +306,11 @@ function Cart() {
     dispatch(getAllCart());
     dispatch(getUser());
     dispatch(getAllVoucher());
+
+    return () => {
+      dispatch(removeStateVoucher());
+      dispatch(removeCart())
+    }
   }, [dispatch]);
 
   useEffect(() => {

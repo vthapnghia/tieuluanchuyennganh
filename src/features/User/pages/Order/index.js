@@ -8,8 +8,11 @@ import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
 import { getAllVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
 import { PAYMENT_OPTION } from "../../../../constants/global";
-import { getAllShip } from "../../../Admin/pages/ManagementShip/ShipSlice";
-import { createOrder } from "../Order/OrderSlice";
+import {
+  getAllShip,
+  removeStateShip,
+} from "../../../Admin/pages/ManagementShip/ShipSlice";
+import { createOrder, removeStateOrder } from "../Order/OrderSlice";
 import "./Order.scss";
 import PATH from "../../../../constants/path";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -193,6 +196,11 @@ function Order() {
     dispatch(getUser());
     dispatch(getAllShip());
     dispatch(getAllVoucher());
+
+    return () => {
+      dispatch(removeStateShip());
+      dispatch(removeStateOrder());
+    };
   }, [dispatch]);
 
   useEffect(() => {

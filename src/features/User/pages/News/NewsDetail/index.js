@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { shoe_bg } from "../../../../../assets/img";
-import { getAllNews, getNewsById } from "../NewsSlice";
+import { getAllNews, getNewsById, removeStateNews } from "../NewsSlice";
 import "./NewsDetail.scss";
 import PATH from "../../../../../constants/path";
 
@@ -21,6 +21,10 @@ function NewsDetail() {
 
   useEffect(() => {
     dispatch(getAllNews());
+
+    return () => {
+      dispatch(removeStateNews());
+    };
   }, [dispatch]);
 
   return useMemo(
@@ -33,7 +37,10 @@ function NewsDetail() {
               new Date(news?.created_at)
             ).format("DD-MM-YYYY")}`}</span>
           </div>
-          <div className="content-html" dangerouslySetInnerHTML={{ __html: news?.content }}></div>
+          <div
+            className="content-html"
+            dangerouslySetInnerHTML={{ __html: news?.content }}
+          ></div>
         </div>
         <div className="news-other col-md-4">
           <div className="title">{t("news_other")}</div>

@@ -48,6 +48,12 @@ const initialState = {
 const BrandSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+    removeStateBranch: (state) => {
+      state.allBranch = null;
+      state.brandById = null;
+    }
+  },
   extraReducers: {
     [getAllBrand.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -57,10 +63,12 @@ const BrandSlice = createSlice({
 });
 
 const { reducer } = BrandSlice;
+const {removeStateBranch} = BrandSlice.actions
 export { 
   getAllBrand, 
   addBrand, 
   removeBrand, 
-  getBrandById 
+  getBrandById,
+  removeStateBranch
 };
 export default reducer;

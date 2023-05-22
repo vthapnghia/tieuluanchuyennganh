@@ -69,6 +69,12 @@ const initialState = {
 const voucherSlice = createSlice({
   name: "voucher",
   initialState,
+  reducers: {
+    removeStateVoucher: (state) => {
+      state.allVoucher = null;
+      state.voucherById = null;
+    },
+  },
   extraReducers: {
     [getAllVoucher.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -82,11 +88,13 @@ const voucherSlice = createSlice({
 });
 
 const { reducer } = voucherSlice;
+const { removeStateVoucher } = voucherSlice.actions;
 export {
   getAllVoucher,
   deleteVoucher,
   addVoucher,
   getVoucherById,
   updateVoucher,
+  removeStateVoucher
 };
 export default reducer;

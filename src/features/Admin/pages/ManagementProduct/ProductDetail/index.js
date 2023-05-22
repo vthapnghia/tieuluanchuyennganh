@@ -8,7 +8,10 @@ import {
   OPTION_SIZE,
   OPTION_TYPE,
 } from "../../../../../constants/global";
-import { getAllBrand } from "../../ManagementBrand/BrandSlice";
+import {
+  getAllBrand,
+  removeStateBranch,
+} from "../../ManagementBrand/BrandSlice";
 import "./ProductDetail.scss";
 
 function ProductDetailAdmin(props) {
@@ -24,8 +27,12 @@ function ProductDetailAdmin(props) {
 
   useEffect(() => {
     dispatch(getAllBrand());
+
+    return () => {
+      dispatch(removeStateBranch());
+    };
   }, [dispatch]);
-  
+
   return (
     <div className="product-detail-admin">
       <div className="row d-flex justify-content-center">

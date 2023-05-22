@@ -6,13 +6,14 @@ import { useParams } from "react-router-dom";
 import { PAYMENT_OPTION } from "../../../../../constants/global";
 import {
   getOrderById,
-  setOrderByID,
   updateOrderById,
 } from "../../../../User/pages/UserOrders/UserOrderSlice";
-import { getAllShip } from "../../ManagementShip/ShipSlice";
+import { getAllShip, removeStateShip } from "../../ManagementShip/ShipSlice";
 import ModalCommon from "../../../../../components/ModalCommon";
 import "./OrderDetail.scss";
 import { currencyFormatting } from "../../../../../until/common";
+import Button from "../../../../../components/Button";
+import { removeUserOrder } from "../../../../User/pages/UserOrders/UserOrderSlice";
 
 function OrderDetail(params) {
   const param = useParams();
@@ -86,12 +87,17 @@ function OrderDetail(params) {
 
   useEffect(() => {
     dispatch(getAllShip());
+
+    return () => {
+      dispatch(removeStateShip());
+    };
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(getOrderById(param.id));
+
     return () => {
-      dispatch(setOrderByID(null));
+      dispatch(removeUserOrder(null));
     };
   }, [dispatch, param.id]);
 
@@ -229,6 +235,13 @@ function OrderDetail(params) {
             </div>
           </div>
         </div>
+        {(orderById?.order.status === 1 || orderById?.order.status === 2) && (
+          <div className="update-status">
+            <Button className="primary" onClick={() => setShow(!show)} color="red">
+              {orderById?.order.status === 1 ? t("shipping") : t("complete")}
+            </Button>
+          </div>
+        )}
         <ModalCommon
           show={showMessage}
           modalTitle={modalTitle}

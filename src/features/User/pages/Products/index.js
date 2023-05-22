@@ -13,8 +13,12 @@ import {
   OPTION_TYPE,
   SORT_OPTION,
 } from "../../../../constants/global";
-import { getAllBrand } from "../../../Admin/pages/ManagementBrand/BrandSlice";
-import { getProduct, searchProduct } from "./ProductSlice";
+import {
+  getAllBrand,
+  removeBrand,
+  removeStateBranch,
+} from "../../../Admin/pages/ManagementBrand/BrandSlice";
+import { getProduct, removeStateProduct, searchProduct } from "./ProductSlice";
 import "./Products.scss";
 import { empty } from "../../../../assets/img";
 import { currencyFormatting } from "../../../../until/common";
@@ -147,10 +151,18 @@ function Products() {
 
   useEffect(() => {
     dispatch(getAllBrand());
+
+    return () => {
+      dispatch(removeStateBranch());
+    };
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(getProduct({ page: page, pageSize: pageNumber, ...param }));
+
+    return () => {
+      dispatch(removeStateProduct());
+    };
   }, [dispatch, pageNumber, page, param]);
 
   useEffect(() => {

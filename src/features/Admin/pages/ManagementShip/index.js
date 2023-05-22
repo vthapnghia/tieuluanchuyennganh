@@ -12,6 +12,7 @@ import {
   getAllShip,
   getShipById,
   removeShip,
+  removeStateShip,
   uploadShip,
 } from "./ShipSlice";
 import TableAdminCommon from "../../../../components/TableAdminCommon";
@@ -205,6 +206,10 @@ function ManagementShip(props) {
 
   useEffect(() => {
     dispatch(getAllShip());
+
+    return () => {
+      dispatch(removeStateShip());
+    };
   }, [dispatch]);
 
   useEffect(() => {

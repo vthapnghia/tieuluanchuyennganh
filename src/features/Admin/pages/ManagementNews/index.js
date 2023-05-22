@@ -7,7 +7,11 @@ import { useNavigate } from "react-router-dom";
 import PATH from "../../../../constants/path";
 import "./ManagementNews.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNews, getAllNews } from "../../../User/pages/News/NewsSlice";
+import {
+  deleteNews,
+  getAllNews,
+  removeStateNews,
+} from "../../../User/pages/News/NewsSlice";
 import TableAdminCommon from "../../../../components/TableAdminCommon";
 
 function ManagementNews() {
@@ -109,10 +113,14 @@ function ManagementNews() {
 
   useEffect(() => {
     dispatch(getAllNews());
+
+    return () => {
+      dispatch(removeStateNews());
+    };
   }, [dispatch]);
 
   useEffect(() => {
-      setListNews(allNews);
+    setListNews(allNews);
   }, [allNews]);
 
   return (
@@ -157,7 +165,9 @@ function ManagementNews() {
           modalTitle={t("confirm_remove", { param: t("news") })}
           modalBody={t("messge_confirm_remove")}
           handleConfirm={handleClose}
-          handleCloseModal={() => {setShowModal(!showModal)}}
+          handleCloseModal={() => {
+            setShowModal(!showModal);
+          }}
           isButton
         />
         <ModalCommon
@@ -165,7 +175,9 @@ function ManagementNews() {
           modalTitle={modalTitle}
           modalBody={modalBody}
           handleConfirm={handleCloseMessage}
-          handleCloseModal={() => {setShowMessage(!showMessage)}}
+          handleCloseModal={() => {
+            setShowMessage(!showMessage);
+          }}
           isButton
         />
       </>

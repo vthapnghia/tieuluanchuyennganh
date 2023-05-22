@@ -11,6 +11,7 @@ import {
   getAllProduct,
   getProduct,
   getProductById,
+  removeStateProduct,
   setProduct,
   uploadProduct,
 } from "../../../User/pages/Products/ProductSlice";
@@ -21,7 +22,7 @@ import { Formik } from "formik";
 import { COLOR, OPTION_SIZE } from "../../../../constants/global";
 import * as Yup from "yup";
 import ReactSelect from "react-select";
-import { getAllBrand } from "../ManagementBrand/BrandSlice";
+import { getAllBrand, removeStateBranch } from "../ManagementBrand/BrandSlice";
 import { currencyFormatting } from "../../../../until/common";
 
 function ManagementProduct() {
@@ -153,7 +154,7 @@ function ManagementProduct() {
 
   const handleCloseMessage = useCallback(() => {
     setShowMessage(!showMessage);
-    dispatch(getAllProduct({param}));
+    dispatch(getAllProduct({ param }));
   }, [showMessage, dispatch, param]);
 
   const handleCloseModalAdd = useCallback(
@@ -343,10 +344,18 @@ function ManagementProduct() {
 
   useEffect(() => {
     dispatch(getProduct({ page: page, pageSize: pageNumber, ...param }));
+
+    return () => {
+      dispatch(removeStateProduct());
+    };
   }, [dispatch, page, pageNumber, param]);
 
   useEffect(() => {
     dispatch(getAllBrand());
+
+    return () => {
+      dispatch(removeStateBranch());
+    };
   }, [dispatch]);
 
   useEffect(() => {

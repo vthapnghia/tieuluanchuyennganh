@@ -55,6 +55,12 @@ const initialState = {
 const ShipSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+   removeStateShip: (state) => {
+    state.allShip = null;
+    state.shipById = null;
+   }
+  },
   extraReducers: {
     [getAllShip.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -68,11 +74,13 @@ const ShipSlice = createSlice({
 });
 
 const { reducer } = ShipSlice;
+const {removeStateShip} = ShipSlice.actions;
 export { 
   getAllShip, 
   addShip, 
   removeShip, 
   getShipById,
-  uploadShip
+  uploadShip,
+  removeStateShip
 };
 export default reducer;

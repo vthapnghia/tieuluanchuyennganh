@@ -4,7 +4,11 @@ import { Tab, Tabs } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "./ManagementAccount.scss";
 import TabAccount from "./TabAccount";
-import { getAllAccount, searchAccount } from "./AccountSlice";
+import {
+  getAllAccount,
+  removeStateAccount,
+  searchAccount,
+} from "./AccountSlice";
 import Icons from "../../../../components/Icons";
 
 function ManagementAccount(params) {
@@ -51,6 +55,10 @@ function ManagementAccount(params) {
 
   useEffect(() => {
     dispatch(getAllAccount());
+
+    return () => {
+      dispatch(removeStateAccount());
+    };
   }, [dispatch]);
 
   return (

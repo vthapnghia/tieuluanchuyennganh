@@ -3,7 +3,11 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../../../components/Button";
-import { getProduct, getProductById } from "../../Products/ProductSlice";
+import {
+  getProduct,
+  getProductById,
+  removeStateProduct,
+} from "../../Products/ProductSlice";
 import "./ProductDetail.scss";
 import { useRef } from "react";
 import Icons from "../../../../../components/Icons";
@@ -131,6 +135,10 @@ function ProductDetail() {
 
   useEffect(() => {
     dispatch(getProductById(id));
+
+    return () => {
+      dispatch(removeStateProduct());
+    };
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -146,10 +154,8 @@ function ProductDetail() {
   }, [products, products?.product_image]);
 
   useEffect(() => {
-    if (products) {
-      dispatch(getProduct({ page: 1, pageSize: 100 }));
-    }
-  }, [dispatch, products]);
+    dispatch(getProduct({ page: 1, pageSize: 100 }));
+  }, [dispatch]);
 
   useEffect(() => {
     if (products) {
@@ -165,11 +171,7 @@ function ProductDetail() {
       <div className="product-detail">
         <div className="product row">
           <div className="img-slider col-md-6">
-            <img
-              src={chooseImage}
-              alt="product"
-              className="image-display"
-            />
+            <img src={chooseImage} alt="product" className="image-display" />
             <div className="image-product-list">
               {products?.product_image.map((image, i) => {
                 if (i !== 0) {

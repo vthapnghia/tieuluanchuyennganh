@@ -32,7 +32,6 @@ function Revenue() {
   }, []);
 
   useEffect(() => {
-    console.log(revenueByMonth);
     if (revenueByMonth) {
       let sum = 0;
       revenueByMonth.forEach((element) => {

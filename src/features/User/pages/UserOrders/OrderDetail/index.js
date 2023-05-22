@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Icons from "../../../../../components/Icons";
-import { getOrderById } from "../UserOrderSlice";
+import { getOrderById, removeUserOrder } from "../UserOrderSlice";
 import "./OrderDetail.scss";
 import ModalCommon from "../../../../../components/ModalCommon";
 import Input from "../../../../../components/Input";
@@ -15,7 +15,10 @@ import {
   getRate,
   updateRate,
 } from "../../Products/ProductDetail/RateSlice";
-import { getAllShip } from "../../../../Admin/pages/ManagementShip/ShipSlice";
+import {
+  getAllShip,
+  removeStateShip,
+} from "../../../../Admin/pages/ManagementShip/ShipSlice";
 import moment from "moment";
 import PATH from "../../../../../constants/path";
 import Button from "../../../../../components/Button";
@@ -223,6 +226,11 @@ function OrderDetail(params) {
   useEffect(() => {
     dispatch(getAllShip());
     dispatch(getOrderById(id));
+
+    return () => {
+      dispatch(removeUserOrder());
+      dispatch(removeStateShip());
+    };
   }, [dispatch, id]);
 
   useEffect(() => {

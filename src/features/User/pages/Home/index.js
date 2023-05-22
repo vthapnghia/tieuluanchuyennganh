@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ProductItem from "../../pages/Products/ProductItem";
-import { getProduct } from "../Products/ProductSlice";
+import { getProduct, removeStateProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
 import "./Home.scss";
 import PATH from "../../../../constants/path";
 import { shoe_bg } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
-import { getAllNews } from "../News/NewsSlice";
+import { getAllNews, removeStateNews } from "../News/NewsSlice";
 import NewsItem from "../News/NewsItem";
 
 function Home() {
@@ -35,6 +35,11 @@ function Home() {
   useEffect(() => {
     dispatch(getProduct({ page: 1, pageSize: 12 }));
     dispatch(getAllNews());
+
+    return () => {
+      dispatch(removeStateProduct());
+      dispatch(removeStateNews());
+    };
   }, [dispatch]);
 
   return (

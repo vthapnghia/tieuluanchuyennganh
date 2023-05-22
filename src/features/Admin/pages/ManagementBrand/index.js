@@ -6,10 +6,14 @@ import { Formik } from "formik";
 import "./ManagementBrand.scss";
 import ModalCommon from "../../../../components/ModalCommon";
 import { useDispatch, useSelector } from "react-redux";
-import { addBrand, getAllBrand, removeBrand } from "./BrandSlice";
+import {
+  addBrand,
+  getAllBrand,
+  removeBrand,
+  removeStateBranch,
+} from "./BrandSlice";
 import * as yup from "yup";
 import TableAdminCommon from "../../../../components/TableAdminCommon";
-import Icons from "../../../../components/Icons";
 
 function ManagementBrand(props) {
   const { t } = useTranslation();
@@ -111,6 +115,10 @@ function ManagementBrand(props) {
 
   useEffect(() => {
     dispatch(getAllBrand());
+
+    return () => {
+      dispatch(removeStateBranch());
+    };
   }, [dispatch]);
 
   return (

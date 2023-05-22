@@ -5,7 +5,6 @@ import "./Pagination.scss";
 function Pagination(props) {
   const { page, count, pageNumber, handlePageClick, handleChangePageNumber } =
     props;
-  console.log(count);
   const numberOfPage = (count, pageNumber) => {
     let mod = count % pageNumber;
     let numOfPage = (count - mod) / pageNumber;

@@ -148,8 +148,9 @@ const authSlice = createSlice({
       storeJsonObject(KEY_STORAGE.CP_USER, res?.user);
     },
     [logout.pending]: (state, action) => {
-      state.isAuth = false;
       state.user = null;
+      state.isAdmin = false;
+      state.isSeller = false;
       localStorage.clear();
     },
     [getUser.fulfilled]: (state, action) => {

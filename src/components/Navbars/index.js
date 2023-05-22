@@ -51,9 +51,9 @@ function Navbars() {
   const handleLogout = useCallback(() => {
   
     dispatch(logout()).then((res) => {  
-      localStorage.clear();
+      // localStorage.clear();
       navigate(PATH.HOME);
-      dispatch(removeCart())
+      // dispatch(removeCart())
     });
   }, [dispatch, navigate]);
 

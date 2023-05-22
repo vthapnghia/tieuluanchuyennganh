@@ -49,6 +49,10 @@ const OrderSlice = createSlice({
     setOrderByID: (state, action) => {
       state.orderById = action.payload;
     },
+    removeUserOrder: (state, action) => {
+      state.allOrder = null;
+      state.orderById = null;
+    }
   },
   extraReducers: {
     [getAllOrder.fulfilled]: (state, action) => {
@@ -63,6 +67,6 @@ const OrderSlice = createSlice({
 });
 
 const { reducer } = OrderSlice;
-const { setOrderByID } = OrderSlice.actions;
-export { getAllOrder, getOrderById, updateOrderById, setOrderByID };
+const { setOrderByID, removeUserOrder } = OrderSlice.actions;
+export { getAllOrder, getOrderById, updateOrderById, setOrderByID, removeUserOrder };
 export default reducer;

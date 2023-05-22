@@ -94,8 +94,11 @@ const ProductSlice = createSlice({
   initialState,
   reducers: {
     setProduct: (state, action) => {
-        console.log(action.payload);
       state.products = action.payload;
+    },
+    removeStateProduct: (state) => {
+      state.products = null;
+      state.productById = null;
     },
   },
   extraReducers: {
@@ -119,7 +122,7 @@ const ProductSlice = createSlice({
 });
 
 const { reducer } = ProductSlice;
-const {setProduct} = ProductSlice.actions;
+const { setProduct, removeStateProduct } = ProductSlice.actions;
 export {
   getAllProduct,
   getProductById,
@@ -128,6 +131,7 @@ export {
   uploadProduct,
   deleteProduct,
   searchProduct,
-  setProduct
+  setProduct,
+  removeStateProduct,
 };
 export default reducer;

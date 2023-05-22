@@ -3,8 +3,7 @@ import PATH from "../../../../constants/path";
 import Profile from "../Profile";
 import UserOrders from "../UserOrders";
 import "./Account.scss";
-import { t, use } from "i18next";
-import { avatar_default } from "../../../../assets/img";
+import { t } from "i18next";
 import OrderDetail from "../UserOrders/OrderDetail";
 
 function Account() {

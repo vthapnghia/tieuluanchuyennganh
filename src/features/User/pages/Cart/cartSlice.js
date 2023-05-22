@@ -58,7 +58,7 @@ const CartSlice = createSlice({
     updateCart: (state, action) => {
       state.cart = action.payload;
     },
-    removeCart: (state, action) => {
+    removeCart: (state) => {
       state.cart = null;
       state.count = null;
       state.checkBox = null;

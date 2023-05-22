@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import orderAPI from "../../../../API/orderAPI";
 
-const createOrder = createAsyncThunk( "CREATE_ORDER", async (param, { rejectWithValue }) => {
+const createOrder = createAsyncThunk(
+  "CREATE_ORDER",
+  async (param, { rejectWithValue }) => {
     try {
       const res = await orderAPI.createOrder(param);
       return res;
@@ -23,6 +25,9 @@ const OrderSlice = createSlice({
       const res = action.payload;
       state.dataOrder = res;
     },
+    removeStateOrder: (state) => {
+      state.dataOrder = null;
+    },
   },
   extraReducers: {
     [createOrder.fulfilled]: (state, action) => {},
@@ -30,6 +35,6 @@ const OrderSlice = createSlice({
 });
 
 const { reducer } = OrderSlice;
-const { dataOrderForPayPal } = OrderSlice.actions;
-export { dataOrderForPayPal, createOrder };
+const { dataOrderForPayPal, removeStateOrder } = OrderSlice.actions;
+export { dataOrderForPayPal, createOrder, removeStateOrder };
 export default reducer;

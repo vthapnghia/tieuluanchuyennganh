@@ -24,12 +24,12 @@ const productAPI = {
 
     let url = `${
       API_URL.PRODUCT.ALL_PRODUCT
-    }?page=${page}&pageSize=${pageSize}${type.length > 0 && `&type=[${type}]`}${
-      gender.length > 0 && `&gender=[${gender}]`
-    }${size.length > 0 && `&size=[${size}]`}${
-      brand.length > 0 && `&brand=[${brandCopy}]`
-    }${color.length > 0 && `&color=[${colorCopy}]`}${
-      search && `?search=${search}`
+    }?page=${page}&pageSize=${pageSize}${type.length > 0 ? `&type=[${type}]` : ""}${
+      gender.length > 0 ? `&gender=[${gender}]` : ""
+    }${size.length > 0 ? `&size=[${size}]` : ""}${
+      brand.length > 0 ? `&brand=[${brandCopy}]` : ""
+    }${color.length > 0 ? `&color=[${colorCopy}]` : ""}${
+      search ? `?search=${search}` : ""
     }`;
 
     return doRequest("get", url);

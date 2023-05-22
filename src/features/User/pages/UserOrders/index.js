@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./UserOrders.scss";
-import { getAllOrder } from "./UserOrderSlice";
+import { getAllOrder, removeUserOrder } from "./UserOrderSlice";
 import TabItem from "./TabItem";
 import { empty } from "../../../../assets/img/index";
 
@@ -42,6 +42,10 @@ function UserOrders() {
 
   useEffect(() => {
     dispatch(getAllOrder());
+
+    return () => {
+      dispatch(removeUserOrder());
+    };
   }, [dispatch]);
 
   return useMemo(

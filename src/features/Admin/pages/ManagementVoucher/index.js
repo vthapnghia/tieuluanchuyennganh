@@ -14,6 +14,7 @@ import {
   addVoucher,
   getAllVoucher,
   getVoucherById,
+  removeStateVoucher,
   updateVoucher,
 } from "./voucherSlice";
 import moment from "moment";
@@ -47,17 +48,14 @@ function ManagementVoucher(params) {
           const voucherFilter = allVoucher?.filter((voucherItem) => {
             const datoTo = new Date(voucherItem.use_date_to).getTime();
             const currentDate = new Date().getTime();
-            return (
-              voucherItem.amount > 0 &&
-              datoTo - currentDate >= 0
-            );
+            return voucherItem.amount > 0 && datoTo - currentDate >= 0;
           });
           return voucherFilter;
         } else {
           const voucherFilter = allVoucher?.filter((voucherItem) => {
             const datoTo = new Date(voucherItem.use_date_to).getTime();
             const currentDate = new Date().getTime();
-            return (voucherItem.amount === 0 || datoTo - currentDate < 0);
+            return voucherItem.amount === 0 || datoTo - currentDate < 0;
           });
           return voucherFilter;
         }
@@ -303,6 +301,10 @@ function ManagementVoucher(params) {
 
   useEffect(() => {
     dispatch(getAllVoucher());
+
+    return () => {
+      dispatch(removeStateVoucher());
+    };
   }, [dispatch]);
 
   return useMemo(

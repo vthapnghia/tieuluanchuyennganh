@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import NewsItem from "./NewsItem";
 import "./News.scss";
-import { getAllNews } from "./NewsSlice";
+import { getAllNews, removeStateNews } from "./NewsSlice";
 import { shoe_bg } from "../../../../assets/img";
 import { useNavigate } from "react-router";
 import PATH from "../../../../constants/path";
@@ -14,6 +13,10 @@ function News() {
 
   useEffect(() => {
     dispatch(getAllNews());
+
+    return () => {
+      dispatch(removeStateNews());
+    };
   }, [dispatch]);
 
   return (
@@ -34,9 +37,7 @@ function News() {
                 className="img-fluid"
               />
             </div>
-            <div className="post-content-entry">
-                {item.title}
-            </div>
+            <div className="post-content-entry">{item.title}</div>
           </div>
         );
       })}

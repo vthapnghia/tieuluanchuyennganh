@@ -43,6 +43,11 @@ const initialState = {
 const AccountSlice = createSlice({
   name: "account",
   initialState,
+  reducers: {
+    removeStateAccount: (state) => {
+      state.allAccount = null;
+    },
+  },
   extraReducers: {
     [getAllAccount.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -52,5 +57,6 @@ const AccountSlice = createSlice({
 });
 
 const { reducer } = AccountSlice;
-export { getAllAccount, deleteAccount, searchAccount };
+const { removeStateAccount } = AccountSlice.actions;
+export { getAllAccount, deleteAccount, searchAccount, removeStateAccount };
 export default reducer;

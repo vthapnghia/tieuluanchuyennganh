@@ -68,6 +68,12 @@ const initialState = {
 const NewsSlice = createSlice({
   name: "news",
   initialState,
+  reducers: {
+    removeStateNews: (state) => {
+      state.allNews = null;
+      state.newsById = null;
+    },
+  },
   extraReducers: {
     [getAllNews.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -81,5 +87,13 @@ const NewsSlice = createSlice({
 });
 
 const { reducer } = NewsSlice;
-export { getAllNews, getNewsById, addNews, uploadNews, deleteNews };
+const { removeStateNews } = NewsSlice.actions;
+export {
+  getAllNews,
+  getNewsById,
+  addNews,
+  uploadNews,
+  deleteNews,
+  removeStateNews,
+};
 export default reducer;

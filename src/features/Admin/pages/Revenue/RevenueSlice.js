@@ -33,6 +33,12 @@ const initialState = {
 const revenueSlice = createSlice({
   name: "revenue",
   initialState,
+  reducers: {
+    removeStateRevenue: (state) => {
+      state.revenueByMonth = null;
+      state.revenueByYear = null;
+    },
+  },
   extraReducers: {
     [getRevenueByMonth.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -45,5 +51,6 @@ const revenueSlice = createSlice({
   },
 });
 
-export { getRevenueByMonth, getRevenueByYear };
+const { removeStateRevenue } = revenueSlice.actions;
+export { getRevenueByMonth, getRevenueByYear, removeStateRevenue };
 export default revenueSlice.reducer;

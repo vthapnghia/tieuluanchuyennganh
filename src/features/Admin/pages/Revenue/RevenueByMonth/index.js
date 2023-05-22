@@ -10,7 +10,7 @@ import {
   OPTIONS_MONTH,
   OPTIONS_YEAR,
 } from "../../../../../constants/global";
-import { getRevenueByMonth } from "../RevenueSlice";
+import { getRevenueByMonth, removeStateRevenue } from "../RevenueSlice";
 import "./RevenueByMonth.scss";
 import { getDayOfMonth } from "../../../../../until/common";
 
@@ -31,14 +31,14 @@ function RevenueByMonth(params) {
   }, []);
 
   useEffect(() => {
-    let day = 0
+    let day = 0;
     const currentMonth = CURRENT_DATE.getMonth() + 1;
     const currentYear = CURRENT_DATE.getFullYear();
     let dataChart = [];
-    if(currentMonth === month && currentYear === year){
-        day = new Date().getDate();
-    }else{
-        day = new Date(year, month, 0).getDate();
+    if (currentMonth === month && currentYear === year) {
+      day = new Date().getDate();
+    } else {
+      day = new Date(year, month, 0).getDate();
     }
     for (let index = 1; index <= day; index++) {
       const data = revenueByMonth?.find((itemReveneu) => {
@@ -59,6 +59,10 @@ function RevenueByMonth(params) {
 
   useEffect(() => {
     dispatch(getRevenueByMonth({ month: month, year: year }));
+
+    return () => {
+      dispatch(removeStateRevenue());
+    };
   }, [dispatch, month, year]);
 
   return (
@@ -71,10 +75,20 @@ function RevenueByMonth(params) {
       <div id="chart-month">
         <div className="row option">
           <div className="col col-md-4 col-sm-12 input">
-            <Input name="month" type="select" options={OPTIONS_MONTH} height="40px"/>
+            <Input
+              name="month"
+              type="select"
+              options={OPTIONS_MONTH}
+              height="40px"
+            />
           </div>
           <div className="col col-md-4 col-sm-12 input">
-            <Input name="year" type="select" options={OPTIONS_YEAR} height="40px"/>
+            <Input
+              name="year"
+              type="select"
+              options={OPTIONS_YEAR}
+              height="40px"
+            />
           </div>
           <div className="col col-md-4 col-sm-12 button">
             <Button

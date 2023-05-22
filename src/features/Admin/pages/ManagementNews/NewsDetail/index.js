@@ -13,12 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNews,
   getNewsById,
+  removeStateNews,
   uploadNews,
 } from "../../../../User/pages/News/NewsSlice";
 import ModalCommon from "../../../../../components/ModalCommon";
 import { useParams } from "react-router";
 import "jodit/build/jodit.min.css";
 import JoditEditor from "jodit-react";
+import { removeStateShip } from "../../ManagementShip/ShipSlice";
 
 const TextEditor = () => {
   const [titleErr, setTitleErr] = useState("");
@@ -125,6 +127,10 @@ const TextEditor = () => {
     if (id) {
       dispatch(getNewsById(id));
     }
+
+    return () => {
+      dispatch(removeStateNews());
+    };
   }, [id, dispatch]);
 
   return useMemo(
