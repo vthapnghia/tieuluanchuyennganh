@@ -12,7 +12,7 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../constants/global";
-import { avatar_default, shoe, shoe_bg } from "../../assets/img";
+import { avatar_default , shoe_bg } from "../../assets/img";
 import { logout } from "../../features/Authentication/authSlice";
 
 function Navbars() {
@@ -51,9 +51,8 @@ function Navbars() {
   const handleLogout = useCallback(() => {
   
     dispatch(logout()).then((res) => {  
-      // localStorage.clear();
       navigate(PATH.HOME);
-      // dispatch(removeCart())
+      dispatch(removeCart())
     });
   }, [dispatch, navigate]);
 
@@ -80,7 +79,7 @@ function Navbars() {
                 <img
                   className="admin-img"
                   alt="img"
-                  src={userAuth?.avatar || shoe}
+                  src={userAuth?.avatar || shoe_bg }
                 ></img>
               }
             >

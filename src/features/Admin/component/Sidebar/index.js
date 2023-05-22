@@ -6,7 +6,7 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../../../constants/global";
-import { shoe } from "../../../../assets/img";
+import { shoe_bg } from "../../../../assets/img";
 import { useAuth } from "../../../../until/hooks";
 
 function SideBar(params) {
@@ -34,7 +34,7 @@ function SideBar(params) {
         <Icons.ArrowLeft />
       </div>
       <div className="sidebar-header">
-        <img src={shoe} alt="img" />
+        <img src={shoe_bg} alt="img" />
       </div>
       <hr />
       <div className="sidebar-action">

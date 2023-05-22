@@ -404,7 +404,7 @@ function ManagementProduct() {
                   />
                 </div>
                 <div className="btn-view-all">
-                  <Button className="green" onClick={() => setParam({})}>
+                  <Button className="green" onClick={() => setParam({})} color="#e90f0f">
                     {t("view_all")}
                   </Button>
                 </div>

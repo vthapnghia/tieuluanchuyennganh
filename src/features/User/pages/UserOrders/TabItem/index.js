@@ -55,7 +55,7 @@ function TabItem({ orders, id, classTab }) {
                 ),
               })}`}</div>
             </div>
-            {orderItem.orderDetail.map((itemDetail, index) => {
+            {orderItem?.orderDetail.map((itemDetail, index) => {
               return (
                 <div className="row product-order-item" key={index}>
                   <div className="col col-md-2 product-img">

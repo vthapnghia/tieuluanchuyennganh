@@ -309,11 +309,11 @@ function ManagementOrder() {
               )}
             </div>
 
-            <Button className="green" onClick={handleFilter}>
+            <Button onClick={handleFilter} className="btn-filter">
               {t("filter")}
             </Button>
 
-            <Button className="green" onClick={() => setParam({})}>
+            <Button onClick={() => setParam({})} className="btn-view-all">
               {t("view_all")}
             </Button>
           </div>

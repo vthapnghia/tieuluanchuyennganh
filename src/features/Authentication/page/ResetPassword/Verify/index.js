@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { shoe } from "../../../../../assets/img";
+import { shoe_bg } from "../../../../../assets/img";
 import Button from "../../../../../components/Button";
 import Input from "../../../../../components/Input";
 import ModalCommon from "../../../../../components/ModalCommon";
@@ -97,7 +97,7 @@ function Verify(params) {
       <div className="verify-reset-password">
         <div className="form-verify-reset">
           <Link className="logo" to={PATH.LOGIN}>
-            <img src={shoe} alt="img" />
+            <img src={shoe_bg} alt="img" />
           </Link>
           <h2>{t("reset_password")}</h2>
           <div className="input">

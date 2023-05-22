@@ -1,10 +1,11 @@
-import { useCallback, useState } from "react";
+import {useState } from "react";
 import Icons from "../Icons";
 import "./Chat.scss";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../until/hooks";
 import { Link } from "react-router-dom";
 import PATH from "../../constants/path";
+import { shoe_bg } from "../../assets/img";
 
 function Chat() {
   const { t } = useTranslation();
@@ -24,11 +25,13 @@ function Chat() {
         onClick={() => setFlag(!flag)}
         className={`icon-chat ${flag ? "hide-icon" : "display-icon"}`}
       >
-        <Icons.Messenger />
+        {/* <Icons.Messenger /> */}
+        <img src={shoe_bg} alt="show chat" />
       </div>
 
       <div className={`form-message ${flag ? "display-form" : "hide-form"}`}>
         <div className="form-header">
+          <img src={shoe_bg} alt="show chat" />
           <div>{t("chat_shoe")}</div>
           <div className="icon-close-form" onClick={() => setFlag(!flag)}>
             x
@@ -43,7 +46,8 @@ function Chat() {
           </div>
         ) : (
           <div className="no-login">
-            Vui lòng&nbsp; <Link to={PATH.LOGIN}> đăng nhập </Link> &nbsp;để tiếp tục.
+            Vui lòng&nbsp; <Link to={PATH.LOGIN}> đăng nhập </Link> &nbsp;để
+            tiếp tục.
           </div>
         )}
         {userAuth && (

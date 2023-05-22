@@ -1,9 +1,12 @@
 .chat {
   .icon-chat {
     transition: all 0.5s ease;
-    svg {
+    img {
       height: 100%;
       width: 100%;
+      object-fit: cover;
+      border-radius: 100%;
+      cursor: pointer;
     }
   }
   .hide-icon {
@@ -28,14 +31,20 @@
 
     .form-header {
       display: flex;
-      justify-content: space-between;
       border-bottom: 1px solid #ddd;
       height: 40px;
       align-items: center;
       position: relative;
-      padding: 20px;
+      padding: 0 10px;
       font-weight: 600;
       font-size: 16px;
+
+      img{
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        margin-right: 5px;
+      }
 
       .icon-close-form {
         position: absolute;

@@ -26,7 +26,8 @@
         font-size: 14px;
       }
       .is-active {
-        background: rgb(192, 192, 196);
+        background: $main_color;
+        color: white;
       }
     }
   }

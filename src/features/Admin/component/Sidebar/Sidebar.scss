@@ -12,16 +12,15 @@
   z-index: 2;
 
   .sidebar-header {
-    height: 100px;
     line-height: 100px;
     text-align: center;
     font-size: 32px;
     font-weight: 600;
     color: $main_color;
     img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
+      height: 150px;
+      width: 150px;
+      border-radius: 100%;
     }
   }
 

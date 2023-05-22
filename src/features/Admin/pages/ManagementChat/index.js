@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./ManagementChat.scss";
 import { useEffect } from "react";
 import { getAllAccount } from "../ManagementAccount/AccountSlice";
-import { shoe } from "../../../../assets/img";
+import { shoe_bg } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
 
 const ManagementChat = () => {
@@ -11,7 +11,7 @@ const ManagementChat = () => {
   useEffect(() => {
     dispatch(getAllAccount());
   }, [dispatch]);
-  console.log(allAccount);
+  
   return (
     <div className="management-chat">
       <div className="container h-100">
@@ -22,7 +22,7 @@ const ManagementChat = () => {
               allAccount.map((item) => {
                 return (
                   <div className="item-chat" key={item._id}>
-                    <img src={shoe} alt="avatar" className="avatar" />
+                    <img src={shoe_bg} alt="avatar" className="avatar" />
                     <div className="info">
                       <div>{item.email}</div>
                       <div>hello Shoe</div>
@@ -35,7 +35,7 @@ const ManagementChat = () => {
             <div className="nav-chat">Tên của người nhắn</div>
             <div className="list-message">
               <div className="message-to">
-                <img src={shoe} alt="avatar" className="avatar" />
+                <img src={shoe_bg} alt="avatar" className="avatar" />
                 <div className="message">
                   Đối với học sinh cấp tiểu học, cụ thể là học sinh lớp 2,3,4,
                   yêu cầu viết đoạn văn tương đối đơn giản, thường yêu cầu các
@@ -50,7 +50,7 @@ const ManagementChat = () => {
                   em kể lại một câu chuyện hay tả lại một đồ vật, con vật, cảnh
                   vật nào đó.
                 </div>
-                <img src={shoe} alt="avatar" className="avatar" />
+                <img src={shoe_bg} alt="avatar" className="avatar" />
               </div>
             </div>
             <div className="input-chat">

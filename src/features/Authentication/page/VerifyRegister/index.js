@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { shoe } from "../../../../assets/img";
+import { shoe_bg } from "../../../../assets/img";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import ModalCommon from "../../../../components/ModalCommon";
@@ -59,7 +59,7 @@ function VerifyRegister(params) {
       <div className="verify-register">
         <div className="form-verify-register">
           <Link className="logo" to={PATH.HOME}>
-            <img src={shoe} alt="img" />
+            <img src={shoe_bg} alt="img" />
           </Link>
           <h2>{t("check_mail")}</h2>
           <div className="input">

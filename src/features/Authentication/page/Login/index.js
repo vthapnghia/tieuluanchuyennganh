@@ -14,7 +14,7 @@ import PATH from "../../../../constants/path";
 import { useGoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import ModalCommon from "../../../../components/ModalCommon";
-import { shoe } from "../../../../assets/img";
+import { shoe_bg } from "../../../../assets/img";
 
 function Login() {
   const { t } = useTranslation();
@@ -188,10 +188,6 @@ function Login() {
                       name="email"
                       placeholder={t("email")}
                       type="text"
-                      style={{
-                        backgroundColor: COLOR.BG_INPUT,
-                        boxShadow: "none",
-                      }}
                       leftIcon={<Icons.Email color={COLOR.GRAY_2} />}
                     />
 
@@ -199,10 +195,6 @@ function Login() {
                       name="password"
                       placeholder={t("password")}
                       type="password"
-                      style={{
-                        backgroundColor: COLOR.BG_INPUT,
-                        boxShadow: "none",
-                      }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
 
@@ -210,10 +202,6 @@ function Login() {
                       name="passwordRepeat"
                       placeholder={t("confirm_password")}
                       type="password"
-                      style={{
-                        backgroundColor: COLOR.BG_INPUT,
-                        boxShadow: "none",
-                      }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
 
@@ -245,10 +233,6 @@ function Login() {
                       name="email"
                       placeholder={t("email")}
                       type="text"
-                      style={{
-                        backgroundColor: COLOR.BG_INPUT,
-                        boxShadow: "none",
-                      }}
                       leftIcon={<Icons.User color={COLOR.GRAY_2} />}
                     />
 
@@ -256,10 +240,6 @@ function Login() {
                       name="password"
                       placeholder={t("password")}
                       type="password"
-                      style={{
-                        backgroundColor: COLOR.BG_INPUT,
-                        boxShadow: "none",
-                      }}
                       leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
                     />
                     <div className="d-flex flex-column ">
@@ -304,7 +284,7 @@ function Login() {
               <div className="w-50 common flex-column">
                 <div className="text sign-in">
                   <h1>
-                    <img src={shoe} alt="img" />
+                    <img src={shoe_bg} alt="img" />
                   </h1>
                   <h2>{t("welcome")}</h2>
                 </div>
@@ -314,7 +294,7 @@ function Login() {
                 <div className="img sign-up"></div>
                 <div className="text sign-up">
                   <h1>
-                    <img src={shoe} alt="img" />
+                    <img src={shoe_bg} alt="img" />
                   </h1>
                   <h2>{t("join_with_us")}</h2>
                 </div>

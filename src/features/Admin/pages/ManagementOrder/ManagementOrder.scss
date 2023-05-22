@@ -72,6 +72,24 @@
           visibility: visible;
         }
       }
+
+      .btn-filter {
+        background-color: #e90f0f;
+        color: #fff;
+
+        &:hover {
+          background-color: #800606;
+        }
+      }
+
+      .btn-view-all {
+        background-color: #2f7aeb;
+        color: #fff;
+
+        &:hover {
+          background-color: #0947a3;
+        }
+      }
     }
 
     .action-search {

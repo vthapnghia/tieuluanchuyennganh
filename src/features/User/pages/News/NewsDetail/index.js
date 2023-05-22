@@ -30,7 +30,7 @@ function NewsDetail() {
   return useMemo(
     () => (
       <div className="news-detail row">
-        <div className="col-md-8">
+        <div className="col-md-8 news">
           <div className="title-new ">
             <span>{news?.title}</span>
             <span>{`${t("date_post")}: ${moment(
