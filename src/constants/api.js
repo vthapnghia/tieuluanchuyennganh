@@ -10,10 +10,10 @@ const API_URL = {
   USER: {
     FIRST_LOGIN: "user",
     GET_USER: "user/",
-    UPDATE_USER: "user", 
+    UPDATE_USER: "user",
     GET_ALL_ACCOUNT: "user/account",
     DELETE_ACCOUNT: "user/account/:id",
-    SEARCH_ACCOUNT: "user/account/search"
+    SEARCH_ACCOUNT: "user/account/search",
   },
   CART: {
     GET_ALL_CART: "cart",
@@ -36,7 +36,7 @@ const API_URL = {
     ADD_PRODUCT: "product",
     UPDATE_PRODUCT: "product/:id",
     DELETE_PRODUCT: "product/:id",
-    SEARCH_PRODUCT: "product/search"
+    SEARCH_PRODUCT: "product/search",
   },
   BRAND: {
     ALL_BRAND: "brand",
@@ -56,7 +56,7 @@ const API_URL = {
     GET_ALL_ORDER_USER: "order/user",
     GET_ALL_ORDER_ADMIN: "order",
     GET_ORDER_BY_ID: "order/:id",
-    UPDATE_ORDER_BY_ID: "order/:id"
+    UPDATE_ORDER_BY_ID: "order/:id",
   },
   RATE: {
     CREATE_RATE: "rating",
@@ -72,8 +72,12 @@ const API_URL = {
   },
   REVENUE: {
     REVENUE_BY_MONTH: "statics/month",
-    REVENUE_BY_YEAR: "statics/year"
-  }
+    REVENUE_BY_YEAR: "statics/year",
+  },
+  CHAT: {
+    ALL: "chats",
+    SEND: "chats",
+  },
 };
 
 export default API_URL;
