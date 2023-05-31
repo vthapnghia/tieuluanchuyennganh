@@ -13,6 +13,18 @@ const getAllChat = createAsyncThunk(
   }
 );
 
+const getAllChatAdmin = createAsyncThunk(
+  "GET_ALL_CHAT_ADMIN",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await chatAPI.getAllChatAdmin(data);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const sendMessage = createAsyncThunk(
   "SEND_MESSAGE",
   async (data, { rejectWithValue }) => {
@@ -26,7 +38,8 @@ const sendMessage = createAsyncThunk(
 );
 
 const initialState = {
-  listChat: [],
+  listChat: null,
+  listUserChat: null
 };
 const ChatSlice = createSlice({
   name: "chart",
@@ -36,9 +49,12 @@ const ChatSlice = createSlice({
     [getAllChat.fulfilled]: (state, action) => {
       state.listChat = action.payload?.data;
     },
+    [getAllChatAdmin.fulfilled]: (state, action) => {
+      state.listUserChat = action.payload?.data;
+    },
   },
 });
 
 const { reducer } = ChatSlice;
-export { getAllChat, sendMessage };
+export { getAllChat, sendMessage, getAllChatAdmin };
 export default reducer;

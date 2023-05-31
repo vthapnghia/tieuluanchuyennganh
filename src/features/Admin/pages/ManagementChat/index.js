@@ -1,31 +1,48 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./ManagementChat.scss";
 import { useEffect } from "react";
-import { getAllAccount } from "../ManagementAccount/AccountSlice";
-import { shoe_bg } from "../../../../assets/img";
+import { avatar_default, shoe_bg } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
+import { getAllChatAdmin } from "../../../User/pages/Chat/ChatSlice";
+import { useState } from "react";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8080");
 
 const ManagementChat = () => {
-  const allAccount = useSelector((state) => state.account.allAccount?.account);
+  const allChat = useSelector((state) => state.chat.listUserChat?.users);
+  const [mess, setMess] = useState([]);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllAccount());
+    dispatch(getAllChatAdmin());
   }, [dispatch]);
-  
+
+  useEffect(() => {
+    // Khi người dùng tham gia vào ứng dụng
+    socket.emit('user join', "admin");
+
+    socket.on("chat message", (message) => {
+      setMess([...mess, message]);
+    });
+  }, [mess]);
+
+  useEffect(() => {
+    console.log(mess);
+  }, [mess])
   return (
     <div className="management-chat">
       <div className="container h-100">
         <div className="form-chat row">
           <div className="list-chat col-lg-3 col-sm-4 col-xs-12">
-            {allAccount &&
-              allAccount.length > 0 &&
-              allAccount.map((item) => {
+            {allChat &&
+              allChat.length > 0 &&
+              allChat.map((item) => {
                 return (
                   <div className="item-chat" key={item._id}>
-                    <img src={shoe_bg} alt="avatar" className="avatar" />
+                    <img src={item.avatar || avatar_default} alt="avatar" className="avatar" />
                     <div className="info">
-                      <div>{item.email}</div>
-                      <div>hello Shoe</div>
+                      <div>{item.name}</div>
                     </div>
                   </div>
                 );
@@ -56,7 +73,7 @@ const ManagementChat = () => {
             <div className="input-chat">
               <input />
               <div className="icon-send">
-                <Icons.Send height="30" width="30" color="#007ef9"/>
+                <Icons.Send height="30" width="30" color="#007ef9" />
               </div>
             </div>
           </div>

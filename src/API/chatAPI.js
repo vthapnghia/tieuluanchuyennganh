@@ -4,13 +4,15 @@ import { doRequest } from "../until/common";
 const chatAPI = {
   getAllChat: () => {
     const url = API_URL.CHAT.ALL;
+    return doRequest("get", url, { noLoading: true });
+  },
+  getAllChatAdmin: () => {
+    const url = API_URL.CHAT.ADMIN;
     return doRequest("get", url);
   },
   sendMessage: (data) => {
     const url = API_URL.CHAT.SEND;
-
-    console.log(data);
-    return doRequest("post", url, {data});
+    return doRequest("post", url, { data, noLoading: true });
   },
 };
 

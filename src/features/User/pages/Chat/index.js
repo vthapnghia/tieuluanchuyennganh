@@ -11,33 +11,71 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllChat, sendMessage } from "./ChatSlice";
 import { useCallback } from "react";
 import { useMemo } from "react";
+import { hideLoading, showLoading } from "../../../../loading";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8080");
 
 function Chat() {
   const { t } = useTranslation();
   const [flag, setFlag] = useState(false);
   const { userAuth } = useAuth();
   const dispatch = useDispatch();
-  const chat = useSelector((state) => state.chat.listChat);
+  const chat = useSelector((state) => state.chat.listChat?.chats);
   const [message, setMessage] = useState("");
+  const [mess, setMess] = useState([]);
 
   const handleSendMessage = useCallback(() => {
     const data = {
-      receiver_id: "6425883addeca96417cd1514",
       message: message,
     };
-    dispatch(sendMessage(data));
+    dispatch(sendMessage(data)).then((res) => {
+      if (res.payload.status === 201) {
+        setMess((pre) => [...pre, res.payload.data]);
+        socket.emit("chat message", {
+          message: res.payload.data,
+          userId: "6441f1484686913eb6e4b436",
+        });
+      }
+    });
+
+    setMessage("");
   }, [dispatch, message]);
 
-  const handleOnKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-    }
-  }, []);
+  const handleOnKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSendMessage();
+      }
+    },
+    [handleSendMessage]
+  );
 
   useEffect(() => {
     if (flag) {
-      dispatch(getAllChat());
+      showLoading();
+      dispatch(getAllChat()).then((res) => {
+        hideLoading();
+      });
     }
   }, [dispatch, flag]);
+
+  useEffect(() => {
+      // Khi người dùng tham gia vào ứng dụng
+      socket.emit("user join", userAuth._id);
+
+      // Xử lý sự kiện chat message
+      socket.on("chat message", (message) => {
+        const messEmpty = [...mess];
+        setMess([...messEmpty, message]);
+      });
+    
+  }, [mess, userAuth._id]);
+
+  useEffect(() => {
+    setMess(chat);
+  }, [chat]);
+
   return useMemo(
     () => (
       <div
@@ -67,26 +105,32 @@ function Chat() {
           </div>
           {userAuth ? (
             <div className="form-message-content">
-              {chat.chats &&
-                chat.chats.length > 0 &&
-                chat.chats.map((item, index) => {
-                  if (index % 2 === 0)
+              {mess &&
+                mess.length > 0 &&
+                mess.map((item) => {
+                  if (item.is_admin)
                     return (
                       <div className="message-left" key={item._id}>
-                        <img src={shoe_bg} alt="avatar" />
+                        {/* <img src={shoe_bg} alt="avatar" /> */}
                         <div className="message">{item.message}</div>
                       </div>
                     );
                   return (
                     <div className="message-right" key={item._id}>
                       <div className="message">{item.message}</div>
-                      <img
-                        src="https://www.vivosmartphone.vn/uploads/MANGOADS/ch%E1%BB%A5p%20%E1%BA%A3nh/th%E1%BB%9Di%20th%C6%B0%E1%BB%A3ng/1.jpg"
+                      {/* <img
+                        src={item?.avatar || avatar_default}
                         alt="avatar"
-                      />
+                      /> */}
                     </div>
                   );
                 })}
+              <div
+                id="overlay_spinner"
+                // style={{ display: loading ? "flex" : "none" }}
+              >
+                <div className="spinner"></div>
+              </div>
             </div>
           ) : (
             <div className="no-login">
@@ -100,11 +144,12 @@ function Chat() {
                 <input
                   type="text"
                   onKeyDown={handleOnKeyDown}
+                  value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 ></input>
-                <div className="icon-image">
+                {/* <div className="icon-image">
                   <Icons.Image />
-                </div>
+                </div> */}
               </div>
 
               <div className="icon-send" onClick={handleSendMessage}>
@@ -115,7 +160,7 @@ function Chat() {
         </div>
       </div>
     ),
-    [chat.chats, flag, handleOnKeyDown, handleSendMessage, t, userAuth]
+    [flag, handleOnKeyDown, handleSendMessage, mess, message, t, userAuth]
   );
 }
 
