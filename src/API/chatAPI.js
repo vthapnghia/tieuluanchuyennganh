@@ -2,8 +2,9 @@ import API_URL from "../constants/api";
 import { doRequest } from "../until/common";
 
 const chatAPI = {
-  getAllChat: () => {
-    const url = API_URL.CHAT.ALL;
+  getAllChat: (data) => {
+    const url = `${API_URL.CHAT.ALL}${data ? `?Account_id=${data.id}` : ""}`;
+    console.log(url);
     return doRequest("get", url, { noLoading: true });
   },
   getAllChatAdmin: () => {

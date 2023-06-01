@@ -13,7 +13,7 @@
       height: 100%;
       padding: 0;
       overflow: auto;
-      border-left: 1px solid #ddd;
+      // border-left: 1px solid #ddd;
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -36,9 +36,11 @@
         padding-left: 22px;
         width: 100%;
         padding: 19px;
+
         cursor: pointer;
         &:hover {
-          background-color: #eeeeee;
+          background-color: #3b5d50;
+          color: #fff;
         }
         .avatar {
           height: 40px;
@@ -60,6 +62,11 @@
             text-overflow: ellipsis;
           }
         }
+      }
+
+      .item-click {
+        background-color: #3b5d50;
+        color: #fff;
       }
     }
 

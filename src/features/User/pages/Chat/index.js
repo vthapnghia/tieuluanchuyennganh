@@ -34,7 +34,7 @@ function Chat() {
         setMess((pre) => [...pre, res.payload.data]);
         socket.emit("chat message", {
           message: res.payload.data,
-          userId: "6441f1484686913eb6e4b436",
+          userId: "admin",
         });
       }
     });
@@ -66,14 +66,13 @@ function Chat() {
 
       // Xử lý sự kiện chat message
       socket.on("chat message", (message) => {
-        const messEmpty = [...mess];
-        setMess([...messEmpty, message]);
+        setMess(pre => [...pre, message]);
       });
     
   }, [mess, userAuth._id]);
 
   useEffect(() => {
-    setMess(chat);
+    setMess(chat); 
   }, [chat]);
 
   return useMemo(
