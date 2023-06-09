@@ -13,6 +13,7 @@ import { useCallback } from "react";
 import { useMemo } from "react";
 import { hideLoading, showLoading } from "../../../../loading";
 import io from "socket.io-client";
+import { useRef } from "react";
 
 const socket = io("http://localhost:8080");
 
@@ -22,25 +23,27 @@ function Chat() {
   const { userAuth } = useAuth();
   const dispatch = useDispatch();
   const chat = useSelector((state) => state.chat.listChat?.chats);
-  const [message, setMessage] = useState("");
+  const [messageUser, setMessageUser] = useState("");
   const [mess, setMess] = useState([]);
+  const ref = useRef(null);
 
   const handleSendMessage = useCallback(() => {
-    const data = {
-      message: message,
-    };
-    dispatch(sendMessage(data)).then((res) => {
-      if (res.payload.status === 201) {
-        setMess((pre) => [...pre, res.payload.data]);
-        socket.emit("chat message", {
-          message: res.payload.data,
-          userId: "admin",
-        });
-      }
-    });
-
-    setMessage("");
-  }, [dispatch, message]);
+    if (messageUser) {
+      const data = {
+        message: messageUser,
+      };
+      dispatch(sendMessage(data)).then((res) => {
+        if (res.payload.status === 201) {
+          setMess((pre) => [...pre, res.payload.data]);
+          socket.emit("chat message", {
+            message: res.payload.data,
+            userId: "admin",
+          });
+        }
+      });
+      setMessageUser("");
+    }
+  }, [dispatch, messageUser]);
 
   const handleOnKeyDown = useCallback(
     (e) => {
@@ -61,19 +64,23 @@ function Chat() {
   }, [dispatch, flag]);
 
   useEffect(() => {
-      // Khi người dùng tham gia vào ứng dụng
-      socket.emit("user join", userAuth._id);
+    // Khi người dùng tham gia vào ứng dụng
+    socket.emit("user join", userAuth._id);
 
-      // Xử lý sự kiện chat message
-      socket.on("chat message", (message) => {
-        setMess(pre => [...pre, message]);
-      });
-    
-  }, [mess, userAuth._id]);
+    // Xử lý sự kiện chat message
+    socket.on("chat message", (message) => {
+      setMess((pre) => [...pre, message]);
+    });
+  }, [userAuth._id]);
 
   useEffect(() => {
-    setMess(chat); 
+    setMess(chat);
   }, [chat]);
+
+  useEffect(() => {
+    var element = document.getElementById("form-message-content");
+    element.scrollTop = element.scrollHeight;
+  }, [mess]);
 
   return useMemo(
     () => (
@@ -90,7 +97,6 @@ function Chat() {
           onClick={() => setFlag(!flag)}
           className={`icon-chat ${flag ? "hide-icon" : "display-icon"}`}
         >
-          {/* <Icons.Messenger /> */}
           <img src={shoe_bg} alt="show chat" />
         </div>
 
@@ -103,7 +109,11 @@ function Chat() {
             </div>
           </div>
           {userAuth ? (
-            <div className="form-message-content">
+            <div
+              className="form-message-content"
+              id="form-message-content"
+              ref={ref}
+            >
               {mess &&
                 mess.length > 0 &&
                 mess.map((item) => {
@@ -143,8 +153,8 @@ function Chat() {
                 <input
                   type="text"
                   onKeyDown={handleOnKeyDown}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={messageUser}
+                  onChange={(e) => setMessageUser(e.target.value)}
                 ></input>
                 {/* <div className="icon-image">
                   <Icons.Image />
@@ -159,7 +169,7 @@ function Chat() {
         </div>
       </div>
     ),
-    [flag, handleOnKeyDown, handleSendMessage, mess, message, t, userAuth]
+    [flag, handleOnKeyDown, handleSendMessage, mess, messageUser, t, userAuth]
   );
 }
 

@@ -3,13 +3,12 @@ import { doRequest } from "../until/common";
 
 const chatAPI = {
   getAllChat: (data) => {
-    const url = `${API_URL.CHAT.ALL}${data ? `?Account_id=${data.id}` : ""}`;
-    console.log(url);
+    const url = `${API_URL.CHAT.ALL}${data ? `?user_id=${data.id}` : ""}`;
     return doRequest("get", url, { noLoading: true });
   },
   getAllChatAdmin: () => {
     const url = API_URL.CHAT.ADMIN;
-    return doRequest("get", url);
+    return doRequest("get", url, { noLoading: true });
   },
   sendMessage: (data) => {
     const url = API_URL.CHAT.SEND;
