@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import io from "socket.io-client";
 import { hideLoading, showLoading } from "../../../../loading";
+import ModalImage from "../../../../components/ModalImage";
 
 const socket = io("http://localhost:8080");
 
@@ -22,20 +23,33 @@ const ManagementChat = () => {
   const [mess, setMess] = useState([]);
   const [userCur, setUserCur] = useState();
   const [messageAdmin, setMessageAdmin] = useState("");
+  const [chatImage, setChatImage] = useState();
+  const [isReads, setIsReads] = useState([]);
+  const [show, setShow] = useState(false);
+  const [imageClick, setImageClick] = useState("");
 
   const handleClickUserChat = useCallback(
     async (user) => {
-      setUserCur(user);
-      showLoading();
-      await dispatch(getAllChat({ id: user._id })).then(() => hideLoading());
+      const listTemp = isReads.filter(
+        (item) => item.tempUser._id !== user?._id
+      );
+      setIsReads(listTemp);
+      if (userCur?._id === user._id) {
+        setUserCur(user);
+        showLoading();
+        await dispatch(getAllChat({ id: user._id })).then(() => hideLoading());
+      }
     },
-    [dispatch]
+    [dispatch, isReads, userCur?._id]
   );
 
-  const checkRead = useCallback(
+  const checkRead = useMemo(
     () => (id) => {
-      if (listIsRead && listIsRead.length > 0) {
-        const find = listIsRead.find((item) => item.tempUser._id === id);
+      if (isReads && isReads.length > 0) {
+        const find = isReads.find((item) => {
+          console.log(item);
+          return item.tempUser._id === id;
+        });
         if (find) {
           return false;
         }
@@ -43,16 +57,17 @@ const ManagementChat = () => {
       }
       return true;
     },
-    [listIsRead]
+    [isReads]
   );
 
   const handleSendMessage = useCallback(async () => {
-    if (messageAdmin) {
-      const data = {
-        message: messageAdmin,
-        user_id: userCur?._id,
-      };
-      await dispatch(sendMessage(data)).then((res) => {
+    if (messageAdmin || chatImage) {
+      const formData = new FormData();
+      formData.append("message", messageAdmin);
+      formData.append("user_id", userCur?._id);
+      formData.append("image", chatImage);
+      showLoading();
+      await dispatch(sendMessage(formData)).then((res) => {
         if (res.payload.status === 201) {
           setMess((pre) => [...pre, res.payload.data]);
           socket.emit("chat message", {
@@ -60,11 +75,13 @@ const ManagementChat = () => {
             userId: userCur?._id,
           });
         }
+        hideLoading();
       });
 
       setMessageAdmin("");
+      setChatImage();
     }
-  }, [dispatch, messageAdmin, userCur?._id]);
+  }, [chatImage, dispatch, messageAdmin, userCur?._id]);
 
   const handleOnKeyDown = useCallback(
     (e) => {
@@ -73,6 +90,21 @@ const ManagementChat = () => {
       }
     },
     [handleSendMessage]
+  );
+
+  const handleClickDetail = useCallback(() => {
+    const listTemp = isReads.filter(
+      (item) => item.tempUser._id !== userCur?._id
+    );
+    setIsReads(listTemp);
+  }, [isReads, userCur?._id]);
+
+  const handleClickImage = useCallback(
+    (img) => {
+      setImageClick(img);
+      setShow(!show);
+    },
+    [show]
   );
 
   useEffect(() => {
@@ -90,12 +122,17 @@ const ManagementChat = () => {
       } else if (message.user_id === userCur?._id) {
         setMess((pre) => [...pre, message]);
       }
+
+      const listTemp = isReads.filter(
+        (item) => item.tempUser._id !== message.user_id
+      );
+      setIsReads([...listTemp, { is_read: false, tempUser: find }]);
     });
 
     return () => {
       socket.off("chat message");
     };
-  }, [dispatch, listUserChat, userCur?._id]);
+  }, [dispatch, isReads, listUserChat, userCur?._id]);
 
   useEffect(() => {
     if (listUserChat && listUserChat.length > 0) {
@@ -109,6 +146,12 @@ const ManagementChat = () => {
       setMess(chat);
     }
   }, [chat]);
+
+  useEffect(() => {
+    if (listIsRead && listIsRead?.length > 0) {
+      setIsReads(listIsRead);
+    }
+  }, [listIsRead]);
 
   useEffect(() => {
     if (listUserChat && listUserChat.length > 0) {
@@ -136,7 +179,7 @@ const ManagementChat = () => {
                         id={`item_${item._id}`}
                         className={`item-chat ${
                           userCur?._id === item._id && "item-click"
-                        } ${checkRead(item._id) ? "" : "is-not-read"}`}
+                        }`}
                         key={item._id}
                         onClick={() => handleClickUserChat(item)}
                       >
@@ -148,19 +191,52 @@ const ManagementChat = () => {
                         <div className="info">
                           <div>{item.name}</div>
                         </div>
+
+                        <div className="notify">
+                          {!checkRead(item._id) ? (
+                            <span className="bell-ring">
+                              <Icons.Bell color="red" height="20" width="20" />
+                            </span>
+                          ) : (
+                            <Icons.Bell height="20" width="20" />
+                          )}
+                        </div>
                       </div>
                     );
                   })}
               </div>
-              <div className="detail-chat col-lg-9 col-sm-8 col-xs-12">
+              <div
+                className="detail-chat col-lg-9 col-sm-8 col-xs-12"
+                onClick={handleClickDetail}
+              >
                 <div className="nav-chat">{userCur?.name}</div>
-                <div className="list-message" id="list-message">
+                <div
+                  className="list-message"
+                  id="list-message"
+                  style={{
+                    height: chatImage
+                      ? "calc(100% - 340px)"
+                      : "calc(100% - 140px)",
+                  }}
+                >
                   {mess.length > 0 &&
                     mess.map((item) => {
                       if (item.is_admin) {
                         return (
                           <div className="message-from" key={item._id}>
-                            <div className="message">{item.message}</div>
+                            <div className="message">
+                              {item.image && (
+                                <div className="mess-img">
+                                  <img
+                                    src={item.image}
+                                    alt="mess-img"
+                                    className="img-item"
+                                    onClick={() => handleClickImage(item.image)}
+                                  />
+                                </div>
+                              )}
+                              {item.message}
+                            </div>
                             <img
                               src={shoe_bg}
                               alt="avatar"
@@ -176,7 +252,19 @@ const ManagementChat = () => {
                             alt="avatar"
                             className="avatar"
                           />
-                          <div className="message">{item.message}</div>
+                          <div className="message">
+                            {item.image && (
+                              <div className="mess-img">
+                                <img
+                                  src={item.image}
+                                  alt="mess-img"
+                                  className="img-item"
+                                  onClick={() => handleClickImage(item.image)}
+                                />
+                              </div>
+                            )}
+                            {item.message}
+                          </div>
                         </div>
                       );
                     })}
@@ -188,13 +276,32 @@ const ManagementChat = () => {
                     <div className="spinner"></div>
                   </div>
                 </div>
+                {chatImage && (
+                  <div className="display-img">
+                    <img src={URL.createObjectURL(chatImage)} alt="img-mess" />
+                  </div>
+                )}
                 <div className="input-chat">
-                  <input
-                    type="text"
-                    onKeyDown={handleOnKeyDown}
-                    value={messageAdmin}
-                    onChange={(e) => setMessageAdmin(e.target.value)}
-                  />
+                  <div className="input">
+                    <input
+                      type="text"
+                      onKeyDown={handleOnKeyDown}
+                      value={messageAdmin}
+                      onChange={(e) => setMessageAdmin(e.target.value)}
+                    />
+                    <div className="icon-image">
+                      <input
+                        type="file"
+                        hidden
+                        id="chat-img"
+                        onChange={(e) => setChatImage(e.target.files[0])}
+                        accept="image/*"
+                      />
+                      <label htmlFor="chat-img" className="chat-img-label">
+                        <Icons.Image />
+                      </label>
+                    </div>
+                  </div>
                   <div className="icon-send" onClick={handleSendMessage}>
                     <Icons.Send height="30" width="30" color="#007ef9" />
                   </div>
@@ -203,18 +310,29 @@ const ManagementChat = () => {
             </div>
           </div>
         )}
+        <ModalImage
+          show={show}
+          image={imageClick}
+          handleConfirm={() => {}}
+          handleCloseModal={() => setShow(!show)}
+        />
       </div>
     ),
     [
+      listUserChat,
+      handleClickDetail,
+      userCur?.name,
+      userCur?._id,
+      chatImage,
+      mess,
+      handleOnKeyDown,
+      messageAdmin,
+      handleSendMessage,
+      show,
+      imageClick,
       checkRead,
       handleClickUserChat,
-      handleOnKeyDown,
-      handleSendMessage,
-      listUserChat,
-      mess,
-      messageAdmin,
-      userCur?._id,
-      userCur?.name,
+      handleClickImage,
     ]
   );
 };

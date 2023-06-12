@@ -1,0 +1,21 @@
+.modal-image {
+  background: rgba(14, 13, 13, 0.7);
+  .modal-dialog {
+    .modal-content {
+      padding: 0;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .close-btn {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      font-weight: 600;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+    }
+  }
+}

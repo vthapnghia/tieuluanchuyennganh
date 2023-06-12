@@ -37,9 +37,22 @@ const sendMessage = createAsyncThunk(
   }
 );
 
+const getIsRead = createAsyncThunk(
+  "GET_IS_READ",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await chatAPI.getIsRead(data);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   listChat: null,
-  listUserChat: null
+  listUserChat: null,
+  isRead: false,
 };
 const ChatSlice = createSlice({
   name: "chart",
@@ -52,9 +65,12 @@ const ChatSlice = createSlice({
     [getAllChatAdmin.fulfilled]: (state, action) => {
       state.listUserChat = action.payload?.data;
     },
+    [getIsRead.fulfilled]: (state, action) => {
+      state.isRead = action.payload?.data;
+    },
   },
 });
 
 const { reducer } = ChatSlice;
-export { getAllChat, sendMessage, getAllChatAdmin };
+export { getAllChat, sendMessage, getAllChatAdmin, getIsRead };
 export default reducer;

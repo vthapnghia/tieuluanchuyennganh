@@ -10,9 +10,17 @@ const chatAPI = {
     const url = API_URL.CHAT.ADMIN;
     return doRequest("get", url, { noLoading: true });
   },
+  getIsRead: () => {
+    const url = API_URL.CHAT.IS_READ;
+    return doRequest("get", url, { noLoading: true });
+  },
   sendMessage: (data) => {
     const url = API_URL.CHAT.SEND;
-    return doRequest("post", url, { data, noLoading: true });
+    return doRequest("post", url, {
+      data: data,
+      noLoading: true,
+      isUploadImg: true,
+    });
   },
 };
 

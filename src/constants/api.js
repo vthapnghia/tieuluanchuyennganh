@@ -77,7 +77,8 @@ const API_URL = {
   CHAT: {
     ALL: "chats",
     SEND: "chats",
-    ADMIN: "chats/userList"
+    ADMIN: "chats/userList",
+    IS_READ: "chats/isRead",
   },
 };
 
