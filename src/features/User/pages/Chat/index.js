@@ -87,7 +87,7 @@ function Chat() {
   }, [dispatch, flag]);
 
   useEffect(() => {
-    if (userAuth._id) {
+    if (userAuth?._id) {
       // Khi người dùng tham gia vào ứng dụng
       socket.emit("user join", userAuth._id);
 
@@ -99,7 +99,7 @@ function Chat() {
 
       dispatch(getIsRead());
     }
-  }, [dispatch, userAuth._id]);
+  }, [dispatch, userAuth?._id]);
 
   useEffect(() => {
     setMess(chat);
@@ -107,7 +107,9 @@ function Chat() {
 
   useEffect(() => {
     var element = document.getElementById("form-message-content");
-    element.scrollTop = element.scrollHeight;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
   }, [mess]);
 
   return useMemo(
@@ -119,6 +121,7 @@ function Chat() {
           bottom: "150px",
           right: "50px",
           borderRadius: "50%",
+          zIndex: 1,
         }}
       >
         <div

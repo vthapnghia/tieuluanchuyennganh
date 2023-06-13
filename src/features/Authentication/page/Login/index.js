@@ -34,6 +34,14 @@ function Login() {
     formikRef.current?.resetForm();
   };
 
+  const togglerResponsive = () => {
+    setIssignIn(!isSignIn);
+    let container = document.getElementById("login-form-responsive");
+    container.classList.toggle("sign-up-active");
+    container.classList.toggle("sign-in-active");
+    formikRef.current?.resetForm();
+  };
+
   function containsValidate(str) {
     const specialChars = /[`!@#$%^&*()_+\-={};':"|,.<>?~]/;
     return /[0-9]/.test(str) && !/^[0-9]+$/.test(str) && specialChars.test(str);
@@ -178,8 +186,103 @@ function Login() {
       innerRef={formikRef}
     >
       <>
+        <div
+          className="login-form-responsive sign-in-active"
+          id="login-form-responsive"
+        >
+          <div className="sign-up">
+            <h2>Đăng ký</h2>
+            <div className="form">
+              <Input
+                name="email"
+                placeholder={t("email")}
+                type="text"
+                leftIcon={<Icons.Email color={COLOR.GRAY_2} />}
+              />
+
+              <Input
+                name="password"
+                placeholder={t("password")}
+                type="password"
+                leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
+              />
+
+              <Input
+                name="passwordRepeat"
+                placeholder={t("confirm_password")}
+                type="password"
+                leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
+              />
+
+              <Button
+                className="primary"
+                onClick={() => formikRef.current.submitForm()}
+              >
+                {t("register")}
+              </Button>
+              <br></br>
+              <p className="action">
+                <span>{t("have_account")}</span>
+                &nbsp;
+                <b onClick={togglerResponsive} className="pointer">
+                  {t("sign_in_here")}
+                </b>
+              </p>
+            </div>
+            <div className="back-to-home">
+              <Link to="/">{t("text_back_home")}</Link>
+            </div>
+          </div>
+
+          <div className="sign-in">
+            <h2>Đăng nhập</h2>
+            <div className="form">
+              <Input
+                name="email"
+                placeholder={t("email")}
+                type="text"
+                leftIcon={<Icons.User color={COLOR.GRAY_2} />}
+              />
+
+              <Input
+                name="password"
+                placeholder={t("password")}
+                type="password"
+                leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
+              />
+              <div className="d-flex flex-column ">
+                <Button
+                  className="primary"
+                  onClick={() => formikRef.current?.submitForm()}
+                >
+                  {t("login")}
+                </Button>
+                <span className="text-center d-block my-2">{t("or")}</span>
+                <Button className="primary" onClick={signIn}>
+                  <Icons.Google color={COLOR.GOOGLE_COLOR} />
+                </Button>
+              </div>
+
+              <p className="forgot-pass">
+                <Link to={PATH.RESET_PASSWORD.BASE} className="forgot-password">
+                  <b>{t("forgot_password")}</b>
+                </Link>
+              </p>
+              <p className="action">
+                <span>{t("no_account")}</span>
+                &nbsp;
+                <b onClick={togglerResponsive} className="pointer">
+                  {t("sign_up_here")}
+                </b>
+              </p>
+            </div>
+            <div className="back-to-home">
+              <Link to="/">{t("text_back_home")}</Link>
+            </div>
+          </div>
+        </div>
         <div className="login-form">
-          <div id="container" className="container-form sign-in">
+          <div id="container" className="container-form sign-in hide-form">
             <div className="d-flex flex-wrap vh-100">
               <div className="w-50 common flex-column sign-up">
                 <div className="form-wrapper common">
@@ -257,7 +360,7 @@ function Login() {
                       </Button>
                     </div>
 
-                    <p>
+                    <p className="forgot-pass">
                       <Link
                         to={PATH.RESET_PASSWORD.BASE}
                         className="forgot-password"

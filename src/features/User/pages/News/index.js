@@ -24,7 +24,7 @@ function News() {
       {allNews?.news.map((item) => {
         return (
           <div
-            className="post col-md-3"
+            className="post col-md-4 col-xl-3"
             key={item._id}
             onClick={() =>
               navigate(PATH.NEWS.DETAIL_NEWS.replace(":id", item._id))

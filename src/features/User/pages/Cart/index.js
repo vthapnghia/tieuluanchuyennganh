@@ -16,9 +16,13 @@ import {
 import ModalCommon from "../../../../components/ModalCommon";
 import { getUser } from "../../../Authentication/authSlice";
 import Icons from "../../../../components/Icons";
-import { getAllVoucher, removeStateVoucher } from "../../../Admin/pages/ManagementVoucher/voucherSlice";
+import {
+  getAllVoucher,
+  removeStateVoucher,
+} from "../../../Admin/pages/ManagementVoucher/voucherSlice";
 import { COLOR } from "../../../../constants/global";
 import { currencyFormatting } from "../../../../until/common";
+import { empty } from "../../../../assets/img/index";
 
 function Cart() {
   const { t } = useTranslation();
@@ -309,8 +313,8 @@ function Cart() {
 
     return () => {
       dispatch(removeStateVoucher());
-      dispatch(removeCart())
-    }
+      dispatch(removeCart());
+    };
   }, [dispatch]);
 
   useEffect(() => {
@@ -330,7 +334,7 @@ function Cart() {
         <div className="Cart row">
           {cart && cart.length > 0 ? (
             <>
-              <div className="product col-md-9">
+              <div className="product col-sm-12 col-lg-8">
                 <div className="row">
                   <TableCommon
                     cols={cols}
@@ -344,7 +348,7 @@ function Cart() {
                 </div>
               </div>
 
-              <div className="info-purchase col-md-3">
+              <div className="info-purchase col-sm-12 col-lg-4">
                 <div className="customer-info">
                   <div className="header">{t("delivery_to")}</div>
                   <div className="name-and-phone">
@@ -398,6 +402,7 @@ function Cart() {
             </>
           ) : (
             <div className="no-product">
+              <img src={empty} alt="no product" />
               <h2>{t("no_product_in_cart")}</h2>
               <Button
                 className="primary"

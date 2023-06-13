@@ -113,7 +113,7 @@ function Profile() {
     >
       <>
         <div className="profile row">
-          <div className="bg-left col-md-4">
+          <div className="bg-left col-sm-12 col-md-6 col-lg-4">
             <div className="avatar">
               <Input
                 name="avatar"
@@ -124,8 +124,8 @@ function Profile() {
               />
             </div>
           </div>
-          <div className="bg-right col-md-8">
-            <div className="form-info" style={{ width: "500px" }}>
+          <div className="bg-right col-sm-12 col-md-6 col-lg-8">
+            <div className="row form-info">
               <Input name="name" placeholder={t("full_name")} type="text" />
               <div className="d-flex justify-content-between">
                 <div style={{ width: "calc(50% - 10px)" }}>

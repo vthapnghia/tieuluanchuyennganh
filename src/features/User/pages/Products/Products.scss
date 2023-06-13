@@ -97,6 +97,14 @@
     background: #fff;
     padding: 12px;
     border-radius: 10px;
+
+    @media (max-width: $md) {
+      padding: 0;
+
+      .search-product{
+        margin-bottom: 10px;
+      }
+    }
   }
 
   .list-product {

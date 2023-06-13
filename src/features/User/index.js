@@ -3,6 +3,7 @@ import Chat from "./pages/Chat";
 import Footer from "../../components/Footer";
 import Navbars from "../../components/Navbars";
 import { useLocation } from "react-router-dom";
+import { slide_1, slide_2, slide_3 } from "../../assets/img";
 
 function User(props) {
   const { pathname } = useLocation();
@@ -17,62 +18,29 @@ function User(props) {
           id="carouselExampleControls"
           className="carousel slide"
           data-bs-ride="carousel"
-          style={{ marginTop: "80px", height: "500px" }}
+          style={{ marginTop: "106px", height: "auto", width: "100%" }}
         >
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <svg
-                className="bd-placeholder-img bd-placeholder-img-lg d-block w-100"
-                width="800"
-                height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: First slide"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#555" dy=".3em">
-                  First slide
-                </text>
-              </svg>
+              <img
+                src={slide_1}
+                alt="slide_1"
+                style={{ width: "100%", height: "auto" }}
+              />
             </div>
             <div className="carousel-item">
-              <svg
-                className="bd-placeholder-img bd-placeholder-img-lg d-block w-100"
-                width="800"
-                height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: Second slide"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#666"></rect>
-                <text x="50%" y="50%" fill="#444" dy=".3em">
-                  Second slide
-                </text>
-              </svg>
+              <img
+                src={slide_2}
+                alt="slide_2"
+                style={{ width: "100%", height: "auto" }}
+              />
             </div>
             <div className="carousel-item">
-              <svg
-                className="bd-placeholder-img bd-placeholder-img-lg d-block w-100"
-                width="800"
-                height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: Third slide"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#555"></rect>
-                <text x="50%" y="50%" fill="#333" dy=".3em">
-                  Third slide
-                </text>
-              </svg>
+              <img
+                src={slide_3}
+                alt="slide_3"
+                style={{ width: "100%", height: "auto" }}
+              />
             </div>
           </div>
           <button
@@ -101,10 +69,7 @@ function User(props) {
           </button>
         </div>
       )}
-      <div
-        className="container"
-        style={{ padding: "80px 0 0", minHeight: "calc(100vh - 62px)" }}
-      >
+      <div className="container" style={{ minHeight: "calc(100vh - 62px)" }}>
         <props.component />
       </div>
 

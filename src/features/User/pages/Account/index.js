@@ -8,7 +8,7 @@ import OrderDetail from "../UserOrders/OrderDetail";
 
 function Account() {
   const { pathname } = useLocation();
-  const {id} = useParams()
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleClick = (index) => {
@@ -18,15 +18,17 @@ function Account() {
   return (
     <div className="account">
       <div className="account-navbar row">
-        <div className="col col-md-2 d-flex"></div>
-        <div className="name-component col col-md-10">
+        <div className="col-12 col-sm-12 col-md-3 col-lg-2"></div>
+        <div className="name-component col-12 col-sm-12 col-md-9  col-lg-10">
           {pathname === PATH.PROFILE
             ? t("info_account")
-            :  pathname === PATH.USER_ORDERS.BASE ? t("order_management") : t("order_detail", {param: id})}
+            : pathname === PATH.USER_ORDERS.BASE
+            ? t("order_management")
+            : t("order_detail", { param: id })}
         </div>
       </div>
       <div className="row">
-        <div className="account-sidebar col col-md-2">
+        <div className="account-sidebar col-12 col-sm-12 col-md-3 col-lg-2">
           <div className="account-option">
             <div
               className={`option ${
@@ -46,7 +48,7 @@ function Account() {
             </div>
           </div>
         </div>
-        <div className="account-component col col-md-10">
+        <div className="account-component col-12 col-sm-12 col-md-9  col-lg-10">
           {pathname === PATH.PROFILE ? (
             <Profile />
           ) : pathname === PATH.USER_ORDERS.BASE ? (

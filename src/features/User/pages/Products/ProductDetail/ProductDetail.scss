@@ -1,7 +1,7 @@
 @import "/src/assets/scss/variables.scss";
 
 .product-detail {
-  padding: 20px 0;
+  margin-top: 150px;
   .product {
     border-radius: 10px;
     width: 100%;
@@ -119,17 +119,19 @@
 
       .action {
         display: flex;
+        margin: 0;
+        width: 100%;
+        padding: 0;
         margin-top: 50px;
         button {
           font-size: 15px;
           line-height: 24px;
           font-weight: 500;
           text-transform: capitalize;
-          min-width: 200px;
         }
-        .add-cart {
-          margin-right: 50px;
-        }
+        // .add-cart {
+        //   margin-right: 50px;
+        // }
       }
 
       .option-size {
@@ -351,8 +353,6 @@
         border-top: 1px solid rgb(242, 242, 242);
         .user-comment {
           display: flex;
-          width: 335px;
-
           .avatar {
             width: max-content;
             height: max-content;
@@ -385,7 +385,6 @@
         }
 
         .content-comment {
-          width: calc(100% - 335px);
           .star-comment {
             margin: 0px 0px 4px;
           }

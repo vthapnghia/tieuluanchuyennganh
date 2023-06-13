@@ -30,7 +30,7 @@ function NewsDetail() {
   return useMemo(
     () => (
       <div className="news-detail row">
-        <div className="col-md-8 news">
+        <div className="col-12 col-lg-8 news">
           <div className="title-new ">
             <span>{news?.title}</span>
             <span>{`${t("date_post")}: ${moment(
@@ -42,7 +42,7 @@ function NewsDetail() {
             dangerouslySetInnerHTML={{ __html: news?.content }}
           ></div>
         </div>
-        <div className="news-other col-md-4">
+        <div className="news-other col-12 col-lg-4">
           <div className="title">{t("news_other")}</div>
           <div className="news-other-item">
             {allNews?.news.map((item) => {

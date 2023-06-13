@@ -317,7 +317,7 @@ function Products() {
           </div>
           <div className="col-md-9 col-xl-10">
             <div className="row search-and-filter">
-              <div className="search-product col col-md-4 col-xl-3">
+              <div className="search-product col col-12 col-sm-12 col-md-4 col-xl-3">
                 <input
                   type="text"
                   placeholder={t("search")}
@@ -328,8 +328,8 @@ function Products() {
                   <Icons.Search />
                 </div>
               </div>
-              <div className="col col-md-3 col-xl-5"></div>
-              <div className="sort-product col col-md-5 col-xl-4">
+              <div className="col col-0 col-sm-0  col-md-3 col-xl-5"></div>
+              <div className="sort-product col col-12 col-sm-12 col-md-5 col-xl-4">
                 <Select
                   onChange={handleChangeSort}
                   options={SORT_OPTION}

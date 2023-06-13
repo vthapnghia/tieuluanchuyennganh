@@ -232,7 +232,7 @@ function Order() {
     () => (
       <>
         <div className="Order row">
-          <div className="list-purchase col-md-6">
+          <div className="list-purchase col-md-12 col-lg-6">
             {state.listPurchase.map((item, index) => {
               return (
                 <div key={index}>
@@ -256,7 +256,7 @@ function Order() {
               );
             })}
           </div>
-          <div className="choose-method col-md-3">
+          <div className="choose-method col-md-6 col-lg-3">
             <div className="method-pay">
               <span className="header">{t("payment_method")}</span>
               <div className="option">
@@ -310,7 +310,7 @@ function Order() {
               </div>
             </div>
           </div>
-          <div className="info-purchase col-md-3">
+          <div className="info-purchase col-md-6 col-lg-3">
             <div className="customer-info">
               <div className="header">{t("delivery_to")}</div>
               <div className="name-and-phone">

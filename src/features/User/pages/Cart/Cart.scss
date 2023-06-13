@@ -1,6 +1,6 @@
 @import "/src/assets/scss/variables.scss";
 .Cart {
-  padding: 20px 0;
+  margin-top: 150px;
 
   .no-product {
     display: flex;
@@ -8,6 +8,8 @@
     align-items: center;
     height: 100vh;
     padding-top: 100px;
+
+    text-align: center;
   }
 
   .info-purchase {

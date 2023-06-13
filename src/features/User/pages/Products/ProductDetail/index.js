@@ -170,7 +170,7 @@ function ProductDetail() {
     <>
       <div className="product-detail">
         <div className="product row">
-          <div className="img-slider col-md-6">
+          <div className="img-slider col-md-12 col-lg-6">
             <img src={chooseImage} alt="product" className="image-display" />
             <div className="image-product-list">
               {products?.product_image.map((image, i) => {
@@ -190,7 +190,7 @@ function ProductDetail() {
               })}
             </div>
           </div>
-          <div className="content-detail col-md-6">
+          <div className="content-detail col-md-12 col-lg-6">
             <div className=" brand">
               {t("brand")}&#58; <a href="">{products?.brand}</a>
             </div>
@@ -294,13 +294,17 @@ function ProductDetail() {
                 </button>
               </div>
             </div>
-            <div className="action">
-              <Button className="red add-cart" onClick={checkAddToCart}>
-                {t("add_to_cart")}
-              </Button>
-              <Button className="outline buy-now" onClick={handleBuyNow}>
-                {t("buy_now")}
-              </Button>
+            <div className="action row">
+              <div className="col-6 col-sm-6 col-lg-6">
+                <Button className="red add-cart " onClick={checkAddToCart}>
+                  {t("add_to_cart")}
+                </Button>
+              </div>
+              <div className="col-6 col-sm-6 col-lg-6">
+                <Button className="outline buy-now " onClick={handleBuyNow}>
+                  {t("buy_now")}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -338,8 +342,8 @@ function ProductDetail() {
             <div className="list-comment">
               {rate?.map((rateItem, index) => {
                 return (
-                  <div key={index} className="comment-item">
-                    <div className="user-comment">
+                  <div key={index} className="comment-item row">
+                    <div className="user-comment col-lg-4">
                       <div className="avatar">
                         <img
                           src={rateItem.user.avatar || avatar_default}
@@ -357,7 +361,7 @@ function ProductDetail() {
                         </div>
                       </div>
                     </div>
-                    <div className="content-comment">
+                    <div className="content-comment col-lg-8">
                       <div className="star-comment">
                         <Icons.Star
                           color={`${rateItem.rate >= 1 ? "#ffc700" : "#ccc"}`}

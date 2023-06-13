@@ -93,6 +93,15 @@
       .pointer {
         cursor: pointer;
       }
+
+      .forgot-pass {
+        text-align: center;
+        margin: 10px 0;
+        a {
+          text-decoration: none;
+          color: red;
+        }
+      }
     }
   }
 
@@ -164,51 +173,93 @@
     right: 50%;
   }
 
-  /* RESPONSIVE */
-
-  @media only screen and (max-width: 425px) {
-    .container-form::before,
-    .container-form.sign-in::before,
-    .container-form.sign-up::before {
-      height: 100vh;
-      border-bottom-right-radius: 0;
-      border-top-left-radius: 0;
-      z-index: 0;
-      transform: none;
-      right: 0;
-    }
-
-    .container-form.sign-in .col.sign-in,
-    .container-form.sign-up .col.sign-up {
-      transform: translateY(0);
-    }
-
-    .form,
-    .social-list {
-      box-shadow: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .text {
-      margin: 0;
-    }
-
-    .text p {
-      display: none;
-    }
-
-    .text h2 {
-      margin: 0.5rem;
-      font-size: 2rem;
-    }
-  }
-
-  /*css common*/
   .common {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+}
+
+.login-form-responsive {
+  display: none;
+  position: relative;
+  height: 100vh;
+  background-color: $bg_color;
+
+  .sign-up,
+  .sign-in {
+    position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+    background-color: $white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 50%;
+    width: 60%;
+    transform: translate(0, -50%);
+    transition: all 1s ease;
+
+    .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .action {
+        font-size: 12px;
+
+        b {
+          cursor: pointer;
+        }
+      }
+
+      .forgot-pass {
+        text-align: center;
+        margin: 10px 0;
+        a {
+          text-decoration: none;
+          color: red;
+        }
+      }
+    }
+
+    .back-to-home {
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.sign-in-active {
+    .sign-in {
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .sign-up {
+      right: -100%;
+    }
+  }
+
+  &.sign-up-active {
+    .sign-in {
+      left: -100%;
+    }
+    .sign-up {
+      right: 50%;
+      transform: translate(50%, -50%);
+    }
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .login-form {
+    display: none;
+  }
+
+  .login-form-responsive {
+    display: block;
   }
 }
