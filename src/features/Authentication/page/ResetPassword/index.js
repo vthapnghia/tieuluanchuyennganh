@@ -22,7 +22,6 @@ function ResetPassword(params) {
   const handleResetPassword = useCallback(
     async (values) => {
       await dispatch(getCodeResetPass(values)).then((res) => {
-        console.log(res);
         if (res.payload.status === 200) {
           setShow(!show);
         } else {

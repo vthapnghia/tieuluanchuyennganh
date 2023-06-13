@@ -70,7 +70,6 @@ function Cart() {
           }
         }
       });
-      console.log(cart);
     },
     [cart, dispatch]
   );

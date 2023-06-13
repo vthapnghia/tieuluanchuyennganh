@@ -171,7 +171,6 @@ function Chat() {
                           {item.image && (
                             <div className="mess-img">
                               {item.image.map((img, index) => {
-                                console.log(img);
                                 return (
                                   <img
                                     key={index}
@@ -194,7 +193,6 @@ function Chat() {
                         {item.image && (
                           <div className="mess-img">
                             {item.image.map((img, index) => {
-                              console.log(img);
                               return (
                                 <img
                                   key={index}

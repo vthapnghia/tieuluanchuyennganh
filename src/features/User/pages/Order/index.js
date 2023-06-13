@@ -115,7 +115,6 @@ function Order() {
         element.classList.toggle("online");
 
         const items = state.listPurchase.map((productItem) => {
-          console.log(productItem);
           return {
             product_id: productItem.product_id,
             size: productItem.size,

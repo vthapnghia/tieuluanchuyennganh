@@ -45,7 +45,6 @@ const ManagementChat = () => {
     () => (id) => {
       if (isReads && isReads.length > 0) {
         const find = isReads.find((item) => {
-          console.log(item);
           return item.tempUser._id === id;
         });
         if (find) {

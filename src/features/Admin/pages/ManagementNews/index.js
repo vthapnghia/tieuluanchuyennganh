@@ -86,7 +86,6 @@ function ManagementNews() {
 
   const handleClick = useCallback(
     (id) => {
-      console.log(id);
       navigate(PATH.ADMIN.NEWS.NEWS_DETAIL.replace(":id", id));
     },
     [navigate]

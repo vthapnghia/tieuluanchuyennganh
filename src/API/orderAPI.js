@@ -24,7 +24,6 @@ const orderAPI = {
     } else {
       url = `${url}${search && `?search=${search}`}`;
     }
-    console.log(url);
     return doRequest("get", url);
   },
   updateOrder: (data) => {
