@@ -34,13 +34,11 @@ const ManagementChat = () => {
         (item) => item.tempUser._id !== user?._id
       );
       setIsReads(listTemp);
-      if (userCur?._id === user._id) {
-        setUserCur(user);
-        showLoading();
-        await dispatch(getAllChat({ id: user._id })).then(() => hideLoading());
-      }
+      setUserCur(user);
+      showLoading();
+      await dispatch(getAllChat({ id: user._id })).then(() => hideLoading());
     },
-    [dispatch, isReads, userCur?._id]
+    [dispatch, isReads]
   );
 
   const checkRead = useMemo(
@@ -195,7 +193,7 @@ const ManagementChat = () => {
                         <div className="notify">
                           {!checkRead(item._id) ? (
                             <span className="bell-ring">
-                              <Icons.Bell color="red" height="20" width="20" />
+                              <Icons.Bell color="#FFFF00" height="20" width="20" />
                             </span>
                           ) : (
                             <Icons.Bell height="20" width="20" />

@@ -69,6 +69,12 @@ function Chat() {
     await dispatch(getIsRead);
   }, [dispatch, flag]);
 
+  const handleClickClose = useCallback(() => {
+    setFlag(!flag);
+    setChatImage(null);
+    setBellRing(false);
+  }, [flag]);
+
   const handleClickImage = useCallback(
     (img) => {
       setImageClick(img);
@@ -135,7 +141,7 @@ function Chat() {
           <div className="form-header">
             <img src={shoe_bg} alt="show chat" />
             <div>{t("chat_shoe")}</div>
-            <div className="icon-close-form" onClick={() => setFlag(!flag)}>
+            <div className="icon-close-form" onClick={handleClickClose}>
               x
             </div>
           </div>
@@ -242,7 +248,7 @@ function Chat() {
           <div className="notify">
             {!isRead || bellRing ? (
               <span className="bell-ring">
-                <Icons.Bell color="red" height="25" width="25" />
+                <Icons.Bell color="#FFFF00" height="25" width="25" />
               </span>
             ) : (
               <Icons.Bell height="25" width="25" />
@@ -263,6 +269,7 @@ function Chat() {
       chatImage,
       flag,
       handleClickChat,
+      handleClickClose,
       handleClickImage,
       handleOnKeyDown,
       handleSendMessage,
