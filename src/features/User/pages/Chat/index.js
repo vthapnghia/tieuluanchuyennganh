@@ -27,7 +27,7 @@ function Chat() {
   const isRead = useSelector((state) => state.chat.isRead?.is_read);
   const [messageUser, setMessageUser] = useState("");
   const [mess, setMess] = useState([]);
-  const [chatImage, setChatImage] = useState();
+  const [chatImage, setChatImage] = useState([]);
   const [bellRing, setBellRing] = useState(false);
   const [show, setShow] = useState(false);
   const [imageClick, setImageClick] = useState("");
@@ -37,7 +37,10 @@ function Chat() {
     if (messageUser || chatImage) {
       const formData = new FormData();
       formData.append("message", messageUser);
-      formData.append("image", chatImage);
+      chatImage.forEach((element) => {
+        formData.append("image", element);
+      });
+
       showLoading();
       await dispatch(sendMessage(formData)).then((res) => {
         if (res.payload.status === 201) {
@@ -50,7 +53,7 @@ function Chat() {
         hideLoading();
       });
       setMessageUser("");
-      setChatImage(null);
+      setChatImage([]);
     }
   }, [chatImage, dispatch, messageUser]);
 
@@ -71,7 +74,7 @@ function Chat() {
 
   const handleClickClose = useCallback(() => {
     setFlag(!flag);
-    setChatImage(null);
+    setChatImage([]);
     setBellRing(false);
   }, [flag]);
 
@@ -151,7 +154,10 @@ function Chat() {
               id="form-message-content"
               ref={ref}
               style={{
-                height: chatImage ? "calc(100% - 197px)" : "calc(100% - 97px)",
+                height:
+                  chatImage.length > 0
+                    ? "calc(100% - 197px)"
+                    : "calc(100% - 97px)",
               }}
             >
               {mess &&
@@ -164,12 +170,18 @@ function Chat() {
                         <div className="message">
                           {item.image && (
                             <div className="mess-img">
-                              <img
-                                src={item.image}
-                                alt="mess-img"
-                                className="img-item"
-                                onClick={() => handleClickImage(item.image)}
-                              />
+                              {item.image.map((img, index) => {
+                                console.log(img);
+                                return (
+                                  <img
+                                    key={index}
+                                    src={img}
+                                    alt="mess-img"
+                                    className="img-item"
+                                    onClick={() => handleClickImage(img)}
+                                  />
+                                );
+                              })}
                             </div>
                           )}
                           {item.message}
@@ -181,12 +193,18 @@ function Chat() {
                       <div className="message">
                         {item.image && (
                           <div className="mess-img">
-                            <img
-                              src={item.image}
-                              alt="mess-img"
-                              className="img-item"
-                              onClick={() => handleClickImage(item.image)}
-                            />
+                            {item.image.map((img, index) => {
+                              console.log(img);
+                              return (
+                                <img
+                                  key={index}
+                                  src={img}
+                                  alt="mess-img"
+                                  className="img-item"
+                                  onClick={() => handleClickImage(img)}
+                                />
+                              );
+                            })}
                           </div>
                         )}
                         {item.message}
@@ -209,9 +227,17 @@ function Chat() {
               tiếp tục.
             </div>
           )}
-          {chatImage && (
+          {chatImage && chatImage.length > 0 && (
             <div className="display-img">
-              <img src={URL.createObjectURL(chatImage)} alt="img-mess" />
+              {chatImage.map((item, index) => {
+                return (
+                  <img
+                    src={URL.createObjectURL(item)}
+                    key={index}
+                    alt="img-mess"
+                  />
+                );
+              })}
             </div>
           )}
           {userAuth && (
@@ -227,8 +253,11 @@ function Chat() {
                   <input
                     type="file"
                     hidden
+                    multiple
                     id="chat-img"
-                    onChange={(e) => setChatImage(e.target.files[0])}
+                    onChange={(e) =>
+                      setChatImage(Object.values(e.target.files))
+                    }
                     accept="image/*"
                   />
                   <label htmlFor="chat-img" className="chat-img-label">

@@ -23,7 +23,7 @@ const ManagementChat = () => {
   const [mess, setMess] = useState([]);
   const [userCur, setUserCur] = useState();
   const [messageAdmin, setMessageAdmin] = useState("");
-  const [chatImage, setChatImage] = useState();
+  const [chatImage, setChatImage] = useState([]);
   const [isReads, setIsReads] = useState([]);
   const [show, setShow] = useState(false);
   const [imageClick, setImageClick] = useState("");
@@ -63,7 +63,7 @@ const ManagementChat = () => {
       const formData = new FormData();
       formData.append("message", messageAdmin);
       formData.append("user_id", userCur?._id);
-      formData.append("image", chatImage);
+      chatImage.forEach((item) => formData.append("image", item));
       showLoading();
       await dispatch(sendMessage(formData)).then((res) => {
         if (res.payload.status === 201) {
@@ -77,7 +77,7 @@ const ManagementChat = () => {
       });
 
       setMessageAdmin("");
-      setChatImage();
+      setChatImage([]);
     }
   }, [chatImage, dispatch, messageAdmin, userCur?._id]);
 
@@ -193,7 +193,11 @@ const ManagementChat = () => {
                         <div className="notify">
                           {!checkRead(item._id) ? (
                             <span className="bell-ring">
-                              <Icons.Bell color="#FFFF00" height="20" width="20" />
+                              <Icons.Bell
+                                color="#FFFF00"
+                                height="20"
+                                width="20"
+                              />
                             </span>
                           ) : (
                             <Icons.Bell height="20" width="20" />
@@ -212,9 +216,10 @@ const ManagementChat = () => {
                   className="list-message"
                   id="list-message"
                   style={{
-                    height: chatImage
-                      ? "calc(100% - 340px)"
-                      : "calc(100% - 140px)",
+                    height:
+                      chatImage.length > 0
+                        ? "calc(100% - 340px)"
+                        : "calc(100% - 140px)",
                   }}
                 >
                   {mess.length > 0 &&
@@ -225,12 +230,17 @@ const ManagementChat = () => {
                             <div className="message">
                               {item.image && (
                                 <div className="mess-img">
-                                  <img
-                                    src={item.image}
-                                    alt="mess-img"
-                                    className="img-item"
-                                    onClick={() => handleClickImage(item.image)}
-                                  />
+                                  {item.image.map((img, index) => {
+                                    return (
+                                      <img
+                                        key={index}
+                                        src={img}
+                                        alt="mess-img"
+                                        className="img-item"
+                                        onClick={() => handleClickImage(img)}
+                                      />
+                                    );
+                                  })}
                                 </div>
                               )}
                               {item.message}
@@ -253,12 +263,17 @@ const ManagementChat = () => {
                           <div className="message">
                             {item.image && (
                               <div className="mess-img">
-                                <img
-                                  src={item.image}
-                                  alt="mess-img"
-                                  className="img-item"
-                                  onClick={() => handleClickImage(item.image)}
-                                />
+                                {item.image.map((img, index) => {
+                                  return (
+                                    <img
+                                      key={index}
+                                      src={img}
+                                      alt="mess-img"
+                                      className="img-item"
+                                      onClick={() => handleClickImage(img)}
+                                    />
+                                  );
+                                })}
                               </div>
                             )}
                             {item.message}
@@ -267,16 +282,21 @@ const ManagementChat = () => {
                       );
                     })}
 
-                  <div
-                    id="overlay_spinner"
-                    // style={{ display: loading ? "flex" : "none" }}
-                  >
+                  <div id="overlay_spinner">
                     <div className="spinner"></div>
                   </div>
                 </div>
-                {chatImage && (
+                {chatImage && chatImage.length > 0 && (
                   <div className="display-img">
-                    <img src={URL.createObjectURL(chatImage)} alt="img-mess" />
+                    {chatImage.map((item, index) => {
+                      return (
+                        <img
+                          src={URL.createObjectURL(item)}
+                          key={index}
+                          alt="img-mess"
+                        />
+                      );
+                    })}
                   </div>
                 )}
                 <div className="input-chat">
@@ -291,8 +311,11 @@ const ManagementChat = () => {
                       <input
                         type="file"
                         hidden
+                        multiple
                         id="chat-img"
-                        onChange={(e) => setChatImage(e.target.files[0])}
+                        onChange={(e) =>
+                          setChatImage(Object.values(e.target.files))
+                        }
                         accept="image/*"
                       />
                       <label htmlFor="chat-img" className="chat-img-label">
