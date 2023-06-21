@@ -19,7 +19,7 @@ import { shoe_bg } from "../../../../assets/img";
 function Login() {
   const { t } = useTranslation();
   const formikRef = useRef(null);
-  const [isSignIn, setIssignIn] = useState(true);
+  const [isSignIn, setIsSignIn] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +27,7 @@ function Login() {
   const [modalTitle, setModalTitle] = useState("");
 
   const toggle = () => {
-    setIssignIn(!isSignIn);
+    setIsSignIn(!isSignIn);
     let container = document.getElementById("container");
     container.classList.toggle("sign-up");
     container.classList.toggle("sign-in");
@@ -35,7 +35,7 @@ function Login() {
   };
 
   const togglerResponsive = () => {
-    setIssignIn(!isSignIn);
+    setIsSignIn(!isSignIn);
     let container = document.getElementById("login-form-responsive");
     container.classList.toggle("sign-up-active");
     container.classList.toggle("sign-in-active");

@@ -9,7 +9,7 @@ import PATH from "../../../../../constants/path";
 
 const style = { layout: "vertical" };
 
-function ButtonWrapper({ currency, showSpinner, amount, req }) {
+function ButtonWrapper({ currency, showSpinner, amount, req, disabled }) {
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
   const dispatchReact = useDispatch();
   const navigate = useNavigate
@@ -40,7 +40,7 @@ function ButtonWrapper({ currency, showSpinner, amount, req }) {
       {showSpinner && isPending && <div className="spinner" />}
       <PayPalButtons
         style={style}
-        disabled={false}
+        disabled={disabled}
         forceReRender={[amount, currency, style, req]}
         fundingSource={undefined}
         createOrder={(data, actions) => {

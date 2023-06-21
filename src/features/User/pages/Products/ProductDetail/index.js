@@ -342,7 +342,7 @@ function ProductDetail() {
             <div className="list-comment">
               {rate?.map((rateItem, index) => {
                 return (
-                  <div key={index} className="comment-item row">
+                  <div key={index} className="comment-item row m-0">
                     <div className="user-comment col-lg-4">
                       <div className="avatar">
                         <img

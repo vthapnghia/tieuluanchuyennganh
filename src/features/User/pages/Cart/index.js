@@ -36,7 +36,6 @@ function Cart() {
   const [modalBody, setModalBody] = useState(null);
   const [modalTitle, setModalTitle] = useState(null);
   const checkBox = useSelector((state) => state.cart?.checkBox);
-  const user = useSelector((state) => state.auth.user);
   const [feeTemporary, setFeeTemporary] = useState(0);
   const [showVoucher, setShowVoucher] = useState(false);
   const [checkedVoucher, setCheckedVoucher] = useState(null);
@@ -307,7 +306,6 @@ function Cart() {
 
   useEffect(() => {
     dispatch(getAllCart());
-    dispatch(getUser());
     dispatch(getAllVoucher());
 
     return () => {
@@ -348,7 +346,7 @@ function Cart() {
               </div>
 
               <div className="info-purchase col-sm-12 col-lg-4">
-                <div className="customer-info">
+                {/* <div className="customer-info">
                   <div className="header">{t("delivery_to")}</div>
                   <div className="name-and-phone">
                     <span className="name">{user?.name}</span>
@@ -356,7 +354,7 @@ function Cart() {
                     <span className="phone">{user?.phone}</span>
                   </div>
                   <div className="address">{user?.address}</div>
-                </div>
+                </div> */}
                 <div className="discount">
                   <div className="header">{t("voucher")}</div>
                   <div className="choose-coupon" onClick={chooseVoucher}>
@@ -460,9 +458,6 @@ function Cart() {
       showMessage,
       showVoucher,
       t,
-      user?.address,
-      user?.name,
-      user?.phone,
     ]
   );
 }

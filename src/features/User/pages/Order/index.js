@@ -36,6 +36,13 @@ function Order() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
   const [req, setReq] = useState({});
+  const [changeInfo, setChangeInfo] = useState(false);
+  const [receiverName, setReceiverName] = useState(false);
+  const [receiverPhone, setReceiverPhone] = useState(false);
+  const [receiverAddress, setReceiverAddress] = useState(false);
+  const [errName, setErrName] = useState("");
+  const [errPhone, setErrPhone] = useState("");
+  const [errAddress, setErrAddress] = useState("");
 
   const chooseVoucher = useCallback(() => {
     setShowVoucher(!showVoucher);
@@ -154,9 +161,9 @@ function Order() {
       total: feeTemporary + checkedVoucher + methodDelivery?.price,
       ship_id: methodDelivery?._id,
       payment_method: methodPay,
-      location: user?.address,
-      receiver_name: user?.name,
-      receiver_phone: user?.phone,
+      location: receiverAddress,
+      receiver_name: receiverName,
+      receiver_phone: receiverPhone,
       is_fast_buy: state?.fastBuy || false,
     };
     dispatch(createOrder(data)).then((res) => {
@@ -173,13 +180,13 @@ function Order() {
     methodDelivery?._id,
     methodDelivery?.price,
     methodPay,
+    receiverAddress,
+    receiverName,
+    receiverPhone,
     showFail,
     showSuccess,
     state?.fastBuy,
-    state?.listPurchase,
-    user?.address,
-    user?.name,
-    user?.phone,
+    state.listPurchase,
   ]);
 
   const handleConfirmSuccess = useCallback(() => {
@@ -190,6 +197,33 @@ function Order() {
   const handleConfirmFail = useCallback(() => {
     setShowFail(!showFail);
   }, [showFail]);
+
+  const onKeyDown = useCallback((e) => {
+    const containsNumbers = /^[0-9]+$/.test(e.key);
+    if (!containsNumbers && e.key !== "Backspace") {
+      e.preventDefault();
+    }
+  }, []);
+
+  const handleCancelChangeInfo = useCallback(() => {
+    setChangeInfo(!changeInfo);
+    setReceiverName(user?.name);
+    setReceiverPhone(user?.phone);
+    setReceiverAddress(user?.address);
+    setErrName("");
+    setErrPhone("");
+    setErrAddress("");
+  }, [changeInfo, user?.address, user?.name, user?.phone]);
+
+  const handelOkChangeInfo = useCallback(() => {
+    if (receiverName && receiverPhone && receiverAddress) {
+      setChangeInfo(!changeInfo);
+    } else {
+      if (!receiverName) setErrName("Vui lòng nhập tên người nhận");
+      if (!receiverPhone) setErrPhone("Vui lòng nhập số điện thoại");
+      if (!receiverAddress) setErrAddress("Vui lòng nhập địa chỉ");
+    }
+  }, [changeInfo, receiverAddress, receiverName, receiverPhone]);
 
   useEffect(() => {
     dispatch(getUser());
@@ -226,6 +260,12 @@ function Order() {
     });
     setFeeTemporary(total);
   }, [state.listPurchase]);
+
+  useEffect(() => {
+    setReceiverName(user?.name);
+    setReceiverPhone(user?.phone);
+    setReceiverAddress(user?.address);
+  }, [user?.address, user?.name, user?.phone]);
 
   return useMemo(
     () => (
@@ -311,13 +351,106 @@ function Order() {
           </div>
           <div className="info-purchase col-md-6 col-lg-3">
             <div className="customer-info">
-              <div className="header">{t("delivery_to")}</div>
-              <div className="name-and-phone">
-                <span className="name">{user?.name}</span>
-                <i></i>
-                <span className="phone">{user?.phone}</span>
+              <div className="header">
+                <span>{t("delivery_to")}</span>
+                <div className="icon-edit" onClick={() => setChangeInfo(true)}>
+                  <Icons.Edit
+                    height={12}
+                    width={12}
+                    color="rgb(128, 128, 137)"
+                  />
+                </div>
               </div>
-              <div className="address">{user?.address}</div>
+              {changeInfo ? (
+                <div className="info-input">
+                  <div className="input-name">
+                    <input
+                      type="text"
+                      placeholder="Tên người nhận"
+                      onChange={(e) => setReceiverName(e?.target.value)}
+                      value={receiverName}
+                      style={{
+                        padding: `5px ${errName ? "35px" : "10px"} 5px 10px`,
+                      }}
+                      onBlur={() =>
+                        receiverName
+                          ? setErrName("")
+                          : setErrName("Vui lòng nhập tên người nhận")
+                      }
+                      onFocus={() => setErrName("")}
+                    />
+                    {errName && (
+                      <span className="warning-icon-input">
+                        <Icons.Exclamation />
+                        <span className="tooltiptext">{errName}</span>
+                      </span>
+                    )}
+                  </div>
+                  <div className="input-phone">
+                    <input
+                      type="text"
+                      placeholder="Số điện thoại"
+                      onKeyDown={onKeyDown}
+                      onChange={(e) => setReceiverPhone(e?.target.value)}
+                      value={receiverPhone}
+                      style={{
+                        padding: `5px ${errPhone ? "35px" : "10px"} 5px 10px`,
+                      }}
+                      onBlur={() =>
+                        receiverPhone
+                          ? setErrPhone("")
+                          : setErrPhone("Vui lòng nhập số điện thoại")
+                      }
+                      onFocus={() => setErrPhone("")}
+                    />
+                    {errPhone && (
+                      <span className="warning-icon-input">
+                        <Icons.Exclamation />
+                        <span className="tooltiptext">{errPhone}</span>
+                      </span>
+                    )}
+                  </div>
+                  <div className="input-address">
+                    <textarea
+                      placeholder="Địa chỉ"
+                      onChange={(e) => setReceiverAddress(e?.target.value)}
+                      value={receiverAddress}
+                      style={{
+                        padding: `5px ${errAddress ? "35px" : "10px"} 5px 10px`,
+                      }}
+                      onBlur={() =>
+                        receiverPhone
+                          ? setErrAddress("")
+                          : setErrAddress("Vui lòng nhập số điện thoại")
+                      }
+                      onFocus={() => setErrAddress("")}
+                    />
+                    {errAddress && (
+                      <span className="warning-icon-input">
+                        <Icons.Exclamation />
+                        <span className="tooltiptext">{errAddress}</span>
+                      </span>
+                    )}
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <Button className="outline" onClick={handelOkChangeInfo}>
+                      Đồng ý
+                    </Button>
+                    <Button className="red" onClick={handleCancelChangeInfo}>
+                      Hủy
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="name-and-phone">
+                    <span className="name">{receiverName}</span>
+                    <i></i>
+                    <span className="phone">{receiverPhone}</span>
+                  </div>
+                  <div className="address">{receiverAddress}</div>
+                </>
+              )}
             </div>
             <div className="discount">
               <div className="header">{t("voucher")}</div>
@@ -369,10 +502,15 @@ function Order() {
                       (methodDelivery?.price || 0) / 23000
                     ).toFixed(2)}
                     req={req}
+                    disabled={changeInfo}
                   />
                 </PayPalScriptProvider>
               </div>
-              <Button className="red w-100 pay-offline" onClick={handlePayment}>
+              <Button
+                disabled={changeInfo}
+                className="red w-100 pay-offline"
+                onClick={handlePayment}
+              >
                 {t("order")}
               </Button>
             </div>
@@ -405,9 +543,15 @@ function Order() {
       </>
     ),
     [
+      changeInfo,
       checkedVoucher,
       chooseVoucher,
+      errAddress,
+      errName,
+      errPhone,
       feeTemporary,
+      handelOkChangeInfo,
+      handleCancelChangeInfo,
       handleChangeOptionDelivery,
       handleChangeOptionPay,
       handleConfirmFail,
@@ -416,6 +560,10 @@ function Order() {
       handlePayment,
       methodDelivery?.price,
       modalBodyVoucher,
+      onKeyDown,
+      receiverAddress,
+      receiverName,
+      receiverPhone,
       req,
       ship,
       showFail,
@@ -423,9 +571,6 @@ function Order() {
       showVoucher,
       state.listPurchase,
       t,
-      user?.address,
-      user?.name,
-      user?.phone,
     ]
   );
 }

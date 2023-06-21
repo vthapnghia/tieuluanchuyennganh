@@ -116,10 +116,98 @@
       margin-bottom: 12px;
       padding: 16px;
       .header {
-        color: rgb(128, 128, 137);
-        font-weight: normal;
-        font-size: 16px;
-        margin-bottom: 12px;
+        display: flex;
+        span {
+          color: rgb(128, 128, 137);
+          font-weight: normal;
+          font-size: 16px;
+          margin-bottom: 12px;
+        }
+
+        .icon-edit {
+          margin-left: 10px;
+          cursor: pointer;
+        }
+      }
+
+      .info-input {
+        display: flex;
+        flex-direction: column;
+
+        .input-name,
+        .input-phone,
+        .input-address {
+          margin-bottom: 10px;
+          position: relative;
+          width: 100%;
+          input,
+          textarea {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+
+            &:focus-visible {
+              outline: none;
+            }
+
+            &::-webkit-scrollbar {
+              width: 5px;
+              height: 5px;
+            }
+            &::-webkit-scrollbar-track {
+              background: #f1f1f1;
+              border-radius: 4px;
+            }
+            &::-webkit-scrollbar-thumb {
+              background: #888;
+              border-radius: 4px;
+              &:hover {
+                background: #555;
+              }
+            }
+          }
+
+          .warning-icon-input {
+            position: absolute;
+            top: 45%;
+            right: 1rem;
+            transform: translateY(-50%);
+
+            .tooltiptext {
+              visibility: hidden;
+              min-width: 120px;
+              width: auto;
+              background-color: black;
+              color: #fff;
+              text-align: center;
+              border-radius: 6px;
+              padding: 5px 0;
+              position: absolute;
+              z-index: 1;
+              bottom: 150%;
+              left: 50%;
+              margin-left: -60px;
+              padding: 10px;
+            }
+
+            .tooltiptext::after {
+              content: "";
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              margin-left: -5px;
+              border-width: 5px;
+              border-style: solid;
+              border-color: black transparent transparent transparent;
+            }
+          }
+
+          .warning-icon-input:hover {
+            .tooltiptext {
+              visibility: visible;
+            }
+          }
+        }
       }
 
       .name-and-phone {
