@@ -3,7 +3,7 @@ import Icons from "../Icons";
 import "./Pagination.scss";
 
 function Pagination(props) {
-  const { page, count, pageNumber, handlePageClick, handleChangePageNumber } =
+  const { page, count, pageNumber = 12, handlePageClick, handleChangePageNumber } =
     props;
   const numberOfPage = (count, pageNumber) => {
     let mod = count % pageNumber;
@@ -39,10 +39,10 @@ function Pagination(props) {
         id="page-number"
         onChange={(e) => handleChangePageNumber(e.target.value)}
       >
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-        <option value="40">40</option>
+        <option value="10">12</option>
+        <option value="20">24</option>
+        <option value="30">36</option>
+        <option value="40">48</option>
       </select>
     </div>
   );

@@ -44,7 +44,7 @@ function ManagementProduct() {
   const brand = useSelector((state) => state.brand.allBrand?.brands);
   const [optionsBrand, setOptionsBrand] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageNumber, setPageNumber] = useState(10);
+  const [pageNumber, setPageNumber] = useState(12);
   const [param, setParam] = useState();
 
   const colorDefaultStyles = useMemo(() => {
@@ -152,10 +152,10 @@ function ManagementProduct() {
     });
   }, [showModal, dispatch, idProduct, showMessage, t]);
 
-  const handleCloseMessage = useCallback(() => {
+  const handleCloseMessage = useCallback(async () => {
     setShowMessage(!showMessage);
-    dispatch(getAllProduct({ param }));
-  }, [showMessage, dispatch, param]);
+    await dispatch(getProduct({ page: page, pageSize: pageNumber }));
+  }, [dispatch, page, pageNumber, showMessage]);
 
   const handleCloseModalAdd = useCallback(
     (event) => {
@@ -269,6 +269,7 @@ function ManagementProduct() {
       formData.append("type", type);
       formData.append("color", color);
       formData.append("size", size);
+      setShowModalAdd(!showModalAdd);
       if (!idProduct) {
         await dispatch(addProduct(formData)).then((res) => {
           if (res.payload?.status === 201) {
@@ -299,7 +300,7 @@ function ManagementProduct() {
       setIdProduct(null);
       formikRef.current.resetForm();
     },
-    [dispatch, idProduct, showMessage, t]
+    [dispatch, idProduct, showMessage, showModalAdd, t]
   );
 
   const validationSchema = useMemo(() => {
@@ -321,7 +322,9 @@ function ManagementProduct() {
       price: Yup.number().required(t("MS_01", { param: t("description") })),
       brand: Yup.string().required(t("MS_01", { param: t("brand") })),
       gender: Yup.string().required(t("MS_01", { param: t("gender") })),
-      discount: Yup.number().required(t("MS_01", { param: t("description") })),
+      discount: Yup.number()
+        .required(t("MS_01", { param: t("description") }))
+        .max(100, "Giảm giá được không được vượt quá 100"),
       type: Yup.string().required(t("MS_01", { param: t("type") })),
       color: Yup.string().required(t("MS_01", { param: t("color") })),
     };
@@ -331,11 +334,6 @@ function ManagementProduct() {
     setModalTitleAdd(t("add_product"));
     setShowModalAdd(!showModalAdd);
   }, [showModalAdd, t]);
-
-  const handleConfirmModalAdd = useCallback(() => {
-    setShowModalAdd(!showModalAdd);
-    formikRef.current.submitForm();
-  }, [showModalAdd]);
 
   const handleChangePageNumber = useCallback((value) => {
     setPageNumber(value);
@@ -404,7 +402,11 @@ function ManagementProduct() {
                   />
                 </div>
                 <div className="btn-view-all">
-                  <Button className="green" onClick={() => setParam({})} color="#e90f0f">
+                  <Button
+                    className="green"
+                    onClick={() => setParam({})}
+                    color="#e90f0f"
+                  >
                     {t("view_all")}
                   </Button>
                 </div>
@@ -444,7 +446,7 @@ function ManagementProduct() {
                   productImages={idProduct ? productById?.product_image : null}
                 />
               }
-              handleConfirm={handleConfirmModalAdd}
+              handleConfirm={() => formikRef.current.submitForm()}
               handleCloseModal={handleCloseModalAdd}
               isButton
               size="lg"
@@ -455,7 +457,7 @@ function ManagementProduct() {
               modalTitle={t("confirm_remove", { param: t("product") })}
               modalBody={t("messge_confirm_remove")}
               handleConfirm={handleCloseModal}
-              handleCloseModal={() => setShowModal(!showModal)}
+              handleCloseModal={handleCloseModal}
               isButton
             />
             <ModalCommon
@@ -463,7 +465,7 @@ function ManagementProduct() {
               modalTitle={modalTitle}
               modalBody={modalBody}
               handleConfirm={handleCloseMessage}
-              handleCloseModal={() => setShowMessage(!showMessage)}
+              handleCloseModal={handleCloseMessage}
               isButton
             />
           </>
@@ -479,7 +481,6 @@ function ManagementProduct() {
       handleCloseMessage,
       handleCloseModal,
       handleCloseModalAdd,
-      handleConfirmModalAdd,
       handleOnkeyDown,
       handleRemove,
       handleSave,

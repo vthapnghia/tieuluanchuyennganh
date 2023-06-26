@@ -191,8 +191,8 @@ function ProductDetail() {
             </div>
           </div>
           <div className="content-detail col-md-12 col-lg-6">
-            <div className=" brand">
-              {t("brand")}&#58; <a href="">{products?.brand}</a>
+            <div className="brand">
+              {t("brand")}&#58; <p>{products?.brand}</p>
             </div>
             <div className="mb-3 product-name">{products?.name}</div>
             <div className="d-flex align-items-center price">
