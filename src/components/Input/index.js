@@ -52,7 +52,7 @@ const Input = forwardRef(
         width: "100%",
         borderRadius: "4px",
         paddingRight: "10px",
-        border: `1px solid #95a5a6`,
+        border: `1px solid #ddd`,
         // minHeight: 44,
         fontSize: "16px",
         transition: "none",

@@ -100,8 +100,8 @@ function Home() {
                   <div className="icon">
                     <Icons.Truck className="imf-fluid" />
                   </div>
-                  <h3>Nhanh &amp; miễn phí vận chuyển</h3>
-                  <p>Tất cả sản phẩm đều được vận chuyển miễn phí</p>
+                  <h3>Vận chuyển</h3>
+                  <p>Tất cả sản phẩm đều được vận chuyển nhanh nhất tới tay bạn</p>
                 </div>
               </div>
 
@@ -125,10 +125,7 @@ function Home() {
                   </div>
                   <h3>Hổ trợ trực tuyến</h3>
                   <p>
-                    Mọi thắc mắc về sản phẩm hãy nhắn tin cho chúng tôi tại{" "}
-                    <a href="" className="text-decoration-none">
-                      đây
-                    </a>
+                    Mọi thắc mắc về sản phẩm hãy nhắn tin cho chúng tôi để được hộ trợ
                   </p>
                 </div>
               </div>

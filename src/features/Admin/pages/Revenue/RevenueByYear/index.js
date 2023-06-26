@@ -52,14 +52,11 @@ function RevenueByYear(params) {
       }
     }
     setDataChart(dataChart);
+    console.log(dataChart);
   }, [revenueByYear, year]);
 
   useEffect(() => {
     dispatch(getRevenueByYear(year));
-
-    return () => {
-      dispatch(removeStateRevenue());
-    };
   }, [dispatch, year]);
 
   return (

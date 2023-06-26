@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllChat, getIsRead, sendMessage } from "./ChatSlice";
 import { useCallback } from "react";
 import { useMemo } from "react";
-import { hideLoading, showLoading } from "../../../../loading";
 import io from "socket.io-client";
 import { useRef } from "react";
 import ModalImage from "../../../../components/ModalImage";
@@ -31,6 +30,7 @@ function Chat() {
   const [bellRing, setBellRing] = useState(false);
   const [show, setShow] = useState(false);
   const [imageClick, setImageClick] = useState("");
+  const [move, setMove] = useState(false);
   const ref = useRef(null);
 
   const handleSendMessage = useCallback(async () => {
@@ -86,6 +86,29 @@ function Chat() {
     [show]
   );
 
+  const showLoading = () => {
+    const element = document.getElementById("overlay_spinner_chat");
+    if (element) {
+      element.style.display = "flex";
+    }
+  };
+
+  const hideLoading = () => {
+    const element = document.getElementById("overlay_spinner_chat");
+    if (element) {
+      element.style.display = "none";
+    }
+  };
+
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop;
+    if (scrolled > 300) {
+      setMove(true);
+    } else if (scrolled <= 300) {
+      setMove(false);
+    }
+  };
+
   useEffect(() => {
     if (flag) {
       showLoading();
@@ -121,18 +144,16 @@ function Chat() {
     }
   }, [mess]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisible);
+    return () => {
+      window.removeEventListener("scroll", toggleVisible);
+    };
+  }, []);
+
   return useMemo(
     () => (
-      <div
-        className="chat"
-        style={{
-          position: "fixed",
-          bottom: "150px",
-          right: "50px",
-          borderRadius: "50%",
-          zIndex: 1,
-        }}
-      >
+      <div className={`${move ? "chat-move" : "chat"}`}>
         <div
           onClick={handleClickChat}
           className={`icon-chat ${flag ? "hide-icon" : "display-icon"}`}
@@ -170,7 +191,7 @@ function Chat() {
                         <div className="message">
                           {item.image && (
                             <div className="mess-img">
-                              {item.image.map((img, index) => {
+                              {item?.image?.map((img, index) => {
                                 return (
                                   <img
                                     key={index}
@@ -192,7 +213,7 @@ function Chat() {
                       <div className="message">
                         {item.image && (
                           <div className="mess-img">
-                            {item.image.map((img, index) => {
+                            {item?.image?.map((img, index) => {
                               return (
                                 <img
                                   key={index}
@@ -215,7 +236,7 @@ function Chat() {
                     </div>
                   );
                 })}
-              <div id="overlay_spinner">
+              <div id="overlay_spinner_chat">
                 <div className="spinner"></div>
               </div>
             </div>

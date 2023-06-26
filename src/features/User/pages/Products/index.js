@@ -33,7 +33,7 @@ function Products() {
   const [brandOption, setBrandOption] = useState([]);
   const [listProduct, setListProduct] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageNumber, setPageNumber] = useState(5);
+  const [pageNumber, setPageNumber] = useState(10);
   const [param, setParam] = useState({
     type: [],
     brand: [],

@@ -44,7 +44,7 @@ function ManagementProduct() {
   const brand = useSelector((state) => state.brand.allBrand?.brands);
   const [optionsBrand, setOptionsBrand] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageNumber, setPageNumber] = useState(2);
+  const [pageNumber, setPageNumber] = useState(10);
   const [param, setParam] = useState();
 
   const colorDefaultStyles = useMemo(() => {

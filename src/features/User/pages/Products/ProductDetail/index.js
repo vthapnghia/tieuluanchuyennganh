@@ -387,7 +387,7 @@ function ProductDetail() {
                         <span>{rateItem?.comment}</span>
                       </div>
                       <div className="list-img-comment">
-                        {rateItem.image.map((itemImg, index) => {
+                        {rateItem?.image?.map((itemImg, index) => {
                           return (
                             <div key={index} className="img-item">
                               <img src={itemImg} alt="img" />

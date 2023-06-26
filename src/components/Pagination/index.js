@@ -20,7 +20,7 @@ function Pagination(props) {
         breakLabel="..."
         nextLabel={<Icons.AnglesRight />}
         onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={pageNumber}
         previousLabel={<Icons.AnglesLeft />}
         pageCount={numberOfPage(count, pageNumber)}
         containerClassName="pagination"
@@ -39,10 +39,10 @@ function Pagination(props) {
         id="page-number"
         onChange={(e) => handleChangePageNumber(e.target.value)}
       >
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="5">5</option>
-        <option value="50">50</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
       </select>
     </div>
   );

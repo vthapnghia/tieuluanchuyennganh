@@ -59,10 +59,6 @@ function RevenueByMonth(params) {
 
   useEffect(() => {
     dispatch(getRevenueByMonth({ month: month, year: year }));
-
-    return () => {
-      dispatch(removeStateRevenue());
-    };
   }, [dispatch, month, year]);
 
   return (

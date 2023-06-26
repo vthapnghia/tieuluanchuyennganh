@@ -18,6 +18,7 @@ import PATH from "../../../../constants/path";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PayPal from "./PayPal";
 import { currencyFormatting } from "../../../../until/common";
+import { getAllCart } from "../Cart/cartSlice";
 
 function Order() {
   const { t } = useTranslation();
@@ -123,25 +124,36 @@ function Order() {
 
         const items = state.listPurchase.map((productItem) => {
           return {
-            product_id: productItem.product_id,
+            product_id: productItem.product._id,
             size: productItem.size,
             quantity: productItem.quantity,
           };
         });
 
-        // setReq({
-        //   items: items,
-        //   total: feeShip + intoMoney,
-        //   ship_id: values?.type_ship,
-        //   payment_method: Number(values?.payment_method),
-        //   location: values?.address,
-        //   receiver_name: values?.name,
-        //   receiver_phone: values?.phone,
-        //   is_fast_buy: state?.fastBuy || false,
-        // });
+        setReq({
+          items: items,
+          total: feeTemporary + checkedVoucher + methodDelivery?.price,
+          ship_id: methodDelivery?._id,
+          payment_method: methodPay,
+          location: receiverAddress,
+          receiver_name: receiverName,
+          receiver_phone: receiverPhone,
+          is_fast_buy: state?.fastBuy || false,
+        });
       }
     },
-    [state.listPurchase]
+    [
+      checkedVoucher,
+      feeTemporary,
+      methodDelivery?._id,
+      methodDelivery?.price,
+      methodPay,
+      receiverAddress,
+      receiverName,
+      receiverPhone,
+      state?.fastBuy,
+      state.listPurchase,
+    ]
   );
 
   const handleChangeOptionDelivery = useCallback((value) => {
@@ -189,10 +201,11 @@ function Order() {
     state.listPurchase,
   ]);
 
-  const handleConfirmSuccess = useCallback(() => {
+  const handleConfirmSuccess = useCallback(async () => {
     setShowSuccess(!showSuccess);
+    await dispatch(getAllCart());
     navigate(PATH.USER_ORDERS.BASE);
-  }, [showSuccess, navigate]);
+  }, [showSuccess, dispatch, navigate]);
 
   const handleConfirmFail = useCallback(() => {
     setShowFail(!showFail);
@@ -497,9 +510,10 @@ function Order() {
                     currency="USD"
                     showSpinner={false}
                     amount={(
-                      feeTemporary -
-                      checkedVoucher +
-                      (methodDelivery?.price || 0) / 23000
+                      (feeTemporary -
+                        checkedVoucher +
+                        (methodDelivery?.price || 0)) /
+                      23000
                     ).toFixed(2)}
                     req={req}
                     disabled={changeInfo}
@@ -529,7 +543,7 @@ function Order() {
           modalTitle={t("action_success", { param: t("order") })}
           modalBody={null}
           handleConfirm={handleConfirmSuccess}
-          handleCloseModal={() => setShowSuccess(!showSuccess)}
+          handleCloseModal={handleConfirmSuccess}
           isButton
         />
         <ModalCommon

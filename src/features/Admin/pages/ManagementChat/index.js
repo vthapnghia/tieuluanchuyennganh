@@ -10,7 +10,6 @@ import {
 } from "../../../User/pages/Chat/ChatSlice";
 import { useState } from "react";
 import io from "socket.io-client";
-import { hideLoading, showLoading } from "../../../../loading";
 import ModalImage from "../../../../components/ModalImage";
 
 const socket = io("http://localhost:8080");
@@ -103,6 +102,20 @@ const ManagementChat = () => {
     },
     [show]
   );
+
+  const showLoading = () => {
+    const element = document.getElementById("overlay_spinner_chat_admin");
+    if (element) {
+      element.style.display = "flex";
+    }
+  };
+  
+  const hideLoading = () => {
+    const element = document.getElementById("overlay_spinner_chat_admin");
+    if (element) {
+      element.style.display = "none";
+    }
+  };
 
   useEffect(() => {
     dispatch(getAllChatAdmin());
@@ -229,7 +242,7 @@ const ManagementChat = () => {
                             <div className="message">
                               {item.image && (
                                 <div className="mess-img">
-                                  {item.image.map((img, index) => {
+                                  {item?.image?.map((img, index) => {
                                     return (
                                       <img
                                         key={index}
@@ -262,7 +275,7 @@ const ManagementChat = () => {
                           <div className="message">
                             {item.image && (
                               <div className="mess-img">
-                                {item.image.map((img, index) => {
+                                {item?.image?.map((img, index) => {
                                   return (
                                     <img
                                       key={index}
@@ -281,7 +294,7 @@ const ManagementChat = () => {
                       );
                     })}
 
-                  <div id="overlay_spinner">
+                  <div id="overlay_spinner_chat_admin">
                     <div className="spinner"></div>
                   </div>
                 </div>

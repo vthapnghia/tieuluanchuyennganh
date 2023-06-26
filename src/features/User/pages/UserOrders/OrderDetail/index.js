@@ -158,7 +158,7 @@ function OrderDetail(params) {
           <div id="images">
             <div className="display-img">
               {rateItem &&
-                rateItem?.image.map((img, index) => {
+                rateItem?.image?.map((img, index) => {
                   return (
                     <figure key={index}>
                       <img src={img} alt="img" />
@@ -248,16 +248,16 @@ function OrderDetail(params) {
     <Formik
       initialValues={{ image: "", comment: "" }}
       validationSchema={Yup.object({
-        image: Yup.mixed().test(
-          "file",
-          t("MS_01", { param: "file" }),
-          (value) => {
-            if (!value) {
-              return false;
-            }
-            return true;
-          }
-        ),
+        // image: Yup.mixed().test(
+        //   "file",
+        //   t("MS_01", { param: "file" }),
+        //   (value) => {
+        //     if (!value) {
+        //       return false;
+        //     }
+        //     return true;
+        //   }
+        // ),
         comment: Yup.string().required(t("MS_01", { param: t("comment") })),
       })}
       enableReinitialize
