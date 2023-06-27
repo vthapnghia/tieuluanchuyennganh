@@ -381,8 +381,8 @@ function OrderDetail(params) {
             </div>
           </div>
         </div>
-        <div className="info-detail">
-          <div className="address">
+        <div className="info-detail row">
+          <div className="address col-sm-12 col-md-4">
             <div className="title">{t("address_user_receive")}</div>
             <div className="content">
               <span className="name">{orderById?.order.receiver_name}</span>
@@ -394,7 +394,7 @@ function OrderDetail(params) {
               </span>
             </div>
           </div>
-          <div className="shipment">
+          <div className="shipment col-sm-12 col-md-4">
             <div className="title">{t("method_ship")}</div>
             <div className="content">
               <span className="name">{methodShip?.type}</span>
@@ -410,7 +410,7 @@ function OrderDetail(params) {
               </span>
             </div>
           </div>
-          <div className="payment">
+          <div className="payment col-sm-12 col-md-4">
             <div className="title">{t("method_pay")}</div>
             <div className="content">
               <span>
