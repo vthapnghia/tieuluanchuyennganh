@@ -12,7 +12,7 @@ import { useState } from "react";
 import io from "socket.io-client";
 import ModalImage from "../../../../components/ModalImage";
 
-const socket = io("http://localhost:8080");
+const socket = io("https://khoa.hosting.xuantan97.com/");
 
 const ManagementChat = () => {
   const listUserChat = useSelector((state) => state.chat.listUserChat?.users);
