@@ -179,7 +179,7 @@ function ManagementOrder() {
     if (from - to > 0 && toDate) {
       setErrFromDate(t("MS_11", { param: toDate }));
     }
-    if (fromDate && toDate && to - from > 0 && from - to < 0) {
+    if (fromDate && toDate && to - from >= 0 && from - to <= 0) {
       setParam({
         ...param,
         dateFrom: moment(new Date(from)).format("YYYY/MM/DD"),
