@@ -14,7 +14,6 @@
       width: 100%;
       padding: 1rem 3rem;
       font-size: 1rem;
-      font-family: $font-family;
       // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       border-radius: 10px !important;
       border: 1px solid #ddd;
@@ -71,7 +70,6 @@
               background: none;
               box-shadow: none;
               border: none;
-              font-family: $font-family;
               background-color: none;
             }
           }
@@ -171,7 +169,6 @@
           top: 50%;
           transform: translate(-50%, -50%);
           color: $white;
-          font-family: $font-family;
         }
       }
       &:before {

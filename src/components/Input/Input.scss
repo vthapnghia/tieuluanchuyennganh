@@ -14,7 +14,6 @@
     width: 100%;
     padding: 1rem 3rem;
     font-size: 1rem;
-    font-family: $font-family;
     border-radius: 4px !important;
     border: 1px solid #ddd;
     outline: none;
@@ -48,7 +47,6 @@
 
   label {
     margin-bottom: 5px;
-    font-family: $font-family;
   }
 
   .select-common:focus {
@@ -68,7 +66,6 @@
 
   label {
     font-size: 1rem;
-    font-family: $font-family;
   }
 
   .input-common:focus {
@@ -164,10 +161,8 @@
       background-color: $main_color;
       color: $white;
       padding: 1rem;
-      font-family: sans-serif;
       border-radius: 0.3rem;
       font-weight: 600;
-      font-family: $font-family;
       cursor: pointer;
       margin: 0;
       text-align: center;
@@ -184,7 +179,6 @@
     background-color: $main_color;
     color: white;
     padding: 0.5rem;
-    font-family: sans-serif;
     border-radius: 0.3rem;
     cursor: pointer;
     margin-top: 1rem;

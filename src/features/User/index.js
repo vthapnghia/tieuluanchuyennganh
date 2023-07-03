@@ -69,7 +69,7 @@ function User(props) {
           </button>
         </div>
       )}
-      <div className="container" style={{ minHeight: "calc(100vh - 62px)" }}>
+      <div>
         <props.component />
       </div>
 

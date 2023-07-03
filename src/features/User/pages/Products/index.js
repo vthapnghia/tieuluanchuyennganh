@@ -24,6 +24,7 @@ import { empty } from "../../../../assets/img";
 import { currencyFormatting } from "../../../../until/common";
 import PATH from "../../../../constants/path";
 import { Link } from "react-router-dom";
+import { Container } from "@mui/material";
 
 function Products() {
   const { t } = useTranslation();
@@ -181,242 +182,244 @@ function Products() {
   return useMemo(
     () => (
       <div className="product-section">
-        <div className="row">
-          <div className="col col-md-3 col-xl-2 product-filter">
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>{t("category")}</Accordion.Header>
-                <Accordion.Body>
-                  {OPTION_TYPE.map((typeItem, index) => {
-                    return (
-                      <div className="accordion-child" key={index}>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          value={typeItem.value}
-                          onChange={(e) =>
-                            handleChangeFilter(
-                              "type",
-                              e.target.checked,
-                              e.target.value
-                            )
-                          }
-                        />
-                        <label>{typeItem.label}</label>
-                      </div>
-                    );
-                  })}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>{t("brand")}</Accordion.Header>
-                <Accordion.Body>
-                  {brandOption &&
-                    brandOption.map((brandItem, index) => {
+        <Container maxWidth="lg">
+          <div className="row">
+            <div className="col col-md-3 col-xl-2 product-filter">
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>{t("category")}</Accordion.Header>
+                  <Accordion.Body>
+                    {OPTION_TYPE.map((typeItem, index) => {
                       return (
                         <div className="accordion-child" key={index}>
                           <input
                             type="checkbox"
                             className="checkbox"
-                            value={brandItem.label}
+                            value={typeItem.value}
                             onChange={(e) =>
                               handleChangeFilter(
-                                "brand",
+                                "type",
                                 e.target.checked,
                                 e.target.value
                               )
                             }
                           />
-                          <label>{brandItem.label}</label>
+                          <label>{typeItem.label}</label>
                         </div>
                       );
                     })}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>{t("color")}</Accordion.Header>
-                <Accordion.Body>
-                  {OPTIONS_COLOR.map((colorItem, index) => {
-                    return (
-                      <div className="accordion-child" key={index}>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          value={colorItem.label}
-                          onChange={(e) =>
-                            handleChangeFilter(
-                              "color",
-                              e.target.checked,
-                              e.target.value
-                            )
-                          }
-                        />
-                        <label>{colorItem.label}</label>
-                      </div>
-                    );
-                  })}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>{t("size")}</Accordion.Header>
-                <Accordion.Body>
-                  {OPTION_SIZE.map((sizeItem, index) => {
-                    return (
-                      <div className="accordion-child" key={index}>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          value={sizeItem.value}
-                          onChange={(e) =>
-                            handleChangeFilter(
-                              "size",
-                              e.target.checked,
-                              e.target.value
-                            )
-                          }
-                        />
-                        <label>{sizeItem.label}</label>
-                      </div>
-                    );
-                  })}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>{t("gender")}</Accordion.Header>
-                <Accordion.Body>
-                  {OPTION_GENDER.map((gender, index) => {
-                    return (
-                      <div className="accordion-child" key={index}>
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          value={gender.value}
-                          onChange={(e) =>
-                            handleChangeFilter(
-                              "gender",
-                              e.target.checked,
-                              e.target.value
-                            )
-                          }
-                        />
-                        <label>{gender.label}</label>
-                      </div>
-                    );
-                  })}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          </div>
-          <div className="col-md-9 col-xl-10">
-            <div className="row search-and-filter">
-              <div className="search-product col col-12 col-sm-12 col-md-4 col-xl-3">
-                <input
-                  type="text"
-                  placeholder={t("search")}
-                  ref={ref}
-                  onKeyDown={handleOnkeyDown}
-                ></input>
-                <div className="icon-search" onClick={handleSearch}>
-                  <Icons.Search />
-                </div>
-              </div>
-              <div className="col col-0 col-sm-0  col-md-3 col-xl-5"></div>
-              <div className="sort-product col col-12 col-sm-12 col-md-5 col-xl-4">
-                <Select
-                  onChange={handleChangeSort}
-                  options={SORT_OPTION}
-                  placeholder={t("sort_by")}
-                  // value={sortFlag}
-                  components={{
-                    DropdownIndicator: () => null,
-                    IndicatorSeparator: () => null,
-                  }}
-                  isSearchable={false}
-                  styles={defaultStyles}
-                  controlShouldRenderValue
-                />
-                <div className="icon-sort">
-                  <Icons.Sort />
-                </div>
-              </div>
-            </div>
-            <div className="row list-product">
-              {listProduct && listProduct.length > 0 ? (
-                listProduct.map((product) => {
-                  return (
-                    <div
-                      key={product._id}
-                      className="col-12 col-md-6 col-lg-4 col-xl-3 mb-5"
-                    >
-                      <div className="item">
-                        {product.discount > 0 && (
-                          <div className="discount">
-                            {t("discount_label", { param: product.discount })}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>{t("brand")}</Accordion.Header>
+                  <Accordion.Body>
+                    {brandOption &&
+                      brandOption.map((brandItem, index) => {
+                        return (
+                          <div className="accordion-child" key={index}>
+                            <input
+                              type="checkbox"
+                              className="checkbox"
+                              value={brandItem.label}
+                              onChange={(e) =>
+                                handleChangeFilter(
+                                  "brand",
+                                  e.target.checked,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <label>{brandItem.label}</label>
                           </div>
-                        )}
-                        <img
-                          src={product.product_image[0]}
-                          alt="product"
-                          className="img-fluid product-thumbnail"
-                        />
-                        <div className="product-title">{product.name}</div>
-                        {product.discount > 0 ? (
-                          <div className="d-flex flex-column align-items-center mh-">
-                            <div className="product-price-discount">
-                              {currencyFormatting(
-                                (
-                                  product.price *
-                                  (1 - product.discount / 100)
-                                ).toFixed(2)
-                              )}
+                        );
+                      })}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>{t("color")}</Accordion.Header>
+                  <Accordion.Body>
+                    {OPTIONS_COLOR.map((colorItem, index) => {
+                      return (
+                        <div className="accordion-child" key={index}>
+                          <input
+                            type="checkbox"
+                            className="checkbox"
+                            value={colorItem.label}
+                            onChange={(e) =>
+                              handleChangeFilter(
+                                "color",
+                                e.target.checked,
+                                e.target.value
+                              )
+                            }
+                          />
+                          <label>{colorItem.label}</label>
+                        </div>
+                      );
+                    })}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>{t("size")}</Accordion.Header>
+                  <Accordion.Body>
+                    {OPTION_SIZE.map((sizeItem, index) => {
+                      return (
+                        <div className="accordion-child" key={index}>
+                          <input
+                            type="checkbox"
+                            className="checkbox"
+                            value={sizeItem.value}
+                            onChange={(e) =>
+                              handleChangeFilter(
+                                "size",
+                                e.target.checked,
+                                e.target.value
+                              )
+                            }
+                          />
+                          <label>{sizeItem.label}</label>
+                        </div>
+                      );
+                    })}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>{t("gender")}</Accordion.Header>
+                  <Accordion.Body>
+                    {OPTION_GENDER.map((gender, index) => {
+                      return (
+                        <div className="accordion-child" key={index}>
+                          <input
+                            type="checkbox"
+                            className="checkbox"
+                            value={gender.value}
+                            onChange={(e) =>
+                              handleChangeFilter(
+                                "gender",
+                                e.target.checked,
+                                e.target.value
+                              )
+                            }
+                          />
+                          <label>{gender.label}</label>
+                        </div>
+                      );
+                    })}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </div>
+            <div className="col-md-9 col-xl-10">
+              <div className="row search-and-filter">
+                <div className="search-product col col-12 col-sm-12 col-md-4 col-xl-3">
+                  <input
+                    type="text"
+                    placeholder={t("search")}
+                    ref={ref}
+                    onKeyDown={handleOnkeyDown}
+                  ></input>
+                  <div className="icon-search" onClick={handleSearch}>
+                    <Icons.Search />
+                  </div>
+                </div>
+                <div className="col col-0 col-sm-0  col-md-3 col-xl-5"></div>
+                <div className="sort-product col col-12 col-sm-12 col-md-5 col-xl-4">
+                  <Select
+                    onChange={handleChangeSort}
+                    options={SORT_OPTION}
+                    placeholder={t("sort_by")}
+                    // value={sortFlag}
+                    components={{
+                      DropdownIndicator: () => null,
+                      IndicatorSeparator: () => null,
+                    }}
+                    isSearchable={false}
+                    styles={defaultStyles}
+                    controlShouldRenderValue
+                  />
+                  <div className="icon-sort">
+                    <Icons.Sort />
+                  </div>
+                </div>
+              </div>
+              <div className="row list-product">
+                {listProduct && listProduct.length > 0 ? (
+                  listProduct.map((product) => {
+                    return (
+                      <div
+                        key={product._id}
+                        className="col-12 col-md-6 col-lg-4 col-xl-3 mb-5"
+                      >
+                        <div className="item">
+                          {product.discount > 0 && (
+                            <div className="discount">
+                              {t("discount_label", { param: product.discount })}
                             </div>
-                          </div>
-                        ) : (
-                          <div className="product-price">
-                            {currencyFormatting(product.price)}
-                          </div>
-                        )}
-
-                        <Link
-                          className="icon-cross"
-                          to={PATH.PRODUCT.DETAIL_PRODUCT.replace(
-                            ":id",
-                            product._id
                           )}
-                        >
-                          <p>{t("product_detail")}</p>
-                        </Link>
+                          <img
+                            src={product.product_image[0]}
+                            alt="product"
+                            className="img-fluid product-thumbnail"
+                          />
+                          <div className="product-title">{product.name}</div>
+                          {product.discount > 0 ? (
+                            <div className="d-flex flex-column align-items-center mh-">
+                              <div className="product-price-discount">
+                                {currencyFormatting(
+                                  (
+                                    product.price *
+                                    (1 - product.discount / 100)
+                                  ).toFixed(2)
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="product-price">
+                              {currencyFormatting(product.price)}
+                            </div>
+                          )}
+
+                          <Link
+                            className="icon-cross"
+                            to={PATH.PRODUCT.DETAIL_PRODUCT.replace(
+                              ":id",
+                              product._id
+                            )}
+                          >
+                            <p>{t("product_detail")}</p>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="no-product d-flex justify-content-center">
-                  <img src={empty} alt="no-product"></img>
+                    );
+                  })
+                ) : (
+                  <div className="no-product d-flex justify-content-center">
+                    <img src={empty} alt="no-product"></img>
+                  </div>
+                )}
+                <div className="d-flex justify-content-center">
+                  <Pagination
+                    page={page}
+                    count={count}
+                    pageNumber={pageNumber}
+                    handlePageClick={(e) => setPage(e.selected + 1)}
+                    handleChangePageNumber={(value) =>
+                      handleChangePageNumber(value)
+                    }
+                  />
                 </div>
-              )}
-              <div className="d-flex justify-content-center">
-                <Pagination
-                  page={page}
-                  count={count}
-                  pageNumber={pageNumber}
-                  handlePageClick={(e) => setPage(e.selected + 1)}
-                  handleChangePageNumber={(value) =>
-                    handleChangePageNumber(value)
-                  }
-                />
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
     ),
     [
