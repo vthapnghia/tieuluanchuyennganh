@@ -1,6 +1,29 @@
 @import "/src//assets//scss/variables.scss";
 
-.home-page {
+#home-page {
+  margin-top: 80px;
+
+  .pannel {
+    position: relative;
+    .title {
+      position: absolute;
+      left: 15%;
+      bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      transition: all 0.5s ease;
+
+      .title-span {
+        font-size: 54px;
+        font-weight: 600;
+        color: #fff;
+      }
+    }
+    img {
+      border-radius: 10px;
+    }
+  }
   .title-section {
     text-align: center;
     font-size: 24px;
@@ -31,7 +54,7 @@
   }
 
   .product-section {
-    padding: 7rem 0 0 0;
+    padding-top: 30px;
 
     .title-section {
       &::before,

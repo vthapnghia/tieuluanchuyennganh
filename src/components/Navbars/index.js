@@ -17,6 +17,8 @@ import {
 } from "../../constants/global";
 import { avatar_default, shoe_bg } from "../../assets/img";
 import { logout } from "../../features/Authentication/authSlice";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Person2Icon from '@mui/icons-material/Person2';
 
 function Navbars() {
   const { t } = useTranslation();
@@ -136,7 +138,7 @@ function Navbars() {
               <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <li>
                   <Link className="nav-link cart-icon" to={PATH.CART}>
-                    <Icons.Cart />
+                    <ShoppingCartIcon/>
                     {count > 0 ? (
                       <span className="quantity-cart">{count}</span>
                     ) : (
@@ -203,7 +205,7 @@ function Navbars() {
                     </>
                   ) : (
                     <Link className="nav-link icon-user" to={PATH.LOGIN}>
-                      <Icons.User />
+                      <Person2Icon/>
                     </Link>
                   )}
                 </li>

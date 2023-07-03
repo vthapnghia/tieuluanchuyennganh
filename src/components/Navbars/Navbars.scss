@@ -1,18 +1,15 @@
 @import "../../assets/scss/variables";
 
 .custom-navbar {
-  background: $main_color;
-  // padding: 0 !important;
-  // height: 90px;
+  background: #f6f6f6;
   position: fixed !important;
-  // width: 100%;
   z-index: 2;
   top: 0;
   right: 0;
   left: 0;
   .navbar-brand {
     img {
-      height: 80px;
+      height: 40px;
       width: auto;
       object-fit: cover;
     }
@@ -33,10 +30,10 @@
         margin-right: 15px;
       }
       a {
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 500;
-        color: $white !important;
-        // opacity: 0.5;
+        color: $black!important;
+        opacity: 0.5;
         transition: 0.3s all ease;
         position: relative;
         &:before {
@@ -95,7 +92,7 @@
         color: $white;
         text-align: center;
         position: absolute;
-        top: 30px;
+        top: 10px;
       }
 
       #dropdown-basic-button {

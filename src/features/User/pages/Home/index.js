@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ProductItem from "../../pages/Products/ProductItem";
 import { getProduct, removeStateProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
@@ -12,6 +12,7 @@ import Icons from "../../../../components/Icons";
 import { getAllNews, removeStateNews } from "../News/NewsSlice";
 import NewsItem from "../News/NewsItem";
 import { Container, Grid } from "@mui/material";
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 function Home() {
   const products = useSelector((state) => state.product.products?.product);
@@ -44,16 +45,48 @@ function Home() {
   }, [dispatch]);
 
   return (
-    <div className="home-page">
-      <Container maxWidth="xl">
+    <div id="home-page">
+      <Container maxWidth="lg">
+        <Grid container columnSpacing={2}>
+          <Grid item xs={6}>
+            <div className="pannel">
+              <div className="title">
+                <span className="title-span">Stylish shoes for women</span>
+                <Link className="title-link" to="/">Mua ngay <ArrowRightAltIcon/></Link>
+              </div>
+              <img
+                src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
+                style={{ width: "100%", height: "auto" }}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={6} container rowSpacing={1.5}>
+            <Grid item xs={12}>
+              <div className="pannel">
+                <img
+                  src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
+                  style={{ height: "auto", width: "100%" }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div className="pannel">
+                <img
+                  src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
+                  style={{ height: "auto", width: "100%" }}
+                />
+              </div>
+            </Grid>
+          </Grid>
+        </Grid>
         <div className="product-section">
-          <div className="title-section">
+          {/* <div className="title-section">
             <span>{t("product").toLocaleUpperCase()}</span>
-          </div>
-          <Grid item xs={12} container rowSpacing={2} columnSpacing={2}>
+          </div> */}
+          <Grid container spacing={2}>
             {products?.map((itemProduct) => {
               return (
-                <Grid item xs={2} key={itemProduct._id}>
+                <Grid item xs={3} key={itemProduct._id}>
                   <ProductItem product={itemProduct} />
                 </Grid>
               );
@@ -76,7 +109,7 @@ function Home() {
             {products?.map((itemProduct) => {
               if (itemProduct.discount !== 0) {
                 return (
-                  <Grid item xs={2} key={itemProduct._id}>
+                  <Grid item xs={3} key={itemProduct._id}>
                     <ProductItem product={itemProduct} />
                   </Grid>
                 );

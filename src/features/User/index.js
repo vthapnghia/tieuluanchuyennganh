@@ -10,7 +10,7 @@ function User(props) {
   return (
     <>
       <Navbars />
-      {(pathname === "/product" ||
+      {/* {(pathname === "/product" ||
         pathname === "/home" ||
         pathname === "/" ||
         pathname === "/news") && (
@@ -18,7 +18,7 @@ function User(props) {
           id="carouselExampleControls"
           className="carousel slide"
           data-bs-ride="carousel"
-          style={{ marginTop: "106px", height: "auto", width: "100%" }}
+          style={{ marginTop: "40px", height: "auto", width: "100%" }}
         >
           <div className="carousel-inner">
             <div className="carousel-item active">
@@ -68,10 +68,10 @@ function User(props) {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-      )}
-      <div>
+      )} */}
+      {/* <div> */}
         <props.component />
-      </div>
+      {/* </div> */}
 
       <Footer />
       <BackToTop />

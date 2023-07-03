@@ -55,19 +55,35 @@
       transition: all 0.5s ease-in-out;
       display: flex;
 
-      .icon-card,
+      .icon-favorite,
       .icon-eye {
+        color: black;
         background-color: #fff;
         padding: 10px;
         margin: 0 10px;
 
         &:hover {
-          background-color: $red;
+          background-color: #eee;
           svg {
-            color: #fff;
+            color: $red;
           }
         }
       }
+    }
+
+    .discount {
+      position: absolute;
+      height: 35px;
+      width: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 10px;
+      right: 10px;
+      color: #fff;
+      font-size: 12px;
+      background: red;
+      border-radius: 50%;
     }
   }
 
@@ -91,9 +107,18 @@
       text-align: center;
     }
     .price {
-      font-size: 16px;
-      font-weight: 400;
-      color: $main_color;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .price-init,
+      .price-discount {
+        font-weight: 400;
+        font-size: 16px;
+      }
+
+      .price-discount{
+        color: red;
+      }
     }
   }
 }
