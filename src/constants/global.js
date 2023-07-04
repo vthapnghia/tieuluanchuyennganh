@@ -54,8 +54,8 @@ const OPTION_TYPE = [
 ];
 
 const OPTIONS_COLOR = [
-  { value: "Xanh", label: "Xanh" },
-  { value: "Xám", label: "Xám" },
+  { value: "Xanh", label: "Xanh"},
+  { value: "Xám", label: "Xám", },
   { value: "Vàng", label: "Vàng" },
   { value: "Đen", label: "Đen" },
   { value: "Hồng", label: "Hồng" },

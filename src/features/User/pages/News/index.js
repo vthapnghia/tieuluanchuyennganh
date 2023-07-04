@@ -5,6 +5,9 @@ import { getAllNews, removeStateNews } from "./NewsSlice";
 import { shoe_bg } from "../../../../assets/img";
 import { useNavigate } from "react-router";
 import PATH from "../../../../constants/path";
+import { Button, Container, Grid } from "@mui/material";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import moment from "moment";
 
 function News() {
   const dispatch = useDispatch();
@@ -20,27 +23,90 @@ function News() {
   }, [dispatch]);
 
   return (
-    <div className="news-section row">
-      {allNews?.news.map((item) => {
-        return (
-          <div
-            className="post col-md-4 col-xl-3"
-            key={item._id}
-            onClick={() =>
-              navigate(PATH.NEWS.DETAIL_NEWS.replace(":id", item._id))
-            }
-          >
-            <div className="post-thumbnail">
-              <img
-                src={item.thumbnail || shoe_bg}
-                alt="post"
-                className="img-fluid"
-              />
+    <div id="news">
+      <Container maxWidth="lg">
+        <Grid container columnSpacing={4}>
+          <Grid item xs={4}>
+            <div className="post-new">
+              <span className="title">Bài viết mới nhất</span>
+              {allNews?.news.map((item) => {
+                return (
+                  <div
+                    item
+                    xs={3}
+                    className="post-item"
+                    key={item._id}
+                    onClick={() =>
+                      navigate(PATH.NEWS.DETAIL_NEWS.replace(":id", item._id))
+                    }
+                  >
+                    <div className="post-thumbnail">
+                      <img
+                        src={item.thumbnail || shoe_bg}
+                        alt="post"
+                        className="img-fluid"
+                      />
+                    </div>
+                    <div className="post-content">
+                      <span className="title">{item.title}</span>
+                      <div className="date-post">
+                        <CalendarTodayIcon fontSize="mini" />
+                        <span className="date">
+                          {moment(new Date(item?.created_at)).format(
+                            "DD-MM-YYYY"
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <div className="post-content-entry">{item.title}</div>
-          </div>
-        );
-      })}
+          </Grid>
+          <Grid item xs={8}>
+            <span className="title">Tất cả bài viết</span>
+            {allNews?.news.map((item) => {
+              return (
+                <div
+                  item
+                  xs={3}
+                  className="post"
+                  key={item._id}
+                  onClick={() =>
+                    navigate(PATH.NEWS.DETAIL_NEWS.replace(":id", item._id))
+                  }
+                >
+                  <div className="post-thumbnail">
+                    <img
+                      src={item.thumbnail || shoe_bg}
+                      alt="post"
+                      className="img-fluid"
+                    />
+                  </div>
+                  <div className="post-content">
+                    <span className="title">{item.title}</span>
+                    <div className="date-post">
+                      <CalendarTodayIcon fontSize="mini" />
+                      <span className="date">
+                        {moment(new Date(item?.created_at)).format(
+                          "DD-MM-YYYY"
+                        )}
+                      </span>
+                    </div>
+                    <Button
+                      className="btn-view"
+                      variant="outlined"
+                      size="small"
+                    >
+                      Xem bài viết
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 @import "/src/assets/scss/variables.scss";
 
-.news-detail {
-  width: 100%;
-  margin: 160px 0 20px 0;
+#news-detail {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
   .news {
     border: 1px solid #ddd;
     border-radius: 4px;

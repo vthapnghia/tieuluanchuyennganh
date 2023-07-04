@@ -105,29 +105,24 @@
     }
   }
 
-  
-
-  .product-section {
+  .product-section, .product-discount-section {
     padding-top: 30px;
 
     .title-section {
-      &::before,
-      &::after {
-        width: 40%;
-
-        @media (max-width: 768px) {
-          width: 30%;
-        }
-      }
+      font-weight: 600;
+      font-size: 24px;
+      border-bottom: 3px solid red;
+      width: max-content;
+      margin-bottom: 10px;
     }
 
     .view-add-product {
+      margin-top: 30px ;
       text-align: center;
     }
   }
 
   
-
   .choose-us-session {
     padding: 7rem 0 0 0;
 

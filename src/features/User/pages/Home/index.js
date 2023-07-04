@@ -45,8 +45,6 @@ function Home() {
     };
   }, [dispatch]);
 
-
-
   return (
     <div id="home-page">
       <Container maxWidth="lg">
@@ -55,7 +53,9 @@ function Home() {
             <Grid
               container
               columnSpacing={2}
-              className={`slider-item slider-item-1 ${dotActive ? "active-1" : "slider-1"}`}
+              className={`slider-item slider-item-1 ${
+                dotActive ? "active-1" : "slider-1"
+              }`}
             >
               <Grid item xs={6}>
                 <div className="advertisement">
@@ -69,6 +69,7 @@ function Home() {
                     className="advertisement-img"
                     src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
                     style={{ width: "100%", height: "100%" }}
+                    alt="anh"
                   />
                 </div>
               </Grid>
@@ -88,6 +89,7 @@ function Home() {
                       className="advertisement-img"
                       src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
                       style={{ height: "100%", width: "100%" }}
+                      alt="anh"
                     />
                   </div>
                 </Grid>
@@ -106,6 +108,7 @@ function Home() {
                       className="advertisement-img"
                       src="https://demo.templatesjungle.com/stylish/images/card-image3.jpg"
                       style={{ height: "100%", width: "100%" }}
+                      alt="anh"
                     />
                   </div>
                 </Grid>
@@ -114,7 +117,9 @@ function Home() {
             <Grid
               container
               columnSpacing={2}
-              className={`slider-item slider-item-2 ${!dotActive ? "active-2" : "slider-2"}`}
+              className={`slider-item slider-item-2 ${
+                !dotActive ? "active-2" : "slider-2"
+              }`}
             >
               <Grid item xs={6} container rowSpacing={1.5}>
                 <Grid item xs={12}>
@@ -132,6 +137,7 @@ function Home() {
                       className="advertisement-img"
                       src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
                       style={{ height: "100%", width: "100%" }}
+                      alt="anh"
                     />
                   </div>
                 </Grid>
@@ -150,6 +156,7 @@ function Home() {
                       className="advertisement-img"
                       src="https://demo.templatesjungle.com/stylish/images/card-image3.jpg"
                       style={{ height: "100%", width: "100%" }}
+                      alt="anh"
                     />
                   </div>
                 </Grid>
@@ -166,6 +173,7 @@ function Home() {
                     className="advertisement-img"
                     src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
                     style={{ width: "100%", height: "100%" }}
+                    alt="anh"
                   />
                 </div>
               </Grid>
@@ -189,9 +197,9 @@ function Home() {
         </div>
 
         <div className="product-section">
-          {/* <div className="title-section">
+          <div className="title-section">
             <span>{t("product").toLocaleUpperCase()}</span>
-          </div> */}
+          </div>
           <Grid container spacing={2}>
             {products?.map((itemProduct) => {
               return (
@@ -226,7 +234,7 @@ function Home() {
               return null;
             })}
           </Grid>
-          <div className="view-add-product-discount">
+          <div className="view-add-product">
             <Button
               className="red"
               onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
