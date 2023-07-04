@@ -3,27 +3,98 @@
 #home-page {
   margin-top: 80px;
 
-  .pannel {
-    position: relative;
-    .title {
-      position: absolute;
-      left: 15%;
-      bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-      transition: all 0.5s ease;
+  .slider {
+    width: 100%;
+    overflow: hidden;
 
-      .title-span {
-        font-size: 54px;
-        font-weight: 600;
-        color: #fff;
+
+    .slider-item {
+      transition: all 1s ease;
+    }
+
+    .active {
+      transform: translateX(0);
+    }
+
+    .slider-1 {
+      transform: translateX(-100%);
+    }
+
+    .slider-2 {
+      transform: translateX(100%);
+    }
+
+    .advertisement {
+      position: relative;
+      .advertisement-title {
+        position: absolute;
+        left: 10%;
+        bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+        transition: all 1.5s ease;
+
+        &:hover {
+          padding-left: 20px;
+        }
+        .title-span {
+          font-size: 54px;
+          font-weight: 600;
+          color: #fff;
+        }
+
+        .title-link {
+          font-size: 16px;
+          color: #fff;
+          text-decoration: none;
+          position: relative;
+          width: max-content;
+          display: inline-block;
+
+          .icon-row {
+            position: absolute;
+            left: 90%;
+            top: 50%;
+            transform: translate(0, -40%);
+            transition: all 0.5s ease;
+            width: 0;
+          }
+          &:hover {
+            .icon-row {
+              left: 100%;
+              display: block;
+              width: 20px;
+            }
+          }
+        }
+      }
+      .advertisement-img {
+        border-radius: 10px;
       }
     }
-    img {
-      border-radius: 10px;
+  }
+
+  .dot-action {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 10px;
+
+    .dot-item {
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background: #ddd;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .dot-active {
+      background: black;
     }
   }
+
   .title-section {
     text-align: center;
     font-size: 24px;

@@ -12,12 +12,13 @@ import Icons from "../../../../components/Icons";
 import { getAllNews, removeStateNews } from "../News/NewsSlice";
 import NewsItem from "../News/NewsItem";
 import { Container, Grid } from "@mui/material";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 function Home() {
   const products = useSelector((state) => state.product.products?.product);
   const allNews = useSelector((state) => state.news.allNews?.news);
   const [listNews, setListNews] = useState(allNews);
+  const [dotActive, setDocActive] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,41 +45,153 @@ function Home() {
     };
   }, [dispatch]);
 
+
+  useEffect(() => {
+
+  }, [])
+
   return (
     <div id="home-page">
       <Container maxWidth="lg">
-        <Grid container columnSpacing={2}>
-          <Grid item xs={6}>
-            <div className="pannel">
-              <div className="title">
-                <span className="title-span">Stylish shoes for women</span>
-                <Link className="title-link" to="/">Mua ngay <ArrowRightAltIcon/></Link>
-              </div>
-              <img
-                src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
-                style={{ width: "100%", height: "auto" }}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={6} container rowSpacing={1.5}>
-            <Grid item xs={12}>
-              <div className="pannel">
-                <img
-                  src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
-                  style={{ height: "auto", width: "100%" }}
-                />
-              </div>
+        <div>
+          <div className="slider">
+            <Grid
+              container
+              id="test"
+              columnSpacing={2}
+              className={`slider-item ${dotActive ? "active" : "slider-1"}`}
+            >
+              <Grid item xs={6}>
+                <div className="advertisement">
+                  <div className="advertisement-title">
+                    <span className="title-span">Stylish shoes for women</span>
+                    <Link className="title-link" to={PATH.PRODUCT.LIST_PRODUCT}>
+                      Mua ngay <ArrowRightAltIcon className="icon-row" />
+                    </Link>
+                  </div>
+                  <img
+                    className="advertisement-img"
+                    src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={6} container rowSpacing={1.5}>
+                <Grid item xs={12}>
+                  <div className="advertisement">
+                    <div className="advertisement-title">
+                      <span className="title-span">Sports Wear</span>
+                      <Link
+                        className="title-link"
+                        to={PATH.PRODUCT.LIST_PRODUCT}
+                      >
+                        Mua ngay <ArrowRightAltIcon className="icon-row" />
+                      </Link>
+                    </div>
+                    <img
+                      className="advertisement-img"
+                      src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="advertisement">
+                    <div className="advertisement-title">
+                      <span className="title-span">Fashion Shoes</span>
+                      <Link
+                        className="title-link"
+                        to={PATH.PRODUCT.LIST_PRODUCT}
+                      >
+                        Mua ngay <ArrowRightAltIcon className="icon-row" />
+                      </Link>
+                    </div>
+                    <img
+                      className="advertisement-img"
+                      src="https://demo.templatesjungle.com/stylish/images/card-image3.jpg"
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <div className="pannel">
-                <img
-                  src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
-                  style={{ height: "auto", width: "100%" }}
-                />
-              </div>
+            <Grid
+              container
+              columnSpacing={2}
+              className={`slider-item ${!dotActive ? "active" : "slider-2"}`}
+            >
+              <Grid item xs={6} container rowSpacing={1.5}>
+                <Grid item xs={12}>
+                  <div className="advertisement">
+                    <div className="advertisement-title">
+                      <span className="title-span">Sports Wear</span>
+                      <Link
+                        className="title-link"
+                        to={PATH.PRODUCT.LIST_PRODUCT}
+                      >
+                        Mua ngay <ArrowRightAltIcon className="icon-row" />
+                      </Link>
+                    </div>
+                    <img
+                      className="advertisement-img"
+                      src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="advertisement">
+                    <div className="advertisement-title">
+                      <span className="title-span">Fashion Shoes</span>
+                      <Link
+                        className="title-link"
+                        to={PATH.PRODUCT.LIST_PRODUCT}
+                      >
+                        Mua ngay <ArrowRightAltIcon className="icon-row" />
+                      </Link>
+                    </div>
+                    <img
+                      className="advertisement-img"
+                      src="https://demo.templatesjungle.com/stylish/images/card-image3.jpg"
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="advertisement">
+                  <div className="advertisement-title">
+                    <span className="title-span">Stylish shoes for women</span>
+                    <Link className="title-link" to={PATH.PRODUCT.LIST_PRODUCT}>
+                      Mua ngay <ArrowRightAltIcon className="icon-row" />
+                    </Link>
+                  </div>
+                  <img
+                    className="advertisement-img"
+                    src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </div>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grid>
+          </div>
+
+          <div className="dot-action">
+            <div
+              className={`dot-item ${dotActive ? "dot-active" : ""}`}
+              onClick={() => {
+                setDocActive(!dotActive);
+              }}
+            ></div>
+            <div
+              className={`dot-item ${!dotActive ? "dot-active" : ""}`}
+              onClick={() => {
+                setDocActive(!dotActive);
+              }}
+            ></div>
+          </div>
+        </div>
+
         <div className="product-section">
           {/* <div className="title-section">
             <span>{t("product").toLocaleUpperCase()}</span>
