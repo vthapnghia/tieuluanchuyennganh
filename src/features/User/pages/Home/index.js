@@ -46,9 +46,6 @@ function Home() {
   }, [dispatch]);
 
 
-  useEffect(() => {
-
-  }, [])
 
   return (
     <div id="home-page">
@@ -57,9 +54,8 @@ function Home() {
           <div className="slider">
             <Grid
               container
-              id="test"
               columnSpacing={2}
-              className={`slider-item ${dotActive ? "active" : "slider-1"}`}
+              className={`slider-item slider-item-1 ${dotActive ? "active-1" : "slider-1"}`}
             >
               <Grid item xs={6}>
                 <div className="advertisement">
@@ -118,7 +114,7 @@ function Home() {
             <Grid
               container
               columnSpacing={2}
-              className={`slider-item ${!dotActive ? "active" : "slider-2"}`}
+              className={`slider-item slider-item-2 ${!dotActive ? "active-2" : "slider-2"}`}
             >
               <Grid item xs={6} container rowSpacing={1.5}>
                 <Grid item xs={12}>

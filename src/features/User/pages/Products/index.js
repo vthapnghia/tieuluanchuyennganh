@@ -24,7 +24,8 @@ import { empty } from "../../../../assets/img";
 import { currencyFormatting } from "../../../../until/common";
 import PATH from "../../../../constants/path";
 import { Link } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
+import ProductItem from "./ProductItem";
 
 function Products() {
   const { t } = useTranslation();
@@ -181,10 +182,9 @@ function Products() {
 
   return useMemo(
     () => (
-      <div className="product-section">
+      <div id="product">
         <Container maxWidth="lg">
-          <div className="row">
-            <div className="col col-md-3 col-xl-2 product-filter">
+          {/* <div className="col col-md-3 col-xl-2 product-filter">
               <Accordion>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>{t("category")}</Accordion.Header>
@@ -316,9 +316,8 @@ function Products() {
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-            </div>
-            <div className="col-md-9 col-xl-10">
-              <div className="row search-and-filter">
+            </div> */}
+          {/* <div className="row search-and-filter">
                 <div className="search-product col col-12 col-sm-12 col-md-4 col-xl-3">
                   <input
                     type="text"
@@ -349,76 +348,39 @@ function Products() {
                     <Icons.Sort />
                   </div>
                 </div>
-              </div>
-              <div className="row list-product">
-                {listProduct && listProduct.length > 0 ? (
-                  listProduct.map((product) => {
-                    return (
-                      <div
-                        key={product._id}
-                        className="col-12 col-md-6 col-lg-4 col-xl-3 mb-5"
-                      >
-                        <div className="item">
-                          {product.discount > 0 && (
-                            <div className="discount">
-                              {t("discount_label", { param: product.discount })}
-                            </div>
-                          )}
-                          <img
-                            src={product.product_image[0]}
-                            alt="product"
-                            className="img-fluid product-thumbnail"
-                          />
-                          <div className="product-title">{product.name}</div>
-                          {product.discount > 0 ? (
-                            <div className="d-flex flex-column align-items-center mh-">
-                              <div className="product-price-discount">
-                                {currencyFormatting(
-                                  (
-                                    product.price *
-                                    (1 - product.discount / 100)
-                                  ).toFixed(2)
-                                )}
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="product-price">
-                              {currencyFormatting(product.price)}
-                            </div>
-                          )}
+              </div> */}
 
-                          <Link
-                            className="icon-cross"
-                            to={PATH.PRODUCT.DETAIL_PRODUCT.replace(
-                              ":id",
-                              product._id
-                            )}
-                          >
-                            <p>{t("product_detail")}</p>
-                          </Link>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="no-product d-flex justify-content-center">
-                    <img src={empty} alt="no-product"></img>
-                  </div>
-                )}
-                <div className="d-flex justify-content-center">
-                  <Pagination
-                    page={page}
-                    count={count}
-                    pageNumber={pageNumber}
-                    handlePageClick={(e) => setPage(e.selected + 1)}
-                    handleChangePageNumber={(value) =>
-                      handleChangePageNumber(value)
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <Grid container className="list-product">
+            <Grid
+              container
+              xs={3}
+              className="list-product"
+              style={{background: "red"}}
+            ></Grid>
+            <Grid container xs={9} spacing={1} className="list-product">
+              {listProduct &&
+                listProduct.length > 0 &&
+                listProduct.map((product) => {
+                  return (
+                    <Grid item xs={4} key={product._id}>
+                      <ProductItem product={product} />
+                    </Grid>
+                  );
+                })}
+            </Grid>
+
+            {/* <div className="d-flex justify-content-center">
+              <Pagination
+                page={page}
+                count={count}
+                pageNumber={pageNumber}
+                handlePageClick={(e) => setPage(e.selected + 1)}
+                handleChangePageNumber={(value) =>
+                  handleChangePageNumber(value)
+                }
+              />
+            </div> */}
+          </Grid>
         </Container>
       </div>
     ),
