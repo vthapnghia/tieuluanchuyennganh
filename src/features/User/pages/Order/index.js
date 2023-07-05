@@ -19,6 +19,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PayPal from "./PayPal";
 import { currencyFormatting } from "../../../../until/common";
 import { getAllCart } from "../Cart/cartSlice";
+import { Container, Grid } from "@mui/material";
 
 function Order() {
   const { t } = useTranslation();
@@ -283,252 +284,281 @@ function Order() {
   return useMemo(
     () => (
       <>
-        <div className="Order row">
-          <div className="list-purchase col-md-12 col-lg-6">
-            {state.listPurchase.map((item, index) => {
-              return (
-                <div key={index}>
-                  <div className="purchase">
-                    <img src={item.product.product_image[0]} alt="" />
-                    <div className="info">
-                      <span className="name">{item.product.name}</span>
-                      <div className="d-flex justify-content-between">
-                        <span className="quantity">SL: {item.quantity}</span>
-                        <span className="total">
-                          {currencyFormatting(
-                            item.quantity *
-                              (item.product.price *
-                                (1 - item.product.discount / 100))
-                          )}
-                        </span>
+        <div id="order">
+          <Container maxWidth="lg">
+            <Grid container columnSpacing={1}>
+              <Grid item xs="6" className="list-purchase">
+                {state.listPurchase.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <div className="purchase">
+                        <img src={item.product.product_image[0]} alt="" />
+                        <div className="info">
+                          <span className="name">{item.product.name}</span>
+                          <div className="d-flex justify-content-between">
+                            <span className="quantity">
+                              SL: {item.quantity}
+                            </span>
+                            <span className="total">
+                              {currencyFormatting(
+                                item.quantity *
+                                  (item.product.price *
+                                    (1 - item.product.discount / 100))
+                              )}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="choose-method col-md-6 col-lg-3">
-            <div className="method-pay">
-              <span className="header">{t("payment_method")}</span>
-              <div className="option">
-                {PAYMENT_OPTION.map((item) => {
-                  return (
-                    <div
-                      key={item.value}
-                      className="d-flex align-items-center"
-                      style={{ height: "64px" }}
-                    >
-                      <input
-                        type="radio"
-                        name="payment"
-                        id={`option-${item.value}`}
-                        defaultChecked={item.value === 1}
-                        onChange={() => handleChangeOptionPay(item.value)}
-                      />
-                      <span className="radio-fake"></span>
-                      <label className="label" htmlFor={`option-${item.value}`}>
-                        {item.label}
-                      </label>
-                    </div>
                   );
                 })}
-              </div>
-            </div>
-            <div className="method-delivery">
-              <span className="header">{t("medthod_delivery")}</span>
-              <div className="option">
-                {ship?.map((item, index) => {
-                  return (
+              </Grid>
+              <Grid item xs="3" className="choose-method">
+                <div className="method-pay">
+                  <span className="header">{t("payment_method")}</span>
+                  <div className="option">
+                    {PAYMENT_OPTION.map((item) => {
+                      return (
+                        <div
+                          key={item.value}
+                          className="d-flex align-items-center"
+                          style={{ height: "64px" }}
+                        >
+                          <input
+                            type="radio"
+                            name="payment"
+                            id={`option-${item.value}`}
+                            defaultChecked={item.value === 1}
+                            onChange={() => handleChangeOptionPay(item.value)}
+                          />
+                          <span className="radio-fake"></span>
+                          <label
+                            className="label"
+                            htmlFor={`option-${item.value}`}
+                          >
+                            {item.label}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="method-delivery">
+                  <span className="header">{t("medthod_delivery")}</span>
+                  <div className="option">
+                    {ship?.map((item, index) => {
+                      return (
+                        <div
+                          key={item._id}
+                          className="d-flex align-items-center"
+                          style={{ height: "64px" }}
+                        >
+                          <input
+                            type="radio"
+                            name="delivery"
+                            id={`option-${item._id}`}
+                            defaultChecked={index === 0}
+                            onChange={() => handleChangeOptionDelivery(item)}
+                          />
+                          <span className="radio-fake"></span>
+                          <label
+                            className="label"
+                            htmlFor={`option-${item._id}`}
+                          >
+                            {item.type}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </Grid>
+              <Grid item xs="3" className="info-purchase">
+                <div className="customer-info">
+                  <div className="header">
+                    <span>{t("delivery_to")}</span>
                     <div
-                      key={item._id}
-                      className="d-flex align-items-center"
-                      style={{ height: "64px" }}
+                      className="icon-edit"
+                      onClick={() => setChangeInfo(true)}
                     >
-                      <input
-                        type="radio"
-                        name="delivery"
-                        id={`option-${item._id}`}
-                        defaultChecked={index === 0}
-                        onChange={() => handleChangeOptionDelivery(item)}
+                      <Icons.Edit
+                        height={12}
+                        width={12}
+                        color="rgb(128, 128, 137)"
                       />
-                      <span className="radio-fake"></span>
-                      <label className="label" htmlFor={`option-${item._id}`}>
-                        {item.type}
-                      </label>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="info-purchase col-md-6 col-lg-3">
-            <div className="customer-info">
-              <div className="header">
-                <span>{t("delivery_to")}</span>
-                <div className="icon-edit" onClick={() => setChangeInfo(true)}>
-                  <Icons.Edit
-                    height={12}
-                    width={12}
-                    color="rgb(128, 128, 137)"
-                  />
-                </div>
-              </div>
-              {changeInfo ? (
-                <div className="info-input">
-                  <div className="input-name">
-                    <input
-                      type="text"
-                      placeholder="Tên người nhận"
-                      onChange={(e) => setReceiverName(e?.target.value)}
-                      value={receiverName}
-                      style={{
-                        padding: `5px ${errName ? "35px" : "10px"} 5px 10px`,
-                      }}
-                      onBlur={() =>
-                        receiverName
-                          ? setErrName("")
-                          : setErrName("Vui lòng nhập tên người nhận")
-                      }
-                      onFocus={() => setErrName("")}
-                    />
-                    {errName && (
-                      <span className="warning-icon-input">
-                        <Icons.Exclamation />
-                        <span className="tooltiptext">{errName}</span>
-                      </span>
-                    )}
                   </div>
-                  <div className="input-phone">
-                    <input
-                      type="text"
-                      placeholder="Số điện thoại"
-                      onKeyDown={onKeyDown}
-                      onChange={(e) => setReceiverPhone(e?.target.value)}
-                      value={receiverPhone}
-                      style={{
-                        padding: `5px ${errPhone ? "35px" : "10px"} 5px 10px`,
-                      }}
-                      onBlur={() =>
-                        receiverPhone
-                          ? setErrPhone("")
-                          : setErrPhone("Vui lòng nhập số điện thoại")
-                      }
-                      onFocus={() => setErrPhone("")}
-                    />
-                    {errPhone && (
-                      <span className="warning-icon-input">
-                        <Icons.Exclamation />
-                        <span className="tooltiptext">{errPhone}</span>
-                      </span>
-                    )}
-                  </div>
-                  <div className="input-address">
-                    <textarea
-                      placeholder="Địa chỉ"
-                      onChange={(e) => setReceiverAddress(e?.target.value)}
-                      value={receiverAddress}
-                      style={{
-                        padding: `5px ${errAddress ? "35px" : "10px"} 5px 10px`,
-                      }}
-                      onBlur={() =>
-                        receiverPhone
-                          ? setErrAddress("")
-                          : setErrAddress("Vui lòng nhập số điện thoại")
-                      }
-                      onFocus={() => setErrAddress("")}
-                    />
-                    {errAddress && (
-                      <span className="warning-icon-input">
-                        <Icons.Exclamation />
-                        <span className="tooltiptext">{errAddress}</span>
-                      </span>
-                    )}
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <Button className="outline" onClick={handelOkChangeInfo}>
-                      Đồng ý
-                    </Button>
-                    <Button className="red" onClick={handleCancelChangeInfo}>
-                      Hủy
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="name-and-phone">
-                    <span className="name">{receiverName}</span>
-                    <i></i>
-                    <span className="phone">{receiverPhone}</span>
-                  </div>
-                  <div className="address">{receiverAddress}</div>
-                </>
-              )}
-            </div>
-            <div className="discount">
-              <div className="header">{t("voucher")}</div>
-              <div className="choose-coupon" onClick={chooseVoucher}>
-                <Icons.Ticked color="#0B74E5" />
-                <span>{t("choose_voucher")}</span>
-              </div>
-            </div>
-            <div className="fee">
-              <div className="fee-category">
-                <div className="fee-temporary">
-                  <span>{t("fee_temporary")}</span>
-                  <span>{currencyFormatting(feeTemporary)}</span>
-                </div>
-                <div className="fee-discount">
-                  <span>{t("discount")}</span>
-                  <span>{currencyFormatting(-checkedVoucher)}</span>
-                </div>
-                <div className="fee-delivery">
-                  <span>{t("ship_fee")}</span>
-                  <span>{currencyFormatting(methodDelivery?.price)}</span>
-                </div>
-              </div>
-              <div className="fee-total">
-                <span>{t("total")}</span>
-
-                <span className="total">
-                  {currencyFormatting(
-                    feeTemporary - checkedVoucher + (methodDelivery?.price || 0)
+                  {changeInfo ? (
+                    <div className="info-input">
+                      <div className="input-name">
+                        <input
+                          type="text"
+                          placeholder="Tên người nhận"
+                          onChange={(e) => setReceiverName(e?.target.value)}
+                          value={receiverName}
+                          style={{
+                            padding: `5px ${
+                              errName ? "35px" : "10px"
+                            } 5px 10px`,
+                          }}
+                          onBlur={() =>
+                            receiverName
+                              ? setErrName("")
+                              : setErrName("Vui lòng nhập tên người nhận")
+                          }
+                          onFocus={() => setErrName("")}
+                        />
+                        {errName && (
+                          <span className="warning-icon-input">
+                            <Icons.Exclamation />
+                            <span className="tooltiptext">{errName}</span>
+                          </span>
+                        )}
+                      </div>
+                      <div className="input-phone">
+                        <input
+                          type="text"
+                          placeholder="Số điện thoại"
+                          onKeyDown={onKeyDown}
+                          onChange={(e) => setReceiverPhone(e?.target.value)}
+                          value={receiverPhone}
+                          style={{
+                            padding: `5px ${
+                              errPhone ? "35px" : "10px"
+                            } 5px 10px`,
+                          }}
+                          onBlur={() =>
+                            receiverPhone
+                              ? setErrPhone("")
+                              : setErrPhone("Vui lòng nhập số điện thoại")
+                          }
+                          onFocus={() => setErrPhone("")}
+                        />
+                        {errPhone && (
+                          <span className="warning-icon-input">
+                            <Icons.Exclamation />
+                            <span className="tooltiptext">{errPhone}</span>
+                          </span>
+                        )}
+                      </div>
+                      <div className="input-address">
+                        <textarea
+                          placeholder="Địa chỉ"
+                          onChange={(e) => setReceiverAddress(e?.target.value)}
+                          value={receiverAddress}
+                          style={{
+                            padding: `5px ${
+                              errAddress ? "35px" : "10px"
+                            } 5px 10px`,
+                          }}
+                          onBlur={() =>
+                            receiverPhone
+                              ? setErrAddress("")
+                              : setErrAddress("Vui lòng nhập số điện thoại")
+                          }
+                          onFocus={() => setErrAddress("")}
+                        />
+                        {errAddress && (
+                          <span className="warning-icon-input">
+                            <Icons.Exclamation />
+                            <span className="tooltiptext">{errAddress}</span>
+                          </span>
+                        )}
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <Button
+                          className="outline"
+                          onClick={handelOkChangeInfo}
+                        >
+                          Đồng ý
+                        </Button>
+                        <Button
+                          className="red"
+                          onClick={handleCancelChangeInfo}
+                        >
+                          Hủy
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="name-and-phone">
+                        <span className="name">{receiverName}</span>
+                        <i></i>
+                        <span className="phone">{receiverPhone}</span>
+                      </div>
+                      <div className="address">{receiverAddress}</div>
+                    </>
                   )}
-                </span>
-              </div>
-            </div>
-            <div className="payment offline" id="btn-order">
-              <div className="pay-online">
-                <PayPalScriptProvider
-                  options={{
-                    "client-id": "test",
-                    components: "buttons",
-                    currency: "USD",
-                  }}
-                >
-                  <PayPal
-                    currency="USD"
-                    showSpinner={false}
-                    amount={(
-                      (feeTemporary -
-                        checkedVoucher +
-                        (methodDelivery?.price || 0)) /
-                      23000
-                    ).toFixed(2)}
-                    req={req}
+                </div>
+                <div className="discount">
+                  <div className="header">{t("voucher")}</div>
+                  <div className="choose-coupon" onClick={chooseVoucher}>
+                    <Icons.Ticked color="#0B74E5" />
+                    <span>{t("choose_voucher")}</span>
+                  </div>
+                </div>
+                <div className="fee">
+                  <div className="fee-category">
+                    <div className="fee-temporary">
+                      <span>{t("fee_temporary")}</span>
+                      <span>{currencyFormatting(feeTemporary)}</span>
+                    </div>
+                    <div className="fee-discount">
+                      <span>{t("discount")}</span>
+                      <span>{currencyFormatting(-checkedVoucher)}</span>
+                    </div>
+                    <div className="fee-delivery">
+                      <span>{t("ship_fee")}</span>
+                      <span>{currencyFormatting(methodDelivery?.price)}</span>
+                    </div>
+                  </div>
+                  <div className="fee-total">
+                    <span>{t("total")}</span>
+
+                    <span className="total">
+                      {currencyFormatting(
+                        feeTemporary -
+                          checkedVoucher +
+                          (methodDelivery?.price || 0)
+                      )}
+                    </span>
+                  </div>
+                </div>
+                <div className="payment offline" id="btn-order">
+                  <div className="pay-online">
+                    <PayPalScriptProvider
+                      options={{
+                        "client-id": "test",
+                        components: "buttons",
+                        currency: "USD",
+                      }}
+                    >
+                      <PayPal
+                        currency="USD"
+                        showSpinner={false}
+                        amount={(
+                          (feeTemporary -
+                            checkedVoucher +
+                            (methodDelivery?.price || 0)) /
+                          23000
+                        ).toFixed(2)}
+                        req={req}
+                        disabled={changeInfo}
+                      />
+                    </PayPalScriptProvider>
+                  </div>
+                  <Button
                     disabled={changeInfo}
-                  />
-                </PayPalScriptProvider>
-              </div>
-              <Button
-                disabled={changeInfo}
-                className="red w-100 pay-offline"
-                onClick={handlePayment}
-              >
-                {t("order")}
-              </Button>
-            </div>
-          </div>
+                    className="red w-100 pay-offline"
+                    onClick={handlePayment}
+                  >
+                    {t("order")}
+                  </Button>
+                </div>
+              </Grid>
+            </Grid>
+          </Container>
         </div>
         <ModalCommon
           show={showVoucher}

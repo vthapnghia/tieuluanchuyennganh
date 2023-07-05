@@ -7,7 +7,7 @@ import { getProduct, removeStateProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
 import "./Home.scss";
 import PATH from "../../../../constants/path";
-import { shoe_bg } from "../../../../assets/img";
+import { shoe_bg, slide_1 } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
 import { getAllNews, removeStateNews } from "../News/NewsSlice";
 import NewsItem from "../News/NewsItem";
@@ -218,6 +218,13 @@ function Home() {
             </Button>
           </div>
         </div>
+        <img
+          src={slide_1}
+          alt="anh"
+          width={"100%"}
+          height={"auto"}
+          style={{ margin: "40px 0 0" }}
+        />
         <div className="product-discount-section">
           <div className="title-section">
             <span>{t("product-discount").toLocaleUpperCase()}</span>
@@ -243,75 +250,52 @@ function Home() {
             </Button>
           </div>
         </div>
-        <div className="choose-us-session">
-          <div className="title-section">
-            <span>{t("why-choose-us").toLocaleUpperCase()}</span>
-          </div>
-          <div className="row justify-content-between">
-            <div className="col-lg-6">
+        <Grid container columnSpacing={1} className="choose-us-session">
+          <Grid item xs={3}>
+            <div className="feature">
+              <div className="icon">
+                <Icons.Truck />
+              </div>
+              <div className="title">Vận chuyển</div>
+              <p>Tất cả sản phẩm đều được vận chuyển nhanh nhất tới tay bạn</p>
+            </div>
+          </Grid>
+
+          <Grid item xs={3}>
+            <div className="feature">
+              <div className="icon">
+                <Icons.Bag />
+              </div>
+              <div className="title">Dễ dàng mua sắm</div>
               <p>
-                Niềm vui của bạn cũng là niềm vui của chúng tôi nếu bạn mua
-                hàng...
+                Thanh toán đơn hàng bằng hình thức trực tiếp hoặc chuyển khoảng
               </p>
-
-              <div className="row my-5">
-                <div className="col-6 col-md-6">
-                  <div className="feature">
-                    <div className="icon">
-                      <Icons.Truck className="imf-fluid" />
-                    </div>
-                    <h3>Vận chuyển</h3>
-                    <p>
-                      Tất cả sản phẩm đều được vận chuyển nhanh nhất tới tay bạn
-                    </p>
-                  </div>
-                </div>
-
-                <div className="col-6 col-md-6">
-                  <div className="feature">
-                    <div className="icon">
-                      <Icons.Bag />
-                    </div>
-                    <h3>Dễ dàng mua sắm</h3>
-                    <p>
-                      Thanh toán đơn hàng bằng hình thức trực tiếp hoặc chuyển
-                      khoảng
-                    </p>
-                  </div>
-                </div>
-
-                <div className="col-6 col-md-6">
-                  <div className="feature">
-                    <div className="icon">
-                      <Icons.Support />
-                    </div>
-                    <h3>Hổ trợ trực tuyến</h3>
-                    <p>
-                      Mọi thắc mắc về sản phẩm hãy nhắn tin cho chúng tôi để
-                      được hộ trợ
-                    </p>
-                  </div>
-                </div>
-
-                <div className="col-6 col-md-6">
-                  <div className="feature">
-                    <div className="icon">
-                      <Icons.Return />
-                    </div>
-                    <h3>Chính sách hoàn tiền</h3>
-                    <p>Sản phẩm được phép đổi trả trong vòng 7 ngày</p>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div className="col-lg-2"></div>
-            <div className="col-lg-4">
-              <div className="img-wrap">
-                <img src={shoe_bg} alt="wrap" className="img-fluid" />
+          </Grid>
+
+          <Grid item xs={3}>
+            <div className="feature">
+              <div className="icon">
+                <Icons.Support />
               </div>
+              <div className="title">Hổ trợ trực tuyến</div>
+              <p>
+                Mọi thắc mắc về sản phẩm hãy nhắn tin cho chúng tôi để được hộ
+                trợ
+              </p>
             </div>
-          </div>
-        </div>
+          </Grid>
+
+          <Grid item xs={3}>
+            <div className="feature">
+              <div className="icon">
+                <Icons.Return />
+              </div>
+              <div className="title">Chính sách hoàn tiền</div>
+              <p>Sản phẩm được phép đổi trả trong vòng 7 ngày</p>
+            </div>
+          </Grid>
+        </Grid>
         <div className="blog-section">
           <div className="title-section">
             <span>{t("news").toLocaleUpperCase()}</span>

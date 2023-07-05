@@ -15,10 +15,19 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../constants/global";
-import { avatar_default, shoe_bg } from "../../assets/img";
-import { logout } from "../../features/Authentication/authSlice";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Person2Icon from '@mui/icons-material/Person2';
+import { avatar_default, shoe, shoe_bg } from "../../assets/img";
+import {
+  logout,
+  setShowLogin,
+  setShowProfile,
+} from "../../features/Authentication/authSlice";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Person2Icon from "@mui/icons-material/Person2";
+import { useState } from "react";
+import ModalCommon from "../ModalCommon";
+import Profile from "../../features/User/pages/Profile";
+import { Container } from "@mui/material";
+import Login from "../../features/Authentication/page/Login";
 
 function Navbars() {
   const { t } = useTranslation();
@@ -27,6 +36,8 @@ function Navbars() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const count = useSelector((state) => state.cart.count);
+  const showLogin = useSelector((state) => state.auth.showLogin);
+  const showProfile = useSelector((state) => state.auth.showProfile);
 
   const handleMenu = useCallback(() => {
     const displayMenu = document.getElementById("sidebar");
@@ -101,9 +112,9 @@ function Navbars() {
           className="custom-navbar navbar navbar-expand-md"
           arial-label="navigation bar"
         >
-          <div className="container">
-            <Link className="navbar-brand" to="/">
-              <img src={shoe_bg} alt="img" />
+          <Container maxWidth="lg" style={{ display: "flex" }}>
+            <Link className="navbar-brand" to="/" style={{ height: "100%" }}>
+              <img src={shoe} alt="img" height={"100%"} width={"auto"} />
             </Link>
             <button
               className="navbar-toggler"
@@ -138,7 +149,7 @@ function Navbars() {
               <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <li>
                   <Link className="nav-link cart-icon" to={PATH.CART}>
-                    <ShoppingCartIcon/>
+                    <ShoppingCartIcon />
                     {count > 0 ? (
                       <span className="quantity-cart">{count}</span>
                     ) : (
@@ -156,9 +167,12 @@ function Navbars() {
                         id="dropdown-basic-button-response"
                         title="Tài khoản"
                       >
-                        <Link className="dropdown-item" to={PATH.PROFILE}>
+                        <div
+                          className="dropdown-item"
+                          onClick={() => dispatch(setShowProfile())}
+                        >
                           {t("profile")}
-                        </Link>
+                        </div>
                         <Link
                           className="dropdown-item"
                           to={PATH.USER_ORDERS.BASE}
@@ -185,9 +199,12 @@ function Navbars() {
                           </>
                         }
                       >
-                        <Link className="dropdown-item" to={PATH.PROFILE}>
+                        <div
+                          className="dropdown-item"
+                          onClick={() => dispatch(setShowProfile())}
+                        >
                           {t("profile")}
-                        </Link>
+                        </div>
                         <Link
                           className="dropdown-item"
                           to={PATH.USER_ORDERS.BASE}
@@ -204,14 +221,31 @@ function Navbars() {
                       </DropdownButton>
                     </>
                   ) : (
-                    <Link className="nav-link icon-user" to={PATH.LOGIN}>
-                      <Person2Icon/>
-                    </Link>
+                    <div
+                      className="nav-link icon-user"
+                      onClick={() => dispatch(setShowLogin())}
+                    >
+                      <Person2Icon />
+                    </div>
                   )}
                 </li>
               </ul>
             </div>
-          </div>
+          </Container>
+          <ModalCommon
+            show={showProfile}
+            modalTitle={null}
+            modalBody={<Profile />}
+            handleConfirm={() => {}}
+            handleCloseModal={() => dispatch(setShowProfile())}
+          />
+          <ModalCommon
+            show={showLogin}
+            modalTitle={null}
+            modalBody={<Login />}
+            handleConfirm={() => {}}
+            handleCloseModal={() => dispatch(setShowLogin())}
+          />
         </nav>
       )}
     </>

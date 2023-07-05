@@ -1,7 +1,8 @@
 @import "/src/assets/scss//variables.scss";
 
-.Order {
-  margin-top: 160px;
+#order {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
   .list-purchase {
     .purchase {
       display: flex;

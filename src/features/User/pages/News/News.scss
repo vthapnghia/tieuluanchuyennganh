@@ -4,48 +4,10 @@
   margin-top: 80px;
   min-height: calc(100vh - 80px);
 
-  .title {
+  .title-catalog {
     font-size: 24px;
     display: inline-block;
     margin-bottom: 10px;
-  }
-
-  .post {
-    display: flex;
-    width: 100%;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-    cursor: pointer;
-    .post-thumbnail {
-      margin-right: 20px;
-      img {
-        height: 150px;
-        width: 300px;
-        object-fit: cover;
-        transition: 0.3s all ease;
-      }
-    }
-    .post-content {
-      width: calc(100% - 300px);
-      .title {
-        font-size: 16px;
-        word-break: break-word;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        line-height: 24px; /* fallback */
-        max-height: 72px; /* fallback */
-        -webkit-line-clamp: 2; /* number of lines to show */
-        -webkit-box-orient: vertical;
-      }
-      .date-post {
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-    }
   }
 
   .post-new {

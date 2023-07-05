@@ -23,11 +23,15 @@ import moment from "moment";
 import PATH from "../../../../../constants/path";
 import Button from "../../../../../components/Button";
 import { currencyFormatting } from "../../../../../until/common";
+import { Container, Grid } from "@mui/material";
+import { getProduct } from "../../Products/ProductSlice";
+import ProductItem from "../../Products/ProductItem";
 
 function OrderDetail(params) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const orderById = useSelector((state) => state.userOrder.orderById);
+  const products = useSelector((state) => state.product.products?.product);
   const ship = useSelector((state) => state.ship.allShip?.ships);
   const [idProduct, setIdProduct] = useState();
   const [idOrderDetail, setIdOrderDetail] = useState();
@@ -226,6 +230,7 @@ function OrderDetail(params) {
   useEffect(() => {
     dispatch(getAllShip());
     dispatch(getOrderById(id));
+    dispatch(getProduct({ page: 1, pageSize: 6 }));
 
     return () => {
       dispatch(removeUserOrder());
@@ -248,356 +253,378 @@ function OrderDetail(params) {
     <Formik
       initialValues={{ image: "", comment: "" }}
       validationSchema={Yup.object({
-        // image: Yup.mixed().test(
-        //   "file",
-        //   t("MS_01", { param: "file" }),
-        //   (value) => {
-        //     if (!value) {
-        //       return false;
-        //     }
-        //     return true;
-        //   }
-        // ),
         comment: Yup.string().required(t("MS_01", { param: t("comment") })),
       })}
       enableReinitialize
       innerRef={formikRef}
       onSubmit={handleSubmitRate}
     >
-      <div className="user-order-detail">
-        <div className="status">
-          <div className="status-item">
-            <div
-              className="status-icon"
-              style={{
-                borderColor: `${
-                  orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
-                }`,
-              }}
-            >
-              <Icons.Receipt
-                height="40"
-                width="40"
-                color={orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}
-              />
+      <div id="user-order-detail">
+        <Container maxWidth="xl">
+          <div className="status">
+            <div className="status-item">
+              <div
+                className="status-icon"
+                style={{
+                  borderColor: `${
+                    orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                  }`,
+                }}
+              >
+                <Icons.Receipt
+                  height="40"
+                  width="40"
+                  color={orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}
+                />
+              </div>
+              <div
+                className="status-line"
+                style={{
+                  background: `${
+                    orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                  }`,
+                }}
+              ></div>
+              <div
+                className="status-label"
+                style={{
+                  color: `${orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}`,
+                }}
+              >
+                {t("in_order")}
+              </div>
             </div>
-            <div
-              className="status-line"
-              style={{
-                background: `${
-                  orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
-                }`,
-              }}
-            ></div>
-            <div
-              className="status-label"
-              style={{
-                color: `${orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}`,
-              }}
-            >
-              {t("in_order")}
+            <div className="status-item">
+              <div
+                className="status-icon"
+                style={{
+                  borderColor: `${
+                    orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                  }`,
+                }}
+              >
+                <Icons.TruckFull
+                  height="40"
+                  width="40"
+                  color={orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}
+                />
+              </div>
+              <div
+                className="status-line"
+                style={{
+                  background: `${
+                    orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                  }`,
+                }}
+              ></div>
+              <div
+                className="status-label"
+                style={{
+                  color: `${orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}`,
+                }}
+              >
+                {t("in_ship")}
+              </div>
             </div>
-          </div>
-          <div className="status-item">
-            <div
-              className="status-icon"
-              style={{
-                borderColor: `${
-                  orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
-                }`,
-              }}
-            >
-              <Icons.TruckFull
-                height="40"
-                width="40"
-                color={orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}
-              />
+            <div className="status-item">
+              <div
+                className="status-icon"
+                style={{
+                  borderColor: `${
+                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                  }`,
+                }}
+              >
+                <Icons.BoxOpen
+                  height="40"
+                  width="40"
+                  color={orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}
+                />
+              </div>
+              <div
+                className="status-line"
+                style={{
+                  background: `${
+                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                  }`,
+                }}
+              ></div>
+              <div
+                className="status-label"
+                style={{
+                  color: `${orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}`,
+                }}
+              >
+                {t("complete")}
+              </div>
             </div>
-            <div
-              className="status-line"
-              style={{
-                background: `${
-                  orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
-                }`,
-              }}
-            ></div>
-            <div
-              className="status-label"
-              style={{
-                color: `${orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}`,
-              }}
-            >
-              {t("in_ship")}
-            </div>
-          </div>
-          <div className="status-item">
-            <div
-              className="status-icon"
-              style={{
-                borderColor: `${
-                  orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                }`,
-              }}
-            >
-              <Icons.BoxOpen
-                height="40"
-                width="40"
-                color={orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}
-              />
-            </div>
-            <div
-              className="status-line"
-              style={{
-                background: `${
-                  orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                }`,
-              }}
-            ></div>
-            <div
-              className="status-label"
-              style={{
-                color: `${orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}`,
-              }}
-            >
-              {t("complete")}
-            </div>
-          </div>
-          <div className="status-item status-item-end">
-            <div
-              className="status-icon"
-              style={{
-                borderColor: borderColorRate,
-              }}
-            >
-              <Icons.Star height="40" width="40" color={borderColorRate} />
-            </div>
-            <div
-              className="status-label"
-              style={{
-                color: borderColorRate,
-              }}
-            >
-              {t("rate")}
-            </div>
-          </div>
-        </div>
-        <div className="info-detail row">
-          <div className="address col-sm-12 col-md-4">
-            <div className="title">{t("address_user_receive")}</div>
-            <div className="content">
-              <span className="name">{orderById?.order.receiver_name}</span>
-              <span>
-                {t("address_receive", { param: orderById?.order.location })}
-              </span>
-              <span>
-                {t("phone_receive", { param: orderById?.order.receiver_phone })}
-              </span>
+            <div className="status-item status-item-end">
+              <div
+                className="status-icon"
+                style={{
+                  borderColor: borderColorRate,
+                }}
+              >
+                <Icons.Star height="40" width="40" color={borderColorRate} />
+              </div>
+              <div
+                className="status-label"
+                style={{
+                  color: borderColorRate,
+                }}
+              >
+                {t("rate")}
+              </div>
             </div>
           </div>
-          <div className="shipment col-sm-12 col-md-4">
-            <div className="title">{t("method_ship")}</div>
-            <div className="content">
-              <span className="name">{methodShip?.type}</span>
-              <span className="description">
-                {t("delivery_at", {
-                  param: moment(orderById?.order.created_at)
-                    .add(5, "days")
-                    .format("DD-MM-YYYY"),
-                })}
-              </span>
-              <span className="price">
-                {`${t("ship_fee")}: ${currencyFormatting(methodShip?.price)}`}
-              </span>
+          <div className="info-detail row">
+            <div className="address col-sm-12 col-md-4">
+              <div className="title">{t("address_user_receive")}</div>
+              <div className="content">
+                <span className="name">{orderById?.order.receiver_name}</span>
+                <span>
+                  {t("address_receive", { param: orderById?.order.location })}
+                </span>
+                <span>
+                  {t("phone_receive", {
+                    param: orderById?.order.receiver_phone,
+                  })}
+                </span>
+              </div>
+            </div>
+            <div className="shipment col-sm-12 col-md-4">
+              <div className="title">{t("method_ship")}</div>
+              <div className="content">
+                <span className="name">{methodShip?.type}</span>
+                <span className="description">
+                  {t("delivery_at", {
+                    param: moment(orderById?.order.created_at)
+                      .add(5, "days")
+                      .format("DD-MM-YYYY"),
+                  })}
+                </span>
+                <span className="price">
+                  {`${t("ship_fee")}: ${currencyFormatting(methodShip?.price)}`}
+                </span>
+              </div>
+            </div>
+            <div className="payment col-sm-12 col-md-4">
+              <div className="title">{t("method_pay")}</div>
+              <div className="content">
+                <span>
+                  {orderById?.order.payment_method === 1
+                    ? t("pay_cash")
+                    : t("pay_banking")}
+                </span>
+                {orderById?.order.payment_method === 1 && (
+                  <span className="pay-success">{t("pay_success")}</span>
+                )}
+              </div>
             </div>
           </div>
-          <div className="payment col-sm-12 col-md-4">
-            <div className="title">{t("method_pay")}</div>
-            <div className="content">
-              <span>
-                {orderById?.order.payment_method === 1
-                  ? t("pay_cash")
-                  : t("pay_banking")}
-              </span>
-              {orderById?.order.payment_method === 1 && (
-                <span className="pay-success">{t("pay_success")}</span>
-              )}
+          <div className="order-product">
+            <div className="header row">
+              <div className="col-md-5 text-center">{t("product")}</div>
+              <div className="col-md-2 text-center">{t("price")}</div>
+              <div className="col-md-1 text-center">{t("quantity")}</div>
+              <div className="col-md-2 text-center">{t("discount")}</div>
+              <div className="col-md-2 text-center">{t("temporary_fee")}</div>
             </div>
-          </div>
-        </div>
-        <div className="order-product">
-          <div className="header row">
-            <div className="col-md-5 text-center">{t("product")}</div>
-            <div className="col-md-2 text-center">{t("price")}</div>
-            <div className="col-md-1 text-center">{t("quantity")}</div>
-            <div className="col-md-2 text-center">{t("discount")}</div>
-            <div className="col-md-2 text-center">{t("temporary_fee")}</div>
-          </div>
-          {orderById?.orderDetail.length > 0 &&
-            orderById.orderDetail.map((itemDetail, index) => {
-              return (
-                <div
-                  className="row m-0 order-item"
-                  onClick={() =>
-                    navigate(
-                      PATH.PRODUCT.DETAIL_PRODUCT.replace(
-                        ":id",
-                        itemDetail.product._id
+            {orderById?.orderDetail.length > 0 &&
+              orderById.orderDetail.map((itemDetail, index) => {
+                return (
+                  <div
+                    className="row m-0 order-item"
+                    onClick={() =>
+                      navigate(
+                        PATH.PRODUCT.DETAIL_PRODUCT.replace(
+                          ":id",
+                          itemDetail.product._id
+                        )
                       )
-                    )
-                  }
-                  key={index}
-                >
-                  <div className="row product-item-order">
-                    <div className="col col-md-5 d-flex align-items-center justify-content-between">
-                      <img
-                        src={itemDetail.product.product_image[0]}
-                        alt="img"
-                        className="img-product"
-                      />
-                      <div className="name-product">
-                        {itemDetail.product.name}
+                    }
+                    key={index}
+                  >
+                    <div className="row product-item-order">
+                      <div className="col col-md-5 d-flex align-items-center justify-content-between">
+                        <img
+                          src={itemDetail.product.product_image[0]}
+                          alt="img"
+                          className="img-product"
+                        />
+                        <div className="name-product">
+                          {itemDetail.product.name}
+                        </div>
+                      </div>
+                      <div className="col col-md-2 price text-center">
+                        {currencyFormatting(itemDetail.product.price)}
+                      </div>
+                      <div className="col col-md-1 quantity text-center">
+                        {itemDetail.quantity}
+                      </div>
+                      <div className="col col-md-2 discount text-center">
+                        <span>
+                          {currencyFormatting(
+                            itemDetail.product.price *
+                              (itemDetail.product.discount / 100)
+                          )}
+                        </span>
+                      </div>
+                      <div className="col col-md-2 total-temporary text-center">
+                        <span>
+                          {currencyFormatting(
+                            totalItemProduct(
+                              itemDetail.quantity,
+                              itemDetail.product.price,
+                              itemDetail.product.discount
+                            )
+                          )}
+                        </span>
                       </div>
                     </div>
-                    <div className="col col-md-2 price text-center">
-                      {currencyFormatting(itemDetail.product.price)}
-                    </div>
-                    <div className="col col-md-1 quantity text-center">
-                      {itemDetail.quantity}
-                    </div>
-                    <div className="col col-md-2 discount text-center">
-                      <span>
-                        {currencyFormatting(
-                          itemDetail.product.price *
-                            (itemDetail.product.discount / 100)
+                    <div
+                      className="row m-0"
+                      style={{
+                        borderBottom: "1px solid #f2f2f2",
+                        display: "inline-block",
+                      }}
+                    >
+                      {orderById?.order.status === 3 &&
+                        itemDetail.status === 1 && (
+                          <>
+                            <div className="btn-rate">
+                              <Button
+                                className="outline"
+                                onClick={(e) =>
+                                  handleClickProduct(
+                                    e,
+                                    itemDetail.product._id,
+                                    itemDetail.id
+                                  )
+                                }
+                              >
+                                {t("rate")}
+                              </Button>
+                              <Button
+                                className="outline"
+                                onClick={(e) => handleRepurchase(e, itemDetail)}
+                              >
+                                {t("repurchase")}
+                              </Button>
+                            </div>
+                          </>
                         )}
-                      </span>
-                    </div>
-                    <div className="col col-md-2 total-temporary text-center">
-                      <span>
-                        {currencyFormatting(
-                          totalItemProduct(
-                            itemDetail.quantity,
-                            itemDetail.product.price,
-                            itemDetail.product.discount
-                          )
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className="row m-0"
-                    style={{
-                      borderBottom: "1px solid #f2f2f2",
-                      display: "inline-block",
-                    }}
-                  >
-                    {orderById?.order.status === 3 &&
-                      itemDetail.status === 1 && (
-                        <>
-                          <div className="btn-rate">
-                            <Button
-                              className="outline"
-                              onClick={(e) =>
-                                handleClickProduct(
-                                  e,
-                                  itemDetail.product._id,
-                                  itemDetail.id
-                                )
-                              }
-                            >
-                              {t("rate")}
-                            </Button>
-                            <Button
-                              className="outline"
-                              onClick={(e) => handleRepurchase(e, itemDetail)}
-                            >
-                              {t("repurchase")}
-                            </Button>
-                          </div>
-                        </>
-                      )}
 
-                    {orderById?.order.status === 3 &&
-                      itemDetail.status === 2 && (
-                        <>
-                          <div className="btn-rate">
-                            <Button
-                              className="outline"
-                              onClick={(e) =>
-                                handleViewRate(
-                                  itemDetail.id,
-                                  itemDetail.product._id
-                                )
-                              }
-                            >
-                              {t("view_rate")}
-                            </Button>
-                            <Button
-                              className="outline"
-                              onClick={(e) => handleRepurchase(e, itemDetail)}
-                            >
-                              {t("repurchase")}
-                            </Button>
-                          </div>
-                        </>
-                      )}
+                      {orderById?.order.status === 3 &&
+                        itemDetail.status === 2 && (
+                          <>
+                            <div className="btn-rate">
+                              <Button
+                                className="outline"
+                                onClick={(e) =>
+                                  handleViewRate(
+                                    itemDetail.id,
+                                    itemDetail.product._id
+                                  )
+                                }
+                              >
+                                {t("view_rate")}
+                              </Button>
+                              <Button
+                                className="outline"
+                                onClick={(e) => handleRepurchase(e, itemDetail)}
+                              >
+                                {t("repurchase")}
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          <div className="pay-money">
-            <div className="price-temporary row">
-              <span className="col-md-10">
-                {t("fee_temporary", { param: "" })}
-              </span>
-              <span className="col-md-2">
-                {currencyFormatting(handelPriceTemporary)}
-              </span>
-            </div>
-            <div className="price-ship row">
-              <span className="col-md-10">{t("ship_fee", { param: "" })}</span>
-              <span className="col-md-2">
-                {currencyFormatting(methodShip?.price ? methodShip.price : 0)}
-              </span>
-            </div>
-            <div className="price-total row">
-              <span className="col-md-10">{t("total", { param: "" })}</span>
-              <span className="col-md-2">
-                {currencyFormatting(
-                  handelPriceTemporary +
-                    (methodShip?.price ? methodShip.price : 0)
-                )}
-              </span>
+                );
+              })}
+            <div className="pay-money">
+              <div className="price-temporary row">
+                <span className="col-md-10">
+                  {t("fee_temporary", { param: "" })}
+                </span>
+                <span className="col-md-2">
+                  {currencyFormatting(handelPriceTemporary)}
+                </span>
+              </div>
+              <div className="price-ship row">
+                <span className="col-md-10">
+                  {t("ship_fee", { param: "" })}
+                </span>
+                <span className="col-md-2">
+                  {currencyFormatting(methodShip?.price ? methodShip.price : 0)}
+                </span>
+              </div>
+              <div className="price-total row">
+                <span className="col-md-10">{t("total", { param: "" })}</span>
+                <span className="col-md-2">
+                  {currencyFormatting(
+                    handelPriceTemporary +
+                      (methodShip?.price ? methodShip.price : 0)
+                  )}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <ModalCommon
-          className="modal-rate"
-          show={show}
-          modalTitle={t("rate_product")}
-          modalBody={modalBody}
-          handleConfirm={() => formikRef.current.submitForm()}
-          handleCloseModal={() => setShow(!show)}
-          isButton
-        />
-        <ModalCommon
-          className="modal-rate"
-          show={showRate}
-          modalTitle={t("view_rate")}
-          modalBody={modalBodyRate}
-          handleConfirm={handleConfirmEditRate}
-          handleCloseModal={() => setShowRate(!showRate)}
-          isButton
-          labelButton={t("edit")}
-        />
-        <ModalCommon
-          show={showMessage}
-          modalTitle={modalTitleMessage}
-          modalBody={modalBodyMessage}
-          handleConfirm={handleConfirm}
-          handleCloseModal={() => setShowMessage(!showMessage)}
-          isButton
-        />
+          <div
+            style={{
+              fontSize: "20px",
+              fontWeight: "600",
+              marginBottom: "10px",
+            }}
+          >
+            Sản phẩm
+          </div>
+          <Grid container columnSpacing={2}>
+            {products?.map((itemProduct) => {
+              return (
+                <Grid item xs={2} key={itemProduct._id}>
+                  <ProductItem product={itemProduct} />
+                </Grid>
+              );
+            })}
+          </Grid>
+          <div className="view-add-product">
+            <Button
+              className="red"
+              onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+            >
+              {t("add_view")}
+            </Button>
+          </div>
+          <ModalCommon
+            className="modal-rate"
+            show={show}
+            modalTitle={t("rate_product")}
+            modalBody={modalBody}
+            handleConfirm={() => formikRef.current.submitForm()}
+            handleCloseModal={() => setShow(!show)}
+            isButton
+          />
+          <ModalCommon
+            className="modal-rate"
+            show={showRate}
+            modalTitle={t("view_rate")}
+            modalBody={modalBodyRate}
+            handleConfirm={handleConfirmEditRate}
+            handleCloseModal={() => setShowRate(!showRate)}
+            isButton
+            labelButton={t("edit")}
+          />
+          <ModalCommon
+            show={showMessage}
+            modalTitle={modalTitleMessage}
+            modalBody={modalBodyMessage}
+            handleConfirm={handleConfirm}
+            handleCloseModal={() => setShowMessage(!showMessage)}
+            isButton
+          />
+        </Container>
       </div>
     </Formik>
   );

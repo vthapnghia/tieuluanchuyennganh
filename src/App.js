@@ -13,10 +13,12 @@ import VerifyRegister from "./features/Authentication/page/VerifyRegister";
 import ResetPassword from "./features/Authentication/page/ResetPassword";
 import Verify from "./features/Authentication/page/ResetPassword/Verify";
 import AdminLogin from "./features/Authentication/page/AdminLogin";
+import Navbars from "./components/Navbars";
 
 function App() {
   return (
     <div className="app" style={{ background: "white" }}>
+       <Navbars />
       <Routes>
         <Route path={PATH.LOGIN} element={<Login />} />
         <Route path={PATH.ADMIN.LOGIN} element={<AdminLogin />} />

@@ -45,16 +45,6 @@ function TabItem({ orders, id, classTab }) {
             key={index}
             onClick={() => handleClickOrderItem(orderItem.orderId)}
           >
-            <div className="header">
-              <div>{`${t("status")}: ${getHeaderByStatus(
-                orderItem.orderStatus
-              )}`}</div>
-              <div>{`${t("date_order", {
-                param: moment(new Date(orderItem.orderCreateDay)).format(
-                  "DD-MM-YYYY"
-                ),
-              })}`}</div>
-            </div>
             {orderItem?.orderDetail.map((itemDetail, index) => {
               return (
                 <div className="row product-order-item" key={index}>
@@ -69,17 +59,19 @@ function TabItem({ orders, id, classTab }) {
                   </div>
                   <div className="col col-md-2 product-price-total">
                     <span>
-                      {currencyFormatting(totalItemProduct(
-                        itemDetail.quantity,
-                        itemDetail.product.price,
-                        itemDetail.product.discount
-                      ))}
+                      {currencyFormatting(
+                        totalItemProduct(
+                          itemDetail.quantity,
+                          itemDetail.product.price,
+                          itemDetail.product.discount
+                        )
+                      )}
                     </span>
                   </div>
                 </div>
               );
             })}
-            <div className="footer">
+            <div className="footer" style={{ color: "#fda223" }}>
               {`${t("into_money")}: ${currencyFormatting(orderItem.orderTotal)}`}
             </div>
           </div>

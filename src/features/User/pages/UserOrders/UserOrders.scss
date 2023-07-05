@@ -1,6 +1,41 @@
 @import "/src/assets/scss/variables.scss";
 
-.user-order {
+#user-order {
+  margin-top: 80px;
+  height: calc(100vh - 145px);
+  overflow: auto;
+  margin-bottom: 10px;
+
+  .option {
+    display: flex;
+    flex-direction: column;
+
+    .option-item {
+      height: 40px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 5px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .active {
+      color: #fda223;
+      border-bottom: 2px solid #fda223;
+    }
+  }
+
+  .title-order {
+    font-size: 20px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #fda223;
+  }
+
   .tab-header {
     background-color: #fff;
     border-radius: 4px;
@@ -11,13 +46,12 @@
       padding: 10px 0;
       cursor: pointer;
       font-size: 16px;
+      font-weight: 600;
     }
 
     .is-active {
       color: rgb(13, 92, 182);
       border-bottom: 2px solid rgb(13, 92, 182);
-      // border-bottom: 2px solid $main_color;
-      // color: $main_color;
     }
   }
 
@@ -27,7 +61,6 @@
     justify-content: center;
     margin-top: 10px;
     border-radius: 4px;
-    
     .tab-item {
       width: 100%;
     }
@@ -39,7 +72,7 @@
       background: #fff;
       border-radius: 4px;
 
-      img{
+      img {
         width: 300px;
         height: 300px;
       }

@@ -1,7 +1,8 @@
 @import "/src/assets/scss/variables.scss";
 
-.user-order-detail {
-  border-radius: 4px;
+#user-order-detail {
+  margin-top: 80px;
+  min-height: calc(100vh - 145px);
 
   .info-detail {
     display: flex;
@@ -124,6 +125,7 @@
     background-color: #fff;
     border-radius: 4px;
     border: 1px solid #ddd;
+    margin-bottom: 30px;
 
     .header {
       display: flex;
@@ -189,6 +191,11 @@
         }
       }
     }
+  }
+
+  .view-add-product {
+    margin: 20px 0;
+    text-align: center;
   }
 }
 

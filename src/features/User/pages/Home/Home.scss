@@ -7,12 +7,12 @@
     width: 100%;
     overflow: hidden;
     position: relative;
-    
+
     .slider-item {
       transition: all 1s ease;
     }
 
-    .slider-item-2{
+    .slider-item-2 {
       position: absolute;
     }
 
@@ -105,7 +105,9 @@
     }
   }
 
-  .product-section, .product-discount-section {
+  .product-section,
+  .product-discount-section,
+  .blog-section {
     padding-top: 30px;
 
     .title-section {
@@ -116,36 +118,27 @@
       margin-bottom: 10px;
     }
 
-    .view-add-product {
-      margin-top: 30px ;
+    .view-add-product,
+    .view-add-news {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .view-add-news {
+      margin: 20px 0;
       text-align: center;
     }
   }
 
-  
   .choose-us-session {
-    padding: 7rem 0 0 0;
+    padding: 60px 0 0;
 
-    .title-section {
-      &::before,
-      &::after {
-        @media (max-width: 768px) {
-          width: 15%;
-        }
-
-        @media (min-width: 768px) {
-          width: 20%;
-        }
-
-        @media (min-width: 992px) {
-          width: 30%;
-        }
-      }
-    }
-
-    .img-wrap {
-      img {
-        border-radius: 10px;
+    .feature {
+      background: #f6f6f6;
+      padding: 20px;
+      .title {
+        font-size: 20px;
+        font-weight: 600;
       }
     }
   }

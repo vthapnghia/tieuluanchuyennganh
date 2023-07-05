@@ -4,5 +4,7 @@ import empty from "./empty.png";
 import slide_1 from "./slide_1.png";
 import slide_2 from "./slide_2.png";
 import slide_3 from "./slide_3.png";
+import shoe from "./shoe.png";
+import background from "./bg.png";
 
-export { shoe_bg, avatar_default, empty, slide_1, slide_2, slide_3 };
+export { shoe_bg, avatar_default, empty, slide_1, slide_2, slide_3, shoe, background };

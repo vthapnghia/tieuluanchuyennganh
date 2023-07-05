@@ -136,10 +136,20 @@ const initialState = {
   user: null,
   isAdmin: false,
   isSeller: false,
+  showLogin: false,
+  showProfile: false,
 };
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {
+    setShowLogin: (state) => {
+      state.showLogin = !state.showLogin;
+    },
+    setShowProfile: (state) => {
+      state.showProfile = !state.showProfile;
+    },
+  },
   extraReducers: {
     [login.fulfilled]: (state, action) => {
       const res = action.payload?.data;
@@ -177,6 +187,7 @@ const authSlice = createSlice({
 });
 
 const { reducer } = authSlice;
+const { setShowLogin, setShowProfile } = authSlice.actions;
 export {
   login,
   logout,
@@ -189,5 +200,7 @@ export {
   firstLogin,
   loginGoogle,
   adminLogin,
+  setShowLogin,
+  setShowProfile
 };
 export default reducer;

@@ -53,12 +53,16 @@ const Input = forwardRef(
         borderRadius: "4px",
         paddingRight: "10px",
         border: `1px solid #ddd`,
-        // minHeight: 44,
         fontSize: "16px",
         transition: "none",
         height: "100%",
         padding: height ? "0 2rem" :"1rem 2rem",
         textAlign: align ? align : "center",
+        ":hover": {
+          ...styles[":hover"],
+          border: `1px solid #ddd`,
+        },
+        boxShadow: "none",
       }),
       valueContainer: (styles) => ({
         ...styles,
@@ -183,7 +187,7 @@ const Input = forwardRef(
       <Form className={`input-group ${marginNone ? "m-0" : ""}`}>
         {label && (
           <label>
-            <b>{label}</b>
+            {label}
           </label>
         )}
         {leftIcon && <span className="left-icon">{leftIcon}</span>}

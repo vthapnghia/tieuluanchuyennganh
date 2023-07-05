@@ -1,206 +1,16 @@
 @import "/src/assets/scss/variables.scss";
 
-.login-form {
-  height: 100vh;
-  overflow: hidden;
-  background-color: $bg_color;
-  .container-form {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    margin: 0 !important;
-
-    .content-row {
-      position: absolute;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 6;
-      width: 100%;
-
-      .text {
-        margin: 4rem;
-        color: $white;
-        h2 {
-          font-size: 3.5rem;
-          font-weight: 800;
-          margin: 2rem 0;
-          transition: 1s ease-in-out;
-        }
-
-        h1 {
-          transition: 1s ease-in-out;
-          padding: 20px;
-          img {
-            height: 150px;
-            width: 150px;
-            border-radius: 100%;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transition: all 1s;
-          }
-          &:hover {
-            img {
-              height: 160px;
-              width: 160px;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .container-form .text.sign-in h2,
-  .container-form .text.sign-in h1 {
-    transform: translateX(-250%);
-  }
-
-  .container-form .text.sign-up h2,
-  .container-form .text.sign-up h1 {
-    transform: translateX(250%);
-  }
-
-  .container-form.sign-in .text.sign-in h2,
-  .container-form.sign-in .text.sign-in h1,
-  .container-form.sign-up .text.sign-up h2,
-  .container-form.sign-up .text.sign-up h1 {
-    transform: translateX(0);
-  }
-
-  .form-wrapper {
-    width: 100%;
-    max-width: 28rem;
-
-    .form {
-      padding: 1rem;
-      background-color: $white;
-      border-radius: 1.5rem;
-      width: 100%;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
-      transform: scale(0);
-      transition: 0.5s ease-in-out;
-      transition-delay: 0.5s;
-
-      button {
-        cursor: pointer;
-        width: 100%;
-      }
-
-      p {
-        margin: 1rem 0;
-        font-size: 0.7rem;
-      }
-
-      .pointer {
-        cursor: pointer;
-      }
-
-      .forgot-pass {
-        text-align: center;
-        margin: 10px 0;
-        a {
-          text-decoration: none;
-          color: red;
-        }
-      }
-    }
-  }
-
-  .logo {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    text-decoration: none;
-    color: $main_color;
-    transform: scale(0);
-    transition: 0.5s ease-in-out;
-    transition-delay: 0.5s;
-    > span {
-      opacity: 0.4;
-    }
-  }
-
-  .back-to-home {
-    margin-top: 10px;
-    height: max-content;
-    transform: scale(0);
-    transition: 0.5s ease-in-out;
-    transition-delay: 0.5s;
-    a {
-      text-decoration: none;
-      font-size: 12px;
-      color: $black;
-    }
-
-    a:hover {
-      font-weight: 500;
-    }
-  }
-
-  .forgot-password {
-    text-decoration: none;
-    color: $black;
-  }
-
-  .container-form.sign-in .form.sign-in,
-  .container-form.sign-in .logo.sign-in,
-  .container-form.sign-in .back-to-home.sign-in,
-  .container-form.sign-up .form.sign-up,
-  .container-form.sign-up .logo.sign-up,
-  .container-form.sign-up .back-to-home.sign-up {
-    transform: scale(1);
-  }
-
-  .container-form::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 50%;
-    background-color: $main_color;
-    transition: 1s ease-in-out;
-    z-index: 6;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-
-  .container-form.sign-in::before {
-    transform: translate(0, 0);
-    right: 50%;
-  }
-
-  .container-form.sign-up::before {
-    transform: translate(100%, 0);
-    right: 50%;
-  }
-
-  .common {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-}
-
-.login-form-responsive {
-  display: none;
+#login-form {
+  width: 100%;
   position: relative;
-  height: 100vh;
-  background-color: $bg_color;
-
+  overflow: hidden;
   .sign-up,
   .sign-in {
-    position: absolute;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
-    background-color: $white;
-    padding: 20px;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    top: 50%;
-    width: 60%;
-    transform: translate(0, -50%);
     transition: all 1s ease;
+    padding: 0 10px;
 
     .form {
       width: 100%;
@@ -233,33 +43,28 @@
     }
   }
 
+  .sign-up{
+    position: absolute;
+    width: 100%;
+  }
+
   &.sign-in-active {
     .sign-in {
-      left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(0, 0);
     }
     .sign-up {
+      top: 0 ;
       right: -100%;
     }
   }
 
   &.sign-up-active {
     .sign-in {
-      left: -100%;
+      transform: translate(-100%, 0);
     }
     .sign-up {
-      right: 50%;
-      transform: translate(50%, -50%);
+      top: 0 ;
+      right: 0;
     }
-  }
-}
-
-@media only screen and (max-width: 992px) {
-  .login-form {
-    display: none;
-  }
-
-  .login-form-responsive {
-    display: block;
   }
 }

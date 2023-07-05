@@ -30,7 +30,6 @@ function Chat() {
   const [bellRing, setBellRing] = useState(false);
   const [show, setShow] = useState(false);
   const [imageClick, setImageClick] = useState("");
-  const [move, setMove] = useState(false);
   const ref = useRef(null);
 
   const handleSendMessage = useCallback(async () => {
@@ -100,14 +99,6 @@ function Chat() {
     }
   };
 
-  const toggleVisible = () => {
-    const scrolled = document.documentElement.scrollTop;
-    if (scrolled > 300) {
-      setMove(true);
-    } else if (scrolled <= 300) {
-      setMove(false);
-    }
-  };
 
   useEffect(() => {
     if (flag) {
@@ -144,16 +135,9 @@ function Chat() {
     }
   }, [mess]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", toggleVisible);
-    return () => {
-      window.removeEventListener("scroll", toggleVisible);
-    };
-  }, []);
-
   return useMemo(
     () => (
-      <div className={`${move ? "chat-move" : "chat"}`}>
+      <div className="chat">
         <div
           onClick={handleClickChat}
           className={`icon-chat ${flag ? "hide-icon" : "display-icon"}`}

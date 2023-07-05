@@ -22,7 +22,6 @@ const PATH = {
     LIST_NEWS: "/news",
     DETAIL_NEWS: "/news/:id",
   },
-  PROFILE: "/profile",
   NOT_FOUND: "/*",
   ADMIN: {
     LOGIN: "/admin",

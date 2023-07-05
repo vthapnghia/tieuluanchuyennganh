@@ -1,29 +1,54 @@
 import PATH from "./constants/path";
 import { lazy } from "react";
 
-const ManagementProduct = lazy(() => import("./features/Admin/pages/ManagementProduct"));
-const ProductDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementProduct/ProductDetail"));
-const ManagementNews = lazy(() => import("./features/Admin/pages/ManagementNews"));
-const NewDetail = lazy(() => import("./features/Admin/pages/ManagementNews/NewsDetail"));
-const ManagementAcount = lazy(() => import("./features/Admin/pages/ManagementAccount"));
-const ManagementBrand = lazy(() => import("./features/Admin/pages/ManagementBrand"));
+const ManagementProduct = lazy(() =>
+  import("./features/Admin/pages/ManagementProduct")
+);
+const ProductDetailAdmin = lazy(() =>
+  import("./features/Admin/pages/ManagementProduct/ProductDetail")
+);
+const ManagementNews = lazy(() =>
+  import("./features/Admin/pages/ManagementNews")
+);
+const NewDetail = lazy(() =>
+  import("./features/Admin/pages/ManagementNews/NewsDetail")
+);
+const ManagementAcount = lazy(() =>
+  import("./features/Admin/pages/ManagementAccount")
+);
+const ManagementBrand = lazy(() =>
+  import("./features/Admin/pages/ManagementBrand")
+);
 const Home = lazy(() => import("./features/User/pages/Home"));
 const Products = lazy(() => import("./features/User/pages/Products"));
-const ProductDetail = lazy(() => import("./features/User/pages/Products/ProductDetail"));
+const ProductDetail = lazy(() =>
+  import("./features/User/pages/Products/ProductDetail")
+);
 const Cart = lazy(() => import("./features/User/pages/Cart"));
 // const Profile = lazy(() => import("./features/User/pages/Profile"));
 const News = lazy(() => import("./features/User/pages/News"));
 const NewsDetail = lazy(() => import("./features/User/pages/News/NewsDetail"));
-const Order = lazy (() => import("./features/User/pages/Order"));
-const ManagementShip = lazy(() => import("./features/Admin/pages/ManagementShip"));
+const Order = lazy(() => import("./features/User/pages/Order"));
+const ManagementShip = lazy(() =>
+  import("./features/Admin/pages/ManagementShip")
+);
 // const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
 // const OrdersDetail = lazy(() => import("./features/User/pages/UserOrders/OrderDetail"));
-const ManagementOrder = lazy(() => import("./features/Admin/pages/ManagementOrder"));
-const OrderDetailAdmin = lazy(() => import("./features/Admin/pages/ManagementOrder/OrderDetail"));
-const ManagementVoucher = lazy(() => import("./features/Admin/pages/ManagementVoucher"));
-const Revenue  = lazy(() => import("./features/Admin/pages/Revenue"));
-const Chat  = lazy(() => import("./features/Admin/pages/ManagementChat"));
-const UserCommon = lazy(() => import("./features/User/pages/Account"));
+const ManagementOrder = lazy(() =>
+  import("./features/Admin/pages/ManagementOrder")
+);
+const OrderDetailAdmin = lazy(() =>
+  import("./features/Admin/pages/ManagementOrder/OrderDetail")
+);
+const ManagementVoucher = lazy(() =>
+  import("./features/Admin/pages/ManagementVoucher")
+);
+const Revenue = lazy(() => import("./features/Admin/pages/Revenue"));
+const Chat = lazy(() => import("./features/Admin/pages/ManagementChat"));
+const UserOrders = lazy(() => import("./features/User/pages/UserOrders"));
+const OrderDetail = lazy(() =>
+  import("./features/User/pages/UserOrders/OrderDetail")
+);
 
 const routesAdmin = [
   {
@@ -130,12 +155,6 @@ const routesUser = [
     isPrivate: true,
   },
   {
-    path: PATH.PROFILE,
-    name: "Profile",
-    component: UserCommon,
-    isPrivate: true,
-  },
-  {
     path: PATH.NEWS.LIST_NEWS,
     name: "List news",
     component: News,
@@ -154,15 +173,15 @@ const routesUser = [
     isPrivate: true,
   },
   {
-    path: PATH.USER_ORDERS.BASE,
+    path: PATH.USER_ORDERS.ORDER_DETAIL,
     name: "Order detail",
-    component: UserCommon,
+    component: OrderDetail,
     isPrivate: true,
   },
   {
-    path: PATH.USER_ORDERS.ORDER_DETAIL,
+    path: PATH.USER_ORDERS.BASE,
     name: "User orders",
-    component: UserCommon,
+    component: UserOrders,
     isPrivate: true,
   },
 ];

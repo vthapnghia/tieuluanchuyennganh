@@ -23,6 +23,7 @@ import {
 import { COLOR } from "../../../../constants/global";
 import { currencyFormatting } from "../../../../until/common";
 import { empty } from "../../../../assets/img/index";
+import { Container, Grid } from "@mui/material";
 
 function Cart() {
   const { t } = useTranslation();
@@ -328,11 +329,11 @@ function Cart() {
   return useMemo(
     () => (
       <>
-        <div className="Cart row">
-          {cart && cart.length > 0 ? (
-            <>
-              <div className="product col-sm-12 col-lg-8">
-                <div className="row">
+        <div id="cart">
+          <Container maxWidth="lg">
+            {cart && cart.length > 0 ? (
+              <Grid container columnSpacing={1}>
+                <Grid item xs={8} className="product">
                   <TableCommon
                     cols={cols}
                     rows={rows}
@@ -342,73 +343,64 @@ function Cart() {
                     handleClick={handleClick}
                     checkAll
                   />
-                </div>
-              </div>
+                </Grid>
 
-              <div className="info-purchase col-sm-12 col-lg-4">
-                {/* <div className="customer-info">
-                  <div className="header">{t("delivery_to")}</div>
-                  <div className="name-and-phone">
-                    <span className="name">{user?.name}</span>
-                    <i></i>
-                    <span className="phone">{user?.phone}</span>
-                  </div>
-                  <div className="address">{user?.address}</div>
-                </div> */}
-                <div className="discount">
-                  <div className="header">{t("voucher")}</div>
-                  <div className="choose-coupon" onClick={chooseVoucher}>
-                    <Icons.Ticked color="#0B74E5" />
-                    <span>{t("choose_voucher")}</span>
-                  </div>
-                </div>
-                <div className="fee">
-                  <div className="fee-category">
-                    <div className="fee-temporary">
-                      <span>{t("fee_temporary")}</span>
-                      <span>{currencyFormatting(feeTemporary)}</span>
-                    </div>
-                    <div className="fee-discount">
-                      <span>{t("discount")}</span>
-                      <span>{currencyFormatting(-checkedVoucher)}</span>
+                <Grid item xs={4} className="info-purchase">
+                  <div className="discount">
+                    <div className="header">{t("voucher")}</div>
+                    <div className="choose-coupon" onClick={chooseVoucher}>
+                      <Icons.Ticked color="#0B74E5" />
+                      <span>{t("choose_voucher")}</span>
                     </div>
                   </div>
-                  <div className="fee-total">
-                    <span>{t("total")}</span>
-                    {checkBox && checkBox.length > 0 ? (
-                      <span className="total">
-                        {currencyFormatting(feeTemporary - checkedVoucher)}
-                      </span>
-                    ) : (
-                      <span className="please-choose">
-                        {t("please_choose_product")}
-                      </span>
-                    )}
+                  <div className="fee">
+                    <div className="fee-category">
+                      <div className="fee-temporary">
+                        <span>{t("fee_temporary")}</span>
+                        <span>{currencyFormatting(feeTemporary)}</span>
+                      </div>
+                      <div className="fee-discount">
+                        <span>{t("discount")}</span>
+                        <span>{currencyFormatting(-checkedVoucher)}</span>
+                      </div>
+                    </div>
+                    <div className="fee-total">
+                      <span>{t("total")}</span>
+                      {checkBox && checkBox.length > 0 ? (
+                        <span className="total">
+                          {currencyFormatting(feeTemporary - checkedVoucher)}
+                        </span>
+                      ) : (
+                        <span className="please-choose">
+                          {t("please_choose_product")}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="order">
-                  <Button
-                    className="red w-100"
-                    onClick={handlePurchase}
-                    disabled={!checkBox || checkBox?.length === 0}
-                  >
-                    {t("purchase")}
-                  </Button>
-                </div>
+                  <div className="order">
+                    <Button
+                      className="red w-100"
+                      onClick={handlePurchase}
+                      disabled={!checkBox || checkBox?.length === 0}
+                    >
+                      {t("purchase")}
+                    </Button>
+                  </div>
+                </Grid>
+              </Grid>
+            ) : (
+              <div className="no-product">
+                <img src={empty} alt="no product" />
+                <h2>{t("no_product_in_cart")}</h2>
+                <Button
+                  className="primary"
+                  onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
+                >
+                  {t("shopping")}
+                </Button>
               </div>
-            </>
-          ) : (
-            <div className="no-product">
-              <img src={empty} alt="no product" />
-              <h2>{t("no_product_in_cart")}</h2>
-              <Button
-                className="primary"
-                onClick={() => navigate(PATH.PRODUCT.LIST_PRODUCT)}
-              >
-                {t("shopping")}
-              </Button>
-            </div>
-          )}
+            )}
+          </Container>
         </div>
         <ModalCommon
           show={show}

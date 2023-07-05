@@ -7,7 +7,8 @@ import { shoe_bg } from "../../../../../assets/img";
 import { getAllNews, getNewsById, removeStateNews } from "../NewsSlice";
 import "./NewsDetail.scss";
 import PATH from "../../../../../constants/path";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 function NewsDetail() {
   const { id } = useParams();
@@ -30,50 +31,66 @@ function NewsDetail() {
 
   return useMemo(
     () => (
-      <div id="news-detail" >
-        <Container maxWidth="lg" className=" row">
-          <div className="col-12 col-lg-8 news">
-            <div className="title-new ">
-              <span>{news?.title}</span>
-              <span>{`${t("date_post")}: ${moment(
-                new Date(news?.created_at)
-              ).format("DD-MM-YYYY")}`}</span>
-            </div>
-            <div
-              className="content-html"
-              dangerouslySetInnerHTML={{ __html: news?.content }}
-            ></div>
-          </div>
-          <div className="news-other col-12 col-lg-4">
-            <div className="title">{t("news_other")}</div>
-            <div className="news-other-item">
-              {allNews?.news.map((item) => {
-                if (item._id === id) {
-                  return null;
-                }
-                return (
-                  <div
-                    className="item"
-                    key={item._id}
-                    onClick={() =>
-                      navigate(PATH.NEWS.DETAIL_NEWS.replace(":id", item._id))
-                    }
-                  >
-                    <img
-                      className="post-thumbnail"
-                      src={item.thumbnail || shoe_bg}
-                      alt="post"
-                    />
-                    <div className="post-content-entry">{item.title}</div>
+      <div id="news-detail">
+        <Container maxWidth="lg">
+          <Grid container columnSpacing={4}>
+            <Grid item xs={4}>
+              <div className="post-new">
+                <span className="title-catalog">Bài viết mới nhất</span>
+                {allNews?.news.map((item) => {
+                  return (
+                    <div
+                      item
+                      xs={3}
+                      className="post-item"
+                      key={item._id}
+                      onClick={() =>
+                        navigate(PATH.NEWS.DETAIL_NEWS.replace(":id", item._id))
+                      }
+                    >
+                      <div className="post-thumbnail">
+                        <img
+                          src={item.thumbnail || shoe_bg}
+                          alt="post"
+                          className="img-fluid"
+                        />
+                      </div>
+                      <div className="post-content">
+                        <span className="title">{item.title}</span>
+                        <div className="date-post">
+                          <CalendarTodayIcon fontSize="mini" />
+                          <span className="date">
+                            {moment(new Date(item?.created_at)).format(
+                              "DD-MM-YYYY"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Grid>
+            <Grid item xs={8}>
+              <div className="news">
+                <div className="title-new ">
+                  <span>{news?.title}</span>
+                  <div style={{display: "fle"}}>
+                    <CalendarTodayIcon fontSize="mini"/>
+                    {moment(new Date(news?.created_at)).format("DD-MM-YYYY")}
                   </div>
-                );
-              })}
-            </div>
-          </div>
+                </div>
+                <div
+                  className="content-html"
+                  dangerouslySetInnerHTML={{ __html: news?.content }}
+                ></div>
+              </div>
+            </Grid>
+          </Grid>
         </Container>
       </div>
     ),
-    [allNews?.news, id, navigate, news?.content, news?.created_at, news?.title]
+    [allNews?.news, navigate, news?.content, news?.created_at, news?.title]
   );
 }
 
