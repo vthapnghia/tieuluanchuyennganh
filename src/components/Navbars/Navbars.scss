@@ -32,7 +32,7 @@
       a {
         font-size: 16px;
         font-weight: 500;
-        color: $black!important;
+        color: $black !important;
         opacity: 0.5;
         transition: 0.3s all ease;
         position: relative;
@@ -67,7 +67,7 @@
     }
 
     @media (max-width: $md) {
-      margin-bottom: 0!important;
+      margin-bottom: 0 !important;
     }
   }
 
@@ -130,11 +130,15 @@
           display: block;
           background-color: transparent;
           font-weight: 500;
-          color: #ffffff;
+          font-size: 16px;
+          font-weight: 500;
+          color: #000000 !important;
           opacity: 0.5;
           border: none;
           padding: 8px 0;
-          font-size: 14px;
+          &:hover {
+            opacity: 1;
+          }
         }
 
         .cart-icon {
@@ -143,16 +147,19 @@
 
         .cart-title {
           display: block;
+          font-size: 16px;
           font-weight: 500;
-          color: #ffffff;
+          color: #000000 !important;
           opacity: 0.5;
-          font-size: 14px;
+
+          &:hover {
+            opacity: 1;
+          }
         }
       }
       .icon-user {
         width: 40px;
         height: 40px;
-        margin-left: 10px;
       }
     }
   }
@@ -191,6 +198,10 @@
       border: none;
       background-color: transparent;
       border-radius: 100%;
+
+      &:hover {
+        opacity: 1;
+      }
       &::after {
         display: none;
       }

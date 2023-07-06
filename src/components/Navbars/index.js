@@ -120,7 +120,8 @@ function Navbars() {
           className="custom-navbar navbar navbar-expand-md"
           arial-label="navigation bar"
         >
-          <Container maxWidth="lg" style={{ display: "flex" }}>
+          <div className="container">
+          {/* <Container maxWidth="lg" style={{ display: "flex" }}> */}
             <Link className="navbar-brand" to="/" style={{ height: "100%" }}>
               <img src={shoe} alt="img" height={"100%"} width={"auto"} />
             </Link>
@@ -155,19 +156,35 @@ function Navbars() {
               </ul>
 
               <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li>
-                  <Link className="nav-link cart-icon" to={PATH.CART}>
-                    <ShoppingCartIcon />
-                    {count > 0 ? (
-                      <span className="quantity-cart">{count}</span>
-                    ) : (
-                      <></>
-                    )}
-                  </Link>
-                  <Link className="nav-link cart-title" to={PATH.CART}>
-                    Giỏ hàng
-                  </Link>
-                </li>
+                {userAuth ? (
+                  <li>
+                    <Link className="nav-link cart-icon" to={PATH.CART}>
+                      <ShoppingCartIcon />
+                      {count > 0 ? (
+                        <span className="quantity-cart">{count}</span>
+                      ) : (
+                        <></>
+                      )}
+                    </Link>
+                    <Link className="nav-link cart-title" to={PATH.CART}>
+                      Giỏ hàng
+                    </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <div className="nav-link cart-icon">
+                      <ShoppingCartIcon
+                        onClick={() => dispatch(setShowLogin())}
+                      />
+                    </div>
+                    <div
+                      className="nav-link cart-title"
+                      onClick={() => dispatch(setShowLogin())}
+                    >
+                      Giỏ hàng
+                    </div>
+                  </li>
+                )}
                 <li>
                   {userAuth ? (
                     <>
@@ -239,7 +256,8 @@ function Navbars() {
                 </li>
               </ul>
             </div>
-          </Container>
+          {/* </Container> */}
+          </div>
           <ModalCommon
             show={showProfile}
             modalTitle={null}
