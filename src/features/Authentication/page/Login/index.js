@@ -130,6 +130,7 @@ function Login() {
         } else {
           dispatch(setShowProfile());
         }
+        dispatch(setShowLogin());
       } else {
         setMessage("Đăng nhập thất bại");
         setOpenAlert(!openAlert);
