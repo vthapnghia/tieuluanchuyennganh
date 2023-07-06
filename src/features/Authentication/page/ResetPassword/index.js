@@ -2,44 +2,46 @@ import { Formik } from "formik";
 import { t } from "i18next";
 import { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
-import ModalCommon from "../../../../components/ModalCommon";
-import PATH from "../../../../constants/path";
-import { getCodeResetPass } from "../../authSlice";
+import {
+  getCodeResetPass,
+  setShowPassNew,
+  setShowReset,
+} from "../../authSlice";
 import "./ResetPassword.scss";
-import { shoe_bg } from "../../../../assets/img";
+import { Alert, Snackbar } from "@mui/material";
 
 function ResetPassword(params) {
   const formikRef = useRef();
-  const [show, setShow] = useState(false);
-  const [showFail, setShowFail] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [type, setType] = useState("success");
+  const [disabled, setDisabled] = useState(false);
 
   const handleResetPassword = useCallback(
     async (values) => {
       await dispatch(getCodeResetPass(values)).then((res) => {
         if (res.payload.status === 200) {
-          setShow(!show);
+          setMessage("Hãy kiểm tra mail để lấy mã xác nhận.");
+          setType("success");
+          setOpenAlert(!openAlert);
+          setDisabled(!disabled);
+          setTimeout(() => {
+            dispatch(setShowReset());
+            dispatch(setShowPassNew());
+          }, 2000);
         } else {
-          setShowFail(!showFail);
+          setMessage("Lỗi! Vui lòng thử lại.");
+          setType("error");
+          setOpenAlert(!openAlert);
         }
       });
     },
-    [dispatch, show, showFail]
+    [disabled, dispatch, openAlert]
   );
-
-  const handleConfirmFail = useCallback(() => {
-    setShowFail(!showFail);
-  }, [showFail]);
-
-  const handleConfirm = useCallback(() => {
-    setShow(!show);
-    navigate(PATH.RESET_PASSWORD.RESET_PASSWORD_VERIFY);
-  }, [show, navigate]);
 
   return (
     <Formik
@@ -53,39 +55,33 @@ function ResetPassword(params) {
     >
       <div className="reset-password">
         <div className="form-reset">
-          <Link className="logo" to={PATH.LOGIN}>
-            <img src={shoe_bg} alt="img" />
-          </Link>
           <h2>{t("reset_password")}</h2>
           <div className="input">
-            <Input name="email" placeholder={t("email")} type="text" />
+            <Input
+              name="email"
+              placeholder={t("email")}
+              type="text"
+              disabled={disabled}
+            />
           </div>
           <div className="btn-confirm">
             <Button
               className="primary"
               onClick={() => formikRef.current?.submitForm()}
+              disabled={disabled}
             >
               {t("confirm")}
             </Button>
           </div>
         </div>
-
-        <ModalCommon
-          show={show}
-          modalTitle={t("check_mail")}
-          modalBody={null}
-          handleConfirm={handleConfirm}
-          handleCloseModal={() => setShow(!show)}
-          isButton
-        />
-        <ModalCommon
-          show={showFail}
-          modalTitle={t("action_fail", { param: t("verify") })}
-          modalBody={t("try_again")}
-          handleConfirm={handleConfirmFail}
-          handleCloseModal={() => setShowFail(!showFail)}
-          isButton
-        />
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openAlert}
+          onClose={() => setOpenAlert(!openAlert)}
+          autoHideDuration={2000}
+        >
+          <Alert severity={type}>{message}</Alert>
+        </Snackbar>
       </div>
     </Formik>
   );

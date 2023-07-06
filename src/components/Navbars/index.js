@@ -19,15 +19,20 @@ import { avatar_default, shoe, shoe_bg } from "../../assets/img";
 import {
   logout,
   setShowLogin,
+  setShowPassNew,
   setShowProfile,
+  setShowReset,
+  setShowVerify,
 } from "../../features/Authentication/authSlice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Person2Icon from "@mui/icons-material/Person2";
-import { useState } from "react";
 import ModalCommon from "../ModalCommon";
 import Profile from "../../features/User/pages/Profile";
 import { Container } from "@mui/material";
 import Login from "../../features/Authentication/page/Login";
+import VerifyRegister from "../../features/Authentication/page/VerifyRegister";
+import ResetPassword from "../../features/Authentication/page/ResetPassword";
+import Verify from "../../features/Authentication/page/ResetPassword/Verify";
 
 function Navbars() {
   const { t } = useTranslation();
@@ -38,6 +43,9 @@ function Navbars() {
   const count = useSelector((state) => state.cart.count);
   const showLogin = useSelector((state) => state.auth.showLogin);
   const showProfile = useSelector((state) => state.auth.showProfile);
+  const showVerify = useSelector((state) => state.auth.showVerify);
+  const showReset = useSelector((state) => state.auth.showReset);
+  const showPassNew = useSelector((state) => state.auth.showPassNew);
 
   const handleMenu = useCallback(() => {
     const displayMenu = document.getElementById("sidebar");
@@ -245,6 +253,27 @@ function Navbars() {
             modalBody={<Login />}
             handleConfirm={() => {}}
             handleCloseModal={() => dispatch(setShowLogin())}
+          />
+          <ModalCommon
+            show={showVerify}
+            modalTitle={null}
+            modalBody={<VerifyRegister />}
+            handleConfirm={() => {}}
+            handleCloseModal={() => dispatch(setShowVerify())}
+          />
+          <ModalCommon
+            show={showReset}
+            modalTitle={null}
+            modalBody={<ResetPassword />}
+            handleConfirm={() => {}}
+            handleCloseModal={() => dispatch(setShowReset())}
+          />
+          <ModalCommon
+            show={showPassNew}
+            modalTitle={null}
+            modalBody={<Verify />}
+            handleConfirm={() => {}}
+            handleCloseModal={() => dispatch(setShowPassNew())}
           />
         </nav>
       )}

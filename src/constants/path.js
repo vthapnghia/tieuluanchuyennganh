@@ -5,12 +5,6 @@ const PATH = {
     DETAIL_PRODUCT: "/product/:id",
   },
   HOME: "/home",
-  LOGIN: "/login",
-  VERIFY_REGISTER: "/verify-register",
-  RESET_PASSWORD: {
-    BASE: "/reset-password",
-    RESET_PASSWORD_VERIFY: "/reset-password-verify",
-  },
 
   CART: "/cart",
   ORDER: "/order",

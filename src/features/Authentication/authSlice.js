@@ -138,6 +138,10 @@ const initialState = {
   isSeller: false,
   showLogin: false,
   showProfile: false,
+  showVerify: false,
+  showReset: false,
+  showPassNew: false,
+  idRegister: null,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -148,6 +152,18 @@ const authSlice = createSlice({
     },
     setShowProfile: (state) => {
       state.showProfile = !state.showProfile;
+    },
+    setShowVerify: (state) => {
+      state.showVerify = !state.showVerify;
+    },
+    setShowReset: (state) => {
+      state.showReset = !state.showReset;
+    },
+    setShowPassNew: (state) => {
+      state.showPassNew = !state.showPassNew;
+    },
+    setIdRegister: (state, action) => {
+      state.idRegister = action.payload;
     },
   },
   extraReducers: {
@@ -187,7 +203,14 @@ const authSlice = createSlice({
 });
 
 const { reducer } = authSlice;
-const { setShowLogin, setShowProfile } = authSlice.actions;
+const {
+  setShowLogin,
+  setShowProfile,
+  setShowVerify,
+  setIdRegister,
+  setShowReset,
+  setShowPassNew,
+} = authSlice.actions;
 export {
   login,
   logout,
@@ -201,6 +224,10 @@ export {
   loginGoogle,
   adminLogin,
   setShowLogin,
-  setShowProfile
+  setShowProfile,
+  setShowVerify,
+  setIdRegister,
+  setShowReset,
+  setShowPassNew,
 };
 export default reducer;

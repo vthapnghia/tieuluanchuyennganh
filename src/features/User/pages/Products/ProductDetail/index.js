@@ -19,7 +19,8 @@ import ModalCommon from "../../../../../components/ModalCommon";
 import moment from "moment";
 import { avatar_default } from "../../../../../assets/img";
 import { currencyFormatting } from "../../../../../until/common";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
+import ProductItem from "../ProductItem";
 
 function ProductDetail() {
   const { userAuth } = useAuth();
@@ -313,37 +314,6 @@ function ProductDetail() {
               </div>
             </div>
           </div>
-          <div className="similar">
-            <div className="similar-title">{t("similar")}</div>
-            {listSimilar && listSimilar.length > 0 ? (
-              <div className="similar-list">
-                {listSimilar?.map((element, index) => {
-                  return (
-                    <div
-                      className="product-similar"
-                      key={index}
-                      onClick={() =>
-                        navigate(
-                          PATH.PRODUCT.DETAIL_PRODUCT.replace(
-                            ":id",
-                            element._id
-                          )
-                        )
-                      }
-                    >
-                      <img src={element.product_image[0]} alt="product" />
-                      <div className="product-similar-price">
-                        {currencyFormatting(element.price)}
-                      </div>
-                      <div className="product-similar-name">{element.name}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="no-similar">{t("no-similar")}</div>
-            )}
-          </div>
           <div className="comment">
             <div className="rate-product">{t("rate_product")}</div>
             {rate && rate.length > 0 ? (
@@ -412,6 +382,22 @@ function ProductDetail() {
               </div>
             ) : (
               <div className="no-comment">{t("no-comment")}</div>
+            )}
+          </div>
+          <div className="similar">
+            <div className="similar-title">{t("similar")}</div>
+            {listSimilar && listSimilar.length > 0 ? (
+              <Grid container spacing={1}>
+                {listSimilar?.map((element) => {
+                  return (
+                    <Grid item xs={3} key={element._id}>
+                      <ProductItem product={element} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            ) : (
+              <div className="no-similar">{t("no-similar")}</div>
             )}
           </div>
           <ModalCommon

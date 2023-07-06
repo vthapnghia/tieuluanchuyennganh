@@ -1,50 +1,41 @@
 import { Formik } from "formik";
 import { t } from "i18next";
 import { useCallback, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { shoe_bg } from "../../../../assets/img";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
-import ModalCommon from "../../../../components/ModalCommon";
-import PATH from "../../../../constants/path";
-import { verifyRegister } from "../../authSlice";
+import { setShowVerify, verifyRegister } from "../../authSlice";
 import "./VerifyRegister.scss";
+import { Alert, Snackbar } from "@mui/material";
 
-function VerifyRegister(params) {
+function VerifyRegister() {
   const formikRef = useRef();
-  const location = useLocation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [showFail, setShowFail] = useState(false);
+  const [message, setMessage] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [type, setType] = useState("success");
+  const id = useSelector((state) => state.auth.idRegister);
 
   const handleVerify = useCallback(
     async (values) => {
-      if (location.state.id) {
-        await dispatch(
-          verifyRegister({ data: values, id: location.state.id })
-        ).then((res) => {
-          if (res.payload.status === 200) {
-            setShow(!show);
-          } else {
-            setShowFail(!showFail);
-          }
-        });
-      }
+      await dispatch(verifyRegister({ data: values, id: id })).then((res) => {
+        if (res.payload.status === 200) {
+          setMessage("Xác thực thành công");
+          setType("success");
+          setOpenAlert(!openAlert);
+          setTimeout(() => {
+            dispatch(setShowVerify());
+          }, 2000);
+        } else {
+          setMessage("Xác thực không thành công");
+          setType("error");
+          setOpenAlert(!openAlert);
+        }
+      });
     },
-    [dispatch, location, show, showFail]
+    [dispatch, id, openAlert]
   );
-
-  const handleConfirm = useCallback(() => {
-    setShow(!show);
-    navigate(PATH.LOGIN);
-  }, [show, navigate]);
-
-  const handleConfirmFail = useCallback(() => {
-    setShowFail(!showFail);
-  }, [showFail]);
 
   return (
     <Formik
@@ -58,39 +49,32 @@ function VerifyRegister(params) {
     >
       <div className="verify-register">
         <div className="form-verify-register">
-          <Link className="logo" to={PATH.HOME}>
+          {/* <Link className="logo" to={PATH.HOME}>
             <img src={shoe_bg} alt="img" />
-          </Link>
+          </Link> */}
           <h2>{t("check_mail")}</h2>
           <div className="input">
-            <Input name="secret" placeholder={t("code_verify")} type="text" />
+            <Input name="secret" placeholder={t("code_verify")} type="text" disabled={openAlert}/>
           </div>
           <div className="btn-confirm">
             <Button
               className="primary"
               onClick={() => formikRef.current?.submitForm()}
+              disabled={openAlert}
             >
               {t("confirm")}
             </Button>
           </div>
         </div>
 
-        <ModalCommon
-          show={show}
-          modalTitle={t("action_success", { param: t("verify") })}
-          modalBody={null}
-          handleConfirm={handleConfirm}
-          handleCloseModal={() => setShow(!show)}
-          isButton
-        />
-        <ModalCommon
-          show={showFail}
-          modalTitle={t("action_fail", { param: t("verify") })}
-          modalBody={t("try_again")}
-          handleConfirm={handleConfirmFail}
-          handleCloseModal={() => setShowFail(!showFail)}
-          isButton
-        />
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={openAlert}
+          onClose={() => setOpenAlert(!openAlert)}
+          autoHideDuration={3000}
+        >
+          <Alert severity={type}>{message}</Alert>
+        </Snackbar>
       </div>
     </Formik>
   );

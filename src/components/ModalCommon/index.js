@@ -13,6 +13,7 @@ function ModalCommon({
   handleCloseModal,
   className,
   size,
+  disabled = false,
   ...props
 }) {
   return (
@@ -20,7 +21,7 @@ function ModalCommon({
       show={show}
       animation={true}
       className={`${className ? className : ""}`}
-      onHide={handleCloseModal}
+      // onHide={handleCloseModal}
       size={size}
     >
       <div className="modal-content">
@@ -34,9 +35,9 @@ function ModalCommon({
           )}
         </div>
       </div>
-      <div className="close-btn" onClick={handleCloseModal}>
+      {!disabled && <div className="close-btn" onClick={handleCloseModal}>
         x
-      </div>
+      </div>}
     </Modal>
   );
 }

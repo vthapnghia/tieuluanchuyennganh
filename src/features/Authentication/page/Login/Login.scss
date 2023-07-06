@@ -1,6 +1,6 @@
 @import "/src/assets/scss/variables.scss";
 
-#login-form {
+.login-form {
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -27,6 +27,7 @@
       }
 
       .forgot-pass {
+        cursor: pointer;
         text-align: center;
         margin: 10px 0;
         a {
@@ -43,28 +44,35 @@
     }
   }
 
-  .sign-up{
+  .btn-login {
+    
+    .img-google {
+      height: 100%;
+      width: auto;
+      padding: 10px;
+    }
+  }
+  .sign-up {
     position: absolute;
     width: 100%;
   }
-
-  &.sign-in-active {
-    .sign-in {
-      transform: translate(0, 0);
-    }
-    .sign-up {
-      top: 0 ;
-      right: -100%;
-    }
+}
+.sign-in-active {
+  .sign-in {
+    transform: translate(0, 0);
   }
+  .sign-up {
+    top: 0;
+    right: -100%;
+  }
+}
 
-  &.sign-up-active {
-    .sign-in {
-      transform: translate(-100%, 0);
-    }
-    .sign-up {
-      top: 0 ;
-      right: 0;
-    }
+.sign-up-active {
+  .sign-in {
+    transform: translate(-100%, 0);
+  }
+  .sign-up {
+    top: 0;
+    right: 0;
   }
 }

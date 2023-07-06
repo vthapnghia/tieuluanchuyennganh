@@ -6,5 +6,16 @@ import slide_2 from "./slide_2.png";
 import slide_3 from "./slide_3.png";
 import shoe from "./shoe.png";
 import background from "./bg.png";
+import google from "./google.png";
 
-export { shoe_bg, avatar_default, empty, slide_1, slide_2, slide_3, shoe, background };
+export {
+  shoe_bg,
+  avatar_default,
+  empty,
+  slide_1,
+  slide_2,
+  slide_3,
+  shoe,
+  background,
+  google,
+};

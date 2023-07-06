@@ -12,14 +12,18 @@ import {
   login,
   loginGoogle,
   register,
+  setIdRegister,
   setShowLogin,
   setShowProfile,
+  setShowReset,
+  setShowVerify,
 } from "../../authSlice";
 import Button from "./../../../../components/Button/index";
 import PATH from "../../../../constants/path";
 import { useGoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { Alert, Snackbar } from "@mui/material";
+import { google } from "../../../../assets/img";
 
 function Login() {
   const { t } = useTranslation();
@@ -29,34 +33,20 @@ function Login() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("success");
 
-  const togglerResponsive = () => {
-    setIsSignIn(!isSignIn);
-    let container = document.getElementById("login-form");
-    container.classList.toggle("sign-up-active");
-    container.classList.toggle("sign-in-active");
-    formikRef.current?.resetForm();
-  };
-
-  function containsValidate(str) {
+  const containsValidate = (str) => {
     const specialChars = /[`!@#$%^&*()_+\-={};':"|,.<>?~]/;
     return /[0-9]/.test(str) && !/^[0-9]+$/.test(str) && specialChars.test(str);
-  }
+  };
 
   const initialValues = useMemo(() => {
-    if (isSignIn) {
-      return {
-        email: "",
-        password: "",
-      };
-    }
     return {
       email: "",
       password: "",
       passwordRepeat: "",
     };
-  }, [isSignIn]);
+  }, []);
 
   const validationSchema = useMemo(() => {
     if (isSignIn) {
@@ -115,13 +105,13 @@ function Login() {
           }
         });
       } else {
-        await dispatch(register(values)).then((res) => {
+        await dispatch(register(values)).then(async (res) => {
           if (res.payload.status === 200) {
-            navigate(PATH.VERIFY_REGISTER, {
-              state: { id: res.payload.data.account._id },
-            });
+            dispatch(setIdRegister(res.payload.data.account._id));
+            dispatch(setShowVerify());
+            dispatch(setShowLogin());
           } else {
-            setMessage("Đăng nhập thất bại");
+            setMessage("Đăng ký thất bại");
             setOpenAlert(!openAlert);
             setType("error");
           }
@@ -141,7 +131,7 @@ function Login() {
           dispatch(setShowProfile());
         }
       } else {
-        setMessage("Đăng nhập thất bại");
+        setMessage("Đăng ký thất bại");
         setOpenAlert(!openAlert);
         setType("error");
       }
@@ -160,6 +150,11 @@ function Login() {
     isSignedIn: false,
   });
 
+  const handleResetPass = () => {
+    dispatch(setShowReset());
+    dispatch(setShowLogin());
+  };
+
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -171,6 +166,10 @@ function Login() {
     gapi.load("client:auth2", start);
   }, []);
 
+  useEffect(() => {
+    formikRef.current.resetForm();
+  }, [isSignIn]);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -180,9 +179,14 @@ function Login() {
       innerRef={formikRef}
     >
       <>
-        <div className="login-form sign-in-active" id="login-form">
+        <div
+          className={`login-form ${
+            isSignIn ? "sign-in-active" : "sign-up-active"
+          }`}
+        >
           <div className="sign-up">
             <h2>Đăng ký</h2>
+
             <div className="form">
               <Input
                 name="email"
@@ -215,7 +219,7 @@ function Login() {
               <p className="action">
                 <span>{t("have_account")}</span>
                 &nbsp;
-                <b onClick={togglerResponsive} className="pointer">
+                <b onClick={() => setIsSignIn(!isSignIn)} className="pointer">
                   {t("sign_in_here")}
                 </b>
               </p>
@@ -238,7 +242,7 @@ function Login() {
                 type="password"
                 leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
               />
-              <div className="d-flex flex-column ">
+              <div className="btn-login d-flex flex-column ">
                 <Button
                   className="primary"
                   onClick={() => formikRef.current?.submitForm()}
@@ -246,20 +250,21 @@ function Login() {
                   {t("login")}
                 </Button>
                 <span className="text-center d-block my-2">{t("or")}</span>
-                <Button className="primary" onClick={signIn}>
-                  <Icons.Google color={COLOR.GOOGLE_COLOR} />
+                <Button onClick={signIn}>
+                  <img className="img-google" src={google} alt="anh" /> Đăng
+                  nhập với google
                 </Button>
               </div>
 
               <p className="forgot-pass">
-                <Link to={PATH.RESET_PASSWORD.BASE} className="forgot-password">
-                  <b>{t("forgot_password")}</b>
-                </Link>
+                <div className="forgot-password">
+                  <b onClick={handleResetPass}>{t("forgot_password")}</b>
+                </div>
               </p>
               <p className="action">
                 <span>{t("no_account")}</span>
                 &nbsp;
-                <b onClick={togglerResponsive} className="pointer">
+                <b onClick={() => setIsSignIn(!isSignIn)} className="pointer">
                   {t("sign_up_here")}
                 </b>
               </p>
