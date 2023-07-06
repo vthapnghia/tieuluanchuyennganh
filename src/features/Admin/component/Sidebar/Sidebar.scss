@@ -2,52 +2,40 @@
 
 .sidebar {
   padding: 20px;
-  width: 280px;
-  min-height: 100vh;
+  width: 250px;
+  min-height: calc(100vh - 80px);
   position: fixed;
+  top: 80px;
   left: 0;
   transition: all 1s;
   background-color: $white;
   transition: 1s ease-in-out;
   z-index: 2;
 
-  .sidebar-header {
-    line-height: 100px;
-    text-align: center;
-    font-size: 32px;
-    font-weight: 600;
-    color: $main_color;
-    img {
-      height: 150px;
-      width: 150px;
-      border-radius: 100%;
-    }
-  }
-
   .sidebar-action {
     height: calc(100% - 150px);
+
     .action-item {
       height: 40px;
       list-style: none;
-      margin-bottom: 10px;
-      background-color: $main_color;
-      border-radius: 8px;
-      text-align: center;
-      line-height: 40px;
-      position: relative;
-      div:first-child {
-        position: absolute;
-        top: 50%;
-        left: 15px;
-        display: flex;
-        align-items: center;
-        transform: translate(0, -50%);
+      text-align: left;
+      opacity: 0.5;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      margin: 20px 0 0 10px;
+      cursor: pointer;
+      padding: 0 20px ;
+      font-weight: 500;
+
+      &:hover{
+        opacity: 0.9;
       }
-      div:last-child {
-        text-decoration: none;
-        color: $white;
-        cursor: pointer;
-      }
+    }
+
+    .active{
+      background: #fcf1ef;
+      opacity: 0.9;
     }
   }
 

@@ -6,9 +6,10 @@
   flex-direction: row;
   .content-page {
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px) ;
+    margin-top: 80px;
     transition: 1s ease-in-out;
-    margin-left: 280px;
+    margin-left: 250px;
     .child-component {
       padding: 20px;
     }

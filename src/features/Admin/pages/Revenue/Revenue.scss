@@ -2,32 +2,35 @@
 
 #revenue {
   min-height: 100vh;
-  background-color: #fff;
+  // background-color: #fff;
   border-radius: 4px;
   padding: 20px;
 
   .display-total {
-    height: 100px;
+    height: 150px;
     margin: 0 0 20px;
+
     .month-current,
     .year-current {
       border: 1px solid #ddd;
       border-radius: 4px;
-      padding: 10px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-
-      span{
+      background-color: #fff;
+      span {
         color: $black;
         font-weight: 600;
-        font-size: 20px;
+        font-size: 24px;
+        opacity: 0.7;
       }
 
-      .total-month, .total-year{
+      .total-month,
+      .total-year {
         margin: auto;
         color: $red;
-        font-weight: 500;
-        font-size: 16px;
+        font-weight: 600;
+        font-size: 20px;
       }
     }
   }

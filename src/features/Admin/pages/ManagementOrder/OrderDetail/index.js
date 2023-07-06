@@ -112,6 +112,9 @@ function OrderDetail(params) {
     }
   }, [orderById, orderById?.order.ship_id, ship]);
 
+
+  useEffect(() => {console.log(orderById?.orderDetail)}, [orderById?.orderDetail])
+
   return useMemo(
     () => (
       <div className="admin-order-detail">

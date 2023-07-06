@@ -5,13 +5,12 @@ import Navbars from "./../../components/Navbars/index";
 function Admin(props) {
   return (
     <div className="admin" style={{ background: "#eff2f1" }}>
+      <Navbars />
       <SideBar />
       <div className="content-page">
-        <Navbars />
         <div className="child-component">
           <props.component />
         </div>
-        
       </div>
     </div>
   );

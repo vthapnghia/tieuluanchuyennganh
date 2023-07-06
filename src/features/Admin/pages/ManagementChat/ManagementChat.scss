@@ -35,16 +35,10 @@
 
       .item-chat {
         display: flex;
-        padding-left: 22px;
-        width: 100%;
-        padding: 19px;
+        margin: 20px;
+        padding: 10px;
         align-items: center;
-
         cursor: pointer;
-        &:hover {
-          background-color: #3b5d50;
-          color: #fff;
-        }
         .avatar {
           height: 40px;
           width: 40px;
@@ -56,8 +50,9 @@
           display: inline-flex;
           flex-direction: column;
           min-width: 0;
-          padding-left: 14px;
+          padding-left: 16px;
           width: 100%;
+          font-weight: 500;
           div {
             white-space: nowrap;
             width: 100%;
@@ -306,8 +301,8 @@
       }
 
       .item-click {
-        background-color: #3b5d50;
-        color: #fff;
+        background-color: #fcf1ef;
+        color: black;
       }
     }
 

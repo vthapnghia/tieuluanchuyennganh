@@ -19,6 +19,8 @@ const PATH = {
   NOT_FOUND: "/*",
   ADMIN: {
     LOGIN: "/admin",
+    RESET_PASSWORD: "/admin/reset-password",
+    NEW_PASSWORD: "/admin/new-password",
     ACCOUNT: "/admin/management-account",
     PRODUCTS: {
       BASE: "/admin/management-product",

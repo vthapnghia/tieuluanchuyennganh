@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import moment from "moment/moment";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../../../../constants/path";
 import "./TabItem.scss";
@@ -8,22 +8,6 @@ import { currencyFormatting } from "../../../../../until/common";
 
 function TabItem({ orders, id, classTab }) {
   const navigate = useNavigate();
-
-  const getHeaderByStatus = useCallback((orderStatus) => {
-    let status = "";
-    switch (orderStatus) {
-      case 1:
-        status = t("in_order");
-        break;
-      case 2:
-        status = t("in_ship");
-        break;
-      default:
-        status = t("complete");
-        break;
-    }
-    return status;
-  }, []);
 
   const totalItemProduct = useCallback((quantity, price, discount) => {
     return quantity * (price * (1 - discount / 100));
@@ -35,7 +19,7 @@ function TabItem({ orders, id, classTab }) {
     },
     [navigate]
   );
-
+  useEffect(() => {}, [orders]);
   return (
     <div id={id} className={`${classTab} order-by-status`}>
       {orders.map((orderItem, index) => {
@@ -71,8 +55,16 @@ function TabItem({ orders, id, classTab }) {
                 </div>
               );
             })}
-            <div className="footer" style={{ color: "#fda223" }}>
-              {`${t("into_money")}: ${currencyFormatting(orderItem.orderTotal)}`}
+            <div className="footer">
+              <span>
+                Ngày đặt hàng:{" "}
+                {moment(new Date(orderItem?.orderCreateDay)).format(
+                  "DD-MM-YYYY"
+                )}
+              </span>
+              <span>{`${t(
+                "into_money"
+              )}: ${currencyFormatting(orderItem.orderTotal)}`}</span>
             </div>
           </div>
         );

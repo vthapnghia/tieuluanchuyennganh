@@ -167,12 +167,17 @@
 
 .custom-navbar-admin {
   height: 80px;
-  width: 100%;
   background-color: $white;
   display: flex;
   align-items: center;
   padding: 20px;
   transition: all 1s;
+  position: fixed !important;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  left: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   .nav-title {
     color: $black;

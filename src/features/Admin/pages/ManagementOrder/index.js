@@ -182,7 +182,12 @@ function ManagementOrder() {
     if (fromDate && toDate && to - from >= 0 && from - to <= 0) {
       setParam({
         ...param,
-        dateFrom: moment(new Date(from)).format("YYYY/MM/DD"),
+        dateFrom: moment(new Date(fromDate)).format("YYYY/MM/DD"),
+        dateTo: moment(new Date(toDate)).format("YYYY/MM/DD"),
+      });
+      console.log({
+        ...param,
+        dateFrom: moment(new Date(fromDate)).format("YYYY/MM/DD"),
         dateTo: moment(new Date(toDate)).format("YYYY/MM/DD"),
       });
       setErrFromDate("");
@@ -241,6 +246,11 @@ function ManagementOrder() {
       setOrders(allOrder);
     }
   }, [allOrder]);
+
+
+  useEffect(() => {
+    console.log(allOrder);
+  }, [allOrder])
 
   return useMemo(
     () => (

@@ -6,12 +6,14 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../../../constants/global";
-import { shoe_bg } from "../../../../assets/img";
 import { useAuth } from "../../../../until/hooks";
+import { useState } from "react";
 
-function SideBar(params) {
+function SideBar() {
   const navigate = useNavigate();
   const { is_admin } = useAuth();
+  const [active, setActive] = useState(0);
+
   const handleTurnOffMenu = useCallback(() => {
     const Menu = document.getElementById("sidebar");
     const displayMenu = Menu.classList.contains("display-sidebar");
@@ -21,9 +23,10 @@ function SideBar(params) {
   }, []);
 
   const handleMenu = useCallback(
-    (path) => {
+    (path, index) => {
       handleTurnOffMenu();
       navigate(path);
+      setActive(index);
     },
     [handleTurnOffMenu, navigate]
   );
@@ -33,24 +36,27 @@ function SideBar(params) {
       <div className="arrow-left" onClick={handleTurnOffMenu}>
         <Icons.ArrowLeft />
       </div>
-      <div className="sidebar-header">
-        <img src={shoe_bg} alt="img" />
-      </div>
-      <hr />
       <div className="sidebar-action">
         {!is_admin
           ? SIDEBAR_PATH_SELLER.map((item, index) => {
               return (
-                <div className="action-item" key={index}>
-                  <div>{item.icon}</div>
-                  <div onClick={() => handleMenu(item.path)} >{item.name}</div>
+                <div
+                  className={`action-item ${active === index ? "active" : ""}`}
+                  key={index}
+                  onClick={() => handleMenu(item.path, index)}
+                >
+                  <span>{item.name}</span>
                 </div>
               );
             })
           : SIDEBAR_PATH_ADMIN.map((item, index) => {
               return (
-                <div className="action-item" key={index}>
-                  <div onClick={() => handleMenu(item.path)}>{item.name}</div>
+                <div
+                  className={`action-item ${active === index ? "active" : ""}`}
+                  key={index}
+                  onClick={() => handleMenu(item.path, index)}
+                >
+                  <span>{item.name}</span>
                 </div>
               );
             })}

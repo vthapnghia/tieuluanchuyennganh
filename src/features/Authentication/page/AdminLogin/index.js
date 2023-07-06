@@ -54,9 +54,6 @@ function AdminLogin(params) {
     >
       <div className="admin-login">
         <div className="login-admin-form ">
-          <Link className="logo" to={PATH.HOME}>
-            <img src={shoe_bg} alt="img" />
-          </Link>
           <div className="header-login">
             <span>{t("login")}</span>
           </div>
@@ -76,9 +73,14 @@ function AdminLogin(params) {
               leftIcon={<Icons.Lock color={COLOR.GRAY_2} />}
             />
           </div>
-          <Link to={PATH.RESET_PASSWORD.BASE} className="forgot-password">
-            <b>{t("forgot_password")}</b>
-          </Link>
+          <div className="action">
+            <Link to={PATH.ADMIN.RESET_PASSWORD} className="forgot-password">
+              <b>{t("forgot_password")}</b>
+            </Link>
+            <Link className="back-home" to={PATH.HOME}>
+              <b>Trang chủ</b>
+            </Link>
+          </div>
 
           <div className="btn-admin-login">
             <Button

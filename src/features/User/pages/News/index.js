@@ -33,8 +33,6 @@ function News() {
               {allNews?.news.map((item) => {
                 return (
                   <div
-                    item
-                    xs={3}
                     className="post-item"
                     key={item._id}
                     onClick={() =>
@@ -43,7 +41,7 @@ function News() {
                   >
                     <div className="post-thumbnail">
                       <img
-                        src={item.thumbnail || shoe_bg}
+                        src={item?.thumbnail || shoe_bg}
                         alt="post"
                         className="img-fluid"
                       />
@@ -53,7 +51,7 @@ function News() {
                       <div className="date-post">
                         <CalendarTodayIcon fontSize="mini" />
                         <span className="date">
-                          {moment(new Date(item?.created_at)).format(
+                          {moment(new Date(item.created_at)).format(
                             "DD-MM-YYYY"
                           )}
                         </span>

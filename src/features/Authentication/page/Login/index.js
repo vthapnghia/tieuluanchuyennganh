@@ -131,7 +131,7 @@ function Login() {
           dispatch(setShowProfile());
         }
       } else {
-        setMessage("Đăng ký thất bại");
+        setMessage("Đăng nhập thất bại");
         setOpenAlert(!openAlert);
         setType("error");
       }
@@ -146,7 +146,7 @@ function Login() {
     onSuccess,
     onFailure,
     clientId:
-      "264515854372-s517e9apc7mb0v86a0r4cc9ru33tv5k2.apps.googleusercontent.com",
+      "497625846466-277bktd2k9ktahd3sc4rvghk76d9bn24.apps.googleusercontent.com",
     isSignedIn: false,
   });
 
@@ -159,7 +159,7 @@ function Login() {
     function start() {
       gapi.client.init({
         clientId:
-          "264515854372-s517e9apc7mb0v86a0r4cc9ru33tv5k2.apps.googleusercontent.com",
+          "497625846466-277bktd2k9ktahd3sc4rvghk76d9bn24.apps.googleusercontent.com",
         scope: "email",
       });
     }
@@ -216,13 +216,13 @@ function Login() {
                 {t("register")}
               </Button>
               <br></br>
-              <p className="action">
+              <div className="action">
                 <span>{t("have_account")}</span>
                 &nbsp;
                 <b onClick={() => setIsSignIn(!isSignIn)} className="pointer">
                   {t("sign_in_here")}
                 </b>
-              </p>
+              </div>
             </div>
           </div>
 
@@ -256,18 +256,18 @@ function Login() {
                 </Button>
               </div>
 
-              <p className="forgot-pass">
+              <div className="forgot-pass">
                 <div className="forgot-password">
                   <b onClick={handleResetPass}>{t("forgot_password")}</b>
                 </div>
-              </p>
-              <p className="action">
+              </div>
+              <div className="action">
                 <span>{t("no_account")}</span>
                 &nbsp;
                 <b onClick={() => setIsSignIn(!isSignIn)} className="pointer">
                   {t("sign_up_here")}
                 </b>
-              </p>
+              </div>
             </div>
           </div>
         </div>

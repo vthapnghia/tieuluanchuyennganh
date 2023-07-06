@@ -108,7 +108,11 @@ function Cart() {
       { label: t("price"), align: "center", width: "15%" },
       { label: t("size"), align: "center", width: "10%" },
       { label: t("quantity"), align: "center", width: "12%" },
-      { label: t("title_total"), align: "center", width: "15%" },
+      {
+        label: t("title_total"),
+        align: "center",
+        width: "15%",
+      },
     ],
     [t]
   );
@@ -143,9 +147,9 @@ function Cart() {
             width: "25%",
           },
           {
-            label: `${
+            label: `${currencyFormatting(
               element.product.price * (1 - element.product.discount / 100)
-            } ₫`,
+            )} `,
             align: "center",
             width: "15%",
           },
@@ -180,11 +184,11 @@ function Cart() {
             width: "12%",
           },
           {
-            label: `${
+            label: `${currencyFormatting(
               element.product.price *
-              (1 - element.product.discount / 100) *
-              element.quantity
-            } ₫`,
+                (1 - element.product.discount / 100) *
+                element.quantity
+            )}`,
             align: "center",
             width: "15%",
           },
