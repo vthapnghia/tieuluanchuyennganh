@@ -1,13 +1,18 @@
 @import "/src/assets/scss/variables.scss";
 #cart {
   margin-top: 80px;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 145px);
 
   .no-product {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    .img-product{
+      height: 300px;
+      width: 300px;
+      
+    }
   }
 
   .info-purchase {

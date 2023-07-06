@@ -260,7 +260,7 @@ function OrderDetail(params) {
       onSubmit={handleSubmitRate}
     >
       <div id="user-order-detail">
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <div className="status">
             <div className="status-item">
               <div
@@ -583,7 +583,7 @@ function OrderDetail(params) {
           <Grid container columnSpacing={2}>
             {products?.map((itemProduct) => {
               return (
-                <Grid item xs={2} key={itemProduct._id}>
+                <Grid item xs={3} key={itemProduct._id}>
                   <ProductItem product={itemProduct} />
                 </Grid>
               );

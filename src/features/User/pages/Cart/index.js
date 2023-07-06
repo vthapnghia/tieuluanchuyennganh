@@ -394,7 +394,7 @@ function Cart() {
               </Grid>
             ) : (
               <div className="no-product">
-                <img src={empty} alt="no product" />
+                <img className="img-product" src={empty} alt="no product" />
                 <h2>{t("no_product_in_cart")}</h2>
                 <Button
                   className="primary"

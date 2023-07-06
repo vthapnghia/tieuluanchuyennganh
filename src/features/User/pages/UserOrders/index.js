@@ -57,7 +57,7 @@ function UserOrders() {
   return useMemo(
     () => (
       <div id="user-order">
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid container columnSpacing={5}>
             <Grid item xs={2}></Grid>
             <Grid item xs={9}>
@@ -169,7 +169,7 @@ function UserOrders() {
                 <Grid container columnSpacing={3}>
                   {products?.map((itemProduct) => {
                     return (
-                      <Grid item xs={3} key={itemProduct._id}>
+                      <Grid item xs={4} key={itemProduct._id}>
                         <ProductItem product={itemProduct} />
                       </Grid>
                     );
