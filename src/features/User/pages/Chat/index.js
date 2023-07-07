@@ -15,7 +15,7 @@ import io from "socket.io-client";
 import { useRef } from "react";
 import ModalImage from "../../../../components/ModalImage";
 
-const socket = io("https://khoa.hosting.xuantan97.com/");
+const socket = io("http://localhost:8080");
 
 function Chat() {
   const { t } = useTranslation();

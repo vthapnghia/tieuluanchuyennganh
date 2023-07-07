@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "https://khoa.hosting.xuantan97.com/",
+  baseURL: "http://localhost:8080/",
 });
 
 // Add a request interceptor

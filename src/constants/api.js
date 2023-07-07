@@ -80,6 +80,12 @@ const API_URL = {
     ADMIN: "chats/userList",
     IS_READ: "chats/isRead",
   },
+
+  FAVORITE:{
+    ALL: "likes",
+    LIKE: "likes",
+    UNLIKE: "likes",
+  }
 };
 
 export default API_URL;
