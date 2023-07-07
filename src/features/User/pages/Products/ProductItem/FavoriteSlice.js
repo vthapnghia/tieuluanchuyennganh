@@ -13,19 +13,26 @@ const getAllFavorites = createAsyncThunk(
   }
 );
 
-const like = createAsyncThunk(
-  "LIKE",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await favoriteAPI.like(data);
-      return res;
-    } catch (e) {
-      rejectWithValue(e);
-    }
+const like = createAsyncThunk("LIKE", async (data, { rejectWithValue }) => {
+  try {
+    const res = await favoriteAPI.like(data);
+    return res;
+  } catch (e) {
+    rejectWithValue(e);
   }
-);
+});
+
+const unlike = createAsyncThunk("UNLIKE", async (data, { rejectWithValue }) => {
+  try {
+    const res = await favoriteAPI.unlike(data);
+    return res;
+  } catch (e) {
+    rejectWithValue(e);
+  }
+});
 const initialState = {
   favorites: [],
+  count: 0,
 };
 
 const FavoriteSlice = createSlice({
@@ -33,11 +40,12 @@ const FavoriteSlice = createSlice({
   initialState,
   extraReducers: {
     [getAllFavorites.fulfilled]: (state, action) => {
-      state.favorites = action.payload.data;
-    }
+      state.favorites = action.payload.data?.likes;
+      state.count = action.payload.data?.count;
+    },
   },
 });
 
 const { reducer } = FavoriteSlice;
-export { getAllFavorites, like };
+export { getAllFavorites, like, unlike };
 export default reducer;

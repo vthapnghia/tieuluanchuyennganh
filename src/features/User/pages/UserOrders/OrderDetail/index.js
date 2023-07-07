@@ -26,6 +26,7 @@ import { currencyFormatting } from "../../../../../until/common";
 import { Container, Grid } from "@mui/material";
 import { getProduct } from "../../Products/ProductSlice";
 import ProductItem from "../../Products/ProductItem";
+import { getAllFavorites } from "../../Products/ProductItem/FavoriteSlice";
 
 function OrderDetail(params) {
   const { id } = useParams();
@@ -45,6 +46,7 @@ function OrderDetail(params) {
   const [editFlag, setEditFlag] = useState(false);
   const [methodShip, setMethodShip] = useState();
   const formikRef = useRef();
+  const favorites = useSelector((state) => state.favorite.favorites);
   const navigate = useNavigate();
 
   const totalItemProduct = useCallback((quantity, price, discount) => {
@@ -67,6 +69,20 @@ function OrderDetail(params) {
     },
     []
   );
+
+  const isLike = (id) => {
+    const check = favorites.find((item) => {
+      return item._id === id;
+    });
+    if (check) {
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    dispatch(getAllFavorites());
+  }, [dispatch]);
 
   const modalBody = useMemo(() => {
     return (
@@ -584,7 +600,10 @@ function OrderDetail(params) {
             {products?.map((itemProduct) => {
               return (
                 <Grid item xs={3} key={itemProduct._id}>
-                  <ProductItem product={itemProduct} />
+                  <ProductItem
+                    product={itemProduct}
+                    isLike={isLike(itemProduct._id)}
+                  />
                 </Grid>
               );
             })}

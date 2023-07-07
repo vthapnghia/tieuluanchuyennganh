@@ -8,7 +8,11 @@ const favoriteAPI = {
   },
   like: (data) => {
     const url = API_URL.FAVORITE.LIKE;
-    return doRequest("post", url, data);
+    return doRequest("post", url, { data });
+  },
+  unlike: (data) => {
+    const url = API_URL.FAVORITE.UNLIKE;
+    return doRequest("delete", url, { data });
   },
 };
 

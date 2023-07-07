@@ -5,8 +5,28 @@ import "./ProductItem.scss";
 import { currencyFormatting } from "../../../../../until/common";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { useDispatch } from "react-redux";
+import { getAllFavorites, like, unlike } from "./FavoriteSlice";
 
-function ProductItem({ product }) {
+function ProductItem({ product, isLike = false }) {
+  const dispatch = useDispatch();
+
+  const handleFavorite = async () => {
+    if (isLike) {
+      await dispatch(unlike({ product_id: product._id })).then((res) => {
+        if (res.payload.status === 200) {
+          dispatch(getAllFavorites());
+        }
+      });
+    } else {
+      await dispatch(like({ product_id: product._id })).then(async (res) => {
+        if (res.payload.status === 201) {
+          await dispatch(getAllFavorites());
+        }
+      });
+    }
+  };
+
   return (
     <div id="product-item">
       <div className="product-img">
@@ -14,10 +34,13 @@ function ProductItem({ product }) {
           src={product?.product_image[1] || product?.product_image[0]}
           alt="no_1"
           className="no_1"
-        />{" "}
+        />
         <img src={product?.product_image[0]} alt="no_2" className="no_2" />
         <div className="action">
-          <div className="icon-favorite">
+          <div
+            className={`icon-favorite ${isLike && "icon-like"}`}
+            onClick={handleFavorite}
+          >
             <FavoriteIcon />
           </div>
           <Link
@@ -39,7 +62,9 @@ function ProductItem({ product }) {
         <div className="price">
           {product?.discount > 0 && (
             <span className="price-discount">
-              {currencyFormatting(product?.price * (1 - product?.discount / 100))}
+              {currencyFormatting(
+                product?.price * (1 - product?.discount / 100)
+              )}
             </span>
           )}
           <span
