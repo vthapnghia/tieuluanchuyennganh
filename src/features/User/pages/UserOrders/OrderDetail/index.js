@@ -27,7 +27,6 @@ import { Container, Grid } from "@mui/material";
 import { getProduct } from "../../Products/ProductSlice";
 import ProductItem from "../../Products/ProductItem";
 import { getAllFavorites } from "../../Products/ProductItem/FavoriteSlice";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { cancel } from "../../../../../assets/img";
 
 function OrderDetail(params) {
