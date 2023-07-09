@@ -1,7 +1,8 @@
 import axios from "axios";
+import { HOST } from "./constants/global";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: `${HOST.PRODUCTS}/`,
 });
 
 // Add a request interceptor

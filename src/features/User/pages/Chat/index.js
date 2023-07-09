@@ -14,8 +14,9 @@ import { useMemo } from "react";
 import io from "socket.io-client";
 import { useRef } from "react";
 import ModalImage from "../../../../components/ModalImage";
+import { HOST } from "../../../../constants/global";
 
-const socket = io("http://localhost:8080");
+const socket = io(HOST.PRODUCTS);
 
 function Chat() {
   const { t } = useTranslation();

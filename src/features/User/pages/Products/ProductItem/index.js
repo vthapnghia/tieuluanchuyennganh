@@ -13,7 +13,7 @@ function ProductItem({ product, isLike = false }) {
 
   const handleFavorite = async () => {
     if (isLike) {
-      await dispatch(unlike({ product_id: product._id })).then((res) => {
+      await dispatch(unlike(product._id)).then((res) => {
         if (res.payload.status === 200) {
           dispatch(getAllFavorites());
         }

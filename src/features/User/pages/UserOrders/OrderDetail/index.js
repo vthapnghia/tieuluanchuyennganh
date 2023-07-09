@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Icons from "../../../../../components/Icons";
-import { getOrderById, removeUserOrder } from "../UserOrderSlice";
+import { cancelOrder, getOrderById, removeUserOrder } from "../UserOrderSlice";
 import "./OrderDetail.scss";
 import ModalCommon from "../../../../../components/ModalCommon";
 import Input from "../../../../../components/Input";
@@ -27,6 +27,8 @@ import { Container, Grid } from "@mui/material";
 import { getProduct } from "../../Products/ProductSlice";
 import ProductItem from "../../Products/ProductItem";
 import { getAllFavorites } from "../../Products/ProductItem/FavoriteSlice";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { cancel } from "../../../../../assets/img";
 
 function OrderDetail(params) {
   const { id } = useParams();
@@ -243,6 +245,14 @@ function OrderDetail(params) {
     [navigate]
   );
 
+  const handleCancelOrder = async () => {
+    await dispatch(cancelOrder(id)).then(async (res) => {
+      if (res?.payload?.status === 200) {
+        await dispatch(getOrderById(id));
+      }
+    });
+  };
+
   useEffect(() => {
     dispatch(getAllShip());
     dispatch(getOrderById(id));
@@ -278,120 +288,143 @@ function OrderDetail(params) {
       <div id="user-order-detail">
         <Container maxWidth="lg">
           <div className="status">
-            <div className="status-item">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: `${
-                    orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              >
-                <Icons.Receipt
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}
-                />
+            {orderById?.order.status !== 500 ? (
+              <>
+                <div className="status-item">
+                  <div
+                    className="status-icon"
+                    style={{
+                      borderColor: `${
+                        orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  >
+                    <Icons.Receipt
+                      height="40"
+                      width="40"
+                      color={orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}
+                    />
+                  </div>
+                  <div
+                    className="status-line"
+                    style={{
+                      background: `${
+                        orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  ></div>
+                  <div
+                    className="status-label"
+                    style={{
+                      color: `${
+                        orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  >
+                    {t("in_order")}
+                  </div>
+                </div>
+                <div className="status-item">
+                  <div
+                    className="status-icon"
+                    style={{
+                      borderColor: `${
+                        orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  >
+                    <Icons.TruckFull
+                      height="40"
+                      width="40"
+                      color={orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}
+                    />
+                  </div>
+                  <div
+                    className="status-line"
+                    style={{
+                      background: `${
+                        orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  ></div>
+                  <div
+                    className="status-label"
+                    style={{
+                      color: `${
+                        orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  >
+                    {t("in_ship")}
+                  </div>
+                </div>
+                <div className="status-item">
+                  <div
+                    className="status-icon"
+                    style={{
+                      borderColor: `${
+                        orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  >
+                    <Icons.BoxOpen
+                      height="40"
+                      width="40"
+                      color={orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}
+                    />
+                  </div>
+                  <div
+                    className="status-line"
+                    style={{
+                      background: `${
+                        orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  ></div>
+                  <div
+                    className="status-label"
+                    style={{
+                      color: `${
+                        orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
+                      }`,
+                    }}
+                  >
+                    {t("complete")}
+                  </div>
+                </div>
+                <div className="status-item status-item-end">
+                  <div
+                    className="status-icon"
+                    style={{
+                      borderColor: borderColorRate,
+                    }}
+                  >
+                    <Icons.Star
+                      height="40"
+                      width="40"
+                      color={borderColorRate}
+                    />
+                  </div>
+                  <div
+                    className="status-label"
+                    style={{
+                      color: borderColorRate,
+                    }}
+                  >
+                    {t("rate")}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="status-item-cancel">
+                <img className="img-cancel" src={cancel} alt="" />
+                <div
+                  className="status-label"
+                >
+                  Đơn hàng đã hủy
+                </div>
               </div>
-              <div
-                className="status-line"
-                style={{
-                  background: `${
-                    orderById?.order.status >= 1 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              ></div>
-              <div
-                className="status-label"
-                style={{
-                  color: `${orderById?.order.status >= 1 ? "#2dc258" : "#ccc"}`,
-                }}
-              >
-                {t("in_order")}
-              </div>
-            </div>
-            <div className="status-item">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: `${
-                    orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              >
-                <Icons.TruckFull
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}
-                />
-              </div>
-              <div
-                className="status-line"
-                style={{
-                  background: `${
-                    orderById?.order.status >= 2 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              ></div>
-              <div
-                className="status-label"
-                style={{
-                  color: `${orderById?.order.status >= 2 ? "#2dc258" : "#ccc"}`,
-                }}
-              >
-                {t("in_ship")}
-              </div>
-            </div>
-            <div className="status-item">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: `${
-                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              >
-                <Icons.BoxOpen
-                  height="40"
-                  width="40"
-                  color={orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}
-                />
-              </div>
-              <div
-                className="status-line"
-                style={{
-                  background: `${
-                    orderById?.order.status >= 3 ? "#2dc258" : "#ccc"
-                  }`,
-                }}
-              ></div>
-              <div
-                className="status-label"
-                style={{
-                  color: `${orderById?.order.status >= 3 ? "#2dc258" : "#ccc"}`,
-                }}
-              >
-                {t("complete")}
-              </div>
-            </div>
-            <div className="status-item status-item-end">
-              <div
-                className="status-icon"
-                style={{
-                  borderColor: borderColorRate,
-                }}
-              >
-                <Icons.Star height="40" width="40" color={borderColorRate} />
-              </div>
-              <div
-                className="status-label"
-                style={{
-                  color: borderColorRate,
-                }}
-              >
-                {t("rate")}
-              </div>
-            </div>
+            )}
           </div>
           <div className="info-detail row">
             <div className="address col-sm-12 col-md-4">
@@ -585,6 +618,13 @@ function OrderDetail(params) {
                   )}
                 </span>
               </div>
+              {orderById?.order.status === 1 && (
+                <div className="cancel-oreder">
+                  <Button className="red" onClick={handleCancelOrder}>
+                    Hủy đơn hàng
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
           <div

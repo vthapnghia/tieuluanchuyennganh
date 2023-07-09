@@ -11,8 +11,8 @@ const favoriteAPI = {
     return doRequest("post", url, { data });
   },
   unlike: (data) => {
-    const url = API_URL.FAVORITE.UNLIKE;
-    return doRequest("delete", url, { data });
+    const url = API_URL.FAVORITE.UNLIKE.replace(":id", data);
+    return doRequest("delete", url);
   },
 };
 

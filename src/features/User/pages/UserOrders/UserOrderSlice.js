@@ -37,6 +37,18 @@ const updateOrderById = createAsyncThunk(
   }
 );
 
+const cancelOrder = createAsyncThunk(
+  "CANCEL_ORDER",
+  async (param, { rejectWithValue }) => {
+    try {
+      const res = await orderAPI.cancelOrder(param);
+      return res;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   allOrder: null,
   orderById: null,
@@ -52,7 +64,7 @@ const OrderSlice = createSlice({
     removeUserOrder: (state, action) => {
       state.allOrder = null;
       state.orderById = null;
-    }
+    },
   },
   extraReducers: {
     [getAllOrder.fulfilled]: (state, action) => {
@@ -68,5 +80,12 @@ const OrderSlice = createSlice({
 
 const { reducer } = OrderSlice;
 const { setOrderByID, removeUserOrder } = OrderSlice.actions;
-export { getAllOrder, getOrderById, updateOrderById, setOrderByID, removeUserOrder };
+export {
+  getAllOrder,
+  getOrderById,
+  updateOrderById,
+  setOrderByID,
+  removeUserOrder,
+  cancelOrder,
+};
 export default reducer;

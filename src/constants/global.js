@@ -124,6 +124,11 @@ const OPTIONS_YEAR = [
 
 const CURRENT_DATE = new Date();
 
+const HOST = {
+  PRODUCTS: "https://khoa.hosting.xuantan97.com",
+  DEV: "http://localhost:3000"
+}
+
 export {
   KEY_STORAGE,
   COLOR,
@@ -141,4 +146,5 @@ export {
   OPTIONS_MONTH,
   CURRENT_DATE,
   OPTIONS_YEAR,
+  HOST
 };

@@ -30,6 +30,11 @@ const orderAPI = {
     const url = API_URL.ORDER.UPDATE_ORDER_BY_ID.replace(":id", data);
     return doRequest("put", url);
   },
+  cancelOrder: (data) => {
+    const url = API_URL.ORDER.CANCEL_ORDER.replace(":id", data);
+    console.log(url);
+    return doRequest("delete", url);
+  },
 };
 
 export default orderAPI;

@@ -7,6 +7,7 @@ import slide_3 from "./slide_3.png";
 import shoe from "./Shoe.png";
 import background from "./bg.png";
 import google from "./google.png";
+import cancel from "./cancel.png";
 
 export {
   shoe_bg,
@@ -18,4 +19,5 @@ export {
   shoe,
   background,
   google,
+  cancel
 };

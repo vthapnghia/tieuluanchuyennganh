@@ -95,34 +95,41 @@ function UserOrders() {
           <Grid item xs={9}>
             {optionIndex ? (
               <>
-                <div className="tab-header row">
+                <div className="tab-header">
                   <div
-                    className="tab-header-item col-md-3 text-center is-active"
+                    className="tab-header-item text-center is-active"
                     id="tab-0"
                     onClick={() => handleClickTab(0)}
                   >
                     {t("all")}
                   </div>
                   <div
-                    className="tab-header-item col-md-3 text-center"
+                    className="tab-header-item text-center"
                     id="tab-1"
                     onClick={() => handleClickTab(1)}
                   >
                     {t("in_order")}
                   </div>
                   <div
-                    className="tab-header-item col-md-3 text-center"
+                    className="tab-header-item text-center"
                     id="tab-2"
                     onClick={() => handleClickTab(2)}
                   >
                     {t("in_ship")}
                   </div>
                   <div
-                    className="tab-header-item col-md-3 text-center"
+                    className="tab-header-item text-center"
                     id="tab-3"
                     onClick={() => handleClickTab(3)}
                   >
                     {t("complete")}
+                  </div>
+                  <div
+                    className="tab-header-item text-center"
+                    id="tab-500"
+                    onClick={() => handleClickTab(500)}
+                  >
+                    Đã hủy
                   </div>
                 </div>
                 {allOrder && allOrder.length > 0 && (
@@ -167,6 +174,17 @@ function UserOrders() {
                       />
                     ) : (
                       <div className={tab !== 3 ? "no-active" : "no-order"}>
+                        <img src={empty} alt="empty" />
+                        <span>{t("no_order")}</span>
+                      </div>
+                    )}
+                    {orderByStatus(500) && orderByStatus(500).length > 0 ? (
+                      <TabItem
+                        orders={orderByStatus(500)}
+                        classTab={`${tab !== 500 ? "no-active" : ""} tab-item`}
+                      />
+                    ) : (
+                      <div className={tab !== 500 ? "no-active" : "no-order"}>
                         <img src={empty} alt="empty" />
                         <span>{t("no_order")}</span>
                       </div>
