@@ -15,7 +15,7 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../constants/global";
-import { avatar_default, shoe, shoe_bg } from "../../assets/img";
+import { avatar_default, shoe, shoe_1, shoe_bg } from "../../assets/img";
 import {
   logout,
   setShowLogin,
@@ -122,7 +122,7 @@ function Navbars() {
         >
           <div className="container">
             <Link className="navbar-brand" to="/" style={{ height: "100%" }}>
-              <img src={shoe} alt="img" height={"100%"} width={"auto"} />
+              <img src={shoe_1} alt="img" height={"100%"} width={"auto"} />
             </Link>
             <button
               className="navbar-toggler"

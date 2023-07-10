@@ -7,7 +7,7 @@ import { getProduct, removeStateProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
 import "./Home.scss";
 import PATH from "../../../../constants/path";
-import { slide_1 } from "../../../../assets/img";
+import { card_image_1, card_image_2, card_image_3, card_image_4, card_image_5, card_image_6, slide_1 } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
 import { getAllNews, removeStateNews } from "../News/NewsSlice";
 import NewsItem from "../News/NewsItem";
@@ -80,7 +80,7 @@ function Home() {
                   </div>
                   <img
                     className="advertisement-img"
-                    src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
+                    src={card_image_1}
                     style={{ width: "100%", height: "100%" }}
                     alt="anh"
                   />
@@ -100,7 +100,7 @@ function Home() {
                     </div>
                     <img
                       className="advertisement-img"
-                      src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
+                      src={card_image_2}
                       style={{ height: "100%", width: "100%" }}
                       alt="anh"
                     />
@@ -119,7 +119,7 @@ function Home() {
                     </div>
                     <img
                       className="advertisement-img"
-                      src="https://demo.templatesjungle.com/stylish/images/card-image3.jpg"
+                      src={card_image_3}
                       style={{ height: "100%", width: "100%" }}
                       alt="anh"
                     />
@@ -148,7 +148,7 @@ function Home() {
                     </div>
                     <img
                       className="advertisement-img"
-                      src="https://demo.templatesjungle.com/stylish/images/card-image2.jpg"
+                      src={card_image_4}
                       style={{ height: "100%", width: "100%" }}
                       alt="anh"
                     />
@@ -167,7 +167,7 @@ function Home() {
                     </div>
                     <img
                       className="advertisement-img"
-                      src="https://demo.templatesjungle.com/stylish/images/card-image3.jpg"
+                      src={card_image_5}
                       style={{ height: "100%", width: "100%" }}
                       alt="anh"
                     />
@@ -184,7 +184,7 @@ function Home() {
                   </div>
                   <img
                     className="advertisement-img"
-                    src="https://demo.templatesjungle.com/stylish/images/card-image1.jpg"
+                    src={card_image_6}
                     style={{ width: "100%", height: "100%" }}
                     alt="anh"
                   />

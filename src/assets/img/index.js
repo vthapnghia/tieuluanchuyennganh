@@ -8,6 +8,13 @@ import shoe from "./Shoe.png";
 import background from "./bg.png";
 import google from "./google.png";
 import cancel from "./cancel.png";
+import card_image_1 from "./card-image1.jpg";
+import card_image_2 from "./card-image2.jpg";
+import card_image_3 from "./card-image3.jpg";
+import card_image_4 from "./card-image4.jpg";
+import card_image_5 from "./card-image5.jpg";
+import card_image_6 from "./card-image6.jpg";
+import shoe_1 from "./SHOE_1.png";
 
 export {
   shoe_bg,
@@ -19,5 +26,12 @@ export {
   shoe,
   background,
   google,
-  cancel
+  cancel,
+  card_image_1,
+  card_image_2,
+  card_image_3,
+  card_image_4,
+  card_image_5,
+  card_image_6,
+  shoe_1
 };
