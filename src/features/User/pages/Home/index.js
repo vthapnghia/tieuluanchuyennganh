@@ -7,20 +7,32 @@ import { getProduct, removeStateProduct } from "../Products/ProductSlice";
 import Button from "../../../../components/Button";
 import "./Home.scss";
 import PATH from "../../../../constants/path";
-import { shoe_bg, slide_1 } from "../../../../assets/img";
+import { slide_1 } from "../../../../assets/img";
 import Icons from "../../../../components/Icons";
 import { getAllNews, removeStateNews } from "../News/NewsSlice";
 import NewsItem from "../News/NewsItem";
 import { Container, Grid } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { getAllFavorites } from "../Products/ProductItem/FavoriteSlice";
 
 function Home() {
   const products = useSelector((state) => state.product.products?.product);
+  const favorites = useSelector((state) => state.favorite.favorites);
   const allNews = useSelector((state) => state.news.allNews?.news);
   const [listNews, setListNews] = useState(allNews);
   const [dotActive, setDocActive] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLike = (id) => {
+    const check = favorites?.find((item) => {
+      return item._id === id;
+    });
+    if (check) {
+      return true;
+    }
+    return false;
+  };
 
   useEffect(() => {
     if (allNews) {
@@ -38,6 +50,7 @@ function Home() {
   useEffect(() => {
     dispatch(getProduct({ page: 1, pageSize: 12 }));
     dispatch(getAllNews());
+    dispatch(getAllFavorites());
 
     return () => {
       dispatch(removeStateProduct());
@@ -204,7 +217,10 @@ function Home() {
             {products?.map((itemProduct) => {
               return (
                 <Grid item xs={3} key={itemProduct._id}>
-                  <ProductItem product={itemProduct} />
+                  <ProductItem
+                    product={itemProduct}
+                    isLike={isLike(itemProduct._id)}
+                  />
                 </Grid>
               );
             })}
@@ -234,7 +250,10 @@ function Home() {
               if (itemProduct.discount !== 0) {
                 return (
                   <Grid item xs={3} key={itemProduct._id}>
-                    <ProductItem product={itemProduct} />
+                    <ProductItem
+                      product={itemProduct}
+                      isLike={isLike(itemProduct._id)}
+                    />
                   </Grid>
                 );
               }

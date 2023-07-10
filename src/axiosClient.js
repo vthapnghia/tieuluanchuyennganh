@@ -1,7 +1,8 @@
 import axios from "axios";
+import { HOST } from "./constants/global";
 
 const axiosClient = axios.create({
-  baseURL: "https://khoa.hosting.xuantan97.com/",
+  baseURL: `${HOST.PRODUCTS}/`,
 });
 
 // Add a request interceptor

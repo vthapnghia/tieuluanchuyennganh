@@ -3,9 +3,9 @@ import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import Input from "./../../../../components/Input/index";
 import "./Login.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Icons from "../../../../components/Icons";
-import { COLOR } from "../../../../constants/global";
+import { COLOR, GOOGLE_LOGIN } from "../../../../constants/global";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import {
@@ -130,6 +130,7 @@ function Login() {
         } else {
           dispatch(setShowProfile());
         }
+        dispatch(setShowLogin());
       } else {
         setMessage("Đăng nhập thất bại");
         setOpenAlert(!openAlert);
@@ -145,8 +146,7 @@ function Login() {
   const { signIn } = useGoogleLogin({
     onSuccess,
     onFailure,
-    clientId:
-      "497625846466-277bktd2k9ktahd3sc4rvghk76d9bn24.apps.googleusercontent.com",
+    clientId: GOOGLE_LOGIN.PRO,
     isSignedIn: false,
   });
 
@@ -158,8 +158,7 @@ function Login() {
   useEffect(() => {
     function start() {
       gapi.client.init({
-        clientId:
-          "497625846466-277bktd2k9ktahd3sc4rvghk76d9bn24.apps.googleusercontent.com",
+        clientId: GOOGLE_LOGIN.PRO,
         scope: "email",
       });
     }

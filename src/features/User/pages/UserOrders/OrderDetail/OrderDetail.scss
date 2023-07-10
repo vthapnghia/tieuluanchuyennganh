@@ -119,6 +119,25 @@
     .status-item-end {
       flex-grow: 0;
     }
+
+    .status-item-cancel {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      .img-cancel {
+        height: 60px;
+        width: 60px;
+      }
+
+      .status-label {
+        margin-top: 10px;
+        color: red;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
   }
 
   .order-product {
@@ -189,6 +208,12 @@
           color: rgb(255, 59, 39);
           font-size: 18px;
         }
+      }
+
+      .cancel-oreder {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
       }
     }
   }

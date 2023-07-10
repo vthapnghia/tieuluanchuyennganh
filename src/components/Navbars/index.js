@@ -28,7 +28,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Person2Icon from "@mui/icons-material/Person2";
 import ModalCommon from "../ModalCommon";
 import Profile from "../../features/User/pages/Profile";
-import { Container } from "@mui/material";
 import Login from "../../features/Authentication/page/Login";
 import VerifyRegister from "../../features/Authentication/page/VerifyRegister";
 import ResetPassword from "../../features/Authentication/page/ResetPassword";
@@ -85,6 +84,7 @@ function Navbars() {
     }
   }, [dispatch, userAuth, is_admin, is_seller]);
 
+
   return (
     <>
       {is_admin || is_seller ? (
@@ -121,7 +121,6 @@ function Navbars() {
           arial-label="navigation bar"
         >
           <div className="container">
-          {/* <Container maxWidth="lg" style={{ display: "flex" }}> */}
             <Link className="navbar-brand" to="/" style={{ height: "100%" }}>
               <img src={shoe} alt="img" height={"100%"} width={"auto"} />
             </Link>
@@ -256,7 +255,6 @@ function Navbars() {
                 </li>
               </ul>
             </div>
-          {/* </Container> */}
           </div>
           <ModalCommon
             show={showProfile}

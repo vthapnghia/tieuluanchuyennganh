@@ -124,6 +124,16 @@ const OPTIONS_YEAR = [
 
 const CURRENT_DATE = new Date();
 
+const HOST = {
+  PRODUCTS: "https://khoa.hosting.xuantan97.com",
+  DEV: "http://localhost:3000"
+}
+
+const GOOGLE_LOGIN = {
+  PRO: "497625846466-j7ql34rg1ntm4pg5o9s7d4vf5ge7djfc.apps.googleusercontent.com",
+  DEV: "497625846466-277bktd2k9ktahd3sc4rvghk76d9bn24.apps.googleusercontent.com"
+}
+
 export {
   KEY_STORAGE,
   COLOR,
@@ -141,4 +151,6 @@ export {
   OPTIONS_MONTH,
   CURRENT_DATE,
   OPTIONS_YEAR,
+  HOST,
+  GOOGLE_LOGIN
 };

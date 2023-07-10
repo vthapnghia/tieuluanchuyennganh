@@ -57,6 +57,7 @@ const API_URL = {
     GET_ALL_ORDER_ADMIN: "order",
     GET_ORDER_BY_ID: "order/:id",
     UPDATE_ORDER_BY_ID: "order/:id",
+    CANCEL_ORDER: "order/:id",
   },
   RATE: {
     CREATE_RATE: "rating",
@@ -80,6 +81,12 @@ const API_URL = {
     ADMIN: "chats/userList",
     IS_READ: "chats/isRead",
   },
+
+  FAVORITE:{
+    ALL: "likes",
+    LIKE: "likes",
+    UNLIKE: "likes/:id",
+  }
 };
 
 export default API_URL;

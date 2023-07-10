@@ -13,6 +13,7 @@ import voucherSlice from "./features/Admin/pages/ManagementVoucher/voucherSlice"
 import accountSlice from "./features/Admin/pages/ManagementAccount/AccountSlice";
 import revenueSlice from "./features/Admin/pages/Revenue/RevenueSlice";
 import chatSlice from "./features/User/pages/Chat/ChatSlice";
+import favoriteSlice from "./features/User/pages/Products/ProductItem/FavoriteSlice";
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ export const store = configureStore({
     account: accountSlice,
     revenue: revenueSlice,
     chat: chatSlice,
+    favorite: favoriteSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

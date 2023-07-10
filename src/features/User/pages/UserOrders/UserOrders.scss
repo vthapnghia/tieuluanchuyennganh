@@ -41,12 +41,15 @@
     border-radius: 4px;
     width: 100%;
     margin: 0;
+    display: flex;
+    flex-direction: row;
 
     .tab-header-item {
       padding: 10px 0;
       cursor: pointer;
       font-size: 16px;
       font-weight: 600;
+      width: 20%;
     }
 
     .is-active {

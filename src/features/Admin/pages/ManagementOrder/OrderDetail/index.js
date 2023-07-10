@@ -35,8 +35,11 @@ function OrderDetail(params) {
       case 2:
         status = t("in_ship");
         break;
-      default:
+      case 3:
         status = t("complete");
+        break;
+      default:
+        status = "Đơn hủy";
         break;
     }
     return status;
