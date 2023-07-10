@@ -21,6 +21,7 @@ import { avatar_default } from "../../../../../assets/img";
 import { currencyFormatting } from "../../../../../until/common";
 import { Container, Grid } from "@mui/material";
 import ProductItem from "../ProductItem";
+import { setShowLogin } from "../../../../Authentication/authSlice";
 
 function ProductDetail() {
   const { userAuth } = useAuth();
@@ -53,7 +54,7 @@ function ProductDetail() {
 
   const checkAddToCart = useCallback(async () => {
     if (!userAuth) {
-      navigate(PATH.LOGIN);
+      dispatch(setShowLogin());
     } else {
       if (!size) {
         setMessage(t("MS_09", { param: t("size") }));
@@ -77,7 +78,7 @@ function ProductDetail() {
         });
       }
     }
-  }, [userAuth, navigate, size, t, id, dispatch, show]);
+  }, [userAuth, size, t, id, dispatch, show]);
 
   const getGender = useMemo(() => {
     let gender = "";
@@ -91,7 +92,7 @@ function ProductDetail() {
 
   const handleBuyNow = useCallback(() => {
     if (!userAuth) {
-      navigate(PATH.LOGIN);
+      dispatch(setShowLogin());
     } else {
       if (!size) {
         setMessage(t("MS_09", { param: t("size") }));
@@ -106,7 +107,7 @@ function ProductDetail() {
         });
       }
     }
-  }, [userAuth, navigate, size, t, products]);
+  }, [userAuth, dispatch, size, t, products, navigate]);
 
   const handleClose = useCallback(() => {
     setShow(!show);

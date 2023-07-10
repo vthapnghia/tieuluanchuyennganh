@@ -46,7 +46,7 @@ function UserOrders() {
   );
 
   const isLike = (id) => {
-    const check = favorites.find((item) => {
+    const check = favorites?.find((item) => {
       return item._id === id;
     });
     if (check) {
