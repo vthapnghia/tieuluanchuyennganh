@@ -11,7 +11,7 @@ import {
   getAllBrand,
   removeStateBranch,
 } from "../../../Admin/pages/ManagementBrand/BrandSlice";
-import { getProduct, removeStateProduct, searchProduct } from "./ProductSlice";
+import { getProduct, removeStateProduct } from "./ProductSlice";
 import "./Products.scss";
 import {
   Container,
@@ -73,16 +73,16 @@ function Products() {
   );
 
   const handleSearch = useCallback(() => {
-    dispatch(searchProduct(search));
-  }, [dispatch, search]);
+    setParam({ ...param, search: search });
+  }, [param, search]);
 
   const handleOnkeyDown = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        dispatch(searchProduct(search));
+        setParam({ ...param, search: search });
       }
     },
-    [dispatch, search]
+    [param, search]
   );
 
   const handleChangePageNumber = useCallback((value) => {

@@ -29,7 +29,7 @@ const productAPI = {
     }${size.length > 0 ? `&size=[${size}]` : ""}${
       brand.length > 0 ? `&brand=[${brandCopy}]` : ""
     }${color.length > 0 ? `&color=[${colorCopy}]` : ""}${
-      search ? `?search=${search}` : ""
+      search ? `&search=${search}` : ""
     }`;
 
     return doRequest("get", url);
