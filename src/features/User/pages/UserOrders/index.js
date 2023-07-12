@@ -65,7 +65,7 @@ function UserOrders() {
   }, [dispatch]);
 
   return (
-    <div id="user-order">
+    <div id="user-order" className="user-order">
       <Container maxWidth="lg">
         <Grid container columnSpacing={5}>
           <Grid item xs={2}></Grid>

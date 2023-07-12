@@ -9,6 +9,22 @@ import { currencyFormatting } from "../../../../../until/common";
 function TabItem({ orders, id, classTab }) {
   const navigate = useNavigate();
 
+  const getHeaderByStatus = useCallback((orderStatus) => {
+    let status = "";
+    switch (orderStatus) {
+      case 1:
+        status = t("in_order");
+        break;
+      case 2:
+        status = t("in_ship");
+        break;
+      default:
+        status = t("complete");
+        break;
+    }
+    return status;
+  }, []);
+
   const totalItemProduct = useCallback((quantity, price, discount) => {
     return quantity * (price * (1 - discount / 100));
   }, []);
@@ -29,6 +45,16 @@ function TabItem({ orders, id, classTab }) {
             key={index}
             onClick={() => handleClickOrderItem(orderItem.orderId)}
           >
+            <div className="header">
+              <div>{`${t("status")}: ${getHeaderByStatus(
+                orderItem.orderStatus
+              )}`}</div>
+              <div>{`${t("date_order", {
+                param: moment(new Date(orderItem.orderCreateDay)).format(
+                  "DD-MM-YYYY"
+                ),
+              })}`}</div>
+            </div>
             {orderItem?.orderDetail.map((itemDetail, index) => {
               return (
                 <div className="row product-order-item" key={index}>
@@ -56,15 +82,15 @@ function TabItem({ orders, id, classTab }) {
               );
             })}
             <div className="footer">
-              <span>
+              {/* <span>
                 Ngày đặt hàng:{" "}
                 {moment(new Date(orderItem?.orderCreateDay)).format(
                   "DD-MM-YYYY"
                 )}
-              </span>
-              <span>{`${t(
-                "into_money"
-              )}: ${currencyFormatting(orderItem.orderTotal)}`}</span>
+              </span> */}
+              <span>{`${t("into_money")}: ${currencyFormatting(
+                orderItem.orderTotal
+              )}`}</span>
             </div>
           </div>
         );
