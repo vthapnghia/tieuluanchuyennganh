@@ -20,7 +20,6 @@ import ModalCommon from "../../../../../components/ModalCommon";
 import { useParams } from "react-router";
 import "jodit/build/jodit.min.css";
 import JoditEditor from "jodit-react";
-import { removeStateShip } from "../../ManagementShip/ShipSlice";
 
 const TextEditor = () => {
   const [titleErr, setTitleErr] = useState("");
@@ -29,9 +28,9 @@ const TextEditor = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [temp, setTemp] = useState();
   const [thumbnail, setThumbnail] = useState();
+  const [title, setTitle] = useState("");
   const { t } = useTranslation();
   const ref = useRef();
-  const titleRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
   const news = useSelector((state) => state.news.newsById?.news);
@@ -53,15 +52,14 @@ const TextEditor = () => {
 
   const post = useCallback(async () => {
     let postHtml = ref.current.value;
-    let titleElement = titleRef.current.value;
-    if (!titleElement) {
+    if (!title) {
       setTitleErr(t("MS_01", { param: "" }));
     }
 
-    if (postHtml && titleElement) {
+    if (postHtml && title) {
       const formData = new FormData();
       formData.append("thumbnail", thumbnail);
-      formData.append("title", titleElement);
+      formData.append("title", title);
       formData.append("content", postHtml);
 
       if (!id) {
@@ -90,7 +88,7 @@ const TextEditor = () => {
         );
       }
     }
-  }, [dispatch, id, showModal, t, thumbnail]);
+  }, [dispatch, id, showModal, t, thumbnail, title]);
 
   const handleTitleFocus = () => {
     setTitleErr("");
@@ -98,11 +96,11 @@ const TextEditor = () => {
 
   const handleTitleBlur = useCallback(
     (e) => {
-      if (titleRef.current.value === "") {
+      if (title === "") {
         setTitleErr(t("MS_01", { param: "" }));
       }
     },
-    [t]
+    [t, title]
   );
 
   const handleClose = useCallback(() => {
@@ -140,11 +138,11 @@ const TextEditor = () => {
           <div className="title-post">
             <input
               type="text"
-              ref={titleRef}
               onFocus={handleTitleFocus}
               onBlur={handleTitleBlur}
               placeholder="Nhập tiêu đề bài viết..."
-              value={news?.title ? news?.title : ""}
+              onChange={(e) => setTitle(e?.target?.value)}
+              value={news?.title ? news?.title : title}
             ></input>
             {titleErr && (
               <span className="warning-icon-input">
