@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../../../components/Pagination";
 import {
@@ -35,6 +35,7 @@ function Products() {
   const [page, setPage] = useState(1);
   const [valueSort, setValueSort] = useState("");
   const [pageNumber, setPageNumber] = useState(12);
+  const [search, setSearch] = useState("");
   const [param, setParam] = useState({
     type: [],
     brand: [],
@@ -43,7 +44,6 @@ function Products() {
     gender: [],
   });
   const dispatch = useDispatch();
-  const ref = useRef();
 
   const handleChangeSort = useCallback(
     (e) => {
@@ -73,16 +73,16 @@ function Products() {
   );
 
   const handleSearch = useCallback(() => {
-    dispatch(searchProduct(ref.current.value));
-  }, [dispatch]);
+    dispatch(searchProduct(search));
+  }, [dispatch, search]);
 
   const handleOnkeyDown = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        setParam({ ...param, search: e.target.value });
+        dispatch(searchProduct(search));
       }
     },
-    [param]
+    [dispatch, search]
   );
 
   const handleChangePageNumber = useCallback((value) => {
@@ -100,24 +100,21 @@ function Products() {
     return false;
   };
 
-  // useEffect(() => {
-  //   dispatch(getAllBrand());
-
-  //   return () => {
-  //     dispatch(removeStateBranch());
-  //   };
-  // }, [dispatch]);
-
   useEffect(() => {
     dispatch(getProduct({ page: page, pageSize: pageNumber, ...param }));
-    dispatch(getAllFavorites());
-    dispatch(getAllBrand());
 
     return () => {
       dispatch(removeStateProduct());
-      dispatch(removeStateBranch());
     };
   }, [dispatch, pageNumber, page, param]);
+
+  useEffect(() => {
+    dispatch(getAllFavorites());
+    dispatch(getAllBrand());
+    return () => {
+      dispatch(removeStateBranch());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (brand && brand.length > 0) {
@@ -143,8 +140,9 @@ function Products() {
                 id="input-with-icon-textfield"
                 className="search-product"
                 placeholder="Tìm kiếm"
-                ref={ref}
                 onKeyDown={handleOnkeyDown}
+                onChange={(e) => setSearch(e?.target?.value)}
+                value={search}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
