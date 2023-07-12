@@ -118,7 +118,7 @@
         display: none;
       }
 
-      .cart-icon{
+      .cart-icon {
         cursor: pointer;
       }
 
@@ -239,5 +239,11 @@
     .menu-response {
       left: 20px;
     }
+  }
+}
+
+.modal-profile {
+  .modal-dialog {
+    margin-top: 100px!important;
   }
 }

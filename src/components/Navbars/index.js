@@ -15,7 +15,7 @@ import {
   SIDEBAR_PATH_ADMIN,
   SIDEBAR_PATH_SELLER,
 } from "../../constants/global";
-import { avatar_default, shoe, shoe_1, shoe_bg } from "../../assets/img";
+import { avatar_default, shoe_1, shoe_bg } from "../../assets/img";
 import {
   logout,
   setShowLogin,
@@ -83,7 +83,6 @@ function Navbars() {
       dispatch(getAllCart());
     }
   }, [dispatch, userAuth, is_admin, is_seller]);
-
 
   return (
     <>
@@ -156,19 +155,36 @@ function Navbars() {
 
               <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 {userAuth ? (
-                  <li>
-                    <Link className="nav-link cart-icon" to={PATH.CART}>
-                      <ShoppingCartIcon />
-                      {count > 0 ? (
-                        <span className="quantity-cart">{count}</span>
-                      ) : (
-                        <></>
-                      )}
-                    </Link>
-                    <Link className="nav-link cart-title" to={PATH.CART}>
-                      Giỏ hàng
-                    </Link>
-                  </li>
+                  userAuth?._id ? (
+                    <li>
+                      <Link className="nav-link cart-icon" to={PATH.CART}>
+                        <ShoppingCartIcon />
+                        {count > 0 ? (
+                          <span className="quantity-cart">{count}</span>
+                        ) : (
+                          <></>
+                        )}
+                      </Link>
+                      <Link className="nav-link cart-title" to={PATH.CART}>
+                        Giỏ hàng
+                      </Link>
+                    </li>
+                  ) : (
+                    <li>
+                      <div
+                        className="nav-link cart-icon"
+                        onClick={() => dispatch(setShowProfile())}
+                      >
+                        <ShoppingCartIcon />
+                      </div>
+                      <div
+                        className="nav-link cart-title"
+                        onClick={() => dispatch(setShowProfile())}
+                      >
+                        Giỏ hàng
+                      </div>
+                    </li>
+                  )
                 ) : (
                   <li>
                     <div className="nav-link cart-icon">
@@ -197,12 +213,21 @@ function Navbars() {
                         >
                           {t("profile")}
                         </div>
-                        <Link
-                          className="dropdown-item"
-                          to={PATH.USER_ORDERS.BASE}
-                        >
-                          {t("my_order")}
-                        </Link>
+                        {userAuth?._id ? (
+                          <Link
+                            className="dropdown-item"
+                            to={PATH.USER_ORDERS.BASE}
+                          >
+                            {t("my_order")}
+                          </Link>
+                        ) : (
+                          <div
+                            className="dropdown-item"
+                            onClick={() => dispatch(setShowProfile())}
+                          >
+                            {t("my_order")}
+                          </div>
+                        )}
                         <span
                           className="dropdown-item"
                           style={{ cursor: "pointer" }}
@@ -229,12 +254,21 @@ function Navbars() {
                         >
                           {t("profile")}
                         </div>
-                        <Link
-                          className="dropdown-item"
-                          to={PATH.USER_ORDERS.BASE}
-                        >
-                          {t("my_order")}
-                        </Link>
+                        {userAuth?._id ? (
+                          <Link
+                            className="dropdown-item"
+                            to={PATH.USER_ORDERS.BASE}
+                          >
+                            {t("my_order")}
+                          </Link>
+                        ) : (
+                          <div
+                            className="dropdown-item"
+                            onClick={() => dispatch(setShowProfile())}
+                          >
+                            {t("my_order")}
+                          </div>
+                        )}
                         <span
                           className="dropdown-item"
                           style={{ cursor: "pointer" }}
@@ -258,6 +292,7 @@ function Navbars() {
           </div>
           <ModalCommon
             show={showProfile}
+            className="modal-profile"
             modalTitle={null}
             modalBody={<Profile />}
             handleConfirm={() => {}}

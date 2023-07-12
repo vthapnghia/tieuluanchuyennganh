@@ -66,6 +66,7 @@ const OPTIONS_COLOR = [
   { value: "Nâu", label: "Nâu" },
   { value: "Sliver", label: "Sliver" },
   { value: "Xanh lá", label: "Xanh lá" },
+  { value: "Cam", label: "Cam" },
 ];
 
 const SORT_OPTION = [

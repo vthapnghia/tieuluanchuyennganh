@@ -1,8 +1,7 @@
 .modal-dialog {
   top: 50%;
-  transform: translate(0, -50%) !important;
-  min-height: calc(100vh - 100px);
-  margin-top: 100px!important;
+  transform: translate(0, -40%) !important;
+  min-height: 100vh;
   .modal-content {
     padding: 20px;
     height: max-content;

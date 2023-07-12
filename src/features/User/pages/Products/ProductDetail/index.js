@@ -21,7 +21,10 @@ import { avatar_default } from "../../../../../assets/img";
 import { currencyFormatting } from "../../../../../until/common";
 import { Container, Grid } from "@mui/material";
 import ProductItem from "../ProductItem";
-import { setShowLogin } from "../../../../Authentication/authSlice";
+import {
+  setShowLogin,
+  setShowProfile,
+} from "../../../../Authentication/authSlice";
 
 function ProductDetail() {
   const { userAuth } = useAuth();
@@ -56,26 +59,30 @@ function ProductDetail() {
     if (!userAuth) {
       dispatch(setShowLogin());
     } else {
-      if (!size) {
-        setMessage(t("MS_09", { param: t("size") }));
-      } else {
-        const data = {
-          product_id: id,
-          size: Number(size),
-          quantity: ref?.current?.value,
-        };
+      if (userAuth?._id) {
+        if (!size) {
+          setMessage(t("MS_09", { param: t("size") }));
+        } else {
+          const data = {
+            product_id: id,
+            size: Number(size),
+            quantity: ref?.current?.value,
+          };
 
-        await dispatch(addToCart(data)).then((res) => {
-          if (res.payload.status === 201 || res.payload.status === 200) {
-            setModalTitle(t("action_success", { param: t("add_to_cart") }));
-            setShow(!show);
-            dispatch(getAllCart());
-          } else {
-            setModalTitle(t("action_fail", { param: t("add_to_cart") }));
-            setModalBody(t("try_again"));
-            setShow(!show);
-          }
-        });
+          await dispatch(addToCart(data)).then((res) => {
+            if (res.payload.status === 201 || res.payload.status === 200) {
+              setModalTitle(t("action_success", { param: t("add_to_cart") }));
+              setShow(!show);
+              dispatch(getAllCart());
+            } else {
+              setModalTitle(t("action_fail", { param: t("add_to_cart") }));
+              setModalBody(t("try_again"));
+              setShow(!show);
+            }
+          });
+        }
+      } else {
+        dispatch(setShowProfile());
       }
     }
   }, [userAuth, size, t, id, dispatch, show]);
@@ -94,17 +101,21 @@ function ProductDetail() {
     if (!userAuth) {
       dispatch(setShowLogin());
     } else {
-      if (!size) {
-        setMessage(t("MS_09", { param: t("size") }));
+      if (userAuth?._id) {
+        if (!size) {
+          setMessage(t("MS_09", { param: t("size") }));
+        } else {
+          const purchase = {
+            product: products,
+            quantity: ref?.current?.value,
+            size: Number(size),
+          };
+          navigate(PATH.ORDER, {
+            state: { listPurchase: [purchase], fastBuy: true },
+          });
+        }
       } else {
-        const purchase = {
-          product: products,
-          quantity: ref?.current?.value,
-          size: Number(size),
-        };
-        navigate(PATH.ORDER, {
-          state: { listPurchase: [purchase], fastBuy: true },
-        });
+        dispatch(setShowProfile());
       }
     }
   }, [userAuth, dispatch, size, t, products, navigate]);

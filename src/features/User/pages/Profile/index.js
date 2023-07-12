@@ -10,18 +10,19 @@ import { OPTION_GENDER } from "../../../../constants/global";
 import {
   firstLogin,
   getUser,
+  setShowProfile,
   updateUser,
 } from "../../../Authentication/authSlice";
-import ModalCommon from "../../../../components/ModalCommon";
 import { avatar_default } from "../../../../assets/img";
-import { Grid } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 
 function Profile() {
   const formikRef = useRef(null);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [show, setShow] = useState(false);
-  const [showFail, setShowFail] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [type, setType] = useState("success");
+  const [message, setMessage] = useState("success");
 
   const validationSchema = useMemo(() => {
     return {
@@ -71,34 +72,41 @@ function Profile() {
       formData.append("phone", values.phone);
       formData.append("avatar", values.avatar);
       if (user === null) {
-        await dispatch(firstLogin(formData)).then((res) => {
+        await dispatch(firstLogin(formData)).then(async (res) => {
           if (res.payload.status === 200) {
-            setShow(!show);
+            setOpenAlert(!openAlert);
+            setType("success");
+            setMessage("Cập nhật thành công");
+            await dispatch(getUser());
+            setTimeout(() => {
+              dispatch(setShowProfile());
+            }, 2000);
           } else {
-            setShowFail(!showFail);
+            setOpenAlert(!openAlert);
+            setType("error");
+            setMessage("Cập nhật thất bại");
           }
         });
       } else {
-        await dispatch(updateUser(formData)).then((res) => {
+        await dispatch(updateUser(formData)).then(async (res) => {
           if (res.payload.status === 200) {
-            setShow(!show);
+            setOpenAlert(!openAlert);
+            setType("success");
+            setMessage("Cập nhật thành công");
+            await dispatch(getUser());
+            setTimeout(() => {
+              dispatch(setShowProfile());
+            }, 2000);
           } else {
-            setShowFail(!showFail);
+            setOpenAlert(!openAlert);
+            setType("error");
+            setMessage("Cập nhật thất bại");
           }
         });
       }
     },
-    [dispatch, user, show, showFail]
+    [user, dispatch, openAlert]
   );
-
-  const handleConfirm = useCallback(() => {
-    setShow(!show);
-    dispatch(getUser());
-  }, [show, dispatch]);
-
-  const handleConfirmFail = useCallback(() => {
-    setShowFail(!showFail);
-  }, [showFail]);
 
   useEffect(() => {
     dispatch(getUser());
@@ -115,13 +123,7 @@ function Profile() {
       <>
         <div id="profile">
           <div className="avatar">
-            <Input
-              name="avatar"
-              type="file"
-              accept="image/*"
-              
-              icon={true}
-            />
+            <Input name="avatar" type="file" accept="image/*" icon={true} />
           </div>
           <div className="form-info">
             <Input
@@ -129,7 +131,6 @@ function Profile() {
               placeholder={t("full_name")}
               type="text"
               label="Tên"
-              
             />
             <div className="d-flex justify-content-between">
               <div style={{ width: "calc(50% - 10px)" }}>
@@ -138,7 +139,6 @@ function Profile() {
                   placeholder={t("age")}
                   type="number"
                   label={t("age")}
-                  
                 />
               </div>
               <div style={{ width: "20px" }}></div>
@@ -149,7 +149,6 @@ function Profile() {
                   type="select"
                   options={OPTION_GENDER}
                   label={t("gender")}
-                  
                 />
               </div>
             </div>
@@ -160,7 +159,6 @@ function Profile() {
               placeholder={t("address")}
               type="textarea"
               label={t("address")}
-              
             />
             <Input
               name="phone"
@@ -168,7 +166,6 @@ function Profile() {
               type="number"
               style={{ textAlign: "left" }}
               label={t("phone")}
-              
             />
             <div className="form-group">
               <Button
@@ -180,22 +177,14 @@ function Profile() {
             </div>
           </div>
         </div>
-        <ModalCommon
-          show={show}
-          modalTitle={t("action_success", { param: t("update_user") })}
-          modalBody={null}
-          handleConfirm={handleConfirm}
-          handleCloseModal={() => setShow(!show)}
-          isButton
-        />
-        <ModalCommon
-          show={showFail}
-          modalTitle={t("action_fail", { param: t("update_user") })}
-          modalBody={t("try_again")}
-          handleConfirm={handleConfirmFail}
-          handleCloseModal={() => setShowFail(!showFail)}
-          isButton
-        />
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={openAlert}
+          onClose={() => setOpenAlert(!openAlert)}
+          autoHideDuration={2000}
+        >
+          <Alert severity={type}>{message}</Alert>
+        </Snackbar>
       </>
     </Formik>
   );
