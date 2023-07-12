@@ -441,6 +441,7 @@ function ManagementProduct() {
             <ModalCommon
               show={showModalAdd}
               modalTitle={modalTitleAdd}
+              className="modal-product"
               modalBody={
                 <ProductDetailAdmin
                   productImages={idProduct ? productById?.product_image : null}
